@@ -11,7 +11,7 @@
                     <v-col cols="12" md="8">
                       <v-card-text class="mt-1">
                         <div class="text-center mb-1">
-                            <v-img src="..\src\assets\schoolLogo.png" max-height="150" max-width="150" class="d-inline-block"></v-img>
+                            <v-img src="..\src\assets\img\schoolLogo.png" max-height="150" max-width="150" class="d-inline-block"></v-img>
                         </div>
                         <h2 class="text-center mlt-4">
                           Welcome to  <span class="indigo--text text--darken-4">SNA!</span>
@@ -51,10 +51,16 @@
                     </v-col>
                     <v-col cols="12" md="4" class="indigo darken-4">
                       
-                      <v-card-text class="white--text mt-16 pt-16">
-                        <h1 class="text-center display-1 font-weight-bold">ST. NICHOLAS ACADEMY OF CASTILLEJOS INC.</h1>
-                        <h5 class="text-center display-5 font-weight-light">CASTILLEJOS, ZAMBALES</h5>
-                      </v-card-text>
+                      <v-card-text class="white--text mt-16 pt-16" style="height: 300px;">
+                      <div class="text-container text-center">
+                        <h1 class="display-1 font-weight-bold">ST. NICHOLAS ACADEMY OF CASTILLEJOS INC.</h1>
+                        <h5 class="display-5 font-weight-light">CASTILLEJOS, ZAMBALES</h5>
+                      </div>
+                      <div class="logo-container">
+                        <!-- Logo positioned at the right side -->
+                        <v-img src="..\src\assets\img\schoolLogo3.png" max-height="500" max-width="500" class="logo"></v-img>
+                      </div>
+                    </v-card-text>
                     </v-col>
                   </v-row>
                 </v-windown-item>
@@ -79,5 +85,30 @@
     }
   }
 </script>
+
+<style>
+.logo-container {
+  position: absolute;
+  top: 50%;
+  right: 0px; /* Adjust the right position as needed */
+  transform: translateY(-50%);
+  overflow: hidden; /* Clip the image */
+  width: 250px; /* Half of the max-width */
+  height: 100%; /* Ensure it fills the container's height */
+}
+
+.logo {
+  width: 500px; /* Adjust the width of the logo */
+  height: 100%; /* Adjust the height of the logo to match the container */
+  object-fit: cover; /* Ensure the image covers the entire container */
+  filter: brightness(250%) grayscale(0%); /* Adjust brightness and grayscale for opacity and color */
+  opacity: 15%;
+}
+
+.text-container {
+  position: relative;
+  z-index: 1; /* Ensure text is displayed in front of the logo */
+}
+</style>
 
 
