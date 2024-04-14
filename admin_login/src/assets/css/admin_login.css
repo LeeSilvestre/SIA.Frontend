@@ -1,0 +1,26 @@
+.custom-link {
+    text-decoration: none;
+    color: blue;
+}
+  .logo-container {
+    position: absolute;
+    top: 50%;
+    right: 0px; /* Adjust the right position as needed */
+    transform: translateY(-50%);
+    overflow: hidden; /* Clip the image */
+    width: 250px; /* Half of the max-width */
+    height: 100%; /* Ensure it fills the container's height */
+  }
+  
+  .logo {
+    width: 500px; /* Adjust the width of the logo */
+    height: 100%; /* Adjust the height of the logo to match the container */
+    object-fit: cover; /* Ensure the image covers the entire container */
+    filter: brightness(250%) grayscale(0%); /* Adjust brightness and grayscale for opacity and color */
+    opacity: 15%;
+  }
+  
+  .text-container {
+    position: relative;
+    z-index: 1; /* Ensure text is displayed in front of the logo */
+  }
