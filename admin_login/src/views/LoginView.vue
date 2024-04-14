@@ -35,10 +35,7 @@
                               color="indigo darken-4" />
   
                             
-                          </v-form>
-                          <h4 class="text-right mt-n4 font-weight-light">
-                            Forget Password
-                          </h4>
+                          </v-form> 
                         </v-card-text>
                         <div class="text-center pb-3">
                           <v-btn rectangle color="indigo darken-4" dark> <router-link to="/home" style="color:white; text-decoration: none;">Sign in</router-link></v-btn>

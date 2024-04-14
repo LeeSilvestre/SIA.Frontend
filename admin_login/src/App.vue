@@ -1,6 +1,6 @@
 <template>
   <v-app>
-
+    <SidebarMenu />
 
     <v-main>
       <router-view>
@@ -11,6 +11,7 @@
 </template>
 
 <script>
+import SidebarMenu from '@/components/sidebar/SidebarMenu'; 
 
 export default {
   name: 'App',
@@ -18,5 +19,9 @@ export default {
   data: () => ({
     //
   }),
+
+  components: {
+    SidebarMenu, // Update the component name in the components object
+  },
 };
 </script>
