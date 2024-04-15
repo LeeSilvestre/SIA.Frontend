@@ -41,7 +41,7 @@ const routes = [
   {
     path: '/enrollment',
     name: 'enrollment',
-    components: EnrollmentView
+    component: EnrollmentView
   }
 ]
 
