@@ -38,7 +38,7 @@
                           </v-form> 
                         </v-card-text>
                         <div class="text-center pb-3">
-                          <v-btn rectangle color="indigo darken-4" dark> <router-link to="/home" style="color:white; text-decoration: none;">Sign in</router-link></v-btn>
+                          <v-btn rectangle color="#11235A" dark> <router-link to="/home" style="color:white; text-decoration: none;">Sign in</router-link></v-btn>
                         </div>
                         <div class="text-center pb-3">
                           <a href="" style="display: inline-block;">

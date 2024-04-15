@@ -13,6 +13,7 @@ export default {
     <div class="sidebarMenu" :style="{width: sidebarWidth}">
         <span 
         class="collapse-icon"
+        :class="{ 'rotate-180': collapsed}"
         @click="toggleSidebar">
         <i class="fas fa-angle-double-left"></i>
     </span>
@@ -21,7 +22,7 @@ export default {
 
 <style>
 :root {
-    --sidebar-bg-color: #2f855a;
+    --sidebar-bg-color: #F1EFEF;
     --sidebar-item-hover: #38a169;
     --sidebar-item-active: #276749;
 }
@@ -29,7 +30,6 @@ export default {
 
 <style scoped>
     .sidebarMenu {
-        color: white;
         background-color: var(--sidebar-bg-color);
 
         float: left;
@@ -44,5 +44,19 @@ export default {
 
         display: flex;
         flex-direction: column;
+    }
+    .collapse-icon{
+        position: absolute;
+        bottom: 0;
+        padding: 0.100em;
+
+        color:black;
+
+        transition: 0.2s linear;
+
+    }
+    .rotate-180{
+            transform: rotate(180deg);
+            transition: 0.2s linear;
     }
 </style>

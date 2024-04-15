@@ -1,11 +1,9 @@
 <template>
   <v-app>
-    <SidebarMenu />
+    <SidebarMenu v-if="showSidebar" />
 
     <v-main>
-      <router-view>
-        
-      </router-view>
+      <router-view />
     </v-main>
   </v-app>
 </template>
@@ -16,12 +14,14 @@ import SidebarMenu from '@/components/sidebar/SidebarMenu';
 export default {
   name: 'App',
 
-  data: () => ({
-    //
-  }),
-
   components: {
-    SidebarMenu, // Update the component name in the components object
+    SidebarMenu,
   },
+
+  computed: {
+    showSidebar() {
+      return this.$route.path.includes('/home');
+    }
+  }
 };
 </script>
