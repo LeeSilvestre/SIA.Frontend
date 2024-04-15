@@ -7,22 +7,22 @@
         <span v-else>Welcome to SNA</span>
       </h1>
   
-      <router-link to="/" class="link" :class="{ 'active': $route.path === '/' }">
-        <i class="icon fas fa-home"></i>
-        <transition name="fade">
-          <span v-if="!collapsed">Home</span>
-        </transition>
-      </router-link>
-      <router-link to="/dashboard" class="link" :class="{ 'active': $route.path === '/dashboard' }">
+      <router-link to="/dashboard" class="link" :class="{ 'active': $route.path === '/' }">
         <i class="icon fas fa-home"></i>
         <transition name="fade">
           <span v-if="!collapsed">Dashboard</span>
         </transition>
       </router-link>
+      <router-link to="/enrollment" class="link" :class="{ 'active': $route.path === '/dashboard' }">
+        <i class="icon fas fa-home"></i>
+        <transition name="fade">
+          <span v-if="!collapsed">Enrollment Summary</span>
+        </transition>
+      </router-link>
       <router-link to="/academics" class="link" :class="{ 'active': $route.path === '/academics' }">
         <i class="icon fas fa-home"></i>
         <transition name="fade">
-          <span v-if="!collapsed">Academics</span>
+          <span v-if="!collapsed">Academic Record</span>
         </transition>
       </router-link>
   
