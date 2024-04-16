@@ -11,7 +11,7 @@
                       <v-col cols="12" md="8">
                         <v-card-text class="mt-1">
                           <div class="text-center mb-1">
-                              <v-img src="..\src\assets\img\schoolLogo.png" max-height="150" max-width="150" class="d-inline-block"></v-img>
+                              <v-img src="..\assets\img\schoolLogo.png" max-height="150" max-width="150" class="d-inline-block"></v-img>
                           </div>
                           <h2 class="text-center mlt-4">
                             Welcome to  <span class="indigo--text text--darken-4">SNA!</span>
@@ -38,7 +38,7 @@
                           </v-form> 
                         </v-card-text>
                         <div class="text-center pb-3">
-                          <v-btn rectangle color="#11235A" dark> <router-link to="/dashboard" style="color:white; text-decoration: none;">Sign in</router-link></v-btn>
+                          <v-btn rectangle color="#11235A" dark> <router-link to="/home" style="color:white; text-decoration: none;">Sign in</router-link></v-btn>
                         </div>
                         <div class="text-center pb-3">
                           <a href="" style="display: inline-block;">
@@ -55,7 +55,7 @@
                         </div>
                         <div class="logo-container">
                           <!-- Logo positioned at the right side -->
-                          <v-img src="..\src\assets\img\schoolLogo3.png" max-height="500" max-width="500" class="logo"></v-img>
+                          <v-img src="..\assets\img\schoolLogo3.png" max-height="500" max-width="500" class="logo"></v-img>
                         </div>
                       </v-card-text>
                       </v-col>

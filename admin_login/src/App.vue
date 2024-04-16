@@ -20,7 +20,7 @@ export default {
 
   computed: {
     showSidebar() {
-      return this.$route.path.includes('/home');
+      return ['/dashboard', '/academics', '/enrollment'].includes(this.$route.path);
     }
   }
 };

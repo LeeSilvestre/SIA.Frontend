@@ -1,52 +1,60 @@
 <template>
-    <div class="sidebarMenu" :style="{ width: sidebarWidth }">
-      <h1>
-        <span v-if="collapsed">
-          <div>S</div>
-        </span>
-        <span v-else>Welcome to SNA</span>
-      </h1>
-  
-      <router-link to="/dashboard" class="link" :class="{ 'active': $route.path === '/dashboard' }">
-        <i class="icon fas fa-home"></i>
-        <transition name="fade">
-          <span v-if="!collapsed">Dashboard</span>
-        </transition>
-      </router-link>
-      <router-link to="/enrollment" class="link" :class="{ 'active': $route.path === '/enrollment' }">
-        <i class="icon fas fa-home"></i>
-        <transition name="fade">
-          <span v-if="!collapsed">Enrollment Summary</span>
-        </transition>
-      </router-link>
-      <router-link to="/academics" class="link" :class="{ 'active': $route.path === '/academics' }">
-        <i class="icon fas fa-home"></i>
-        <transition name="fade">
-          <span v-if="!collapsed">Academic Record</span>
-        </transition>
-      </router-link>
-  
-      <span class="collapse-icon" :class="{ 'rotate-180': collapsed }" @click="toggleSidebar">
-        <i class="fas fa-angle-double-left"></i>
-      </span>
-    </div>
-  </template>
-  
-  <script>
-  import { collapsed, toggleSidebar, sidebarWidth } from './state'
-  
-  export default {
-    data() {
-      return {
-        collapsed: collapsed,
-        sidebarWidth: sidebarWidth
-      }
-    },
-    methods: {
-      toggleSidebar: toggleSidebar
+  <v-navigation-drawer
+    v-model="drawer"
+    app
+    clipped
+    fixed
+    :width="sidebarWidth"
+  >
+    <v-list dense>
+      <v-list-item-group>
+        <v-list-item>
+          <v-list-item-content>
+            <v-list-item-title class="text-h6">
+              <span v-if="collapsed">S</span>
+              <span v-else>Welcome to SNA</span>
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-list-item v-for="item in menuItems" :key="item.title" :to="item.to" link :class="{ 'active': $route.path === item.to }">
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+    <v-btn class="collapse-icon" icon @click="toggleSidebar">
+      <v-icon>{{ collapsed ? 'mdi-chevron-right' : 'mdi-chevron-left' }}</v-icon>
+    </v-btn>
+  </v-navigation-drawer>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      drawer: true, // Controls the state of the sidebar drawer
+      collapsed: false,
+      sidebarWidth: 220, // Initial width of the sidebar
+      menuItems: [ // Define your sidebar menu items
+        { title: 'Dashboard', to: '/dashboard', icon: 'mdi-home' },
+        { title: 'Enrollment Summary', to: '/enrollment', icon: 'mdi-chart-bar' },
+        { title: 'Academic Record', to: '/academics', icon: 'mdi-book-open-variant' },
+        // Add more menu items as needed
+      ]
+    };
+  },
+  methods: {
+    toggleSidebar() {
+      this.collapsed = !this.collapsed;
+      this.sidebarWidth = this.collapsed ? 60 : 220; // Adjust sidebar width based on collapsed state
     }
   }
-  </script>
+};
+</script>
   
   <style>
   :root {

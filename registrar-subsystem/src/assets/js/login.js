@@ -1,6 +1,7 @@
 import { ref, defineComponent } from 'vue';
 
 export default defineComponent({
+  name: 'LoginView',
   props: {
     source: String
   },
