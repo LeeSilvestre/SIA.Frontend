@@ -5,3 +5,13 @@
     </div>
   </template>
   
+  <script>
+  export default {
+    created() {
+      this.$http.post('student').then(function (response){
+        console.log(response);
+      })
+    }
+  }
+
+  </script>
