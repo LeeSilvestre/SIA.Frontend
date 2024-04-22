@@ -1,8 +1,11 @@
 <template>
     <v-app>
+    <AdminLogin v-if="showLogin"></AdminLogin>
+    
+    <div v-else>
     <div class="app">
-    <Sidebar/>
 
+    <Sidebar/>
         <div class="headerAndContent">
             <Header />
             <router-view v-slot="{Component}"> 
@@ -12,20 +15,27 @@
             </router-view>
         </div>
     </div>
+    </div>
 </v-app>
 </template>
 
 <script>
 import Sidebar from './components/Sidebar.vue';
 import Header from './components/Header.vue';
-
+import AdminLogin from './views/AdminLogin.vue';
 
 export default {
   name: 'App',
   components: {
     Sidebar, 
     Header,
-} 
+    AdminLogin,
+},
+    data() {
+    return {
+      showLogin: true// Initially show the login component
+    };
+}
 }
 </script>
 

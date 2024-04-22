@@ -4,7 +4,7 @@ const router = createRouter ({
     history: createWebHashHistory(),
     routes: [
         {
-            path: '/login',
+            path: '/',
             component: () => import('../views/AdminLogin.vue')
 
         },
