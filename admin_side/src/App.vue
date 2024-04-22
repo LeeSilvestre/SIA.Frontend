@@ -43,11 +43,13 @@ export default {
 :root {
     --primary: #727885;
     --grey:#64748b;
-    --dark:#2F3F64;
-    --dark-alt: #334155;
+    --dark:#29166F;
+    --dark-alt: #29166fec;
     --light:#cdd1da;
+    --text-color: #29166F;
     --sidebar-width:300px;
-    --header-height:100px
+    --header-height:70px
+    
 }
 
 * {

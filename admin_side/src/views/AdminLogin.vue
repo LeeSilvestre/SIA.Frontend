@@ -8,7 +8,7 @@
               <v-window v-model="step">
                 <v-windown-item :value="1">
                   <v-row>
-                    <v-col cols="12" md="4" class="bg-indigo-darken-4">
+                    <v-col cols="12" md="4" class="rectangle-color">
                       
                       <v-card-text class="white--text mt-16 pt-14 mx-auto">
                         <div class="logo-container">
@@ -52,7 +52,7 @@
                         </v-form> 
                       </v-card-text>
                       <div class="text-center pb-2 mx-md-auto">
-                        <v-btn rectangle color="#11235A"> <router-link to="/dashboard" style="color:white; text-decoration: none; width: auto; font-size: 15px; ">Sign in</router-link></v-btn>
+                        <v-btn rectangle color="#29166F"> <router-link to="/dashboard" style="color:white; text-decoration: none; width: auto; font-size: 15px; ">Sign in</router-link></v-btn>
                       </div>
                       <div class="text-center pb-2">
                         <a href="" style="display: inline-block;">
@@ -115,6 +115,10 @@
   .text-container {
     position: relative;
     z-index: 1; 
+    color: white;
+  }
+  .rectangle-color{
+    background-color: #29166F;
   }
 </style>
 

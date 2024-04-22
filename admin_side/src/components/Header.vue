@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-        <h2 class="sna-label">Saint Nicholas Academy School Management System</h2>
+        <h2 class="sna-label">REGISTRAR</h2>
 
 
         
@@ -16,7 +16,7 @@ export default {
 <style lang="scss" scoped>
 .header {
     display: flex;
-    background: #374974;
+    background: var(--dark-alt);
     height: var(--header-height);
     width: 100%;
     
