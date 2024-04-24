@@ -1,6 +1,6 @@
 <template>
-    <header class="header">
-        <h2 class="sna-label">Saint Nicholas Academy School Management System</h2>
+    <header class="header sticky-lg-top">
+        <h2 class="sna-label fs-3">REGISTRAR PANEL</h2>
 
 
         

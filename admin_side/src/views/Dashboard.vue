@@ -1,68 +1,57 @@
 <template>
     <main>
         <div class="left-container">
-            <div class="top-left">
-                <div class="total-student">
-                <h1 class="info-text">
-                    <span class="material-icons">feed</span>
-                    STUDENT INFORMATION</h1>    
-                <h3>Total Enrolless:</h3>
-                <h1>0000</h1>
-
-                <div class="student-count">
-                    <div class="jhs">
-                        <h4>Junior High School</h4>
-                        <div class="jhs-total">
-                            <h5>Grade 7</h5>
-                            <h3>0000</h3>
-                        </div>
-                        <div class="jhs-total">
-                            <h5>Grade 8</h5>
-                            <h3>0000</h3>
-                        </div>
-                        <div class="jhs-total">
-                            <h5>Grade 9</h5>
-                            <h3>0000</h3>
-                        </div>
-                        <div class="jhs-total">
-                            <h5>Grade 10</h5>
-                            <h3>0000</h3>
-                        </div>
-                    </div>
-
-                    <div class="shs">
-                        <h4>Senior High School</h4>
-                        <div class="shs-total">
-                            <h5>STEM</h5>
-                            <h3>0000</h3>
-                        </div>
-                        <div class="shs-total">
-                            <h5>GAS</h5>
-                            <h3>0000</h3>
-                        </div>
-                        <div class="shs-total">
-                            <h5>TVL</h5>
-                            <h3>0000</h3>
-                        </div>
-                        <div class="shs-total">
-                            <h5>ABM</h5>
-                            <h3>0000</h3>
-                        </div>
-                        <div class="shs-total">
-                            <h5>HUMMS</h5>
-                            <h3>0000</h3>
-                        </div>
-                    </div>
-                </div>
-                </div>
-            </div>
-                
-            <div class="bottom-left">
-                <h3><span class="material-icons"> campaign</span>Announcement</h3>
-                    
-
-                </div>
+    <div class="top-left">
+        <div class="total-student">
+            <h1 class="info-text">
+                <span class="material-icons">feed</span>
+                STUDENT ENROLEES
+            </h1>    
+            <table class="enrollment-table">
+                <thead>
+                    <tr>
+                        <th class="fs-5">Grade Level</th>
+                        <th class="fs-5">Total Enrolees</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th class="grade">Junior High School</th>
+                        <td class="grade">0000</td>
+                    </tr>
+                    <tr>
+                        <td>Grade 7</td>
+                        <td>0000</td>
+                    </tr>
+                    <tr>
+                        <td>Grade 8</td>
+                        <td>0000</td>
+                    </tr>
+                    <tr>
+                        <td>Grade 9</td>
+                        <td>0000</td>
+                    </tr>
+                    <tr>
+                        <td>Grade 10</td>
+                        <td>0000</td>
+                    </tr>
+                    <tr>
+                        <th class="grade">Senior High School</th>
+                        <td class="grade">0000</td>
+                    </tr>
+                    <tr>
+                        <td>Grade 11</td>
+                        <td>0000</td>
+                    </tr>
+                    <tr>
+                        <td>Grade 12</td>
+                        <td>0000</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
+</div>
         
         <div class="right-container">
                 TBA
@@ -84,7 +73,7 @@ main {
     flex: 0.5;
     margin-right: 1rem;
     .top-left{
-        padding: 2rem;
+        padding: 1rem;
         background-color: #f0f0f0;
         margin-bottom: 2rem;
         color: var(--dark);
@@ -96,7 +85,7 @@ main {
 
             .info-text{
                 text-shadow: 0 0 1px;
-                font-size: 30px;
+                font-size: 25px;
                 margin-bottom: 1rem;
 
                 .material-icons{
@@ -109,6 +98,7 @@ main {
                 align-self: center;
                 margin-bottom: 1rem;
                 font-weight: 900;
+                
             }
 
             h3{
@@ -192,4 +182,26 @@ main {
     padding: 2rem;
     background-color: #c0c0c0;
 }
+.enrollment-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.enrollment-table th, .enrollment-table td {
+    border: 2px solid #a09e9e90;
+    text-align: left;
+    padding: 8px;
+}
+
+.enrollment-table th {
+    background-color: #f2f2f2;
+}
+.grade{
+    font-weight: bold;
+    font-size: 17px;
+}
+.th{
+    
+}
+
 </style>

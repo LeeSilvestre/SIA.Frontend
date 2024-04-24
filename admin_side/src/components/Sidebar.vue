@@ -3,7 +3,7 @@
         
         <img class="sna-logo" src="/src/assets/SNA Logo with BG.png" alt="">
 
-        <h2 class="sp-text">Student Profiling</h2>
+        <h2 class="sp-text fs-3">Saint Nicholas Academy</h2>
       <br>
   <hr>
           <div class="menu-toggle-wrap">
@@ -57,6 +57,7 @@
       padding: 1rem;
       background-color: var(--dark);
       color: var(--light);
+
   
       transition: 0.2s ease-out;
   
