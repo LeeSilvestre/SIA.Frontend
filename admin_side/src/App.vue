@@ -1,7 +1,7 @@
 <template>
     <v-app>
       <div class="app">
-        <template v-if="!isLoginPage"> <!-- render sidebar if not login page -->
+        <template v-if="!isLoginPage"> <!-- Only render sidebar and header if not on login page -->
           <Sidebar />
           <div class="headerAndContent">
             <Header />
@@ -19,37 +19,35 @@
       </div>
     </v-app>
   </template>
-
-<script>
-import Sidebar from './components/Sidebar.vue';
-import Header from './components/Header.vue';
-
-export default {
-  name: 'App',
-  components: {
-    Sidebar,
-    Header,
-  },
-  computed: {
-    isLoginPage() {
-      // Check if the current route is the login page
-      return this.$route.path === '/login';
+  
+  <script>
+  import Sidebar from './components/Sidebar.vue';
+  import Header from './components/Header.vue';
+  
+  export default {
+    name: 'App',
+    components: {
+      Sidebar,
+      Header,
     },
-  },
-};
-</script>
+    computed: {
+      isLoginPage() {
+        // Check if the current route is the login page
+        return this.$route.path === '/login';
+      },
+    },
+  };
+  </script>
 
 <style lang="scss" >
 :root {
     --primary: #727885;
     --grey:#64748b;
-    --dark:#29166F;
-    --dark-alt: #29166fec;
+    --dark:#2F3F64;
+    --dark-alt: #334155;
     --light:#cdd1da;
-    --text-color: #29166F;
     --sidebar-width:300px;
-    --header-height:70px
-    
+    --header-height:100px
 }
 
 * {

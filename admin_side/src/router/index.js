@@ -5,7 +5,8 @@ const router = createRouter ({
     routes: [
         {
             path: '/',
-            redirect: '/login' // Redirect to the dashboard page
+            redirect: 'login'
+
         },
         {
             path: '/login',

@@ -10,15 +10,8 @@
         <hr>
 
         <div class="main-content">
-            <!-- <div class="add-student" >
-                <span class="material-icons">add_circle</span>
-                <span class="text">Add Student</span>
-                <AddStudent/>
-            </div> -->
-            
 
             <div class="student-table">
-                <!-- <h1>Student Table</h1> -->
                 <StudentTable/>
             </div>
         </div>

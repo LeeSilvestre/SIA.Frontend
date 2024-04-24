@@ -3,7 +3,7 @@
         
         <img class="sna-logo" src="/src/assets/SNA Logo with BG.png" alt="">
 
-        <h2 class="sp-text fs-4 fw-light">St. Nicholas Academy</h2>
+        <h2 class="sp-text">Student Profiling</h2>
       <br>
   <hr>
           <div class="menu-toggle-wrap">
