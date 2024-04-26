@@ -25,29 +25,3 @@
 
     # npm run build [for npm]
     ```
-
-## Run Locally
-
-Clone the project
-
-```bash
-  git clone https://github.com/uilibrary/AatroX-vue
-```
-
-Go to the project directory
-
-```bash
-  cd AatroX-vue
-```
-
-Install dependencies
-
-```bash
-  yarn
-```
-
-Start the server
-
-```bash
-  yarn dev
-```
