@@ -3,10 +3,10 @@
         <div class="left-container">
     <div class="top-left">
         <div class="total-student">
-            <h1 class="info-text">
+            <h2 class="info-text">
                 <span class="material-icons">feed</span>
                 STUDENT ENROLEES
-            </h1>    
+            </h2>    
             <table class="enrollment-table">
                 <thead>
                     <tr>
@@ -53,16 +53,68 @@
     </div>
 </div>
         
-        <div class="right-container">
-                TBA
+        <div class="right-container" fluid>
+            <h1 class="info-text">
+                <span class="material-icons">group</span>
+                Total Enrollees
+            </h1>
+            <div>
+                <canvas ref="chartCanvas"></canvas>
+            </div>
         </div>
     </main>
 </template>
 
 <script>
 export default {
-
-}
+  data() {
+    return {
+      chart: null,
+      sidebarCollapsed: false 
+    };
+  },
+  mounted() {
+    this.renderChart();
+  },
+  computed: {
+    chartContainerWidth() {
+      return this.sidebarCollapsed ? 'calc(100% - 80px)' : '100%'; 
+    },
+    chartContainerHeight() {
+      return this.sidebarCollapsed ? '400px' : '400px'; 
+    }
+  },
+  watch: {
+    sidebarCollapsed(newValue) {
+      if (this.chart) {
+        this.chart.resize(); 
+      }
+    }
+  },
+  methods: {
+    renderChart() {
+      this.chart = new Chart(this.$refs.chartCanvas.getContext('2d'), {
+        type: 'pie',
+        data: {
+          labels: ['Junior High School', 'Senior High School'],
+          datasets: [{
+            label: 'Student Enrolled',
+            data: [100, 500], //Junior and Senior High total enrollees
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -76,17 +128,22 @@ main {
         padding: 1rem;
         background-color: #f0f0f0;
         margin-bottom: 2rem;
-        color: var(--dark);
+        color: black;
         border-radius:5px;
 
         .total-student{
             display: flex;
             flex-direction: column;
+            
+            
 
             .info-text{
                 text-shadow: 0 0 1px;
                 font-size: 25px;
                 margin-bottom: 1rem;
+                font-weight: bold;
+                
+               
 
                 .material-icons{
                     position: relative;
@@ -95,7 +152,7 @@ main {
                 }
             }
             h2{
-                align-self: center;
+                align-self: left;
                 margin-bottom: 1rem;
                 font-weight: 900;
                 
@@ -104,13 +161,6 @@ main {
             h3{
                 font-weight: 600;
             }
-            h1{
-                align-self: center;
-                padding: 10px;
-                font-size: 50px;
-                text-shadow: 0px 1px, 1px 0px, 1px 1px;
-
-             }
 
             .student-count{
                 display: flex;
@@ -177,10 +227,16 @@ main {
     }
 }
 
-.right-container{
+.right-container {
     flex: 0.5;
-    padding: 2rem;
-    background-color: #c0c0c0;
+    padding: 1rem;
+    background-color: #f0f0f0;
+    height: 400px; 
+    width: 100%; 
+    @media (min-width: 768px) {
+        width: calc(50% - 1rem); 
+        transition: width 0.3s ease; 
+    }
 }
 .enrollment-table {
     width: 100%;
@@ -191,6 +247,7 @@ main {
     border: 2px solid #a09e9e90;
     text-align: left;
     padding: 8px;
+    font-size: 14px;
 }
 
 .enrollment-table th {
@@ -200,8 +257,17 @@ main {
     font-weight: bold;
     font-size: 17px;
 }
-.th{
-    
+.info-text{
+    text-shadow: 0 0 1px;
+    font-size: 25px;
+    margin-bottom: 1rem;
+    color: var(--dark);
+    font-weight: bold;
+}
+.material-icons{
+    position: relative;
+    font-size: 38px;
+    top:8px;
 }
 
 </style>

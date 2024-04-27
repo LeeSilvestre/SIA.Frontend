@@ -21,7 +21,11 @@
           </router-link>
           <router-link class="button" to="/studentprofile">
               <span class="material-icons">person</span>
-              <span class="text">Student Profile</span>
+              <span class="text">Student Record</span>
+          </router-link>
+          <router-link class="button" to="/studentprofile">
+              <span class="material-icons">summarize</span>
+              <span class="text">Enrolment Summary</span>
           </router-link>
 
       </div>

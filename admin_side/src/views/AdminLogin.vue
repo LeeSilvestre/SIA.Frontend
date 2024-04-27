@@ -32,13 +32,14 @@
                         <h4 class="text-center pt-0 fs-6">
                            REGISTRAR ADMIN PORTAL
                         </h4>
-                        <v-form>
+                        <v-form class="pt-4">
                           <v-text-field 
                             label="Email/ID"
                             name="Email"
                             prepend-icon="mdi-email"
                             type="text"
                             color="var(--dark)"
+                            variant="underlined"
                             />
                           <v-text-field
                             id="password"
@@ -47,6 +48,7 @@
                             prepend-icon="mdi-lock"
                             type="password"
                             color="var(--dark)"
+                            variant="underlined"
                             />
                         </v-form> 
                       </v-card-text>
