@@ -5,17 +5,17 @@
         <div class="total-student">
             <h2 class="info-text">
                 <span class="material-icons">feed</span>
-                STUDENT ENROLEES
+                STUDENT ENROLLEES
             </h2>    
             <table class="enrollment-table">
                 <thead>
                     <tr>
                         <th class="fs-5">Grade Level</th>
-                        <th class="fs-5">Total Enrolees</th>
+                        <th class="fs-5">Total</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
+                    <tr> 
                         <th class="grade">Junior High School</th>
                         <td class="grade">0000</td>
                     </tr>
@@ -241,6 +241,7 @@ main {
 .enrollment-table {
     width: 100%;
     border-collapse: collapse;
+    opacity: 100%;
 }
 
 .enrollment-table th, .enrollment-table td {

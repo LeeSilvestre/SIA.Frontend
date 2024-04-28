@@ -20,7 +20,23 @@ const router = createRouter ({
         {
             path: '/studentprofile',
             component: () => import('../views/Student Profile.vue')
-        }
+        },
+        {
+            path: '/subjectschedule',
+            component: () => import('../views/SubjectSchedule.vue')
+        },
+        
+        //     path: '/subjectschedule',
+        //     component: () => import('../views/SubjectSchedule.vue')
+        // },
+        // {
+        //     path: '/subjectschedule',
+        //     component: () => import('../views/SubjectSchedule.vue')
+        // },
+        // {
+        //     path: '/subjectschedule',
+        //     component: () => import('../views/SubjectSchedule.vue')
+        
     ]
 })
 

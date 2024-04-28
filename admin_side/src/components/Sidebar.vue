@@ -19,13 +19,21 @@
               <span class="material-icons">dashboard</span>
               <span class="text">Dashboard</span>
           </router-link>
-          <router-link class="button" to="/studentprofile">
-              <span class="material-icons">person</span>
-              <span class="text">Student Record</span>
+          <router-link class="button" to="/subjectschedule">
+              <span class="material-icons">feed</span>
+              <span class="text">Enrollment</span>
+          </router-link>
+          <router-link class="button" to="/">
+              <span class="material-icons">note_add</span>
+              <span class="text">Data Entry</span>
           </router-link>
           <router-link class="button" to="/studentprofile">
-              <span class="material-icons">summarize</span>
-              <span class="text">Enrolment Summary</span>
+              <span class="material-icons">person</span>
+              <span class="text">Student Records/Reports</span>
+          </router-link>
+          <router-link class="button" to="">
+              <span class="material-icons">info</span>
+              <span class="text">Maintenance</span>
           </router-link>
 
       </div>
@@ -61,6 +69,8 @@
       padding: 1rem;
       background-color: var(--dark);
       color: var(--light);
+      position: -webkit-sticky; 
+      position: sticky; 
 
   
       transition: 0.2s ease-out;
@@ -104,11 +114,13 @@
        .button .text {
           opacity: 0;
           transition: 0.3s ease-out;
+          margin-top: 0px;
       }
   
   
       .menu {
           margin: -0 -1rem;
+          margin-top: auto;
   
           .button{
               display: flex;
