@@ -10,14 +10,17 @@
         <div class="main-content">
 
             <div class="subject-schedule">
-                <SubjectSchedule/>
+                <SubjectSched/>
             </div>
         </div>
         <hr>
 
-        <div class="container-fluid">
+        <div class="bottom-container">
 
-        </div>
+            <div class="scheduling-table">
+                <SchedulingTable/>
+            </div>
+            </div>
 
 
         
@@ -28,13 +31,16 @@
 <script>
 // import AddStudent from '../components/AddStudent.vue';
 import EnrollmentNav from '../components/EnrollmentNav.vue';
-import SubjectSchedule from '../components/SubjectSchedule.vue';
+import SubjectSched from '../components/SubjectSched.vue';
+import SchedulingTable from '../components/SchedulingTable.vue';
 
 export default {
   components: {
     // AddStudent,
-    SubjectSchedule,
-    EnrollmentNav
+    
+    EnrollmentNav,
+    SubjectSched,
+    SchedulingTable
   }
 };
 </script>

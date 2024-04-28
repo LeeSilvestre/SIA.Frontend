@@ -31,7 +31,7 @@
               <span class="material-icons">person</span>
               <span class="text">Student Records/Reports</span>
           </router-link>
-          <router-link class="button" to="">
+          <router-link class="button" to="/">
               <span class="material-icons">info</span>
               <span class="text">Maintenance</span>
           </router-link>

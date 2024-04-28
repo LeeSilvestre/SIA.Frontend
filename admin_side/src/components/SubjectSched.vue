@@ -34,14 +34,13 @@
           cols="12"
           md="4"
         >
-          <v-text-field
-            v-model="gradeTerm"
-            :rules="gradeTermRules"
-            label="Grade/Term"
-            hide-details
-            required
-          ></v-text-field>
-        </v-col>
+        <v-combobox
+          clearable
+          label="Grade Level"
+          :items="['Grade 7', 'Grade 8', 'Grade 8', 
+          'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']"
+        ></v-combobox>
+      </v-col>
 
         <v-col
           cols="12"
@@ -90,9 +89,7 @@
             hide-details
             required
           ></v-text-field>
-        </v-col>
-
-        <hr>
+      </v-col>
       </v-row>
     </v-container>
   </v-form>
