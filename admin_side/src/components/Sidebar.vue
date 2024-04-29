@@ -19,10 +19,16 @@
               <span class="material-icons">dashboard</span>
               <span class="text">Dashboard</span>
           </router-link>
-          <router-link class="button" to="/subjectschedule">
-              <span class="material-icons">feed</span>
-              <span class="text">Enrollment</span>
-          </router-link>
+          <DropdownMenu>
+        <template v-slot:default>
+            <div class="menu-item">
+            <router-link to="/enrollment">Enrollment Summary</router-link>
+            </div>
+            <div class="menu-item">
+            <router-link to="/subjectschedule">Subject Scheduling</router-link>
+            </div>
+        </template>
+        </DropdownMenu>
           <router-link class="button" to="/">
               <span class="material-icons">note_add</span>
               <span class="text">Data Entry</span>
@@ -49,6 +55,7 @@
   
   <script setup>
   import { ref } from 'vue'
+  import DropdownMenu from './DropdownMenu.vue'
   
   const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
   
