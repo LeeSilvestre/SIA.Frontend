@@ -3,7 +3,7 @@
         
         <img class="sna-logo" src="/src/assets/SNA Logo with BG.png" alt="">
 
-        <h2 class="sp-text">Student Profiling</h2>
+        <h2 class="sp-text"> Student Profiling</h2>
       <br>
   <hr>
           <div class="menu-toggle-wrap">
@@ -33,7 +33,7 @@
   
   <script setup>
   import { ref } from 'vue'
-  
+
   const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
   
   const ToggleMenu = () => {
@@ -41,6 +41,7 @@
   
       localStorage.setItem("is_expanded", is_expanded.value)
   }
+  
   </script>
   
   <style lang="scss" scoped>
@@ -213,6 +214,7 @@
       }
       @media (max-width: 768px) {
           z-index: 99;
+
       }
 
   }

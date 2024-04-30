@@ -1,6 +1,9 @@
 <template>
     <v-app>
-    <StudentLogin v-if="showLogin"></StudentLogin>
+    <StudentLogin v-if="showLogin">
+        
+
+    </StudentLogin>
     
     <div v-else>
     <div class="app">

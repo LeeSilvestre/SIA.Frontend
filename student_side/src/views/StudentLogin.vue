@@ -1,87 +1,71 @@
 <template >
   <v-app class="app">
-      <div >
-        <v-card
-          class="mx-auto pa-10 pb-8 mt-6 "
-          elevation="8"
-          max-width="630"
-          rounded="lg"
-        >
-        
-        <div class="logo-container">
-          <img src="../assets/schoolLogo.png" class="logo"> 
-        </div>
-
-        <v-row justify="center">
-          <v-col cols="12" class="text-center">
-            <p
-              class="h4 mt-2 "
-              style="color:var(--dark); font-weight:900"
-            >
-            Saint Nicholas Academy School Management System
-            </p>
+      <v-container class=" fill-height" fluid>
+        <v-row align="center" justify="center" >
+          <v-col cols="12" sm="8" md="8" >
+            <v-card class="elevation-12">
+              <v-window v-model="step">
+                  <v-row>
+                    <v-col cols="12" md="5" class="rectangle-color">
+                      
+                      <v-card-text class="white--text mt-16 pt-14 mx-auto">
+                        <div class="logo-container">
+                        <!-- Logo positioned at the right side -->
+                        <img src="/src/assets/schoolLogo3.png" max-height="900" max-width="900" class="logo">
+                      </div>
+                      <div class="text-container text-center">
+                        <h1 class="mt-10 h2 font-weight-black">ST.NICHOLAS ACADEMY OF CASTILLEJOS INC.</h1>
+                        <p class="h6 font-weight-normal">CASTILLEJOS, ZAMBALES</p>
+                      </div>
+                      
+                    </v-card-text>
+                    </v-col>
+                    <v-col cols="12" md="7">
+                      
+                      <v-card-text class="mt-1">
+                        <div class="text-center mb-1">
+                          <img src="/src/assets/schoolLogo.png" class="logo-logo">
+                        </div>
+                        <!-- <h2 class="text-center lh-0 fs-4 fw-normal">
+                        <span class="sna-text">St. Nicholas Academy School Management System</span>
+                        </h2> -->
+                        <span class="sna-text"><h4 class="text-center pt-2 pb-3 fs-7 font-weight-black">
+                          WELCOME STUDENTS!
+                        </h4></span>
+                        <v-form>
+                          <v-text-field 
+                            label="Email/ID"
+                            name="Email"
+                            prepend-icon="mdi-email"
+                            type="text"
+                            color="var(--dark)"
+                            />
+                          <v-text-field
+                            id="password"
+                            label="Password"
+                            name="Password"
+                            prepend-icon="mdi-lock"
+                            type="password"
+                            color="var(--dark)"
+                            />
+                        </v-form> 
+                      </v-card-text>
+                      <div class="text-center pb-2 mx-md-auto">
+                        <v-btn rectangle color="var(--dark)"> <router-link to="/dashboard" style="color:white; text-decoration: none; width: auto; font-size: 15px; ">Sign in</router-link></v-btn>
+                      </div>
+                      <div class="text-center pb-2">
+                        <a href="" style="display: inline-block;">
+                          St. Nicholas Academy General Privacy Notice
+                        </a>
+                      </div>
+                    </v-col>
+                  </v-row>
+              </v-window>
+            </v-card>
           </v-col>
         </v-row>
-
-        <v-row justify="center">
-          <v-col cols="12" class="text-center">
-            <p
-              class="h4  mb-5"
-              style="color:var(--dark); text-shadow: 0px 1px, 1px 0px, 1px 1px;"
-            >
-            WELCOME STUDENTS!
-            </p>
-          </v-col>
-        </v-row>
-        <v-form>
-          <v-text-field 
-            label="Email/ID"
-            name="Email"
-            prepend-icon="mdi-email"
-            type="text"
-            color="var(--dark)"
-            />
-          <v-text-field
-            id="password"
-            label="Password"
-            name="Password"
-            prepend-icon="mdi-lock"
-            type="password"
-            color="var(--dark)"
-            />
-        </v-form>
-    
-          <v-card
-            class="mb-2"
-            color="surface-variant"
-            variant="tonal"
-          >
-          </v-card>
-
-          <v-btn
-            class="mb-2 font-weigt-black"
-            color="blue"
-            size="large"
-            variant="tonal"
-            block
-          >
-            Log In
-          </v-btn>
-
-          <v-col cols="12" class="text-center">
-            <a
-              class=" text-caption text-decoration-none text-blue"
-              href="#"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              Forgot Password?
-            </a>
-          </v-col>
-        </v-card>
-      </div>
+      </v-container>
     </v-app>
-
 </template>
 <script>
  export default {
@@ -98,8 +82,7 @@
 
   .app {
     position: relative; /* Ensure the parent is positioned relative */
-    background-image: url('../assets/BG alt.jpg');
-    background-position: bottom;
+    background-image: url('../assets/BG.jpg');
     background-size: cover;
     background-repeat: no-repeat;
   }
@@ -115,13 +98,41 @@
   }
 
   .logo-container {
-    max-width: 10rem; 
-    margin: auto; 
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 300px;
+      height: 100%;
+      right: 100%; /* Adjust this value to move the container to the left */
   }
+
   
   .logo {
-    max-width: 100%; 
-    height: 10rem; 
+    width: 600px; 
+    height: 100%; 
+    object-fit: cover; 
+    filter: brightness(250%) grayscale(0%); 
+    opacity: 12%;
+  }
+
+    .logo-logo {
+    max-height: 150px;
+    max-width: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .sna-text{
+    color: var(--dark);
+    font-size: 20px;
+  }
+  .text-container {
+    position: relative;
+    z-index: 1; 
+    color: white;
+  }
+  .rectangle-color{
+    background-color: var(--dark);
   }
 </style>
-
