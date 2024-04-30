@@ -36,7 +36,7 @@ export default {
 },
     data() {
     return {
-      showLogin: true // Initially show the login component
+      showLogin: false // Initially show the login component
     };
 }
 }

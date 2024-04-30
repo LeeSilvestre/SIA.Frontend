@@ -26,7 +26,7 @@
             <img src="/src/assets/BG alt.jpg" class="logo">
           </div>
           <div class="text-container text-center">
-            <p class="h4 font-weight-black ">Announcement {{ model }}</p>
+            <p class="h4 font-weight-black ">Announcement </p>
           </div>
         </v-card-text>
 
