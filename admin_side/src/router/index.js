@@ -22,8 +22,8 @@ const router = createRouter ({
             component: () => import('../views/Enrollment.vue')
         },
         {
-            path: '/studentprofile',
-            component: () => import('../views/Student Profile.vue')
+            path: '/records',
+            component: () => import('../views/StudentRecords.vue')
         },
         
         

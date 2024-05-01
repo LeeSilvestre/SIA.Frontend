@@ -23,7 +23,7 @@
               <span class="material-icons">feed</span>
               <span class="text">Enrollment</span>
           </router-link>
-          <router-link class="button" to="/studentprofile">
+          <router-link class="button" to="/records">
               <span class="material-icons">person</span>
               <span class="text">Records</span>
           </router-link>

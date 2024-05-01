@@ -11,8 +11,8 @@
 
         <div class="main-content">
 
-            <div class="enrollment-nav">
-                <EnrollmentNav/>
+            <div class="student-table">
+                <StudentTable/>
             </div>
         </div>
 
@@ -22,8 +22,14 @@
 </template>
 
 <script>
-export default {
+// import AddStudent from '../components/AddStudent.vue';
+import StudentTable from '../components/StudentTable.vue';
 
+export default {
+  components: {
+    // AddStudent,
+    StudentTable
+  }
 };
 </script>
 
@@ -48,4 +54,18 @@ export default {
     }
 
 } 
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+
+    .student-table{
+        border-radius: 10px;
+        background-color: #f0f0f0;
+        padding: 0.5rem;
+        height: 100vh;
+    }
+}
+
+
 </style>
