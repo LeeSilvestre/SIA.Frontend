@@ -49,7 +49,6 @@
   
   <script setup>
   import { ref } from 'vue'
-  import DropdownMenu from './DropdownMenu.vue'
   
   const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
   
