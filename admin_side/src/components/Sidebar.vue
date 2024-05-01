@@ -29,7 +29,7 @@
           </router-link>
           <router-link class="button" to="/studentprofile">
               <span class="material-icons">person</span>
-              <span class="text">Student Records/Reports</span>
+              <span class="text">Records</span>
           </router-link>
           <router-link class="button" to="/">
               <span class="material-icons">info</span>

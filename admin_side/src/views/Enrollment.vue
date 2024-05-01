@@ -28,7 +28,7 @@ import EnrollmentNav from '../components/EnrollmentNav.vue';
 export default {
   components: {
     // AddStudent,
-    EnrollmentNav
+    EnrollmentNav   
   }
 };
 </script>
