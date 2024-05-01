@@ -19,7 +19,7 @@
               <span class="material-icons">dashboard</span>
               <span class="text">Dashboard</span>
           </router-link>
-          <router-link class="button" to="/subjectschedule">
+          <router-link class="button" to="/enrollment">
               <span class="material-icons">feed</span>
               <span class="text">Enrollment</span>
           </router-link>
