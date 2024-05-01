@@ -23,19 +23,10 @@
               <span class="material-icons">feed</span>
               <span class="text">Enrollment</span>
           </router-link>
-          <router-link class="button" to="/">
-              <span class="material-icons">note_add</span>
-              <span class="text">Data Entry</span>
-          </router-link>
           <router-link class="button" to="/studentprofile">
               <span class="material-icons">person</span>
               <span class="text">Records</span>
           </router-link>
-          <router-link class="button" to="/">
-              <span class="material-icons">info</span>
-              <span class="text">Maintenance</span>
-          </router-link>
-
       </div>
   
       <div class="menu-logout">
