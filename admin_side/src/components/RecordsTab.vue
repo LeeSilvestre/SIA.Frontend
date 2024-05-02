@@ -30,12 +30,13 @@ export default {
     display: flex;
     gap: 2rem; /* buttons gap */
     padding: 1rem;
+
 }
 
 .tab-content button {
     position: relative;
     color: var(--dark);
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     font-weight: 600;
     bottom: 0.5rem;
     border-width: 20px;
@@ -44,7 +45,7 @@ export default {
 .tab-content button:hover,
 .tab-content button:active,
 .tab-content button.active {
-    transition: 0.2s;
+    transition: 0.5s;
     border-bottom: 2.5px solid black;
 } 
 </style>

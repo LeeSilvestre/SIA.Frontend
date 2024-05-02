@@ -25,21 +25,22 @@ const router = createRouter ({
             path: '/records',
             component: () => import('../views/Records.vue')
         },
-        {
+        /*Records Tab*/
+          {
             path: '/juniorhigh',
-            component: () => import('../components/JuniorHigh.vue'), // Import the component for the first tab
+            component: () => import('../components/JuniorHigh.vue'), 
           },
           {
             path: '/seniorhigh',
-            component: () => import('../components/SeniorHigh.vue'), // Import the component for the second tab
+            component: () => import('../components/SeniorHigh.vue'), 
           },
           {
             path: '/alumni',
-            component: () => import('../components/Alumni.vue'), // Import the component for the third tab
+            component: () => import('../components/Alumni.vue'),
           },
           {
             path: '/faculty',
-            component: () => import('../components/Faculty.vue'), // Import the component for the fourth tab
+            component: () => import('../components/Faculty.vue'), 
           },
         
         
