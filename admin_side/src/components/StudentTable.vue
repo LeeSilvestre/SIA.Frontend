@@ -10,7 +10,6 @@
       <template v-slot:top >
         <v-toolbar flat >
           <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">Student Enrollment Master List</v-toolbar-title>
-          <v-toolbar-title class="text-h7 " style="color: #2F3F64">School year: </v-toolbar-title>
 
           <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
@@ -29,7 +28,7 @@
           <v-dialog v-model="dialog" max-width="1000px">
             
             <template v-slot:activator="{ props }">
-              <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Add Student</v-btn>
+              <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Create New</v-btn>
             </template>
             
             <v-card >
@@ -104,7 +103,7 @@
                   >
                     <v-text-field
                       v-model="editedItem.birth_date"
-                      label="Date of Birth"
+                      label="Date of Birth dd/mm/yy"
                       required
                     ></v-text-field>
                   </v-col>
@@ -273,8 +272,11 @@
           <td>{{ item.student_id }}</td>
           <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
           <td>{{ item.sy }}</td>
-          <td>{{ item.grade_level }}</td>
-          <td>{{ item.strand }}</td>
+          <td>{{ item.term }}</td>
+          <td>{{ item.type }}</td>
+          <td>{{ item.section }}</td>
+          <td>{{ item.date }}</td>
+          <td>{{ item.status }}</td>
           <td>
             <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon>
             <v-icon size="small" style="color: #2F3F64" @click="deleteItem(item)">mdi-delete</v-icon>
@@ -297,10 +299,13 @@
       dialogDelete: false,
       headers: [
         { title: 'Student No.', align: 'start', key:'student_id'},
-        { title: 'Full Name', key: 'full_name' },
-        { title: 'S.Y', sortable: false },
-        { title: 'Grade Level', key: 'grade_level' },
-        { title: 'Strand', key: 'strand' },
+        { title: 'Full Name', align: 'start', key: 'full_name' },
+        { title: 'S.Y', align: 'start', key:'sy'},
+        { title: 'Term', align: 'start', key:'term'},
+        { title: 'Type', align: 'start', key:'type'},
+        { title: 'Section', align: 'start', key:'section'},
+        { title: 'Date', key: 'date' },
+        { title: 'Status', key: 'status' },
         { title: 'Actions', sortable: false },
       ],
       students: [],
