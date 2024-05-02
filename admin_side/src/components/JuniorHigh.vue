@@ -9,7 +9,7 @@
   >
     <template v-slot:top >
       <v-toolbar flat >
-        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">MASTER LIST</v-toolbar-title>
+        <v-toolbar-title class="text-h6 fs-bold " style="color: #2F3F64">MASTER LIST</v-toolbar-title>
         <v-toolbar-title class="text-h7 " style="color: #2F3F64">School year: </v-toolbar-title>
 
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
