@@ -270,9 +270,9 @@
       </template>
       <template v-slot:item="{ item }">
         <tr>
-          <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
           <td>{{ item.student_id }}</td>
-          <td>{{ item.student_lrn }}</td>
+          <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
+          <td>{{ item.sy }}</td>
           <td>{{ item.grade_level }}</td>
           <td>{{ item.strand }}</td>
           <td>
@@ -296,9 +296,9 @@
       dialog: false,
       dialogDelete: false,
       headers: [
-        { title: 'Name', align: 'start', key:'full_name'},
-        { title: 'Student ID', key: 'student_id' },
-        { title: 'LRN', key: 'student_lrn' },
+        { title: 'Student No.', align: 'start', key:'student_id'},
+        { title: 'Full Name', key: 'full_name' },
+        { title: 'S.Y', sortable: false },
         { title: 'Grade Level', key: 'grade_level' },
         { title: 'Strand', key: 'strand' },
         { title: 'Actions', sortable: false },
