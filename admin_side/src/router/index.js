@@ -23,8 +23,24 @@ const router = createRouter ({
         },
         {
             path: '/records',
-            component: () => import('../views/StudentRecords.vue')
+            component: () => import('../views/Records.vue')
         },
+        {
+            path: '/juniorhigh',
+            component: () => import('../components/JuniorHigh.vue'), // Import the component for the first tab
+          },
+          {
+            path: '/seniorhigh',
+            component: () => import('../components/SeniorHigh.vue'), // Import the component for the second tab
+          },
+          {
+            path: '/alumni',
+            component: () => import('../components/Alumni.vue'), // Import the component for the third tab
+          },
+          {
+            path: '/faculty',
+            component: () => import('../components/Faculty.vue'), // Import the component for the fourth tab
+          },
         
         
         
