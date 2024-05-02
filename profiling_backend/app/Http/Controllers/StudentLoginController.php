@@ -20,6 +20,7 @@ class StudentLoginController extends Controller
      */
     public function authenticate(Request $request)
     {
+
        // Validate the request data
        $validator = Validator::make($request->all(), [
         'email' => 'required|email',
@@ -52,5 +53,12 @@ class StudentLoginController extends Controller
         'message' => 'Unauthenticated',
     ], 401);
     }
-}
 
+    public function logout(Request $request)
+    {
+            $request->user()->tokens()->delete();
+            return response()->json([
+                'message' => 'Successfully logged out'
+            ], 200);
+    }
+}

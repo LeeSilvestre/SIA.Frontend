@@ -1,3 +1,7 @@
+<script setup>
+import api from '../services/api'
+
+</script>
 <template >
   <v-app class="app">
       <v-container class=" fill-height" fluid>
@@ -32,8 +36,10 @@
                         <span class="sna-text"><h4 class="text-center pt-2 pb-3 fs-7 font-weight-black">
                           WELCOME STUDENTS!
                         </h4></span>
-                        <v-form>
-                          <v-text-field 
+                        <div v-if="errorMessage" class="text-center mb-1 error-message">{{ errorMessage }}</div>
+                        <v-form novalidate autocomplete="off">
+                          <v-text-field
+                            v-model="email" 
                             label="Email/ID"
                             name="Email"
                             prepend-icon="mdi-email"
@@ -41,7 +47,7 @@
                             color="var(--dark)"
                             />
                           <v-text-field
-                            id="password"
+                            v-model="password"
                             label="Password"
                             name="Password"
                             prepend-icon="mdi-lock"
@@ -51,7 +57,7 @@
                         </v-form> 
                       </v-card-text>
                       <div class="text-center pb-2 mx-md-auto">
-                        <v-btn rectangle color="var(--dark)"> <router-link to="/dashboard" style="color:white; text-decoration: none; width: auto; font-size: 15px; ">Sign in</router-link></v-btn>
+                        <v-btn rectangle color="var(--dark)" @click="login" style="color:white; text-decoration: none; width: auto; font-size: 15px; ">Log in</v-btn>
                       </div>
                       <div class="text-center pb-2">
                         <a href="" style="display: inline-block;">
@@ -67,19 +73,54 @@
       </v-container>
     </v-app>
 </template>
+
 <script>
  export default {
+
     data: () => ({
-      step: 1
+      step: 1,
+      email: '',
+      password: '',
+      errorMessage: ''
     }),
     props: {
       source: String
+    },
+    created(){
+      this.email = '';
+      this.password = '';
+    },
+    methods: {
+      async login() {
+        const loginCredentials = new FormData();
+
+        loginCredentials.append('email', this.email);
+        loginCredentials.append('password', this.password);
+
+        await api
+        .post('login', loginCredentials)
+        .then(response => {
+          if(response.status == 200){
+            console.log(response.data)
+            sessionStorage.setItem('token', response.data.access_token)
+
+            this.$router.push('/dashboard'); 
+          }
+        })
+        .catch(error => {
+          console.error(error)
+        });
+      }
     }
   }
 </script>
 
 <style scoped> 
 
+.error-message {
+  color: red;
+  font-weight: bold;
+}
   .app {
     position: relative; /* Ensure the parent is positioned relative */
     background-image: url('../assets/BG.jpg');

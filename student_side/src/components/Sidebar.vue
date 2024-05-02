@@ -1,3 +1,17 @@
+<script setup>
+import { ref } from 'vue'
+import api from '../services/api'
+
+const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
+
+const ToggleMenu = () => {
+    is_expanded.value = !is_expanded.value
+
+    localStorage.setItem("is_expanded", is_expanded.value)
+}
+
+</script>
+
 <template>
     <aside :class="`${is_expanded && 'is_expanded'}`">
         
@@ -23,7 +37,7 @@
       </div>
   
       <div class="menu-logout">
-          <router-link class="button" to="/">
+          <router-link class="button" to="#" @click="logout">
               <span class="material-icons">logout</span>
               <span class="text">Logout</span>
           </router-link>
@@ -31,19 +45,20 @@
     </aside>
   </template>
   
-  <script setup>
-  import { ref } from 'vue'
-
-  const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
-  
-  const ToggleMenu = () => {
-      is_expanded.value = !is_expanded.value
-  
-      localStorage.setItem("is_expanded", is_expanded.value)
-  }
-  
-  </script>
-  
+<script>
+export default {
+    methods: {
+        async logout(){ 
+            try {
+                await api.get('logout')
+            } finally {
+                sessionStorage.clear()
+                this.$router.push('/login'); 
+            }
+        }
+    }
+}
+</script>
   <style lang="scss" scoped>
   aside {
       display: flex;

@@ -1,45 +1,42 @@
 <template>
-    <v-app>
-    <StudentLogin v-if="showLogin">
-        
-
-    </StudentLogin>
-    
-    <div v-else>
-    <div class="app">
-
-    <Sidebar/>
-        <div class="headerAndContent">
-            <Header />
-            <router-view v-slot="{Component}"> 
-                <transition name="fade" mode="out-in">
-                    <Component :is="Component"/>
-                </transition>
-            </router-view>
-        </div>
-    </div>
-    </div>
-</v-app>
+        <v-app>
+          <div class="app">
+            <template v-if="!isLoginPage"> <!-- Only render sidebar and header if not on login page -->
+              <Sidebar />
+              <div class="headerAndContent">
+                <Header />
+                <router-view v-slot="{ Component }">
+                  <transition name="fade" mode="out-in">
+                    <Component :is="Component" />
+                  </transition>
+                </router-view>
+              </div>
+            </template>
+            <template v-else>
+              <!-- Render only the login page content -->
+              <router-view />
+            </template>
+          </div>
+        </v-app>
 </template>
 
 <script>
 import Sidebar from './components/Sidebar.vue';
 import Header from './components/Header.vue';
-import StudentLogin from './views/StudentLogin.vue';
 
 export default {
   name: 'App',
   components: {
     Sidebar, 
     Header,
-    StudentLogin,
 },
-    data() {
-    return {
-      showLogin: false // Initially show the login component
-    };
-}
-}
+computed: {
+      isLoginPage() {
+        // Check if the current route is the login page
+        return this.$route.path === '/login';
+      },
+    },
+  };
 </script>
 
 <style lang="scss" >

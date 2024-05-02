@@ -4,7 +4,7 @@ const router = createRouter ({
     history: createWebHashHistory(),
     routes: [
         {
-            path: '/',
+            path: '/login',
             component: () => import('../views/StudentLogin.vue')
 
         },

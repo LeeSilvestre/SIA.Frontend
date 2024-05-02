@@ -13,13 +13,14 @@
         <v-slide-group-item
           v-for="n in 5"
           :key="n"
-          v-slot="{ isSelected, toggle, selectedClass }"
+          v-slot="{ toggle, selectedClass,  }
+          "
         >
           <v-card
             :class="['ma-4', selectedClass]"
             height="220"
             width="200"
-            @click="toggle"
+            @click="toggle, dialog = true"
           >                   
           <v-card-text class="white--text mt-16 pt-14 mx-auto">
             <div class="logo-container">
@@ -30,30 +31,33 @@
           </div>
         </v-card-text>
 
-            <div class="d-flex fill-height align-center justify-center">
-              <v-scale-transition>
-                <v-icon
-                  v-if="isSelected"
-                  color="white"
-                  icon="mdi-close-circle-outline"
-                  size="48"
-                ></v-icon>
-              </v-scale-transition>
-            </div>
+        <v-dialog
+        v-model="dialog"
+        width="auto"
+      >
+        
+        <v-card
+      >
+        <div class="d-flex fill-height align-center justify-center">
+          <AnnouncementTable/>
+        </div>
+        <template v-slot:actions>
+          <v-btn
+            class="ms-auto"
+            text="Cancel"
+            @click="dialog = false"
+          ></v-btn>
+        </template>
+      </v-card>
+      </v-dialog>
+            
           </v-card>
         </v-slide-group-item>
       </v-slide-group>
   
-      <v-expand-transition>
-        <v-sheet
-          v-if="model != null"
-          height="200"
-        >
-          <div class="d-flex fill-height align-center justify-center">
-            <AnnouncementTable/>
-          </div>
-        </v-sheet>
-      </v-expand-transition>
+      <!-- <v-expand-transition>
+
+      </v-expand-transition> -->
     </v-sheet>
   </template>
 
@@ -67,6 +71,11 @@ import AnnouncementTable from './AnnouncementTable.vue';
     data: () => ({
       model: null,
     }),
+    data () {
+      return {
+        dialog: false,
+      }
+    }
   }
 </script>
 
@@ -80,8 +89,7 @@ import AnnouncementTable from './AnnouncementTable.vue';
     right: 100%; /* Adjust this value to move the container to the left */
     z-index: -1;
     
-    
-
+  
     .logo {
         width: 600px; 
         height: 100%; 

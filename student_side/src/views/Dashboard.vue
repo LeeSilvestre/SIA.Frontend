@@ -1,3 +1,6 @@
+<script setup>
+import api from '../services/api'
+</script>
 <template>
     <main>
         <div class="left-container">
@@ -24,6 +27,10 @@
                       </tr>
                       <tr>
                         <td>Registrar</td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>Library</td>
                         <td></td>
                       </tr>
                     </tbody>
@@ -69,16 +76,13 @@
                 </div>
             </div>
         </div>
-            <div class="bottom-right">
-                <h4>TBA</h4>
-            </div>
 
         </div>
     </main>
 </template>
 
 <script>
-import axios from 'axios'
+
 import Announcement from '../components/Announcement.vue';
 
 export default {
@@ -92,16 +96,13 @@ export default {
         }
     },
     mounted(){
-        
         this.getStudentS();
 
     },
     methods: {
-        getStudentS(){
-            
-            axios.get('http://127.0.0.1:8000/api/student/1').then(res =>{
+        async getStudentS(){ 
+            await api.get('student/202474964').then(res =>{
                 this.student = res.data.student
-                // console.log(this.student)
             });
         }
     }
@@ -122,7 +123,8 @@ main {
         color: var(--dark);
         border-radius: 5px;
         border: 1px solid var(--light);
-        border-left: 5px solid var(--dark-alt);
+        border-left: 3px solid var(--dark-alt);
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
         
         table{
             box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
@@ -150,7 +152,9 @@ main {
         color: var(--dark);
         border-radius: 5px;
         border: 1px solid var(--light);
-        border-left: 5px solid var(--dark-alt);
+        border-left: 3px solid var(--dark-alt);
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
+
         
         h3 {
             text-shadow: 0 0 1px;
@@ -171,11 +175,13 @@ main {
 
     .profile{
         color: var(--dark);
-        margin-bottom: 1rem;
+        margin-bottom: 0.2rem;
         padding-left: 0.5rem;
         border-radius: 5px;
         border: 1px solid var(--light);
-        border-left: 5px solid var(--dark-alt);
+        border-right: 3px solid var(--dark-alt);
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
+
         h3 {
             text-shadow: 0 0 1px;
             font-size: 20px;
@@ -223,13 +229,6 @@ main {
                 font-size: 15px;
             }
         }
-    }
-    .bottom-right{
-        padding: 1rem;
-        margin-top: 2rem;
-        border-radius: 5px;
-        background-color: #e6e6e6;
-        min-height: 22rem;
     }
 }
 </style>

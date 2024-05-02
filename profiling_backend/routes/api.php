@@ -20,8 +20,12 @@ use App\Http\Controllers\StudentProfilingController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
 //STUDENT PROFILE HANDLING
+
 Route::post('/login', [StudentLoginController::class, 'authenticate']);
+Route::get('/logout', [StudentLoginController::class, 'logout'])->middleware('auth:sanctum');
 Route::get('student',[StudentProfilingController::class,'index']);
 Route::get('student/{id}',[StudentProfilingController::class,'indexId']);
 Route::post('student',[StudentProfilingController::class,'upload']);

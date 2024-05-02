@@ -1,13 +1,15 @@
 <template>
     <div>
-      <v-row>
-        <v-col cols="12" sm="12" md="12" v-for="(announcement, index) in announcements" :key="index">
-          <v-card class="ma-4 p-2 mb-12" elevation="3">
+        <v-col 
+        cols="12" sm="12" md="12" 
+        v-for="(announcement, index) in announcements" :key="index"
+        style="height: 20rem; width:40rem"
+        >
             <v-list>
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title class="headline">{{ announcement.title }}</v-list-item-title>
-                  <v-list-item-subtitle>{{ announcement.date }}</v-list-item-subtitle>
+                  <v-list-item-subtitle class="pb-3">{{ announcement.date }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
               <v-list-item>
@@ -16,9 +18,9 @@
                 </v-list-item-content>
               </v-list-item>
             </v-list>
-          </v-card>
+          
         </v-col>
-      </v-row>
+  
     </div>
   </template>
   
