@@ -70,7 +70,7 @@
         .text{
             position: relative;
             color: var(--dark);
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 900;
             bottom: 0.5rem;
         }

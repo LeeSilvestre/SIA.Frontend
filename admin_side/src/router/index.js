@@ -25,6 +25,7 @@ const router = createRouter ({
             path: '/records',
             component: () => import('../views/Records.vue')
         },
+        
         /*Records Tab*/
           {
             path: '/juniorhigh',

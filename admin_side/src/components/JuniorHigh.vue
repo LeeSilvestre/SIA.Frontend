@@ -9,9 +9,7 @@
   >
     <template v-slot:top >
       <v-toolbar flat >
-        <v-toolbar-title class="text-h6 fs-bold " style="color: #2F3F64">MASTER LIST</v-toolbar-title>
-        <v-toolbar-title class="text-h7 " style="color: #2F3F64">School year: </v-toolbar-title>
-
+        <v-toolbar-title class="text-h6 font-weight-black" style="color: #2F3F64">JUNIOR HIGH MASTER LIST</v-toolbar-title>
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
         <v-text-field
@@ -276,19 +274,38 @@
   </v-data-table>
 
   
-  <v-card v-if="selectedStudent" class="student-details-card">
-    <v-card-title class="fs-4 font-weight-black " style="color: #2F3F64">STUDENT DETAILS</v-card-title>
-    <v-card-text>
-      <div>
-        <strong>Name:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name }} {{ selectedStudent.last_name }} {{ selectedStudent.extension }}<br>
-        <strong>Student ID:</strong> {{ selectedStudent.student_id }}<br>
-        <strong>LRN:</strong> {{ selectedStudent.student_lrn }}<br>
-        <strong>Grade Level:</strong> {{ selectedStudent.grade_level }}<br>
-        <strong>Strand:</strong> {{ selectedStudent.strand }}<br>
-        <!-- Add more details as needed -->
-      </div>
-    </v-card-text>
-  </v-card>
+  <v-card v-if="selectedStudent" class="card">
+  <v-card-title class="fs-5 font-weight-black" style="color: white; background-color: var(--dark);">STUDENT DETAILS</v-card-title>
+  <v-card-text>
+    <div class="d-flex mt-2">
+      <!-- Left side card for student image and ID -->
+      <v-card class="mr-3" style="width: 30%; height: auto; background-color: #f0f0f0;">
+        <v-card-text>
+          <!-- Display student image -->
+          <img :src="selectedStudent.imageSrc" alt="Student Image" style="max-width: 100%; height: auto;">
+        </v-card-text>
+        <v-card-text>
+          <!-- Display student ID -->
+          <strong>Student ID:</strong> {{ selectedStudent.student_id }}
+        </v-card-text>
+      </v-card>
+
+      <!-- Right side card for other student details -->
+      <v-card style="width: 70%;">
+        <v-card-text>
+          <strong>Name:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name }} {{ selectedStudent.last_name }} {{ selectedStudent.extension }}<br>
+          <strong>LRN:</strong> {{ selectedStudent.student_lrn }}<br>
+          <strong>Grade Level:</strong> {{ selectedStudent.grade_level }}<br>
+          <strong>Strand:</strong> {{ selectedStudent.strand }}<br>
+          <!-- Add more details as needed -->
+        </v-card-text>
+      </v-card>
+    </div>
+  </v-card-text>
+</v-card>
+
+
+
 
 </template>
 
@@ -522,13 +539,23 @@ export default {
   height: 100%;
 
 }
-.student-details-card {
-  margin-top: 1.5rem;
-  border-radius: 20px;
-  background: #e0e0e0;
-  box-shadow:  5px 5px 10px #9f9f9f,
-           -5px -5px 10px #ffffff;
-/* Add more custom styles as needed */
+.card {
+  box-sizing: border-box;
+  width: w-auto;
+  height: 254px;
+  border: 1px solid white;
+  box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(6px);
+  border-radius: 17px;
+  text-align: start;
+  cursor: pointer;
+  transition: all 0.5s;
+  display: flex;
+  user-select: none;
+  font-weight: bolder;
+  color: black;
 }
+
+
 
 </style>
