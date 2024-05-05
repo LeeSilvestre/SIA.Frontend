@@ -17,7 +17,7 @@
                 <tbody>
                     <tr> 
                         <th class="grade">Junior High School</th>
-                        <td class="grade">0000</td>
+                        <td class="grade">0001</td>
                     </tr>
                     <tr>
                         <td>Grade 7</td>
