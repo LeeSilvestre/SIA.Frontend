@@ -1,10 +1,6 @@
 <template>
     <main>
         <div class="top-container">
-            <div class="studentProfile">
-                <span class="material-icons">person_add</span>
-                <span class="text"> ENROLLMENT</span>
-            </div>
             <div class='buttons'>
                 <v-btn class="mb-2" color="primary" dark @click="goBack">BACK</v-btn>
             </div>
