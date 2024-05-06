@@ -68,7 +68,7 @@
       <!-- Right side card for other student details -->
       <v-card style="flex-grow: 1; background-color: #f0f0f0;">
         <v-card-text>
-          <h2>Family Information</h2>
+          <h3 class="fw-bold">Student Information</h3>
           <hr>
           <!-- Display family information -->
           <div class="student-family">
@@ -338,7 +338,6 @@ export default {
 }
 
 .student-family {
-  display: column;
   text-align: left;
   text-align: left;
 }
