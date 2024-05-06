@@ -5,7 +5,11 @@
                 <span class="material-icons">person_add</span>
                 <span class="text"> ENROLLMENT</span>
             </div>
-            
+            <div class='buttons'>
+                <v-btn class="mb-2" color="primary" dark @click="goBack">BACK</v-btn>
+            </div>
+
+
         </div>  
         <hr>
 
@@ -29,11 +33,21 @@ export default {
   components: {
     // AddStudent,
     StudentTable
-  }
+  },
+  methods:{
+    goBack(){
+        this.$router.push('/enrollment');
+    },
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+.buttons{
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
 .top-container{
     display: flex;
     margin: 0.5rem;

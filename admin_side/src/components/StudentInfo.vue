@@ -1,4 +1,4 @@
-  <template>
+<template>
     <v-data-table
       :search="search"
       :headers="headers"
@@ -256,11 +256,9 @@
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="50vw">
             <v-card class="p-3">
-              <v-card-title class="text-h5" style="margin-bottom: 10px;">Are you sure you want to mark as un-enrolled?</v-card-title>
+              <v-card-title class="text-h5">Are you sure you want to mark as un-enrolled?</v-card-title>
 
-              <input id="reason" class="form-control" placeholder="STATE YOUR REASON..." />
-
-
+              <input class ="form-control">
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue-darken-1" variant="text" @click="closeDelete">Cancel</v-btn>
@@ -282,10 +280,11 @@
           <td>{{ item.date }}</td>
           <td>{{ item.status }}</td>
           <td>
-            <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-eye  </v-icon>
-            <v-btn color="#B71C1C" dark @click="deleteItem(item)">
-                Decline
-            </v-btn>
+            <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-btn color="yellow" dark @click="deleteItem(item)">
+            <v-icon size="small" style="color: red">mdi-delete</v-icon>
+                  Decline
+              </v-btn>
 
           </td>
         </tr>
