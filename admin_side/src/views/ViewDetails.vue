@@ -1,20 +1,30 @@
 <template>
     <main>
         <div class="top-container">
-            <div class='buttons'>
-                <v-btn class="mb-2" color="primary" dark @click="goBack">BACK</v-btn>
+            <div class="buttons">
+                <v-btn class="mb-2 custom-btn bg-primary" @click="goBack">
+                    <v-icon>mdi-chevron-left</v-icon>
+                    BACK
+                </v-btn>       
             </div>
-
-
+            <div class="studentProfile">
+                <span class="material-icons">summarize</span>
+                <span class="text"> View Details</span>
+            </div>
         </div>  
         <hr>
 
-        <div class="main-content">
-
-            <div class="student-table">
-                <StudentTable/>
-            </div>
+        <div>
+            <RecordsTab @tab-clicked="handleTabClicked"/>
         </div>
+      <div class="main-content">
+        <div v-if="activeTab === 'StudentInfo'">
+          <StudentInfo/>
+        </div>
+        <div v-else>
+          <InfoDocuments/>
+        </div>
+      </div>
 
         
 </main>
@@ -22,14 +32,27 @@
 </template>
 
 <script>
-// import AddStudent from '../components/AddStudent.vue';
-import StudentTable from '../components/StudentTable.vue';
+import RecordsTab from '../components/RecordsTab.vue';
+import StudentInfo from '../components/StudentInfo.vue';
+import InfoDocuments from '../components/InfoDocuments.vue';
+
 
 export default {
   components: {
-    // AddStudent,
-    StudentTable
+    RecordsTab,
+    StudentInfo,
+    InfoDocuments
   },
+  data() {
+      return {
+        activeTab: 'StudentInfo',  // Set default active tab
+      };
+    },
+    methods: {
+      handleTabClicked(tab) {
+        this.activeTab = tab;
+      }
+    },
   methods:{
     goBack(){
         this.$router.push('/enrollment');
@@ -39,14 +62,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.buttons{
-    display: flex;
-    align-items: center;
-    margin-right: 20px;
-}
 .top-container{
-    display: flex;
-    margin: 0.5rem;
+    display: right;
+    margin-top: 0;
     .studentProfile{
         flex: 1;
         
@@ -63,8 +81,7 @@ export default {
         }
     }
 
-} 
-
+}
 .main-content {
     display: flex;
     flex-direction: column;
@@ -77,5 +94,16 @@ export default {
     }
 }
 
+.custom-btn {
+    background-color: primary;
+    border: none;
+    text-transform: none;
+    font-weight: normal;
+    font-size: inherit;
+    border-radius: 50px;
+}
+.custom-btn .v-icon {
+    margin-left: none;
+}
 
 </style>

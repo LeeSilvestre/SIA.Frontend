@@ -25,28 +25,37 @@ const router = createRouter ({
             path: '/records',
             component: () => import('../views/Records.vue')
         },
+        {
+          path: '/viewdetails',
+          component: () => import('../views/ViewDetails.vue')
+        },
         
         /*Records Tab*/
-          {
-            path: '/juniorhigh',
-            component: () => import('../components/JuniorHigh.vue'), 
-          },
-          {
-            path: '/seniorhigh',
-            component: () => import('../components/SeniorHigh.vue'), 
-          },
-          {
-            path: '/alumni',
-            component: () => import('../components/Alumni.vue'),
-          },
-          {
-            path: '/faculty',
-            component: () => import('../components/Faculty.vue'), 
-          },
+          // {
+          //   path: '/juniorhigh',
+          //   component: () => import('../components/JuniorHigh.vue'), 
+          // },
+          // {
+          //   path: '/seniorhigh',
+          //   component: () => import('../components/SeniorHigh.vue'), 
+          // },
+          // {
+          //   path: '/alumni',
+          //   component: () => import('../components/Alumni.vue'),
+          // },
+          // {
+          //   path: '/faculty',
+          //   component: () => import('../components/Faculty.vue'), 
+          // },
           {
             path: '/studentinfo',
-            component: () => import('../components/StudentInfo.vue'),
-          }
+            component: () => import('../components/StudentInfo.vue'), 
+          },
+          {
+            path: '/infodocuments',
+            component: () => import('../components/InfoDocuments.vue'), 
+          },
+          
         
         
         

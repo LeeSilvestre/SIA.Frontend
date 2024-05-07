@@ -8,7 +8,7 @@
       </div>  
   
       <hr>
-      <div>
+      <!-- <div>
         <RecordsTab @tab-clicked="handleTabClicked"/>
       </div>
       <div class="main-content">
@@ -24,36 +24,36 @@
         <div v-else>
           <Faculty/>
         </div>
-      </div>
+      </div> -->
     </main>
   </template>
   
   <script>
-  import RecordsTab from '../components/RecordsTab.vue';
-  import JuniorHigh from '../components/JuniorHigh.vue';
-  import SeniorHigh from '../components/SeniorHigh.vue';
-  import Alumni from '../components/Alumni.vue';
-  import Faculty from '../components/Faculty.vue';
+  // import RecordsTab from '../components/RecordsTab.vue';
+  // import JuniorHigh from '../components/JuniorHigh.vue';
+  // import SeniorHigh from '../components/SeniorHigh.vue';
+  // import Alumni from '../components/Alumni.vue';
+  // import Faculty from '../components/Faculty.vue';
   
-  export default {
-    components: {
-      RecordsTab,
-      JuniorHigh,
-      SeniorHigh,
-      Alumni,
-      Faculty
-    },
-    data() {
-      return {
-        activeTab: 'JuniorHigh',  // Set default active tab
-      };
-    },
-    methods: {
-      handleTabClicked(tab) {
-        this.activeTab = tab;
-      }
-    }
-  };
+  // export default {
+  //   components: {
+  //     RecordsTab,
+  //     JuniorHigh,
+  //     SeniorHigh,
+  //     Alumni,
+  //     Faculty
+  //   },
+  //   data() {
+  //     return {
+  //       activeTab: 'JuniorHigh',  // Set default active tab
+  //     };
+  //   },
+  //   methods: {
+  //     handleTabClicked(tab) {
+  //       this.activeTab = tab;
+  //     }
+  //   }
+  // };
   </script>
 
 <style lang="scss" scoped>

@@ -1,4 +1,4 @@
-  <template>
+<template>
     <v-data-table
       :search="search"
       :headers="headers"
@@ -256,15 +256,13 @@
           </v-dialog>
           <v-dialog v-model="dialogDelete" max-width="50vw">
             <v-card class="p-3">
-              <v-card-title class="text-h5" style="margin-bottom: 10px;">Are you sure you want to archive?</v-card-title>
+              <v-card-title class="text-h5">Are you sure you want to mark as un-enrolled?</v-card-title>
 
-              <input id="reason" class="form-control" placeholder="STATE YOUR REASON..." />
-
-
+              <input class ="form-control">
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue-darken-1" variant="text" @click="closeDelete">Cancel</v-btn>
-                <v-btn color="blue-darken-1" variant="text" @click="archiveItemConfirm">OK</v-btn>
+                <v-btn color="blue-darken-1" variant="text" @click="deleteItemConfirm">OK</v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
@@ -282,8 +280,12 @@
           <td>{{ item.date }}</td>
           <td>{{ item.status }}</td>
           <td>
-            <v-icon class="me-2" size="small" style="color: #2F3F64" @click="goView">mdi-eye</v-icon>
-            <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon>
+            <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon>
+            <v-btn color="yellow" dark @click="deleteItem(item)">
+            <v-icon size="small" style="color: red">mdi-delete</v-icon>
+                  Decline
+              </v-btn>
+
           </td>
         </tr>
       </template>
@@ -498,7 +500,7 @@
         this.dialog = true;
       },
 
-      archiveItem(item) {
+      deleteItem(item) {
         this.editedIndex = this.students.indexOf(item);
         this.editedItem = Object.assign({}, item);
         this.dialogDelete = true;
@@ -533,10 +535,6 @@
         }
         this.close();
       },
-
-      goView(){
-        this.$router.push('/viewdetails');
-    },
       
     },
   };

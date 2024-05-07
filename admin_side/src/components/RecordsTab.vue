@@ -1,10 +1,8 @@
 <template>
   <div class=''>
     <div class="tab-content">
-      <button @click="handleTabClick('JuniorHigh')" :class="{ active: activeTab === 'JuniorHigh' }">Junior High</button>
-      <button @click="handleTabClick('SeniorHigh')" :class="{ active: activeTab === 'SeniorHigh' }">Senior High</button>
-      <button @click="handleTabClick('Alumni')" :class="{ active: activeTab === 'Alumni' }">Alumni</button>
-      <button @click="handleTabClick('Faculty')" :class="{ active: activeTab === 'Faculty' }">Faculty</button>
+      <button @click="handleTabClick('StudentInfo')" :class="{ active: activeTab === 'StudentInfo' }">Student Info</button>
+      <button @click="handleTabClick('InfoDocuments')" :class="{ active: activeTab === 'InfoDocuments' }">Documents</button>
     </div>
   </div>
 </template>
