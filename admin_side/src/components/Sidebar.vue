@@ -23,10 +23,18 @@
               <span class="material-icons">feed</span>
               <span class="text">Enrollment</span>
           </router-link>
-          <router-link class="button" to="/records">
-              <span class="material-icons">person</span>
-              <span class="text">Records</span>
-          </router-link>
+            <div class="submenu" @click="toggleSubmenu">
+                <router-link class="button" to="/juniorhigh">
+                <span class="material-icons">person</span>
+                <span class="text">Records</span></router-link>
+                
+                <ul class="submenu-content" v-show="submenuVisible">
+                    <li><router-link to="/juniorhigh">Junior High</router-link></li>
+                    <li><router-link to="/seniorhigh">Senior High</router-link></li>
+                    <li><router-link to="/alumni">Alumni</router-link></li>
+                    <li><router-link to="/faculty">Faculty</router-link></li>
+                </ul>
+            </div>
       </div>
   
       <div class="menu-logout">
@@ -42,12 +50,17 @@
   import { ref } from 'vue'
   
   const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
+  const submenuVisible = ref(false)
   
   const ToggleMenu = () => {
       is_expanded.value = !is_expanded.value
   
       localStorage.setItem("is_expanded", is_expanded.value)
   }
+    
+    const toggleSubmenu = () => { //records menu toggle submenu
+        submenuVisible.value = !submenuVisible.value
+    }
   </script>
   
   <style lang="scss" scoped>
@@ -184,8 +197,6 @@
               align-items: flex-end;
               margin: -0 2rem ;
               transition: 0.2s ease-out;
-              
-  
           }
           .sna-logo{
                 height: 9rem;
@@ -228,4 +239,51 @@
       }
 
   }
+
+.submenu-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--dark); /* Adjust as needed */
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    top: 0;
+    transition: 0.2s ease-out;
+
+}
+
+.submenu .submenu-content {
+    display: block;
+}
+
+.submenu-content li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.submenu-content li a {
+    display: block;
+    color: var(--light); /* Adjust as needed */
+    text-decoration: none;
+    padding: 0.5rem;
+}
+.submenu-content li a:hover {
+    background-color: #fff;
+    margin-left: 1rem;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    transition: 0.2s;
+    color: var(--dark);
+
+    // &.is_expanded {
+    //     width: var(--sidebar-width); 
+
+    // }
+}
+
+
   </style>

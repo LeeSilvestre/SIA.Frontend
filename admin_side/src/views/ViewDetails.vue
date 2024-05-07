@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import RecordsTab from '../components/RecordsTab.vue';
+import RecordsTab from '../components/ViewDetailsTab.vue';
 import StudentInfo from '../components/StudentInfo.vue';
 import InfoDocuments from '../components/InfoDocuments.vue';
 
