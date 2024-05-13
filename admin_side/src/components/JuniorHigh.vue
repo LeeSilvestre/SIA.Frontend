@@ -46,7 +46,7 @@
   </v-data-table>
 
   
-  <v-card v-if="selectedStudent" class="student-card" style="max-height: 800px; overflow-y: auto;">
+  <v-card v-if="selectedStudent" class="student-card mt-10 mb-5" style="max-height: 100%; overflow: hidden;">
   <v-card-title class="fs-5 font-weight-black" style="color: white; background-color: var(--dark);">STUDENT DETAILS</v-card-title>
   <v-card-text>
     <div class="d-flex mt-2">
@@ -66,7 +66,7 @@
       </v-card>
 
       <!-- Right side card for other student details -->
-      <v-card style="flex-grow: 1; background-color: #f0f0f0;">
+      <v-card style="flex-grow: 1">
         <v-card-text>
           <h3 class="fw-bold">Student Information</h3>
           <hr>
@@ -323,22 +323,15 @@ export default {
 
 }
 .student-card {
-  box-sizing: border-box;
   width: w-auto;
-  height: 600;
-  border: 1px solid white;
-  box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
   border-radius: 17px;
   text-align: start;
   transition: all 0.5s;
-  display: flex;
-  user-select: none;
   font-weight: bolder;
   color: black;
 }
 
 .student-family {
-  text-align: left;
   text-align: left;
 }
 

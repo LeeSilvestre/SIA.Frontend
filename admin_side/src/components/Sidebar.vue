@@ -28,11 +28,11 @@
                 <span class="material-icons">person</span>
                 <span class="text">Records</span></router-link>
                 
-                <ul class="submenu-content" v-show="submenuVisible">
-                    <li><router-link to="/juniorhigh">Junior High</router-link></li>
-                    <li><router-link to="/seniorhigh">Senior High</router-link></li>
-                    <li><router-link to="/alumni">Alumni</router-link></li>
-                    <li><router-link to="/faculty">Faculty</router-link></li>
+                <ul class="submenu-content" v-show="submenuVisible" @click.stop>
+                    <li><router-link class="button" to="/juniorhigh">Junior High</router-link></li>
+                    <li><router-link class="button" to="/seniorhigh">Senior High</router-link></li>
+                    <li><router-link class="button" to="/alumni">Alumni</router-link></li>
+                    <li><router-link  class="button"to="/faculty">Faculty</router-link></li>
                 </ul>
             </div>
       </div>

@@ -263,8 +263,8 @@
         <td>{{ item.grade_level }}</td>
         <td>{{ item.strand }}</td>
         <td>
-          <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon>
-          <v-icon size="small" style="color: #2F3F64" @click="viewDetails(item)">mdi-eye</v-icon>
+          <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
+          <v-icon size="small" style="color: #2F3F64; margin: 1.4rem" @click="viewDetails(item)">mdi-eye</v-icon>
         </td>
       </tr>
     </template>
@@ -274,30 +274,42 @@
   </v-data-table>
 
   
-  <v-card v-if="selectedStudent" class="card">
+  <v-card v-if="selectedStudent" class="student-card mt-10 mb-5" style="max-height: 100%; overflow: hidden;">
   <v-card-title class="fs-5 font-weight-black" style="color: white; background-color: var(--dark);">STUDENT DETAILS</v-card-title>
   <v-card-text>
     <div class="d-flex mt-2">
-      <!-- Left side card for student image and ID -->
-      <v-card class="mr-3" style="width: 30%; height: auto; background-color: #f0f0f0;">
-        <v-card-text>
+      <v-card class="mr-3" style="width: 30%; background-color: #f0f0f0;">
+        <v-card-text class="student-leftinfo">
           <!-- Display student image -->
-          <img :src="selectedStudent.imageSrc" alt="Student Image" style="max-width: 100%; height: auto;">
-        </v-card-text>
-        <v-card-text>
-          <!-- Display student ID -->
-          <strong>Student ID:</strong> {{ selectedStudent.student_id }}
-        </v-card-text>
-      </v-card>
-
-      <!-- Right side card for other student details -->
-      <v-card style="width: 70%;">
-        <v-card-text>
+          <img :src="selectedStudent.imageSrc" alt="Student Image" style="max-width: 100%; height: auto; margin-bottom: 3rem;"><br>
+          <!-- Display student details -->
+          <div class="d-flex flex-column mb-3">
+          <strong>Student ID:</strong> {{ selectedStudent.student_id }} <br>
           <strong>Name:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name }} {{ selectedStudent.last_name }} {{ selectedStudent.extension }}<br>
           <strong>LRN:</strong> {{ selectedStudent.student_lrn }}<br>
           <strong>Grade Level:</strong> {{ selectedStudent.grade_level }}<br>
           <strong>Strand:</strong> {{ selectedStudent.strand }}<br>
-          <!-- Add more details as needed -->
+        </div>
+        </v-card-text>
+      </v-card>
+
+      <!-- Right side card for other student details -->
+      <v-card style="flex-grow: 1">
+        <v-card-text>
+          <h3 class="fw-bold">Student Information</h3>
+          <hr>
+          <!-- Display family information -->
+          <div class="student-family">
+            <strong>Father Name: </strong> {{ selectedStudent.father_name }}<br>
+            <strong>Occupation: </strong> {{ selectedStudent.father_occupation }}<br>
+            <strong>Mobile Number: </strong> {{ selectedStudent.father_mobile }}<br>
+            <strong>Mother Name: </strong> {{ selectedStudent.mother_name }}<br>
+            <strong>Occupation: </strong> {{ selectedStudent.mother_occupation }}<br>
+            <strong>Mobile Number: </strong> {{ selectedStudent.mother_mobile }}<br>
+            <strong>Guardian Name: </strong> {{ selectedStudent.guardian_name }}<br>
+            <strong>Occupation: </strong> {{ selectedStudent.guardian_occupation }}<br>
+            <strong>Mobile Number: </strong> {{ selectedStudent.guardian_mobile }}<br>
+          </div>
         </v-card-text>
       </v-card>
     </div>
