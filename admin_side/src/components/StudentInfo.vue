@@ -281,8 +281,7 @@
           <td>{{ item.status }}</td>
           <td>
             <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon>
-            <v-btn color="yellow" dark @click="deleteItem(item)">
-            <v-icon size="small" style="color: red">mdi-delete</v-icon>
+            <v-btn color="red" dark @click="deleteItem(item)">
                   Decline
               </v-btn>
 
