@@ -2,8 +2,8 @@
   <v-data-table
     :search="search"
     :headers="headers"
-    :items="displayedStudents"
-    :sort-by="[{ key: 'studentId', order: 'asc' }]"
+    :items="displayedFaculty"
+    :sort-by="[{ key: 'id', order: 'asc' }]"
     
     
   >
@@ -257,11 +257,10 @@
     </template>
     <template v-slot:item="{ item }">
       <tr>
-        <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
-        <td>{{ item.student_id }}</td>
-        <td>{{ item.student_lrn }}</td>
-        <td>{{ item.grade_level }}</td>
-        <td>{{ item.strand }}</td>
+        <td>{{ item.fname }} {{ item.mname }} {{ item.lname }} {{ item.extension }}</td>
+        <td>{{ item.position }}</td>
+        <td>{{ item.department }}</td>
+        <td>{{ item.email }}</td>
         <td>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
           <v-icon size="small" style="color: #2F3F64; margin: 1.4rem" @click="viewDetails(item)">mdi-eye</v-icon>
@@ -283,8 +282,8 @@
           <img :src="selectedStudent.imageSrc" alt="Student Image" style="max-width: 100%; height: auto; margin-bottom: 3rem;"><br>
           <!-- Display student details -->
           <div class="d-flex flex-column mb-3">
-          <strong>Student ID:</strong> {{ selectedStudent.student_id }} <br>
-          <strong>Name:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name }} {{ selectedStudent.last_name }} {{ selectedStudent.extension }}<br>
+            <strong>Name:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name }} {{ selectedStudent.last_name }} {{ selectedStudent.extension }}<br>
+            <strong>Name::</strong> {{ selectedStudent.full_name }} <br>
           <strong>LRN:</strong> {{ selectedStudent.student_lrn }}<br>
           <strong>Grade Level:</strong> {{ selectedStudent.grade_level }}<br>
           <strong>Strand:</strong> {{ selectedStudent.strand }}<br>
@@ -321,6 +320,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 
 export default {
   
@@ -330,13 +330,13 @@ export default {
     selectedStudent: null,
     headers: [
       { title: 'Name', align: 'start', key:'full_name'},
-      { title: 'Student ID', key: 'student_id' },
-      { title: 'LRN', key: 'student_lrn' },
-      { title: 'Grade Level', key: 'grade_level' },
-      { title: 'Strand', key: 'strand' },
+      { title: 'Position', key: 'student_id' },
+      { title: 'Department', key: 'student_lrn' },
+      { title: 'Email', key: 'grade_level' },
       { title: 'Actions', sortable: false },
     ],
     students: [],
+    faculty: [],
     editedIndex: -1,
     editedItem: {
       student_id: '',
@@ -386,9 +386,9 @@ export default {
     formTitle() {
       return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
     },
-    displayedStudents() {
+    displayedFaculty() {
       const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
-    return this.students.filter(student =>
+    return this.faculty.filter(student =>
       Object.values(student).some(value =>
         typeof value === 'string' && value.toLowerCase().includes(searchTerm)
     )
@@ -402,114 +402,24 @@ export default {
     },
   },
 
-  created() {
-    this.initialize();
-  },
+ mounted(){
+  this.initialize();
+ },
 
   methods: {
     initialize() {
-      this.students = [
-        { 
-      student_id: '2021001', 
-      student_lrn: '1234567890', 
-      grade_level: '10', 
-      strand: 'STEM', 
-      email: 'john.doe@example.com',
-      first_name: 'John',
-      middle_name: '',
-      last_name: 'Doe',
-      extension: '',
-      sex_at_birth: 'Male',
-      birth_date: '1999-05-15',
-      birth_place: 'New York',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Main Street',
-      barangay: 'San Juan',
-      city: 'Makati',
-      province: 'Metro Manila',
-      region: 'National Capital Region (NCR)',
-      zip_code: '1234'
-    },
-    { 
-      student_id: '2021002', 
-      student_lrn: '0987654321', 
-      grade_level: '11', 
-      strand: 'ABM', 
-      email: 'jane.smith@example.com',
-      first_name: 'Jane',
-      middle_name: 'Elizabeth',
-      last_name: 'Smith',
-      extension: '',
-      sex_at_birth: 'Female',
-      birth_date: '2000-03-25',
-      birth_place: 'Los Angeles',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Oak Avenue',
-      barangay: 'San Antonio',
-      city: 'Los Angeles',
-      province: 'California',
-      region: 'California',
-      zip_code: '90001'
-    },
-    { 
-      student_id: '2021003',
-      student_lrn: '1234567890',
-      grade_level: '10',
-      strand: 'STEM',
-      email: 'john.johnson@example.com',
-      first_name: 'John',
-      middle_name: 'William',
-      last_name: 'Johnson',
-      extension: '',
-      sex_at_birth: 'Male',
-      birth_date: '2001-02-15',
-      birth_place: 'Chicago',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Maple Street',
-      barangay: 'San Andres',
-      city: 'Chicago',
-      province: 'Illinois',
-      region: 'Illinois',
-      zip_code: '60601'
-    },
-    // Add more students here...
-    { 
-      student_id: '2021004',
-      student_lrn: '0987654321',
-      grade_level: '11',
-      strand: 'ABM',
-      email: 'mary.brown@example.com',
-      first_name: 'Mary',
-      middle_name: 'Ann',
-      last_name: 'Brown',
-      extension: '',
-      sex_at_birth: 'Female',
-      birth_date: '2000-07-10',
-      birth_place: 'Houston',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Pine Street',
-      barangay: 'San Roque',
-      city: 'Quezon City',
-      province: 'Metro Manila',
-      region: 'National Capital Region (NCR)',
-      zip_code: '1235'
-    },
-    
-      ];
-      this.students.forEach(student => {
-  student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-    if (student.grade_level < 11 || student.grade_level > 12) {
-        // Remove the strand property
-        student.strand = "N/A";
-    }
+      axios.get('faculty').then(res => {
+        console.log(res.data);
+        let tmp = res.data;
+        this.faculty =tmp.faculty;
+        console.log(this.faculty);
+        this.faculty.forEach(faculty => {
+          faculty.full_name = `${faculty.fname} ${faculty.mname} ${faculty.lname} ${faculty.extension}`.trim();
+          });
+          console.log(this.faculty);
+      })
+      .catch(error => {
+        console.error('Error loading facultys:', error);
       });
     },
 

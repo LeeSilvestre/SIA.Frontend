@@ -322,7 +322,7 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 export default {
   
   data: () => ({
@@ -338,6 +338,7 @@ export default {
       { title: 'Actions', sortable: false },
     ],
     students: [],
+    value: [],
     editedIndex: -1,
     editedItem: {
       student_id: '',
@@ -388,10 +389,12 @@ export default {
       return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
     },
     displayedStudents() {
+      
       const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
     return this.students.filter(student =>
       Object.values(student).some(value =>
         typeof value === 'string' && value.toLowerCase().includes(searchTerm)
+    
     )
     );
     },
@@ -403,114 +406,56 @@ export default {
     },
   },
 
-  created() {
+  mounted(){
     this.initialize();
+    this.getData();
   },
-
   methods: {
+    getData(){
+      axios.get('jhs').then(res=>{
+        let tmp = res.data;
+        console.log(tmp);
+        // TO PASS THE VALUE OF DATA
+        /*
+          tmp =  res.data = {
+            "status": 200
+            "student" : {
+              0: {id: 1, student_id: 202110239},
+              1: {id: 2, student_id: 202110240},
+              2: {id: 3, student_id: 202110241},
+            }
+          }
+        */
+        this.value = tmp.student; 
+        console.log(this.value);
+        /* 
+          STRUCTURE
+        tmp = student ={ 
+          0: {id: 1, student_id: 202110239},
+          1: {id: 2, student_id: 202110240},
+          2: {id: 3, student_id: 202110241},
+        }
+        */
+
+        console.log(this.value[0].student_id);
+        console.log(this.defaultItem);
+
+      })
+
+    },
     initialize() {
-      this.students = [
-        { 
-      student_id: '2021001', 
-      student_lrn: '1234567890', 
-      grade_level: '10', 
-      strand: 'STEM', 
-      email: 'john.doe@example.com',
-      first_name: 'John',
-      middle_name: '',
-      last_name: 'Doe',
-      extension: '',
-      sex_at_birth: 'Male',
-      birth_date: '1999-05-15',
-      birth_place: 'New York',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Main Street',
-      barangay: 'San Juan',
-      city: 'Makati',
-      province: 'Metro Manila',
-      region: 'National Capital Region (NCR)',
-      zip_code: '1234'
-    },
-    { 
-      student_id: '2021002', 
-      student_lrn: '0987654321', 
-      grade_level: '11', 
-      strand: 'ABM', 
-      email: 'jane.smith@example.com',
-      first_name: 'Jane',
-      middle_name: 'Elizabeth',
-      last_name: 'Smith',
-      extension: '',
-      sex_at_birth: 'Female',
-      birth_date: '2000-03-25',
-      birth_place: 'Los Angeles',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Oak Avenue',
-      barangay: 'San Antonio',
-      city: 'Los Angeles',
-      province: 'California',
-      region: 'California',
-      zip_code: '90001'
-    },
-    { 
-      student_id: '2021003',
-      student_lrn: '1234567890',
-      grade_level: '10',
-      strand: 'STEM',
-      email: 'john.johnson@example.com',
-      first_name: 'John',
-      middle_name: 'William',
-      last_name: 'Johnson',
-      extension: '',
-      sex_at_birth: 'Male',
-      birth_date: '2001-02-15',
-      birth_place: 'Chicago',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Maple Street',
-      barangay: 'San Andres',
-      city: 'Chicago',
-      province: 'Illinois',
-      region: 'Illinois',
-      zip_code: '60601'
-    },
-    // Add more students here...
-    { 
-      student_id: '2021004',
-      student_lrn: '0987654321',
-      grade_level: '11',
-      strand: 'ABM',
-      email: 'mary.brown@example.com',
-      first_name: 'Mary',
-      middle_name: 'Ann',
-      last_name: 'Brown',
-      extension: '',
-      sex_at_birth: 'Female',
-      birth_date: '2000-07-10',
-      birth_place: 'Houston',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Pine Street',
-      barangay: 'San Roque',
-      city: 'Quezon City',
-      province: 'Metro Manila',
-      region: 'National Capital Region (NCR)',
-      zip_code: '1235'
-    },
-    
-      ];
-      this.students.forEach(student => {
-  student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-    if (student.grade_level < 11 || student.grade_level > 12) {
-        // Remove the strand property
-        student.strand = "N/A";
-    }
+      axios.get('shs').then(res => {
+        console.log(res.data);
+        let tmp = res.data;
+        this.students =tmp.student;
+        console.log(this.students);
+        this.students.forEach(student => {
+          student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
+          student.imageSrc = student.image ? `http://127.0.0.1:8000/uploads/profile/${student.image.image}` : '';
+          });
+      })
+      .catch(error => {
+        console.error('Error loading students:', error);
       });
     },
 
