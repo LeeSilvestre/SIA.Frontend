@@ -25,23 +25,25 @@
           single-line
         ></v-text-field>
         
-          <v-dialog v-model="dialog" max-width="1000px">
+        <v-dialog v-model="dialog" max-width="1000px">
             
             <template v-slot:activator="{ props }">
               <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Create New</v-btn>
             </template>
             
             <v-card >
-              <v-card-title ><span class="text-h6 m-2" style="color: #2F3F64"  >{{ formTitle }}</span></v-card-title>
+              <v-card-title ><span class="text-h5 fw-bold m-2" style="color: #2F3F64"  >{{ formTitle }}</span></v-card-title>
               <v-card-text > 
+                <label class="fw-light">PERSONAL INFORMATION</label>
                 <v-container >
+
                   <v-row dense >
                     <v-col
                     cols="12"
                     md="3"
                     sm="6"
                   >
-                    <v-text-field
+                    <v-text-field 
                       v-model="editedItem.student_lrn"
                       label="LRN"
                       required
@@ -53,6 +55,7 @@
                     md="3"
                     sm="6"
                   >
+
                     <v-text-field
                       v-model="editedItem.last_name"
                       label="Last Name"
@@ -65,6 +68,7 @@
                     md="3"
                     sm="6"
                   >
+
                     <v-text-field
                       v-model="editedItem.first_name"
                       label="First Name"
@@ -77,6 +81,7 @@
                     md="3"
                     sm="6"
                   >
+
                     <v-text-field
                       v-model="editedItem.middle_name"
                       label="Middle Name"
@@ -113,49 +118,12 @@
                     md="3"
                     sm="6"
                   >
-                    <v-text-field
-                      v-model="editedItem.birth_place"
-                      label="Birth of Place"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                  
-                  <v-col
-                    cols="12"
-                    md="3"
-                    sm="6"
-                  >
-                    <v-select
-                      v-model="editedItem.civil_status"
-                      :items="['Single', 'Married', 'In a Relationship', 'Widowed', 'Divorce' ]"
-                      label="Civil Status"
-                      required
-                    ></v-select>
-                  </v-col>
-                  
-                  <v-col
-                    cols="12"
-                    md="2"
-                    sm="6"
-                  >
                     <v-select
                       v-model="editedItem.sex_at_birth"
                       :items="['Male', 'Female' ]"
                       label="SEX"
                       required
                     ></v-select>
-                  </v-col>
-
-                  <v-col
-                    cols="12"
-                    md="3"
-                    sm="6"
-                  >
-                    <v-text-field
-                      v-model="editedItem.citizenship"
-                      label="Citizenship"
-                      required
-                    ></v-text-field>
                   </v-col>
 
                   <v-col
@@ -172,7 +140,7 @@
 
                   <v-col
                     cols="12"
-                    md="4"
+                    md="3"
                     sm="6"
                   >
                     <v-select
@@ -213,9 +181,23 @@
                     md="3"
                     sm="6"
                   >
-                    <v-text-field
+                    <v-select
                       v-model="editedItem.barangay"
+                      :items="['East Bajac-Bajac', 'West Bajac-Bajac', 'Sta. Rita', ' Pag-asa', 'Kalalake', 'Kababae', 'Mabayuan']"
                       label="Barangay"
+                      required
+                    ></v-select>
+
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    md="3"
+                    sm="6"
+                  >
+                    <v-text-field
+                      v-model="editedItem.street"
+                      label="Street"
                       required
                     ></v-text-field>
                   </v-col>
@@ -226,8 +208,8 @@
                     sm="6"
                   >
                     <v-text-field
-                      v-model="editedItem.street"
-                      label="Address"
+                      v-model="editedItem.houseNumber"
+                      label="House Number"
                       required
                     ></v-text-field>
                   </v-col>
@@ -243,29 +225,104 @@
                       required
                     ></v-text-field>
                   </v-col>
-                  
-            </v-row>
+
+                  <!-- other info -->
+                </v-row>
+                <hr>
+                <label class="fw-light mb-3">ACADEMIC INFORMATION</label>
+                <v-row>
+                  <v-col
+                  cols="12"
+                  md="3"
+                  sm="6"
+                >
+                  <v-text-field
+                    v-model="editedItem.adviser_id"
+                    label="Adviser"
+                    required
+                  ></v-text-field>
+                </v-col>
+                
+                <v-col
+                    cols="12"
+                    md="3"
+                    sm="6"
+                  >
+                    <v-select
+                      v-model="editedItem.section"
+                      :items="['St. Joseph', 'St. Gianna', 'St. Luke', 'St. Lazarus', 'St. Bernadette',] "
+                      label="Section"
+                      required
+                    ></v-select>
+
+                  </v-col>
+              
+                <v-col
+                cols="12"
+                md="3"
+                sm="6"
+              >
+
+                <v-select
+                  v-model="editedItem.strand"
+                  :items="['HUMSS', 'STEM', 'TVL', 'ABM', 'ICT', 'GAS',] "
+                  label="Strand"
+                  required
+                ></v-select>
+              </v-col>
+
+                <v-col
+                cols="12"
+                md="3"
+                sm="6"
+              >
+              <v-select
+                  v-model="editedItem.grade"
+                  :items="['7', '8', '9', '10', '11', '12',]  "
+                  label="Grade"
+                  required
+                ></v-select>
+              </v-col>
+                <v-col
+                cols="12"
+                md="3"
+                sm="6"
+              >
+                <v-text-field
+                  v-model="editedItem.year"
+                  label="S.Y."
+                  required
+                ></v-text-field>
+              </v-col>
+                <v-col
+                cols="12"
+                md="3"
+                sm="6"
+              >
+                <v-text-field
+                  v-model="editedItem.guardian"
+                  label="Guardian Name"
+                  required
+                ></v-text-field>
+              </v-col>
+              <v-col
+                cols="12"
+                md="3"
+                sm="6"
+              >
+                <v-text-field
+                  v-model="editedItem.guardianMobile"
+                  label="Guardian Mobile #"
+                  required
+                ></v-text-field>
+              </v-col>  
+              </v-row>
                 </v-container>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="blue-darken-1" variant="text" @click="close">Cancel</v-btn>
                 <v-btn color="blue-darken-1" variant="text" @click="save">Save</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="50vw">
-            <v-card class="p-3">
-              <v-card-title class="text-h5" style="margin-bottom: 10px;">Are you sure you want to archive?</v-card-title>
-
-              <input id="reason" class="form-control" placeholder="STATE YOUR REASON..." />
-
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue-darken-1" variant="text" @click="closeDelete">Cancel</v-btn>
-                <v-btn color="blue-darken-1" variant="text" @click="archiveItemConfirm">OK</v-btn>
-                <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
           </v-dialog>
