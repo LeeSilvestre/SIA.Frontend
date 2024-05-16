@@ -1,31 +1,32 @@
-  <template>
-    <v-data-table
-      :search="search"
-      :headers="headers"
-      :items="displayedStudents"
-      :sort-by="[{ key: 'studentId', order: 'asc' }]"
-      
-      
-    >
-      <template v-slot:top >
-        <v-toolbar flat >
-          <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">Student Enrollment Master List</v-toolbar-title>
+<template>
+  <v-data-table
+    :search="search"
+    :headers="headers"
+    :items="displayedStudents"
+    :sort-by="[{ key: 'studentId', order: 'asc' }]"
+    
+    
+  >
+    <template v-slot:top >
+      <v-toolbar flat >
+        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">Student Enrollment Master List</v-toolbar-title>
 
-          <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
+        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
-          <v-text-field
-          v-model="search"
-          class="w-auto mr-1 "
-          density="compact"
-          label="Search"
-          prepend-inner-icon="mdi-magnify"
-          variant="solo-filled"
-          flat
-          hide-details
-          single-line
-        ></v-text-field>
-        
-        <v-dialog v-model="dialog" max-width="1000px">
+        <v-text-field
+        v-model="search"
+        class="w-auto mr-1 "
+        density="compact"
+        label="Search"
+        prepend-inner-icon="mdi-magnify"
+        variant="solo-filled"
+        flat
+        hide-details
+        single-line
+      ></v-text-field>
+
+      <!-- create new popup modal -->
+      <v-dialog v-model="dialog" max-width="1000px">
             
             <template v-slot:activator="{ props }">
               <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Create New</v-btn>
@@ -257,17 +258,17 @@
 
                   </v-col>
               
-                <v-col
+                  <v-col
                 cols="12"
                 md="3"
                 sm="6"
               >
-
                 <v-select
                   v-model="editedItem.strand"
-                  :items="['HUMSS', 'STEM', 'TVL', 'ABM', 'ICT', 'GAS',] "
+                  :items="['HUMSS', 'STEM', 'TVL', 'ABM', 'ICT', 'GAS']"
                   label="Strand"
                   required
+                  :disabled="['7', '8', '9', '10'].includes(editedItem.grade)"
                 ></v-select>
               </v-col>
 
@@ -294,6 +295,7 @@
                   required
                 ></v-text-field>
               </v-col>
+
                 <v-col
                 cols="12"
                 md="3"
@@ -326,283 +328,355 @@
               </v-card-actions>
             </v-card>
           </v-dialog>
-        </v-toolbar>
-      </template>
-      <template v-slot:item="{ item }">
-        <tr>
-          <td>{{ item.student_id }}</td>
-          <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
-          <td>{{ item.sy }}</td>
-          <td>{{ item.term }}</td>
-          <td>{{ item.type }}</td>
-          <td>{{ item.section }}</td>
-          <td>{{ item.date }}</td>
-          <td>{{ item.status }}</td>
-          <td>
-            <v-icon class="me-2" size="small" style="color: #2F3F64" @click="goView">mdi-eye</v-icon>
-            <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon>
-          </td>
-        </tr>
-      </template>
-      <!-- <template v-slot:no-data>
-        <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
-      </template> -->
-    </v-data-table>
-  </template>
 
-  <script>
 
-  export default {
-    
-    data: () => ({
-      search: '',
-      dialog: false,
-      dialogDelete: false,
-      headers: [
-        { title: 'Student No.', align: 'start', key:'student_id'},
-        { title: 'Full Name', align: 'start', key: 'full_name' },
-        { title: 'S.Y', align: 'start', key:'sy'},
-        { title: 'Term', align: 'start', key:'term'},
-        { title: 'Type', align: 'start', key:'type'},
-        { title: 'Section', align: 'start', key:'section'},
-        { title: 'Date', key: 'date' },
-        { title: 'Status', key: 'status' },
-        { title: 'Actions', sortable: false },
-      ],
-      students: [],
-      editedIndex: -1,
-      editedItem: {
-        student_id: '',
-        first_name: '',
-        last_name: '',
-        middle_name: '',
-        extension: '',
-        contact_no: '',
-        birth_date: '',
-        birth_place: '',
-        civil_status: '',
-        sex_at_birth: '',
-        citizenship: '',
-        religion: '',
-        region: '',
-        province: '',
-        city: '',
-        barangay: '',
-        street: '',
-        zip_code: '',
-      },
-      defaultItem: {
-        student_id: '',
-        first_name: '',
-        last_name: '',
-        middle_name: '',
-        extension: '',
-        contact_no: '',
-        birth_date: '',
-        birth_place: '',
-        civil_status: '',
-        sex_at_birth: '',
-        citizenship: '',
-        religion: '',
-        region: '',
-        province: '',
-        city: '',
-        barangay: '',
-        street: '',
-        zip_code: '',
+      </v-toolbar>
+    </template>
+    <template v-slot:item="{ item }">
+      <tr>
+        <td>{{ item.student_id }}</td>
+        <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
+        <td>{{ item.sy }}</td>
+        <td>{{ item.term }}</td>
+        <td>{{ item.type }}</td>
+        <td>{{ item.section }}</td>
+        <td>{{ item.date}}</td>
+        <td>
+          <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon>
+        <!-- Archive Icon -->
+          <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon>
+        </td>
         
-      },
-      
-    }),
+      </tr>
+    </template>
+          
+    <!-- <template v-slot:no-data>
+      <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
+    </template> -->
+  </v-data-table>
+  
+   <!-- view user status modal pop -->
+   <v-dialog v-model="viewDialog" max-width="800px">
+      <v-card>
+        <v-card-title>
+          <span class="text-h5 fw-bold m-2" style="color: #2F3F64">
+            Student Details
+          </span>
+        </v-card-title>
+        <v-card-text>
+          <!-- Display student details here -->
+          <!-- Example: -->
+           <div class="student-popup"><span>Student ID: {{ selectedStudent.student_id }}</span>
+            <span>Full Name: {{ selectedStudent.full_name }}</span>
+            <span>Contact Number: {{ selectedStudent.contact_no }}</span>
+            <span>Birthdate: {{ selectedStudent.birth_date}}</span>
+            <span>Student ID: {{ selectedStudent.student_id }}</span>
+          </div>
+          <!-- Add other details as needed -->
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" variant="text" @click="closeViewDialog">
+            Close
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    <!-- end view user status modal pop -->
+</template>
 
-    computed: {
-      formTitle() {
-        return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
-      },
-      displayedStudents() {
-        const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
-      return this.students.filter(student =>
-        Object.values(student).some(value =>
-          typeof value === 'string' && value.toLowerCase().includes(searchTerm)
-      )
-      );
-      },
+<script>
+
+export default {
+  
+  data: () => ({
+    search: '',
+    dialog: false,
+    dialogDelete: false,
+    viewDialog: false,
+    selectedStudent: null,
+    headers: [
+      { title: 'Student No.', align: 'start', key:'student_id'},
+      { title: 'Full Name', align: 'start', key: 'full_name' },
+      { title: 'S.Y', align: 'start', key:'sy'},
+      { title: 'Term', align: 'start', key:'term'},
+      { title: 'Type', align: 'start', key:'type'},
+      { title: 'Section', align: 'start', key:'section'},
+      { title: 'Date Enrolled', align: 'start', key: 'date' },
+      { title: 'Actions', sortable: false },
+    ],
+
+    students: [],
+    editedIndex: -1,
+    editedItem: {
+      student_id: '',
+      first_name: '',
+      last_name: '',
+      middle_name: '',
+      extension: '',
+      contact_no: '',
+      birth_date: '',
+      birth_place: '',
+      civil_status: '',
+      sex_at_birth: '',
+      citizenship: '',
+      religion: '',
+      region: '',
+      province: '',
+      city: '',
+      barangay: '',
+      street: '',
+      zip_code: '',
+      sy: '',
+      term: '',
+      type: '',
+      section: '',
+      date: '',
     },
-
-    watch: {
-      dialog(val) {
-        val || this.close();
-      },
-      dialogDelete(val) {
-        val || this.closeDelete();
-      },
-    },
-
-    created() {
-      this.initialize();
-    },
-
-    methods: {
-      initialize() {
-        this.students = [
-          { 
-        student_id: '2021001', 
-        student_lrn: '1234567890', 
-        grade_level: '10', 
-        strand: 'STEM', 
-        email: 'john.doe@example.com',
-        first_name: 'John',
-        middle_name: '',
-        last_name: 'Doe',
-        extension: '',
-        sex_at_birth: 'Male',
-        birth_date: '1999-05-15',
-        birth_place: 'New York',
-        civil_status: 'Single',
-        citizenship: 'American',
-        religion: 'Christianity',
-        street: 'Main Street',
-        barangay: 'San Juan',
-        city: 'Makati',
-        province: 'Metro Manila',
-        region: 'National Capital Region (NCR)',
-        zip_code: '1234'
-      },
-      { 
-        student_id: '2021002', 
-        student_lrn: '0987654321', 
-        grade_level: '11', 
-        strand: 'ABM', 
-        email: 'jane.smith@example.com',
-        first_name: 'Jane',
-        middle_name: 'Elizabeth',
-        last_name: 'Smith',
-        extension: '',
-        sex_at_birth: 'Female',
-        birth_date: '2000-03-25',
-        birth_place: 'Los Angeles',
-        civil_status: 'Single',
-        citizenship: 'American',
-        religion: 'Christianity',
-        street: 'Oak Avenue',
-        barangay: 'San Antonio',
-        city: 'Los Angeles',
-        province: 'California',
-        region: 'California',
-        zip_code: '90001'
-      },
-      { 
-        student_id: '2021003',
-        student_lrn: '1234567890',
-        grade_level: '10',
-        strand: 'STEM',
-        email: 'john.johnson@example.com',
-        first_name: 'John',
-        middle_name: 'William',
-        last_name: 'Johnson',
-        extension: '',
-        sex_at_birth: 'Male',
-        birth_date: '2001-02-15',
-        birth_place: 'Chicago',
-        civil_status: 'Single',
-        citizenship: 'American',
-        religion: 'Christianity',
-        street: 'Maple Street',
-        barangay: 'San Andres',
-        city: 'Chicago',
-        province: 'Illinois',
-        region: 'Illinois',
-        zip_code: '60601'
-      },
-      // Add more students here...
-      { 
-        student_id: '2021004',
-        student_lrn: '0987654321',
-        grade_level: '11',
-        strand: 'ABM',
-        email: 'mary.brown@example.com',
-        first_name: 'Mary',
-        middle_name: 'Ann',
-        last_name: 'Brown',
-        extension: '',
-        sex_at_birth: 'Female',
-        birth_date: '2000-07-10',
-        birth_place: 'Houston',
-        civil_status: 'Single',
-        citizenship: 'American',
-        religion: 'Christianity',
-        street: 'Pine Street',
-        barangay: 'San Roque',
-        city: 'Quezon City',
-        province: 'Metro Manila',
-        region: 'National Capital Region (NCR)',
-        zip_code: '1235'
-      },
-      
-        ];
-        this.students.forEach(student => {
-    student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-      if (student.grade_level < 11 || student.grade_level > 12) {
-          // Remove the strand property
-          student.strand = "N/A";
-      }
-        });
-      },
-
-      editItem(item) {
-        this.editedIndex = this.students.indexOf(item);
-        this.editedItem = Object.assign({}, item);
-        this.dialog = true;
-      },
-
-      archiveItem(item) {
-        this.editedIndex = this.students.indexOf(item);
-        this.editedItem = Object.assign({}, item);
-        this.dialogDelete = true;
-      },
-
-      deleteItemConfirm() {
-        this.students.splice(this.editedIndex, 1);
-        this.closeDelete();
-      },
-
-      close() {
-        this.dialog = false;
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem);
-          this.editedIndex = -1;
-        });
-      },
-
-      closeDelete() {
-        this.dialogDelete = false;
-        this.$nextTick(() => {
-          this.editedItem = Object.assign({}, this.defaultItem);
-          this.editedIndex = -1;
-        });
-      },
-
-      save() {
-        if (this.editedIndex > -1) {
-          Object.assign(this.students[this.editedIndex], this.editedItem);
-        } else {
-          this.students.push(this.editedItem);
-        }
-        this.close();
-      },
-
-      goView(){
-        this.$router.push('/viewdetails');
-    },
+    defaultItem: {
+      student_id: '',
+      first_name: '',
+      last_name: '',
+      middle_name: '',
+      extension: '',
+      contact_no: '',
+      birth_date: '',
+      birth_place: '',
+      civil_status: '',
+      sex_at_birth: '',
+      citizenship: '',
+      religion: '',
+      region: '',
+      province: '',
+      city: '',
+      barangay: '',
+      street: '',
+      zip_code: '',
+      sy: '',
+      term: '',
+      type: '',
+      section: '',
+      date: '',
       
     },
-  };
-  </script>
+    
+  }),
 
-  <style lang="scss">
-  .v-data-table {
-    height: 100%;
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
+    },
+    displayedStudents() {
+      const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
+    return this.students.filter(student =>
+      Object.values(student).some(value =>
+        typeof value === 'string' && value.toLowerCase().includes(searchTerm)
+    )
+    );
+    },
+  },
 
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+  },
+  watch: {
+  'editedItem.grade'(newGrade) {
+    if (['7', '8', '9', '10'].includes(newGrade)) {
+      this.editedItem.strand = 'N/A';
+    }
   }
+},
 
-  </style>
+  created() {
+    this.initialize();
+  },
+
+  methods: {
+    initialize() {
+      this.students = [
+        { 
+      student_id: '2021001', 
+      student_lrn: '1234567890', 
+      grade_level: '10', 
+      strand: 'STEM', 
+      email: 'john.doe@example.com',
+      first_name: 'John',
+      middle_name: '',
+      last_name: 'Doe',
+      extension: '',
+      sex_at_birth: 'Male',
+      birth_date: '1999-05-15',
+      birth_place: 'New York',
+      civil_status: 'Single',
+      citizenship: 'American',
+      religion: 'Christianity',
+      street: 'Main Street',
+      barangay: 'San Juan',
+      city: 'Makati',
+      province: 'Metro Manila',
+      region: 'National Capital Region (NCR)',
+      zip_code: '1234',
+      sy: '2023-2024',
+      term: '1st Term',
+      type: '??',
+      section: 'St. Joseph',
+      date: 'May 04, 2023',
+    },
+    { 
+      student_id: '2021002', 
+      student_lrn: '0987654321', 
+      grade_level: '11', 
+      strand: 'ABM', 
+      email: 'jane.smith@example.com',
+      first_name: 'Jane',
+      middle_name: 'Elizabeth',
+      last_name: 'Smith',
+      extension: '',
+      sex_at_birth: 'Female',
+      birth_date: '2000-03-25',
+      birth_place: 'Los Angeles',
+      civil_status: 'Single',
+      citizenship: 'American',
+      religion: 'Christianity',
+      street: 'Oak Avenue',
+      barangay: 'San Antonio',
+      city: 'Los Angeles',
+      province: 'California',
+      region: 'California',
+      zip_code: '90001'
+    },
+    { 
+      student_id: '2021003',
+      student_lrn: '1234567890',
+      grade_level: '10',
+      strand: 'STEM',
+      email: 'john.johnson@example.com',
+      first_name: 'John',
+      middle_name: 'William',
+      last_name: 'Johnson',
+      extension: '',
+      sex_at_birth: 'Male',
+      birth_date: '2001-02-15',
+      birth_place: 'Chicago',
+      civil_status: 'Single',
+      citizenship: 'American',
+      religion: 'Christianity',
+      street: 'Maple Street',
+      barangay: 'San Andres',
+      city: 'Chicago',
+      province: 'Illinois',
+      region: 'Illinois',
+      zip_code: '60601'
+    },
+    // Add more students here...
+    { 
+      student_id: '2021004',
+      student_lrn: '0987654321',
+      grade_level: '11',
+      strand: 'ABM',
+      email: 'mary.brown@example.com',
+      first_name: 'Mary',
+      middle_name: 'Ann',
+      last_name: 'Brown',
+      extension: '',
+      sex_at_birth: 'Female',
+      birth_date: '2000-07-10',
+      birth_place: 'Houston',
+      civil_status: 'Single',
+      citizenship: 'American',
+      religion: 'Christianity',
+      street: 'Pine Street',
+      barangay: 'San Roque',
+      city: 'Quezon City',
+      province: 'Metro Manila',
+      region: 'National Capital Region (NCR)',
+      zip_code: '1235'
+    },
+    
+      ];
+      this.students.forEach(student => {
+  student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
+    if (student.grade_level < 11 || student.grade_level > 12) {
+        // Remove the strand property
+        student.strand = "N/A";
+    }
+      });
+    },
+
+    openViewDialog(item) {
+    this.selectedStudent = item;
+    this.viewDialog = true;
+  },
+
+      closeViewDialog() {
+        console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent
+        this.viewDialog = false;
+        // Clear the selected student data
+        },
+
+    editItem(item) {
+      this.editedIndex = this.students.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+
+    archiveItem(item) {
+      this.editedIndex = this.students.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+
+    deleteItemConfirm() {
+      this.students.splice(this.editedIndex, 1);
+      this.closeDelete();
+    },
+
+    close() {
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.students[this.editedIndex], this.editedItem);
+      } else {
+        this.students.push(this.editedItem);
+      }
+      this.close();
+    },
+
+    goView(){
+      this.$router.push('/viewdetails');
+  },
+    
+  },
+};
+</script>
+
+<style lang="scss">
+.v-data-table {
+  height: 100%;
+
+}
+
+.student-popup span {
+  display: block;
+}
+
+</style>

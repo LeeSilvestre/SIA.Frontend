@@ -1,57 +1,38 @@
 <template>
     <main>
-        <div class="left-container">
-    <div class="top-left">
-        <div class="total-student">
+    <div class="left-container">
+        <div class="top-left">
+            <div class="total-student">
             <h2 class="info-text">
                 <span class="material-icons">feed</span>
-                STUDENT ENROLLEES
+                SENIOR HIGH SCHOOL
             </h2>    
-            <table class="enrollment-table">
-                <thead>
-                    <tr>
-                        <th class="fs-5">Grade Level</th>
-                        <th class="fs-5">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr> 
-                        <th class="grade">Junior High School</th>
-                        <td class="grade">0001</td>
-                    </tr>
-                    <tr>
-                        <td>Grade 7</td>
-                        <td>0000</td>
-                    </tr>
-                    <tr>
-                        <td>Grade 8</td>
-                        <td>0000</td>
-                    </tr>
-                    <tr>
-                        <td>Grade 9</td>
-                        <td>0000</td>
-                    </tr>
-                    <tr>
-                        <td>Grade 10</td>
-                        <td>0000</td>
-                    </tr>
-                    <tr>
-                        <th class="grade">Senior High School</th>
-                        <td class="grade">0000</td>
-                    </tr>
-                    <tr>
-                        <td>Grade 11</td>
-                        <td>0000</td>
-                    </tr>
-                    <tr>
-                        <td>Grade 12</td>
-                        <td>0000</td>
-                    </tr>
-                </tbody>
-            </table>
+                <v-data-table-virtual
+                :headers="headers"
+                :items="virtualBoats"
+                height="400"
+                item-value="name"
+                ></v-data-table-virtual>
+            </div>
         </div>
     </div>
-</div>
+
+    <div class="lowerLeft-container">
+        <div class="top-left">
+            <div class="total-student">
+            <h2 class="info-text">
+                <span class="material-icons">feed</span>
+                JUNIOR HIGH SCHOOL
+            </h2>    
+                <v-data-table-virtual
+                :headers="headers"
+                :items="virtualBoats"
+                height="400"
+                item-value="name"
+                ></v-data-table-virtual>
+            </div>
+        </div>
+    </div>
         
         <div class="right-container" fluid>
             <h1 class="info-text">
@@ -70,9 +51,22 @@ export default {
   data() {
     return {
       chart: null,
-      sidebarCollapsed: false 
-    };
+      sidebarCollapsed: false,
+      headers: [
+                { title: 'Grade Level', text: 'Grade Level', value: 'grade_level' },
+                { title: 'Total', text: 'Total', value: 'total' }
+            ],
+            virtualBoats: [
+                { grade_level: 'Grade 7', total: '0000' },
+                { grade_level: 'Grade 8', total: '0000' },
+                { grade_level: 'Grade 9', total: '0000' },
+                { grade_level: 'Grade 10', total: '0000' },
+                { grade_level: 'Grade 11', total: '0000' },
+                { grade_level: 'Grade 12', total: '0000' }
+            ]
+        };
   },
+  
   mounted() {
     this.renderChart();
   },
@@ -84,6 +78,10 @@ export default {
       return this.sidebarCollapsed ? '400px' : '400px'; 
     }
   },
+
+//   total student table sample
+
+
   watch: {
     sidebarCollapsed(newValue) {
       if (this.chart) {
@@ -118,126 +116,52 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-main {
-    display: flex;
+.table-heading thead {
+    background-color: #f2f2f2;
+    color: #333;
+    font-weight: bold;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 2px solid #ccc;
 }
-.left-container{
-    flex: 0.5;
-    margin-right: 1rem;
-    .top-left{
-        padding: 1rem;
-        background-color: #f0f0f0;
-        margin-bottom: 2rem;
-        color: black;
-        border-radius:5px;
 
-        .total-student{
-            display: flex;
-            flex-direction: column;
-            
-            
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 1rem; /* Space between columns */
+}
 
-            .info-text{
-                text-shadow: 0 0 1px;
-                font-size: 25px;
-                margin-bottom: 1rem;
-                font-weight: bold;
-                
-               
+.left-container {
+    grid-column: 1 / 2; /* Place it in the first column */
+    grid-row: 1; /* Place it in the first row */
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    padding: 3rem; /* Adjust the padding as needed */
+    margin-bottom: 1rem; /* Add margin for spacing */
+}
 
-                .material-icons{
-                    position: relative;
-                    font-size: 38px;
-                    top:8px;
-                }
-            }
-            h2{
-                align-self: left;
-                margin-bottom: 1rem;
-                font-weight: 900;
-                
-            }
-
-            h3{
-                font-weight: 600;
-            }
-
-            .student-count{
-                display: flex;
-
-                h4{
-                    font-weight: 600;
-                }
-            
-            .jhs{
-                flex: 0.8;
-                padding: 0.5rem;
-
-                .jhs-total{
-                    display: flex;
-                    margin: 1rem;
-
-                    h5{
-                        margin-right: 1.5rem;
-                        width: 3.5rem;
-                    }
-
-                    h3{
-                        text-shadow: 0 0 1px;
-                    }
-                }
-
-
-            }
-
-            .shs{
-                padding: 0.5rem;
-
-                .shs-total{
-                    display: flex;
-                    margin: 1rem;
-
-                    h5{
-                        margin-right: 1.5rem;
-                        width: 3.5rem;
-                    }
-                    h3{
-                        text-shadow: 0 0 1px;
-                    }
-                }
-            }
-
-            }
-        }
-    }
-    .bottom-left{
-        padding: 1.5rem;
-        background-color: #f0f0f0;
-        color: var(--dark);
-            
-        h3 {
-            text-shadow: 0 0 1px;
-            font-size: 20px;
-        }
-        .material-icons{
-            position:relative;
-            font-size: 35px;
-            top: 10px;
-        }
-    }
+.lowerLeft-container {
+    grid-column: 1 / 2; /* Place it in the first column */
+    grid-row: 2; /* Place it in the second row */
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
 }
 
 .right-container {
-    flex: 0.5;
+    grid-column: 2 / 3; /* Place it in the second column */
+    grid-row: 1 / 3; /* Span two rows */
+    display: flex;
+    flex-direction: column;
     padding: 1rem;
     background-color: #f0f0f0;
-    height: 400px; 
-    width: 100%; 
+    height: 400px;
+    border-radius: 0.5rem;
     @media (min-width: 768px) {
-        width: calc(50% - 1rem); 
-        transition: width 0.3s ease; 
+        width: 100%;
+        transition: width 0.3s ease;
     }
 }
+
 .enrollment-table {
     width: 100%;
     border-collapse: collapse;
@@ -252,23 +176,84 @@ main {
 }
 
 .enrollment-table th {
-    background-color: #f2f2f2;
+    background-color: whitesmoke;
 }
-.grade{
+
+.grade {
     font-weight: bold;
     font-size: 17px;
 }
-.info-text{
+
+.info-text {
     text-shadow: 0 0 1px;
     font-size: 25px;
     margin-bottom: 1rem;
     color: var(--dark);
     font-weight: bold;
 }
-.material-icons{
+
+.material-icons {
     position: relative;
     font-size: 38px;
-    top:8px;
+    top: 8px;
 }
+main {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 1rem; /* Space between columns */
+}
+
+.left-container {
+    grid-column: 1 / 2; 
+    grid-row: 1;
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    padding: 1rem; 
+    margin-bottom: 1rem; 
+}
+
+.left-container .top-left {
+    background-color: white; /* Background color for the inner container */
+    border-radius: 0.5rem; /* Rounded corners */
+    padding: 1rem; /* Padding for inner spacing */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.lowerLeft-container {
+    grid-column: 1 / 2; 
+    grid-row: 2; 
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem; 
+}
+
+.lowerLeft-container .top-left {
+    background-color: white; 
+    border-radius: 0.5rem;
+    padding: 1rem; 
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+}
+
+.right-container {
+    grid-column: 2 / 3; /* Place it in the second column */
+    grid-row: 1 / 3; /* Span two rows */
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    @media (min-width: 768px) {
+        width: 100%;
+        transition: width 0.3s ease;
+    }
+}
+
+.material-icons {
+    position: relative;
+    font-size: 38px;
+    top: 8px;
+}
+
 
 </style>

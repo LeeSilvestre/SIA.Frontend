@@ -19,10 +19,6 @@ const router = createRouter({
       path: "/enrollment",
       component: () => import("../views/Enrollment.vue"),
     },
-    {
-      path: "/viewdetails",
-      component: () => import("../views/ViewDetails.vue"),
-    },
 
     {
     path: '/juniorhigh',
@@ -41,15 +37,6 @@ const router = createRouter({
       component: () => import('../views/FacultyRec.vue'),
     },
 
-
-    {
-      path: "/studentinfo",
-      component: () => import("../components/StudentInfo.vue"),
-    },
-    {
-      path: "/infodocuments",
-      component: () => import("../components/InfoDocuments.vue"),
-    },
 
     //     path: '/subjectschedule',
     //     component: () => import('../views/SubjectSchedule.vue')
