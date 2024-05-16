@@ -8,8 +8,8 @@
                 SENIOR HIGH SCHOOL
             </h2>    
                 <v-data-table-virtual
-                :headers="headers"
-                :items="virtualBoats"
+                :headers="seniorStrand"
+                :items="strand"
                 height="400"
                 item-value="name"
                 ></v-data-table-virtual>
@@ -25,8 +25,8 @@
                 JUNIOR HIGH SCHOOL
             </h2>    
                 <v-data-table-virtual
-                :headers="headers"
-                :items="virtualBoats"
+                :headers="junior"
+                :items="juniorHigh"
                 height="400"
                 item-value="name"
                 ></v-data-table-virtual>
@@ -37,7 +37,7 @@
         <div class="right-container" fluid>
             <h1 class="info-text">
                 <span class="material-icons">group</span>
-                Total Enrollees
+                TOTAL ENROLEES
             </h1>
             <div>
                 <canvas ref="chartCanvas"></canvas>
@@ -52,18 +52,29 @@ export default {
     return {
       chart: null,
       sidebarCollapsed: false,
-      headers: [
-                { title: 'Grade Level', text: 'Grade Level', value: 'grade_level' },
-                { title: 'Total', text: 'Total', value: 'total' }
+      junior: [
+                { title: 'GRADE LEVEL', text: 'Grade Level', value: 'grade_level' },
+                { title: 'TOTAL STUDENTS', text: 'Total', value: 'total' }
             ],
-            virtualBoats: [
+            juniorHigh: [
                 { grade_level: 'Grade 7', total: '0000' },
                 { grade_level: 'Grade 8', total: '0000' },
                 { grade_level: 'Grade 9', total: '0000' },
                 { grade_level: 'Grade 10', total: '0000' },
                 { grade_level: 'Grade 11', total: '0000' },
                 { grade_level: 'Grade 12', total: '0000' }
-            ]
+            ],
+
+            seniorStrand: [
+                { title: 'STRAND', text: 'Strand', value: 'strand' },
+                { title: 'TOTAL STUDENTS', text: 'Total', value: 'total' }
+            ],
+            strand: [
+                { strand: 'HUMSS', total: '0000' },
+                { strand: 'STEM', total: '0000' },
+                { strand: 'GAS', total: '0000' },
+                { strand: 'HE', total: '0000' },
+            ],
         };
   },
   
@@ -254,6 +265,7 @@ main {
     font-size: 38px;
     top: 8px;
 }
+
 
 
 </style>
