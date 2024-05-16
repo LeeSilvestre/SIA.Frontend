@@ -3,7 +3,7 @@
         <div class="top-container">
             <div class="studentProfile">
                 <span class="material-icons">person_add</span>
-                <span class="text"> Records</span>
+                <span class="text"> RECORDS</span>
             </div>
             
         </div>  

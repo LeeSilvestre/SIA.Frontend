@@ -251,7 +251,12 @@
                   >
                     <v-select
                       v-model="editedItem.section"
-                      :items="['St. Joseph', 'St. Gianna', 'St. Luke', 'St. Lazarus', 'St. Bernadette',] "
+                      :items="['St. Anne', 'St. Bernadette', 'St. Charles', 'St. Elizabeth', 'St. Faustina',
+                        'St. George','St. Pedro Calungsod', 'St. Lorenzo Ruiz', 'St. Gabriel', 'St. Michael', 
+                        'St. Raphael', 'St. Patrick', 'St. Scholastica', 'St. Homobonus', 'St. Helena', 'St. Louise',
+                        'St. Stephen', 'St. Vincent', 'St. Catherine', 'St. Albertus', 'St. Benedict', 'St. Maximillian',
+                        'St. Peter', 'St. Thomas', 'St. Isidore', 'St. Joseph'  
+                      ] "
                       label="Section"
                       required
                     ></v-select>
@@ -265,7 +270,7 @@
               >
                 <v-select
                   v-model="editedItem.strand"
-                  :items="['HUMSS', 'STEM', 'TVL', 'ABM', 'ICT', 'GAS']"
+                  :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
                   label="Strand"
                   required
                   :disabled="['7', '8', '9', '10'].includes(editedItem.grade)"
@@ -320,6 +325,11 @@
               </v-col>  
               </v-row>
                 </v-container>
+                <v-btn color="primary" @click="triggerFileInput">Attach File</v-btn>
+                  <input type="file" ref="fileInput" @change="handleFileUpload" style="display: none" />
+                  <v-chip v-if="selectedFile" class="ma-2" color="primary" dark>
+                    {{ selectedFile.name }}
+                  </v-chip>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
@@ -357,31 +367,125 @@
   
    <!-- view user status modal pop -->
    <v-dialog v-model="viewDialog" max-width="800px">
-      <v-card>
-        <v-card-title>
-          <span class="text-h5 fw-bold m-2" style="color: #2F3F64">
-            Student Details
-          </span>
-        </v-card-title>
-        <v-card-text>
-          <!-- Display student details here -->
-          <!-- Example: -->
-           <div class="student-popup"><span>Student ID: {{ selectedStudent.student_id }}</span>
-            <span>Full Name: {{ selectedStudent.full_name }}</span>
-            <span>Contact Number: {{ selectedStudent.contact_no }}</span>
-            <span>Birthdate: {{ selectedStudent.birth_date}}</span>
-            <span>Student ID: {{ selectedStudent.student_id }}</span>
-          </div>
-          <!-- Add other details as needed -->
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" variant="text" @click="closeViewDialog">
-            Close
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+    <v-card>
+      <v-card-title class="d-flex justify-space-between align-center">
+        <span class="text-h5 fw-bold m-1" style="color: #2F3F64">
+          STUDENT DETAILS
+        </span>
+        <v-btn icon @click="closeViewDialog" class="close-button">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <v-card-text>
+        <v-container>
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1">Student ID:</v-list-item-title>
+                  <v-list-item-subtitle>{{ selectedStudent.student_id }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1">Full Name:</v-list-item-title>
+                  <v-list-item-subtitle>{{ selectedStudent.full_name }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1">Contact Number:</v-list-item-title>
+                  <v-list-item-subtitle>{{ selectedStudent.contact_no }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1">Birthdate:</v-list-item-title>
+                  <v-list-item-subtitle>{{ selectedStudent.birth_date }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1">Birthplace: </v-list-item-title>
+                  <v-list-item-subtitle>{{ selectedStudent.birth_place}}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1">Civil Status: </v-list-item-title>
+                  <v-list-item-subtitle>{{ selectedStudent.civil_status }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1">Sex: </v-list-item-title>
+                  <v-list-item-subtitle>{{ selectedStudent.sex_at_birth }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1">Religion: </v-list-item-title>
+                  <v-list-item-subtitle>{{ selectedStudent.religion}}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1">Region: </v-list-item-title>
+                  <v-list-item-subtitle>{{ selectedStudent.region }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-subtitle-1">Address: </v-list-item-title>
+                    <v-list-item-subtitle>
+                      {{ selectedStudent.street }} {{ selectedStudent.barangay }},
+                      {{ selectedStudent.city }} {{ selectedStudent.province}}
+                      {{ selectedStudent.zip_code }}
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-col>
+
+              <hr>
+
+              <v-row>
+                <v-col cols="12" sm="4">
+                  <v-list-item>
+                    <v-list-item-content>
+                      <v-list-item-title class="text-subtitle-1">Address: </v-list-item-title>
+                      <v-list-item-subtitle>
+                        {{ selectedStudent.street }} {{ selectedStudent.barangay }},
+                        {{ selectedStudent.city }} {{ selectedStudent.province}}
+                        {{ selectedStudent.zip_code }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-col>
+              </v-row>
+
+          </v-row>
+        </v-container>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
     <!-- end view user status modal pop -->
 </template>
 
@@ -395,6 +499,8 @@ export default {
     dialogDelete: false,
     viewDialog: false,
     selectedStudent: null,
+    formTitle: 'Create New Student',
+    selectedFile: null,
     headers: [
       { title: 'Student No.', align: 'start', key:'student_id'},
       { title: 'Full Name', align: 'start', key: 'full_name' },
@@ -608,6 +714,27 @@ export default {
       });
     },
 
+    triggerFileInput() {
+      this.$refs.fileInput.click();
+    },
+
+    handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.selectedFile = file;
+      }
+    },
+    close() {
+      this.dialog = false;
+      this.selectedFile = null;
+    },
+    save() {
+      // Handle the save action, including the selected file if needed
+      console.log(this.selectedFile);
+      this.dialog = false;
+      this.selectedFile = null;
+    },
+
     openViewDialog(item) {
     this.selectedStudent = item;
     this.viewDialog = true;
@@ -675,8 +802,28 @@ export default {
 
 }
 
-.student-popup span {
-  display: block;
+.student-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.v-card-title {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.v-list-item-title {
+  font-weight: bold;
+}
+
+.v-list-item-subtitle {
+  font-size: 1rem;
+  color: #2F3F64;
+}
+
+.close-button:hover {
+  color: red;
 }
 
 </style>

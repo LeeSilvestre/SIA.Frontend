@@ -14,7 +14,7 @@
 
         <v-text-field
         v-model="search"
-        class="w-auto mr-1 "
+        class="w-20 mr-16 "
         density="compact"
         label="Search"
         prepend-inner-icon="mdi-magnify"
@@ -24,235 +24,7 @@
         single-line
       ></v-text-field>
       
-        <v-dialog v-model="dialog" max-width="1000px">
-          
-          <template v-slot:activator="{ props }">
-            <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Add Student</v-btn>
-          </template>
-          
-          <v-card >
-            <v-card-title ><span class="text-h6 m-2" style="color: #2F3F64"  >{{ formTitle }}</span></v-card-title>
-            <v-card-text > 
-              <v-container >
-                <v-row dense >
-                  <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.student_lrn"
-                    label="LRN"
-                    required
-                  ></v-text-field>
-                </v-col>
-                
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.last_name"
-                    label="Last Name"
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.first_name"
-                    label="First Name"
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.middle_name"
-                    label="Middle Name"
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.contact_no"
-                    label="Contact no."
-                    required
-                  ></v-text-field>
-                </v-col>
-                
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.birth_date"
-                    label="Date of Birth"
-                    required
-                  ></v-text-field>
-                </v-col>
-                
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.birth_place"
-                    label="Birth of Place"
-                    required
-                  ></v-text-field>
-                </v-col>
-                
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-select
-                    v-model="editedItem.civil_status"
-                    :items="['Single', 'Married', 'In a Relationship', 'Widowed', 'Divorce' ]"
-                    label="Civil Status"
-                    required
-                  ></v-select>
-                </v-col>
-                
-                <v-col
-                  cols="12"
-                  md="2"
-                  sm="6"
-                >
-                  <v-select
-                    v-model="editedItem.sex_at_birth"
-                    :items="['Male', 'Female' ]"
-                    label="SEX"
-                    required
-                  ></v-select>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.citizenship"
-                    label="Citizenship"
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.religion"
-                    label="Religion"
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="4"
-                  sm="6"
-                >
-                  <v-select
-                    v-model="editedItem.region"
-                    :items="['Region I', 'Region II', 'Region III', 'Region IV-A', 'Region IV-B', 'Region V', 'Region VI', 'Region VII', 'Region VIII', 'Region IX', 'Region X', 'Region XI', 'Region XII', 'Region XIII', 'BARMM', 'CAR']"
-                    label="Region"
-                    required
-                  ></v-select>
-
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.province"
-                    label="Province"  
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.city"
-                    label="City"
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.barangay"
-                    label="Barangay"
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.street"
-                    label="Address"
-                    required
-                  ></v-text-field>
-                </v-col>
-
-                <v-col
-                  cols="12"
-                  md="3"
-                  sm="6"
-                >
-                  <v-text-field
-                    v-model="editedItem.zip_code"
-                    label="Zip Code"
-                    required
-                  ></v-text-field>
-                </v-col>
-                
-          </v-row>
-              </v-container>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="blue-darken-1" variant="text" @click="close">Cancel</v-btn>
-              <v-btn color="blue-darken-1" variant="text" @click="save">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
+      
       </v-toolbar>
     </template>
     <template v-slot:item="{ item }">
@@ -264,7 +36,7 @@
         <td>{{ item.strand }}</td>
         <td>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
-          <v-icon size="small" style="color: #2F3F64; margin: 1.4rem" @click="viewDetails(item)">mdi-eye</v-icon>
+          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;" @click="viewDetails(item)">mdi-eye</v-icon>
         </td>
       </tr>
     </template>
@@ -274,10 +46,10 @@
   </v-data-table>
 
   
-  <v-card v-if="selectedStudent" class="student-card mt-10 mb-5" style="max-height: 100%; overflow: hidden;">
+  <v-card v-if="selectedStudent" class="student-card mt-3 mb-5" style="max-height: 100%; overflow: hidden;">
   <v-card-title class="fs-5 font-weight-black" style="color: white; background-color: var(--dark);">STUDENT DETAILS</v-card-title>
   <v-card-text>
-    <div class="d-flex mt-2">
+    <div class="d-flex mt-2 p-1">
       <v-card class="mr-3" style="width: 30%; background-color: #f0f0f0;">
         <v-card-text class="student-leftinfo">
           <!-- Display student image -->
@@ -294,28 +66,38 @@
       </v-card>
 
       <!-- Right side card for other student details -->
-      <v-card style="flex-grow: 1">
-        <v-card-text>
-          <h3 class="fw-bold">Student Information</h3>
-          <hr>
-          <!-- Display family information -->
-          <div class="student-family">
-            <strong>Father Name: </strong> {{ selectedStudent.father_name }}<br>
-            <strong>Occupation: </strong> {{ selectedStudent.father_occupation }}<br>
-            <strong>Mobile Number: </strong> {{ selectedStudent.father_mobile }}<br>
-            <strong>Mother Name: </strong> {{ selectedStudent.mother_name }}<br>
-            <strong>Occupation: </strong> {{ selectedStudent.mother_occupation }}<br>
-            <strong>Mobile Number: </strong> {{ selectedStudent.mother_mobile }}<br>
-            <strong>Guardian Name: </strong> {{ selectedStudent.guardian_name }}<br>
-            <strong>Occupation: </strong> {{ selectedStudent.guardian_occupation }}<br>
-            <strong>Mobile Number: </strong> {{ selectedStudent.guardian_mobile }}<br>
-          </div>
-        </v-card-text>
-      </v-card>
+       <!-- Right side card for other student details -->
+       <v-card style="flex-grow: 1">
+              <v-card-text>
+                <h3>Family Information</h3>
+                <hr>
+                <!-- Display family information -->
+                <div class="student-family">
+                  <v-row>
+                    <v-col cols="6">
+                      <strong>Father Name:</strong> {{ selectedStudent.father_name }}<br>
+                      <strong>Occupation:</strong> {{ selectedStudent.father_occupation }}<br>
+                      <strong>Mobile Number:</strong> {{ selectedStudent.father_mobile }}<br>
+                    </v-col>
+                    <v-col cols="6">
+                      <strong>Mother Name:</strong> {{ selectedStudent.mother_name }}<br>
+                      <strong>Occupation:</strong> {{ selectedStudent.mother_occupation }}<br>
+                      <strong>Mobile Number:</strong> {{ selectedStudent.mother_mobile }}<br>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6">
+                      <strong>Guardian Name:</strong> {{ selectedStudent.guardian_name }}<br>
+                      <strong>Occupation:</strong> {{ selectedStudent.guardian_occupation }}<br>
+                      <strong>Mobile Number:</strong> {{ selectedStudent.guardian_mobile }}<br>
+                    </v-col>
+                  </v-row>
+                </div>
+              </v-card-text>
+            </v-card>
     </div>
   </v-card-text>
 </v-card>
-
 
 
 
@@ -335,7 +117,7 @@ export default {
       { title: 'LRN', key: 'student_lrn' },
       { title: 'Grade Level', key: 'grade_level' },
       { title: 'Strand', key: 'strand' },
-      { title: 'Actions', sortable: false },
+      { title: 'View Detail', sortable: false },
     ],
     students: [],
     editedIndex: -1,
@@ -551,27 +333,30 @@ export default {
   height: 100%;
 
 }
-.card {
-  box-sizing: border-box;
+.student-card {
   width: w-auto;
-  height: 254px;
-  border: 1px solid white;
-  box-shadow: 12px 17px 51px rgba(0, 0, 0, 0.22);
-  backdrop-filter: blur(6px);
   border-radius: 17px;
   text-align: start;
-  cursor: pointer;
   transition: all 0.5s;
-  display: flex;
-  user-select: none;
   font-weight: bolder;
   color: black;
 }
 
-.card:hover {
-  border: 1px solid black;
-  transition: 0.2s;
+.student-family {
+  text-align: left;
 }
+
+.student-leftinfo {
+  justify-content: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.student-family {
+  text-align: left;
+  padding: 1rem;
+}
+
 
 
 </style>

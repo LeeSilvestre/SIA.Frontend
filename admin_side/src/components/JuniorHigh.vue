@@ -36,7 +36,7 @@
         <td>{{ item.strand }}</td>
         <td>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
-          <v-icon size="small" style="color: #2F3F64; margin: 1.4rem" @click="viewDetails(item)">mdi-eye</v-icon>
+          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;" @click="viewDetails(item)">mdi-eye</v-icon>
         </td>
       </tr>
     </template>
@@ -46,10 +46,10 @@
   </v-data-table>
 
   
-  <v-card v-if="selectedStudent" class="student-card mt-10 mb-5" style="max-height: 100%; overflow: hidden;">
+  <v-card v-if="selectedStudent" class="student-card mt-3 mb-5" style="max-height: 100%; overflow: hidden;">
   <v-card-title class="fs-5 font-weight-black" style="color: white; background-color: var(--dark);">STUDENT DETAILS</v-card-title>
   <v-card-text>
-    <div class="d-flex mt-2">
+    <div class="d-flex mt-2 p-1">
       <v-card class="mr-3" style="width: 30%; background-color: #f0f0f0;">
         <v-card-text class="student-leftinfo">
           <!-- Display student image -->
@@ -66,24 +66,35 @@
       </v-card>
 
       <!-- Right side card for other student details -->
-      <v-card style="flex-grow: 1">
-        <v-card-text>
-          <h3 class="fw-bold">Student Information</h3>
-          <hr>
-          <!-- Display family information -->
-          <div class="student-family">
-            <strong>Father Name: </strong> {{ selectedStudent.father_name }}<br>
-            <strong>Occupation: </strong> {{ selectedStudent.father_occupation }}<br>
-            <strong>Mobile Number: </strong> {{ selectedStudent.father_mobile }}<br>
-            <strong>Mother Name: </strong> {{ selectedStudent.mother_name }}<br>
-            <strong>Occupation: </strong> {{ selectedStudent.mother_occupation }}<br>
-            <strong>Mobile Number: </strong> {{ selectedStudent.mother_mobile }}<br>
-            <strong>Guardian Name: </strong> {{ selectedStudent.guardian_name }}<br>
-            <strong>Occupation: </strong> {{ selectedStudent.guardian_occupation }}<br>
-            <strong>Mobile Number: </strong> {{ selectedStudent.guardian_mobile }}<br>
-          </div>
-        </v-card-text>
-      </v-card>
+       <!-- Right side card for other student details -->
+       <v-card style="flex-grow: 1">
+              <v-card-text>
+                <h3>Family Information</h3>
+                <hr>
+                <!-- Display family information -->
+                <div class="student-family">
+                  <v-row>
+                    <v-col cols="6">
+                      <strong>Father Name:</strong> {{ selectedStudent.father_name }}<br>
+                      <strong>Occupation:</strong> {{ selectedStudent.father_occupation }}<br>
+                      <strong>Mobile Number:</strong> {{ selectedStudent.father_mobile }}<br>
+                    </v-col>
+                    <v-col cols="6">
+                      <strong>Mother Name:</strong> {{ selectedStudent.mother_name }}<br>
+                      <strong>Occupation:</strong> {{ selectedStudent.mother_occupation }}<br>
+                      <strong>Mobile Number:</strong> {{ selectedStudent.mother_mobile }}<br>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="6">
+                      <strong>Guardian Name:</strong> {{ selectedStudent.guardian_name }}<br>
+                      <strong>Occupation:</strong> {{ selectedStudent.guardian_occupation }}<br>
+                      <strong>Mobile Number:</strong> {{ selectedStudent.guardian_mobile }}<br>
+                    </v-col>
+                  </v-row>
+                </div>
+              </v-card-text>
+            </v-card>
     </div>
   </v-card-text>
 </v-card>
@@ -338,7 +349,14 @@ export default {
 .student-leftinfo {
   justify-content: center;
   text-align: center;
+  padding: 1rem;
 }
+
+.student-family {
+  text-align: left;
+  padding: 1rem;
+}
+
 
 
 </style>
