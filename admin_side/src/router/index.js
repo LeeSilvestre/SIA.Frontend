@@ -21,6 +21,11 @@ const router = createRouter({
     },
 
     {
+      path: '/request',
+      component: () => import('../views/Document.vue'),
+    },
+
+    {
     path: '/juniorhigh',
       component: () => import('../views/JuniorHighRec.vue'),
     },

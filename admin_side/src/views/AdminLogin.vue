@@ -70,12 +70,57 @@
     </v-app>
 </template>
 <script>
+import Swal from 'sweetalert2';
+import axios from 'axios';
  export default {
     data: () => ({
-      step: 1
+      step: 1,
+      email: '',
+      password: '',
+      errorMessage: '',
+      emptyFieldsError: false
     }),
     props: {
       source: String
+    },
+    created(){
+      this.email = '';
+      this.password = '';
+    },
+    methods: {
+      login() {
+        if (!this.email || !this.password) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Fields cannot be empty!",
+          });
+        }
+
+        // axios.get('/librarian')
+        //   .then(response => {
+        //     const librarians = response.data;
+        //     const librarian = librarians.find(l => l.lib_email === this.email && l.lib_pass === this.password);
+        //     if (librarian) {
+        //       this.$router.push('/librarydashboard');
+        //     } else {
+        //       Swal.fire({
+        //         icon: "error",
+        //         title: "Oops...",
+        //         text: "Invalid credentials. Please try again!",
+        //       });
+        //     }
+        //     this.email = '';
+        //     this.password = '';
+        //   })
+        //   .catch(error => {
+        //     Swal.fire({
+        //         icon: "error",
+        //         title: "Oops...",
+        //         text: "Error logging in. Please try again later!",
+        //       });
+        //   });
+      }
     }
   }
 </script>

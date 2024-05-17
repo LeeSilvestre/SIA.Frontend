@@ -36,6 +36,10 @@
                     <li><router-link  class="button"to="/faculty">Faculty</router-link></li>
                 </ul>
             </div>
+            <router-link class="button" to="/request">
+              <span class="material-icons">edit_document</span>
+              <span class="text">Document Request</span>
+          </router-link>
       </div>
   
       <div class="menu-logout">

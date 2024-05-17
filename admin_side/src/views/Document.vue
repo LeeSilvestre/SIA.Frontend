@@ -1,11 +1,11 @@
 <template>
     <main>
         <div class="top-container">
-            <h1 class="bg-title">RECORDS</h1>
-                <div class="inventory">
-                    <span class="material-icons">person</span>
-                    <span class="text">RECORDS</span>
-                </div>
+            <h1 class="bg-title">DOCUMENT</h1>
+        <div class="inventory">
+            <span class="material-icons">edit_document</span>
+            <span class="text">DOCUMENT</span>
+        </div>
             
         </div>  
         <hr>
@@ -13,7 +13,7 @@
         <div class="main-content">
 
             <div class="student-table">
-                <Faculty/>
+                <RequestDocument />
             </div>
         </div>
 
@@ -24,12 +24,12 @@
 
 <script>
 // import AddStudent from '../components/AddStudent.vue';
-import Faculty from '../components/Faculty.vue';
+import RequestDocument from '../components/RequestDocument.vue';
 
 export default {
   components: {
     // AddStudent,
-    Faculty,
+    RequestDocument,
   }
 };
 </script>
@@ -98,7 +98,7 @@ export default {
         }
     }
 
-}
+} 
 
 
 </style>
