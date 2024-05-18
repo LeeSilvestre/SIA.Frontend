@@ -194,10 +194,12 @@ export default {
       axios.get('faculty').then(res => {
         console.log(res.data);
         let tmp = res.data;
+       tmp.full_name 
         this.faculty =tmp.faculty;
         console.log(this.faculty);
         this.faculty.forEach(faculty => {
           faculty.full_name = `${faculty.fname} ${faculty.mname} ${faculty.lname} ${faculty.extension}`.trim();
+          faculty.imageSrc = faculty.image ? `http://127.0.0.1:8000/uploads/profile/${faculty.image.image}` : '';
           });
           console.log(this.faculty);
       })

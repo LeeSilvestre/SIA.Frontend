@@ -59,7 +59,6 @@
           <strong>Name:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name }} {{ selectedStudent.last_name }} {{ selectedStudent.extension }}<br>
           <strong>LRN:</strong> {{ selectedStudent.student_lrn }}<br>
           <strong>Grade Level:</strong> {{ selectedStudent.grade_level }}<br>
-          <strong>Strand:</strong> {{ selectedStudent.strand }}<br>
         </div>
         </v-card-text>
       </v-card>
@@ -231,7 +230,7 @@ export default {
         console.log(this.students);
         this.students.forEach(student => {
           student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-          student.imageSrc = student.image ? `http://127.0.0.1:8000/uploads/profile/${student.image.image}` : '';
+          student.imageSrc = student.image ? `http://127.0.0.1:8000/uploads/profile/${student.image}` : '';
           });
       })
       .catch(error => {

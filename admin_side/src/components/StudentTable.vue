@@ -273,7 +273,7 @@
                   :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
                   label="Strand"
                   required
-                  :disabled="['7', '8', '9', '10'].includes(editedItem.grade)"
+                  :disabled="['7', '8', '9', '10'].includes(editedItem.grade_level)"
                 ></v-select>
               </v-col>
 
@@ -283,7 +283,7 @@
                 sm="6"
               >
               <v-select
-                  v-model="editedItem.grade"
+                  v-model="editedItem.grade_level"
                   :items="['7', '8', '9', '10', '11', '12',]  "
                   label="Grade"
                   required
@@ -318,8 +318,19 @@
                 sm="6"
               >
                 <v-text-field
-                  v-model="editedItem.guardianMobile"
+                  v-model="editedItem.guardian_mobileno"
                   label="Guardian Mobile #"
+                  required
+                ></v-text-field>
+              </v-col>  
+              <v-col
+                cols="12"
+                md="3"
+                sm="6"
+              >
+                <v-text-field
+                  v-model="editedItem.password"
+                  label="Password"
                   required
                 ></v-text-field>
               </v-col>  
@@ -343,14 +354,13 @@
       </v-toolbar>
     </template>
     <template v-slot:item="{ item }">
+
       <tr>
         <td>{{ item.student_id }}</td>
         <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
-        <td>{{ item.sy }}</td>
-        <td>{{ item.term }}</td>
-        <td>{{ item.type }}</td>
+        <td>{{ item.year }}</td>
         <td>{{ item.section }}</td>
-        <td>{{ item.date}}</td>
+        <td>{{ item.enrollment_date}}</td>
         <td>
           <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon>
         <!-- Archive Icon -->
@@ -422,14 +432,6 @@
             <v-col cols="12" sm="4">
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Civil Status: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.civil_status }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
                   <v-list-item-title class="text-subtitle-1">Sex: </v-list-item-title>
                   <v-list-item-subtitle>{{ selectedStudent.sex_at_birth }}</v-list-item-subtitle>
                 </v-list-item-content>
@@ -491,8 +493,8 @@
 
 <script>
 
+import axios from 'axios';
 export default {
-  
   data: () => ({
     search: '',
     dialog: false,
@@ -505,8 +507,6 @@ export default {
       { title: 'Student No.', align: 'start', key:'student_id'},
       { title: 'Full Name', align: 'start', key: 'full_name' },
       { title: 'S.Y', align: 'start', key:'sy'},
-      { title: 'Term', align: 'start', key:'term'},
-      { title: 'Type', align: 'start', key:'type'},
       { title: 'Section', align: 'start', key:'section'},
       { title: 'Date Enrolled', align: 'start', key: 'date' },
       { title: 'Actions', sortable: false },
@@ -522,10 +522,7 @@ export default {
       extension: '',
       contact_no: '',
       birth_date: '',
-      birth_place: '',
-      civil_status: '',
       sex_at_birth: '',
-      citizenship: '',
       religion: '',
       region: '',
       province: '',
@@ -534,10 +531,7 @@ export default {
       street: '',
       zip_code: '',
       sy: '',
-      term: '',
-      type: '',
       section: '',
-      date: '',
     },
     defaultItem: {
       student_id: '',
@@ -548,9 +542,7 @@ export default {
       contact_no: '',
       birth_date: '',
       birth_place: '',
-      civil_status: '',
       sex_at_birth: '',
-      citizenship: '',
       religion: '',
       region: '',
       province: '',
@@ -558,11 +550,8 @@ export default {
       barangay: '',
       street: '',
       zip_code: '',
-      sy: '',
-      term: '',
-      type: '',
+      year: '',
       section: '',
-      date: '',
       
     },
     
@@ -591,120 +580,24 @@ export default {
     },
   },
   watch: {
-  'editedItem.grade'(newGrade) {
+  'editedItem.grade_level'(newGrade) {
     if (['7', '8', '9', '10'].includes(newGrade)) {
       this.editedItem.strand = 'N/A';
     }
   }
 },
 
-  created() {
+  mounted() {
     this.initialize();
   },
 
   methods: {
     initialize() {
-      this.students = [
-        { 
-      student_id: '2021001', 
-      student_lrn: '1234567890', 
-      grade_level: '10', 
-      strand: 'STEM', 
-      email: 'john.doe@example.com',
-      first_name: 'John',
-      middle_name: '',
-      last_name: 'Doe',
-      extension: '',
-      sex_at_birth: 'Male',
-      birth_date: '1999-05-15',
-      birth_place: 'New York',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Main Street',
-      barangay: 'San Juan',
-      city: 'Makati',
-      province: 'Metro Manila',
-      region: 'National Capital Region (NCR)',
-      zip_code: '1234',
-      sy: '2023-2024',
-      term: '1st Term',
-      type: '??',
-      section: 'St. Joseph',
-      date: 'May 04, 2023',
-    },
-    { 
-      student_id: '2021002', 
-      student_lrn: '0987654321', 
-      grade_level: '11', 
-      strand: 'ABM', 
-      email: 'jane.smith@example.com',
-      first_name: 'Jane',
-      middle_name: 'Elizabeth',
-      last_name: 'Smith',
-      extension: '',
-      sex_at_birth: 'Female',
-      birth_date: '2000-03-25',
-      birth_place: 'Los Angeles',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Oak Avenue',
-      barangay: 'San Antonio',
-      city: 'Los Angeles',
-      province: 'California',
-      region: 'California',
-      zip_code: '90001'
-    },
-    { 
-      student_id: '2021003',
-      student_lrn: '1234567890',
-      grade_level: '10',
-      strand: 'STEM',
-      email: 'john.johnson@example.com',
-      first_name: 'John',
-      middle_name: 'William',
-      last_name: 'Johnson',
-      extension: '',
-      sex_at_birth: 'Male',
-      birth_date: '2001-02-15',
-      birth_place: 'Chicago',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Maple Street',
-      barangay: 'San Andres',
-      city: 'Chicago',
-      province: 'Illinois',
-      region: 'Illinois',
-      zip_code: '60601'
-    },
-    // Add more students here...
-    { 
-      student_id: '2021004',
-      student_lrn: '0987654321',
-      grade_level: '11',
-      strand: 'ABM',
-      email: 'mary.brown@example.com',
-      first_name: 'Mary',
-      middle_name: 'Ann',
-      last_name: 'Brown',
-      extension: '',
-      sex_at_birth: 'Female',
-      birth_date: '2000-07-10',
-      birth_place: 'Houston',
-      civil_status: 'Single',
-      citizenship: 'American',
-      religion: 'Christianity',
-      street: 'Pine Street',
-      barangay: 'San Roque',
-      city: 'Quezon City',
-      province: 'Metro Manila',
-      region: 'National Capital Region (NCR)',
-      zip_code: '1235'
-    },
-    
-      ];
+      axios.get('student').then(res=>{
+        let tmp = res.data;
+        this.students = tmp.student;
+        console.log(this.students)
+      })
       this.students.forEach(student => {
   student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
     if (student.grade_level < 11 || student.grade_level > 12) {
@@ -780,10 +673,19 @@ export default {
     },
 
     save() {
+      console.log(this.editedItem)
       if (this.editedIndex > -1) {
         Object.assign(this.students[this.editedIndex], this.editedItem);
       } else {
+        let tmp = this.editedItem;
         this.students.push(this.editedItem);
+        tmp.image =  this.selectedFile;
+        // console.log(this.tmp);
+        axios.post('student', tmp).then(res => {
+          console.log(res);
+        }).catch(error => {
+        console.error(error);
+      });
       }
       this.close();
     },
