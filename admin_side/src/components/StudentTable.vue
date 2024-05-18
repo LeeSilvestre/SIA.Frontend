@@ -1,5 +1,5 @@
 <template>
-  <v-data-table
+    <v-data-table
     :search="search"
     :headers="headers"
     :items="displayedStudents"
@@ -110,6 +110,7 @@
                     <v-text-field
                       v-model="editedItem.birth_date"
                       label="Date of Birth dd/mm/yy"
+                      type="date"
                       required
                     ></v-text-field>
                   </v-col>
@@ -428,7 +429,7 @@
                   <v-list-item-subtitle>{{ selectedStudent.birth_place}}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
-            </v-col>
+            </v-col>s
             <v-col cols="12" sm="4">
               <v-list-item>
                 <v-list-item-content>
