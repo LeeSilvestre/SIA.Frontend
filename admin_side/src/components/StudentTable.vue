@@ -29,8 +29,10 @@
       <v-dialog v-model="dialog" max-width="1000px">
             
             <template v-slot:activator="{ props }">
-              <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Create New</v-btn>
+              <v-btn class="mb-2 rounded-l	border" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Add New Student</v-btn>
+              <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Enroll Student</v-btn>
             </template>
+
             
             <v-card >
               <v-card-title ><span class="text-h5 fw-bold m-2" style="color: #2F3F64"  >{{ formTitle }}</span></v-card-title>
@@ -359,9 +361,11 @@
       <tr>
         <td>{{ item.student_id }}</td>
         <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
-        <td>{{ item.year }}</td>
         <td>{{ item.section }}</td>
         <td>{{ item.enrollment_date}}</td>
+        <td >Incoming</td>
+        <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
+
         <td>
           <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon>
         <!-- Archive Icon -->
@@ -402,7 +406,7 @@
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title class="text-subtitle-1">Full Name:</v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.full_name }}</v-list-item-subtitle>
+                  <v-list-item-subtitle>{{ students.full_name }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-col>
@@ -417,19 +421,11 @@
             <v-col cols="12" sm="4">
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Birthdate:</v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.birth_date }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
                   <v-list-item-title class="text-subtitle-1">Birthplace: </v-list-item-title>
                   <v-list-item-subtitle>{{ selectedStudent.birth_place}}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
-            </v-col>s
+            </v-col>
             <v-col cols="12" sm="4">
               <v-list-item>
                 <v-list-item-content>
@@ -446,26 +442,6 @@
                 </v-list-item-content>
               </v-list-item>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Region: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.region }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-subtitle-1">Address: </v-list-item-title>
-                    <v-list-item-subtitle>
-                      {{ selectedStudent.street }} {{ selectedStudent.barangay }},
-                      {{ selectedStudent.city }} {{ selectedStudent.province}}
-                      {{ selectedStudent.zip_code }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-col>
 
               <hr>
 
@@ -502,14 +478,14 @@ export default {
     dialogDelete: false,
     viewDialog: false,
     selectedStudent: null,
-    formTitle: 'Create New Student',
     selectedFile: null,
     headers: [
       { title: 'Student No.', align: 'start', key:'student_id'},
       { title: 'Full Name', align: 'start', key: 'full_name' },
-      { title: 'S.Y', align: 'start', key:'sy'},
       { title: 'Section', align: 'start', key:'section'},
       { title: 'Date Enrolled', align: 'start', key: 'date' },
+      { title: 'Student Status', align: 'start', key: 'status' },
+      { title: 'Enrollment Status', align: 'start', key: 'status' },
       { title: 'Actions', sortable: false },
     ],
 
@@ -694,6 +670,15 @@ export default {
     goView(){
       this.$router.push('/viewdetails');
   },
+  getStatusColor(status) {
+      if (status === 'Verifying') {
+        return 'yellow'; // Set color to yellow if status is 'pending'
+      } else if (status === 'Enrolled') {
+        return 'green'; // Set color to green if status is 'enrolled'
+      } else {
+        return 'red'; // Default color
+      }
+    }
     
   },
 };
