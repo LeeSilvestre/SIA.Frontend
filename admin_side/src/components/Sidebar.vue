@@ -30,10 +30,10 @@
                 
                 
                 <ul class="submenu-content" v-show="submenuVisible" @click.stop>
-                    <li><router-link class="button" to="/juniorhigh">Junior High</router-link></li>
-                    <li><router-link class="button" to="/seniorhigh">Senior High</router-link></li>
-                    <li><router-link class="button" to="/alumni">Alumni</router-link></li>
-                    <li><router-link  class="button"to="/faculty">Faculty</router-link></li>
+                    <li><router-link class="button" to="/juniorhigh" exact active-class="active">Junior High</router-link></li>
+                    <li><router-link class="button" to="/seniorhigh" exact active-class="active">Senior High</router-link></li>
+                    <li><router-link class="button" to="/alumni" exact active-class="active">Alumni</router-link></li>
+                    <li><router-link  class="button"to="/faculty" exact active-class="active">Faculty</router-link></li>
                 </ul>
             </div>
             <router-link class="button" to="/request">
