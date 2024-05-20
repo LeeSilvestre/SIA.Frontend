@@ -3,8 +3,7 @@
     :sort-by="[{ key: 'studentId', order: 'asc' }]">
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">Student Enrollment Master
-          List</v-toolbar-title>
+        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">STUDENT MASTER LIST</v-toolbar-title>
 
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
@@ -373,20 +372,12 @@ export default {
   methods: {
     initialize() {
       axios.get('student').then(res => {
-        let tmp = res.data;
-        this.students = tmp.student;
-        console.log(this.students);
-
-        // Format full name and adjust strand property
-        this.students.forEach(student => {
-          // Format full name
-          student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-
-          // Check grade level and adjust strand property
-          if (student.grade_level <= 10) {
-            delete student.strand;
-          }
-        });
+        this.students = res.data.student.map(student => ({
+          ...student,
+          full_name: `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
+        }));
+      }).catch(error => {
+        console.error('Error fetching students:', error);
       });
     },
 

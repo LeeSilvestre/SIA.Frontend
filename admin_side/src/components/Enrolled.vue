@@ -1,10 +1,12 @@
 <template>
-  <v-data-table :search="search" :headers="headers" :items="displayedStudents"
-    :sort-by="[{ key: 'studentId', order: 'asc' }]">
+  <v-data-table :search="search" 
+  :headers="headers" 
+  :items="displayedStudents"
+  :sort-by="[{ key: 'studentId', order: 'asc' }]"
+  class="table-with-bold-headers">
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">Student Enrollment Master
-          List</v-toolbar-title>
+        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">STUDENT MASTER LIST</v-toolbar-title>
 
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
@@ -164,19 +166,16 @@
     <template v-slot:item="{ item }">
 
       <tr>
-        <td>{{ item.student_id }}</td>
-        <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
-        <td>{{ item.section }}</td>
-        <td>{{ item.enrollment_date }}</td>
-        <td>Incoming</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status }}</td>
-
-        <td>
+        <td class="start-text">{{ item.student_id }}</td>
+        <td class="centered-text">{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
+        <td class="start-text">{{ item.section }}</td>
+        <td class="centered-text">{{ item.enrollment_date }}</td>
+        <td class="centered-text">Incoming</td>
+        <td :style="{ color: getStatusColor(item.enrollment_status) }" class="centered-text">{{ item.enrollment_status }}</td>
+        <td class="centered-text">
           <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon>
-          <!-- Archive Icon -->
-          <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon>
+          <v-icon class="me-2" size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon>
         </td>
-
       </tr>
     </template>
 
@@ -285,13 +284,13 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: 'Student No.', align: 'start', key: 'student_id' },
-      { title: 'Full Name', align: 'start', key: 'full_name' },
-      { title: 'Section', align: 'start', key: 'section' },
-      { title: 'Date Enrolled', align: 'start', key: 'date' },
-      { title: 'Student Status', align: 'start', key: 'status' },
-      { title: 'Enrollment Status', align: 'start', key: 'status' },
-      { title: 'Actions', sortable: false },
+      { title: 'Student Number', align: 'start', key: 'student_id' },
+      { title: 'Full Name', align: 'center', key: 'full_name' },
+      { title: 'Section', align: 'center', key: 'section' },
+      { title: 'Date Enrolled', align: 'center', key: 'date' },
+      { title: 'Student Status', align: 'center', key: 'status' },
+      { title: 'Enrollment Status', align: 'center', key: 'status' },
+      { title: 'Actions', align: 'center', sortable: false },
     ],
 
     students: [],
@@ -345,9 +344,12 @@ export default {
   },
   displayedStudents() {
     const searchTerm = this.search.toLowerCase();
-    return this.students.filter(student =>Object.values(student)
-      .some(value =>(value === 'Enrolled')
-  ));}
+    return this.students.filter(student =>
+      Object.values(student).some(value =>
+        typeof value === 'string' && value.toLowerCase().includes(searchTerm)
+      )
+    );
+  },
 },
 
   watch: {
@@ -569,5 +571,9 @@ export default {
 
 .sweet-alert-container {
   z-index: 9999 !important;
+}
+
+.centered-text {
+  text-align: center;
 }
 </style>

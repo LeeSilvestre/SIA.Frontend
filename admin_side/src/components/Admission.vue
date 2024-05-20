@@ -9,7 +9,7 @@
   >
     <template v-slot:top >
       <v-toolbar flat >
-        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">Student Admission List</v-toolbar-title>
+        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">STUDENT ADMISSION LIST</v-toolbar-title>
 
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
@@ -468,17 +468,13 @@ export default {
 
   methods: {
     initialize() {
-      axios.get('student').then(res=>{
-        let tmp = res.data;
-        this.students = tmp.student;
-        console.log(this.students)
-      })
-      this.students.forEach(student => {
-  student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-    if (student.grade_level < 11 || student.grade_level > 12) {
-        // Remove the strand property
-        student.strand = "N/A";
-    }
+      axios.get('student').then(res => {
+        this.students = res.data.student.map(student => ({
+          ...student,
+          full_name: `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
+        }));
+      }).catch(error => {
+        console.error('Error fetching students:', error);
       });
     },
 

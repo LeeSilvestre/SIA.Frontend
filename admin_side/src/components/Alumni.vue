@@ -59,12 +59,12 @@
         
       <v-card-text>
         <div class="d-flex mt-2 p-1">
-          <v-card class="mr-3" style="width: 30%; background-color: #f0f0f0;">
+          <v-card class="mr-3" style="width: 50%; background-color: #f0f0f0;">
             <v-card-text class="student-leftinfo">
               <img :src="selectedStudent.imageSrc" alt="Faculty Image"
                 style="max-width: 100%; height: auto; margin-bottom: 3rem;"><br>
                 <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">FACULTY ID:</strong> {{ selectedStudent.student_id }} <br>
+                  <strong class="text-padding">STUDENT ID:</strong> {{ selectedStudent.student_id }} <br>
               </div>
               <div class="d-flex flex-column mb-3 faculty-details-item">
                   <strong class="text-padding">FULL NAME:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name}} {{ selectedStudent.last_name}} {{ selectedStudent.extension }}<br>
@@ -78,74 +78,79 @@
             </v-card-text>
           </v-card>
 
-          <v-card style="flex-grow: 1">
-            <v-card-text>
-              <h3 class="fs-5 fw-bold">FAMILY INFORMATION</h3>
-              <hr>
-              <div class="student-family">
-                <v-row>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Mother Name:</strong>
-                      <span>{{ selectedStudent.mother_name }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Mobile Number:</strong>
-                      <span>{{ selectedStudent.mother_mobile }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Occupation:</strong>
-                      <span>{{ selectedStudent.mother_occupation }}</span>
-                    </div>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Father Name:</strong>
-                      <span>{{ selectedStudent.father_name }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Mobile Number:</strong>
-                      <span>{{ selectedStudent.father_mobile }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Occupation:</strong>
-                      <span>{{ selectedStudent.father_occupation}}</span>
-                    </div>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Guardian Name:</strong>
-                      <span>{{ selectedStudent.guardian_name }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Mobile Number:</strong>
-                      <span>{{ selectedStudent.guardian_mobile }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Occupation:</strong>
-                      <span>{{ selectedStudent.guardian_occupation }}</span>
-                    </div>
-                  </v-col>
-                </v-row>
-              </div>
-            </v-card-text>
-          </v-card>
+          <div class="parent-container">
+          <v-card class="right-section w-100" style="box-shadow: 5px 10px #888888;">
+              <v-card-text>
+                <h3 class="section-title">PERSONAL INFORMATION</h3>
+                <hr>
+                <div class="personal-info">
+                  <!-- Personal information details -->
+                  <!-- Mother's details -->
+                  <div class="info-box">
+                    <strong class="info-title">Full Name: </strong>
+                    <span class="info-value">{{ selectedStudent.first_name }} {{ selectedStudent.middle_name }}</span>
+                  </div>
+                  <div class="info-box">
+                    <strong class="info-title">Contact #: </strong>
+                    <span class="info-value">{{ selectedStudent.contact_no }}</span>
+                  </div>
+                  <div class="info-box">
+                    <strong class="info-title">Birthdate: </strong>
+                    <span class="info-value">{{ selectedStudent.birth_date }}</span>
+                  </div>
+                  <div class="info-box">
+                    <strong class="info-title">Sex: </strong>
+                    <span class="info-value">{{ selectedStudent.sex_at_birth }}</span>
+                  </div>
+                  <div class="info-box">
+                    <strong class="info-title">Religion: </strong>
+                    <span class="info-value">{{ selectedStudent.religion }}</span>
+                  </div>
+                  <div class="info-box">
+                    <strong class="info-title">Address: </strong>
+                    <span class="info-value">{{ selectedStudent.houseNumber}} {{ selectedStudent.street}} {{ selectedStudent.barangay}}
+                      {{ selectedStudent.city}} ,{{ selectedStudent.province}} {{ selectedStudent.zip_code}}</span>
+                  </div>
+                  <div class="info-box">
+                    <strong class="info-title">Guardian Name: </strong>
+                    <span class="info-value">{{ selectedStudent.guardian }}</span>
+                  </div>
+                  <div class="info-box">
+                    <strong class="info-title">Guardian Contact #: </strong>
+                    <span class="info-value">{{ selectedStudent.guardian_mobileno }}</span>
+                  </div>
+                  <!-- Father's details -->
+                  <!-- Add other personal information details here -->
+                </div>
+              </v-card-text>
+            </v-card>
+            <v-card class="lower-section w-100" style="box-shadow: 5px 10px #888888;">
+              <v-card-text>
+                <h3 class="section-title">ACADEMIC INFORMATION</h3>
+                <hr>
+                <div class="personal-info">
+                  <!-- Personal information details -->
+                  <!-- Mother's details -->
+                  <div class="info-box">
+                    <strong class="info-title">Section: </strong>
+                    <span class="info-value">{{ selectedStudent.section }}</span>
+                  </div>
+                  <div class="info-box">
+                    <strong class="info-title">Grade Level: </strong>
+                    <span class="info-value">{{ selectedStudent.grade_level }}</span>
+                  </div>
+                  <div class="info-box">
+                    <strong class="info-title">School Year: </strong>
+                    <span class="info-value">{{ selectedStudent.year }}</span>
+                  </div>
+                  <div class="info-box">
+                    <strong class="info-title">Password: </strong>
+                    <span class="info-value">{{ selectedStudent.password }}</span>
+                  </div>
+                </div>
+              </v-card-text>
+            </v-card>
+          </div>
         </div>
       </v-card-text>
     </v-card>
@@ -330,9 +335,67 @@ export default {
   text-align: left;
   padding: 1rem;
 }
-
 .close-button:hover {
   color: red;
 }
 
+
+.info-title {
+  font-weight: bold;
+}
+
+.dialog-header {
+  background-color: var(--dark);
+  padding: 0.75rem 1rem;
+}
+
+.dialog-title {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: bold;
+  position: relative;
+  margin: 0;
+}
+
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: white;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--dark);
+  margin-bottom: 1rem;
+}
+
+.personal-info {
+  border: 1px solid #e0e0e0;
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.info-box {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+}
+
+.info-value {
+  color: var(--dark);
+  opacity: 75%;
+}
+.faculty-details-item {
+  padding: 8px 0; 
+  justify-content: left;
+  text-align: left;
+  align-items: start;
+}
+
+.parent-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 </style>

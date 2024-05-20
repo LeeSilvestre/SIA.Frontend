@@ -9,7 +9,7 @@
   >
     <template v-slot:top >
       <v-toolbar flat >
-        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">Student Enlistment List</v-toolbar-title>
+        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">STUDENT ENLISTMENT LIST</v-toolbar-title>
 
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
@@ -267,8 +267,10 @@
         <td >Pending</td>
 
         <td>
-          <v-btn> View Status</v-btn>
-          <v-btn> Verified</v-btn>
+          <div class="button-container"> 
+          <v-btn class="bg-blue small-button"> View Status</v-btn>
+          <v-btn class="bg-green small-button"> Verified</v-btn>
+        </div>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
         <!-- Archive Icon -->
           <!-- <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
@@ -389,7 +391,7 @@ export default {
       { title: 'Grade Level', align: 'start', key:'grade_lvl'},
       { title: 'Student Status', align: 'start', key: 'status' },
       { title: 'Status', align: 'start', key: 'status' },
-      { title: 'Actions', sortable: false },
+      { title: 'Actions', align: 'center',sortable: false },
     ],
 
     students: [],
@@ -438,16 +440,13 @@ export default {
   }),
 
   computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
-    },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-    return this.students.filter(student =>
-      Object.values(student).some(value =>
-        typeof value === 'string' && value.toLowerCase().includes(searchTerm)
-    )
-    );
+      return this.students.filter(student =>
+        Object.values(student).some(value =>
+          typeof value === 'string' && value.toLowerCase().includes(searchTerm)
+        )
+      );
     },
   },
 
@@ -473,19 +472,16 @@ export default {
 
   methods: {
     initialize() {
-      axios.get('student').then(res=>{
-        let tmp = res.data;
-        this.students = tmp.student;
-        console.log(this.students)
-      })
-      this.students.forEach(student => {
-  student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-    if (student.grade_level < 11 || student.grade_level > 12) {
-        // Remove the strand property
-        student.strand = "N/A";
-    }
+      axios.get('student').then(res => {
+        this.students = res.data.student.map(student => ({
+          ...student,
+          full_name: `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
+        }));
+      }).catch(error => {
+        console.error('Error fetching students:', error);
       });
     },
+    
 
     triggerFileInput() {
       this.$refs.fileInput.click();
@@ -615,6 +611,16 @@ export default {
 
 .close-button:hover {
   color: red;
+}
+
+.button-container {
+  display: flex;
+  gap: 10px; 
+}
+
+.small-button {
+  padding: 3px 5px 2px; 
+  font-size: 11px;  
 }
 
 </style>
