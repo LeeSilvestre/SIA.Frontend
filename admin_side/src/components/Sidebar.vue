@@ -23,18 +23,18 @@
           <router-link class="button" to="/account"><span class="material-icons">manage_accounts</span><span class="text">Accounts</span></router-link>
 
           <!-- ENCODER TAB -->
-          <div class="submenu" @click="toggleSubmenu">
+          <div class="submenu" @click="toggleSubmenu1">
                 <router-link class="button" to="/enlistment">
                 <span class="material-icons">keyboard</span>
-                <span class="text">Encoding</span> <span class="material-icons dropdown-icon">{{ submenuVisible ? 'expand_less' : 'expand_more' }}</span></router-link>
+                <span class="text">Encoding</span> <span class="material-icons dropdown-icon">{{ submenuVisible1 ? 'expand_less' : 'expand_more' }}</span></router-link>
                 
                 
-                <ul class="submenu-content" v-show="submenuVisible" @click.stop>
+                <ul class="submenu-content" v-show="submenuVisible1" @click.stop>
                   <li>
-                    <router-link class="button" to="/enlistment"><span class="material-icons">edit_note</span><span class="text">Enlistment</span></router-link>
+                    <router-link class="button" to="/enlistment"><span class="text">Enlistment</span></router-link>
                   </li>
                   <li>
-                    <router-link class="button" to="/admission"><span class="material-icons">person_add</span><span class="text">Admission</span></router-link>
+                    <router-link class="button" to="/admission"><span class="text">Admission</span></router-link>
                   </li>
                 </ul>
             </div>
@@ -86,6 +86,7 @@
   const is_expanded = ref(localStorage.getItem("is_expanded") === "true")
   const is_encoding = ref(localStorage.getItem("is_encoding") === "true")
   const submenuVisible = ref(false)
+  const submenuVisible1 = ref(false)
   const ToggleMenu = () => {
       is_expanded.value = !is_expanded.value
   
@@ -94,6 +95,10 @@
     
     const toggleSubmenu = () => { //records menu toggle submenu
         submenuVisible.value = !submenuVisible.value
+    }
+
+    const toggleSubmenu1 = () => { //records menu toggle submenu
+        submenuVisible1.value = !submenuVisible1.value
     }
   </script>
   

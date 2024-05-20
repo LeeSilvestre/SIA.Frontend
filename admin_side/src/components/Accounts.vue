@@ -9,7 +9,7 @@
   >
     <template v-slot:top >
       <v-toolbar flat >
-        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">User Accounts List</v-toolbar-title>
+        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">USER ACCOUNTS LIST</v-toolbar-title>
 
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
@@ -28,15 +28,18 @@
       <!-- create new popup modal -->
       <v-dialog v-model="dialog" max-width="1000px">
         <template v-slot:activator="{ props }">
-              <v-btn class="mb-2 rounded-l	border" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Add Account</v-btn>
+            <v-btn class="mb-2 rounded-l" color="primary" dark v-bind="props" prepend-icon="mdi-plus">ADD USERS</v-btn>
           </template>
             
             <v-card >
-              <v-card-title ><span class="text-h5 fw-bold m-2" style="color: #2F3F64"  >{{ formTitle }}</span></v-card-title>
+              <div style="background-color: var(--dark);">
+              <v-card-title ><span class="fs-3 fw-bold m-2" style="color: white"  >{{ formTitle }}</span></v-card-title>
+            </div>
               <v-card-text > 
-                <label class="fw-light">PERSONAL INFORMATION</label>
+                <label class="fw-light fs-4">PERSONAL INFORMATION</label>
                 <v-container >
-                  <v-col
+                <v-row>
+                <v-col
                 cols="12"
                 md="3"
                 sm="6"
@@ -48,6 +51,7 @@
                   required
                 ></v-select>
               </v-col>
+            </v-row>
                   <v-row dense >
                     <v-col
                     cols="12"
@@ -240,13 +244,12 @@
 
                   <!-- other info -->
                 </v-row>
-                <hr>
                 </v-container>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue-darken-1" variant="text" @click="close">Cancel</v-btn>
-                <v-btn color="blue-darken-1" variant="text" @click="save">Save</v-btn>
+                <v-btn class="bg-green" color="bwhite" variant="text" @click="save">Save</v-btn>
+              <v-btn class="bg-red" color="white" variant="text" @click="close">Cancel</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -438,7 +441,7 @@ export default {
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
+      return this.editedIndex === -1 ? 'ADD USER ACCOUNT' : 'Edit Student Information';
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();

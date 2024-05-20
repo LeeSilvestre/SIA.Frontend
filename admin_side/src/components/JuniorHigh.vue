@@ -31,109 +31,110 @@
   </v-data-table>
 
   <v-dialog v-model="viewDialog" max-width="800">
-    <v-card>
-      <div class="pt-3 pb-3 pl-5 pr-4" style="background-color: var(--dark)">
-        <v-card-title class="fs-3 font-weight-black" style="color: white; position: relative; margin: 0;">
-          STUDENT DETAILS
-          <v-btn icon @click="closeViewDialog" class="close-button " style="position: absolute; top: 0; right: 0;">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>  
-        </v-card-title>
-      </div>
-        
-      <v-card-text>
-        <div class="d-flex mt-2 p-1">
-          <v-card class="mr-3" style="width: 30%; background-color: #f0f0f0;">
-            <v-card-text class="student-leftinfo">
-              <img :src="selectedStudent.imageSrc" alt="Faculty Image"
-                style="max-width: 100%; height: auto; margin-bottom: 3rem;"><br>
-                <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">FACULTY ID:</strong> {{ selectedStudent.student_id }} <br>
-              </div>
-              <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">FULL NAME:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name}} {{ selectedStudent.last_name}} {{ selectedStudent.extension }}<br>
-              </div>
-              <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">LRN:</strong> {{ selectedStudent.student_lrn }}<br>
-              </div>
-              <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">Grade Level:</strong> {{ selectedStudent.grade_level }}<br>
-              </div>
-            </v-card-text>
-          </v-card>
+  <v-card>
+    <div class="pt-3 pb-3 pl-5 pr-4" style="background-color: var(--dark);">
+      <v-card-title class="fs-3 font-weight-black" style="color: white; position: relative; margin: 0;">
+        STUDENT DETAILS
+        <v-btn icon @click="closeViewDialog" class="close-button" style="position: absolute; top: 0; right: 0;">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>  
+      </v-card-title>
+    </div>
+      
+    <v-card-text>
+      <div class="d-flex mt-2 p-1">
+        <v-card class="mr-3" style="width: 30%; background-color: #f0f0f0;">
+          <v-card-text class="student-leftinfo">
+            <img :src="selectedStudent.imageSrc" alt="Student Image"
+              style="max-width: 100%; height: auto; margin-bottom: 3rem;">
+            <div class="d-flex flex-column mb-2 student-details-item">
+              <strong class="text-padding">STUDENT ID:</strong> {{ selectedStudent.student_id }}    
+            </div>
+            <div class="d-flex flex-column mb-2 student-details-item">
+              <strong class="text-padding">FULL NAME:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name}} {{ selectedStudent.last_name}} {{ selectedStudent.extension }}
+            </div>
+            <div class="d-flex flex-column mb-2 student-details-item">
+              <strong class="text-padding">LRN:</strong> {{ selectedStudent.student_lrn }}
+            </div>
+            <div class="d-flex flex-column mb-2 student-details-item">
+              <strong class="text-padding">GRADE LEVEL:</strong> {{ selectedStudent.grade_level }}
+            </div>
+          </v-card-text>
+        </v-card>
 
-          <v-card style="flex-grow: 1">
-            <v-card-text>
-              <h3 class="fs-5 fw-bold">FAMILY INFORMATION</h3>
-              <hr>
-              <div class="student-family">
-                <v-row>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Mother Name:</strong>
-                      <span>{{ selectedStudent.mother_name }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Mobile Number:</strong>
-                      <span>{{ selectedStudent.mother_mobile }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Occupation:</strong>
-                      <span>{{ selectedStudent.mother_occupation }}</span>
-                    </div>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Father Name:</strong>
-                      <span>{{ selectedStudent.father_name }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Mobile Number:</strong>
-                      <span>{{ selectedStudent.father_mobile }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Occupation:</strong>
-                      <span>{{ selectedStudent.father_occupation}}</span>
-                    </div>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Guardian Name:</strong>
-                      <span>{{ selectedStudent.guardian_name }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Mobile Number:</strong>
-                      <span>{{ selectedStudent.guardian_mobile }}</span>
-                    </div>
-                  </v-col>
-                  <v-col cols="4">
-                    <div class="info-box">
-                      <strong class="info-title">Occupation:</strong>
-                      <span>{{ selectedStudent.guardian_occupation }}</span>
-                    </div>
-                  </v-col>
-                </v-row>
-              </div>
-            </v-card-text>
-          </v-card>
-        </div>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
+        <v-card style="flex-grow: 1;">
+          <v-card-text>
+            <h3 class="fs-5 fw-bold">FAMILY INFORMATION</h3>
+            <hr>
+            <div class="student-family">
+              <v-row>
+                <v-col cols="4">
+                  <div class="info-box">
+                    <strong class="info-title">Mother Name:</strong>
+                    <span>{{ selectedStudent.mother_name }}</span>
+                  </div>
+                </v-col>
+                <v-col cols="4">
+                  <div class="info-box">
+                    <strong class="info-title">Mobile Number:</strong>
+                    <span>{{ selectedStudent.mother_mobile }}</span>
+                  </div>
+                </v-col>
+                <v-col cols="4">
+                  <div class="info-box">
+                    <strong class="info-title">Occupation:</strong>
+                    <span>{{ selectedStudent.mother_occupation }}</span>
+                  </div>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="4">
+                  <div class="info-box">
+                    <strong class="info-title">Father Name:</strong>
+                    <span>{{ selectedStudent.father_name }}</span>
+                  </div>
+                </v-col>
+                <v-col cols="4">
+                  <div class="info-box">
+                    <strong class="info-title">Mobile Number:</strong>
+                    <span>{{ selectedStudent.father_mobile }}</span>
+                  </div>
+                </v-col>
+                <v-col cols="4">
+                  <div class="info-box">
+                    <strong class="info-title">Occupation:</strong>
+                    <span>{{ selectedStudent.father_occupation }}</span>
+                  </div>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col cols="4">
+                  <div class="info-box">
+                    <strong class="info-title">Guardian Name:</strong>
+                    <span>{{ selectedStudent.guardian_name }}</span>
+                  </div>
+                </v-col>
+                <v-col cols="4">
+                  <div class="info-box">
+                    <strong class="info-title">Mobile Number:</strong>
+                    <span>{{ selectedStudent.guardian_mobile }}</span>
+                  </div>
+                </v-col>
+                <v-col cols="4">
+                  <div class="info-box">
+                    <strong class="info-title">Occupation:</strong>
+                    <span>{{ selectedStudent.guardian_occupation }}</span>
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
+          </v-card-text>
+        </v-card>
+      </div>
+    </v-card-text>
+  </v-card>
+</v-dialog>
+
 </template>
 
 <script>
@@ -336,5 +337,8 @@ export default {
 .faculty-details-item {
   border-bottom: 1px solid #ccc; 
   padding: 8px 0; 
+  justify-content: left;
+  text-align: left;
+  align-items: start;
 }
 </style>

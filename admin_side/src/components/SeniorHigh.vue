@@ -27,7 +27,7 @@
       
       </v-toolbar>
     </template>
-    <template v-slot:item="{ item }">
+    <template v-slot:item="{ item }" >
       <tr>
         <td>{{ item.student_id }}</td>
         <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
@@ -36,7 +36,7 @@
         <td>{{ item.strand }}</td>
         <td>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
-          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;" @click="openViewDialog(item)">mdi-eye</v-icon>
+          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem" @click="openViewDialog(item)">mdi-eye</v-icon>
         </td>
       </tr>
     </template>
@@ -165,12 +165,12 @@ export default {
     selectedStudent: null,
     viewDialog: false,
     headers: [
-      { title: 'Student ID', key: 'student_id' },
+      { title: 'Student ID', align: 'start', key: 'student_id' },
       { title: 'Name', align: 'start', key:'full_name'},
-      { title: 'LRN', key: 'student_lrn' },
-      { title: 'Grade Level', key: 'grade_level' },
-      { title: 'Strand', key: 'strand' },
-      { title: 'View Detail', sortable: false },
+      { title: 'LRN',align: 'start', key: 'student_lrn' },
+      { title: 'Grade Level',align: 'start', key: 'grade_level' },
+      { title: 'Strand', align: 'start', key: 'strand' },
+      { title: 'View Detail', align: 'start', sortable: false },
     ],
     students: [],
     value: [],
