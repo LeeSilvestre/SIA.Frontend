@@ -165,16 +165,21 @@
 
       <tr>
         <td>{{ item.student_id }}</td>
-        <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
+        <td>{{ item.student_lrn}}</td>
+        <td> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
+        <td>{{ item.sex_at_birth }}</td>
+        <td>{{ item.grade_level }}</td>
         <td>{{ item.section }}</td>
-        <td>{{ item.enrollment_date }}</td>
-        <td>Incoming</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status }}</td>
+        <td >Incoming</td>
+        <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
+        <td>{{ item.enrollment_date}}</td>
 
         <td>
-          <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon>
-          <!-- Archive Icon -->
-          <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon>
+          <v-btn v-if="item.enrollment_status !== 'Enrolled'" class="mb-2 rounded-l" color="success" dark v-bind="props" @click="enrollItem(item, 'Confirm')">Enroll</v-btn>
+          <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" >Edit</v-btn>
+          <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
+        <!-- Archive Icon -->
+          <!-- <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
         </td>
 
       </tr>
@@ -276,6 +281,7 @@
 <script>
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 export default {
   data: () => ({
     search: '',
@@ -285,12 +291,15 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: 'Student No.', align: 'start', key: 'student_id' },
+      { title: 'Student No.', align: 'start', key:'student_id'},
+      { title: 'Student Lrn', align: 'start', key: 'lrn' },
       { title: 'Full Name', align: 'start', key: 'full_name' },
-      { title: 'Section', align: 'start', key: 'section' },
-      { title: 'Date Enrolled', align: 'start', key: 'date' },
+      { title: 'Gender', align: 'start', key:'grade_lvl'},
+      { title: 'Grade Level.', align: 'start', key:'grade_lvl'},
+      { title: 'Section', align: 'start', key:'section'},
       { title: 'Student Status', align: 'start', key: 'status' },
       { title: 'Enrollment Status', align: 'start', key: 'status' },
+      { title: 'Date Enrolled', align: 'start', key: 'date' },
       { title: 'Actions', sortable: false },
     ],
 
@@ -344,13 +353,10 @@ export default {
       return this.editedIndex === -1 ? 'ADD NEW STUDENT' : 'Edit Student Information';
     },
     displayedStudents() {
-      const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
-      return this.students.filter(student =>
-        Object.values(student).some(value =>
-          typeof value === 'string' && value.toLowerCase().includes(searchTerm)
-        )
-      );
-    },
+      const searchTerm = this.search.toLowerCase();
+      return this.students.filter(student =>Object.values(student)
+        .some(value =>(value === 'Assessed'  || value === 'Enrolled')
+    ));}
   },
 
   watch: {
@@ -397,13 +403,46 @@ export default {
       });
     },
 
-    watch: {
-      'editedItem.year'(newYear) {
-        const pattern = /^\d{4}-\d{4}$/;
-        if (pattern.test(newYear)) {
-          const years = newYear.split('-');
-          const startYear = parseInt(years[0]);
-          const endYear = parseInt(years[1]);
+
+
+
+    enrollItem(item, action) {
+      this.editedIndex = this.students.indexOf(item);
+      console.log(this.editedIndex);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, " + action + " it!",
+        customClass: {
+          container: 'sweet-alert-container',
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if(action === 'Confirm') {
+            axios.put(`student/editstat/${item.student_id}`, { enrollment_status: 'Enrolled' })
+            .then(res=>{
+              console.log(res.data);
+              Swal.fire({
+                title: "Approved!",
+                text: "Your action has been approved.",
+                icon: "success"})
+              setTimeout(() => {window.location.reload();}, 3000); //
+            }) .catch(err => {
+            console.error(err);
+          });
+          }
+        }
+      });
+      
+    },
+
+    triggerFileInput() {
+      this.$refs.fileInput.click();
+    },
 
           if (endYear - startYear === 1) {
             this.editedItem.year = `${startYear + 1}-${endYear + 1}`;
@@ -411,6 +450,7 @@ export default {
         }
       }
     },
+
 
     // triggerFileInput() {
     //   this.$refs.fileInput.click();
@@ -525,10 +565,10 @@ export default {
 
     goView() {
       this.$router.push('/viewdetails');
-    },
-    getStatusColor(status) {
-      if (status === 'Verifying') {
-        return 'yellow'; // Set color to yellow if status is 'pending'
+  },
+  getStatusColor(status) {
+      if (status === 'Assessed') {
+        return 'blue'; // Set color to yellow if status is 'pending'
       } else if (status === 'Enrolled') {
         return 'green'; // Set color to green if status is 'enrolled'
       } else {
