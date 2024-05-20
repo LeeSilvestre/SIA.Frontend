@@ -1,27 +1,27 @@
 <template>
     <main>
         <div class="top-container">
-            <h1 class="bg-title">ENROLLMENT</h1>
+            <h1 class="bg-title">ASSESSMENT</h1>
         <div class="inventory">
             <span class="material-icons">feed</span>
-            <span class="text">ENROLLMENT</span>
+            <span class="text">ASSESSMENT</span>
         </div>
             
         </div>  
         <hr>
         <div class="tab-content">
-      <button @click="handleTabClick('Verifying')" :class="{ active: activeTab === 'Verifying' }">Verifying</button>
-      <button @click="handleTabClick('Enrolled')" :class="{ active: activeTab === 'Enrolled' }">Officially Enrolled</button>
+      <button @click="handleTabClick('JuniorHigh')" :class="{ active: activeTab === 'JuniorHigh' }">Junior High</button>
+      <button @click="handleTabClick('SeniorHigh')" :class="{ active: activeTab === 'SeniorHigh' }">Senior High</button>
     </div>
         <div class="main-content">
-            <div v-if="activeTab === 'Verifying'">
+            <div v-if="activeTab === 'JuniorHigh'">
                 <div class="student-table">
-                    <Verifying />
+                    <JHSassessmentTable/>
                 </div>
             </div>
-            <div v-if="activeTab === 'Enrolled'">
+            <div v-if="activeTab === 'SeniorHigh'">
                 <div class="student-table">
-                    <Enrolled />
+                    <SHSassessmentTable/>
                 </div>
             </div>
         </div>
@@ -33,13 +33,13 @@
 
 <script>
 // import AddStudent from '../components/AddStudent.vue';
-import Verifying from '../components/Verifying.vue';
-import Enrolled from '../components/Enrolled.vue';
+import JHSassessmentTable from '../components/Assestment.vue';
+import SHSassessmentTable from '../components/AssestmentSHS.vue';
 
 export default {
     data() {
     return {
-      activeTab: 'Verifying' // Default active tab
+      activeTab: 'JuniorHigh' // Default active tab
     };
   },
   methods: {
@@ -50,8 +50,8 @@ export default {
   },
   components: {
     // AddStudent,
-    Verifying,
-    Enrolled
+    JHSassessmentTable,
+    SHSassessmentTable
   }
 };
 </script>
@@ -152,4 +152,5 @@ export default {
 .tab-content-display {
   margin-top: 2rem;
 }
+
 </style>

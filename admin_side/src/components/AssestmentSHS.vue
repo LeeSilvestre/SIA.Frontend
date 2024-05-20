@@ -9,7 +9,7 @@
   >
     <template v-slot:top >
       <v-toolbar flat >
-        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">Student Enrollment Master List</v-toolbar-title>
+        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">Student Assesment List</v-toolbar-title>
 
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
@@ -28,10 +28,6 @@
       <!-- create new popup modal -->
       <v-dialog v-model="dialog" max-width="1000px">
             
-            <template v-slot:activator="{ props }">
-              <v-btn class="mb-2 rounded-l	border" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Add New Student</v-btn>
-              <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Enroll Student</v-btn>
-            </template>
 
             
             <v-card >
@@ -364,14 +360,15 @@
         <td> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
         <td>{{ item.sex_at_birth }}</td>
         <td>{{ item.grade_level }}</td>
-        <td>{{ item.section }}</td>
+        <td>{{ item.grade_level }}</td>
+        <td>{{ item.strand.toUpperCase() }}</td>
+        <td>{{ item.enrollment_date}}</td>
         <td >Incoming</td>
         <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
-        <td>{{ item.enrollment_date}}</td>
 
         <td>
-          <v-btn v-if="item.enrollment_status !== 'Enrolled'" class="mb-2 rounded-l" color="success" dark v-bind="props" @click="enrollItem(item, 'Confirm')">Enroll</v-btn>
-          <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" >Edit</v-btn>
+          <v-btn color="primary" dark v-bind="props" @click="assessItem(item, 'Confirm')"> Verify</v-btn>
+          <!-- <v-btn>Assessed</v-btn> -->
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
         <!-- Archive Icon -->
           <!-- <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
@@ -474,9 +471,8 @@
 </template>
 
 <script>
-
-import axios from 'axios';
 import Swal from 'sweetalert2';
+import axios from 'axios';
 export default {
   data: () => ({
     search: '',
@@ -491,10 +487,11 @@ export default {
       { title: 'Full Name', align: 'start', key: 'full_name' },
       { title: 'Gender', align: 'start', key:'grade_lvl'},
       { title: 'Grade Level.', align: 'start', key:'grade_lvl'},
-      { title: 'Section', align: 'start', key:'section'},
+      { title: 'Semester.', align: 'start', key:'grade_lvl'},
+      { title: 'Strand.', align: 'start', key:'grade_lvl'},
+      { title: 'Date Enrolled', align: 'start', key: 'date' },
       { title: 'Student Status', align: 'start', key: 'status' },
       { title: 'Enrollment Status', align: 'start', key: 'status' },
-      { title: 'Date Enrolled', align: 'start', key: 'date' },
       { title: 'Actions', sortable: false },
     ],
 
@@ -550,7 +547,7 @@ export default {
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
       return this.students.filter(student =>Object.values(student)
-        .some(value =>(value === 'Assessed'  || value === 'Enrolled')
+        .some(value =>(value === 'Verified')
     ));}
   },
 
@@ -576,7 +573,7 @@ export default {
 
   methods: {
     initialize() {
-      axios.get('student').then(res=>{
+      axios.get('shs').then(res=>{
         let tmp = res.data;
         this.students = tmp.student;
         console.log(this.students)
@@ -590,10 +587,11 @@ export default {
       });
     },
 
+    triggerFileInput() {
+      this.$refs.fileInput.click();
+    },
 
-
-
-    enrollItem(item, action) {
+    assessItem(item, action) {
       this.editedIndex = this.students.indexOf(item);
       console.log(this.editedIndex);
       Swal.fire({
@@ -610,7 +608,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           if(action === 'Confirm') {
-            axios.put(`student/editstat/${item.student_id}`, { enrollment_status: 'Enrolled' })
+            axios.put(`student/editstat/${item.student_id}`, { enrollment_status: 'Assessed' })
             .then(res=>{
               console.log(res.data);
               Swal.fire({
@@ -627,9 +625,7 @@ export default {
       
     },
 
-    triggerFileInput() {
-      this.$refs.fileInput.click();
-    },
+
 
     handleFileUpload(event) {
       const file = event.target.files[0];
@@ -714,9 +710,9 @@ export default {
       this.$router.push('/viewdetails');
   },
   getStatusColor(status) {
-      if (status === 'Assessed') {
+      if (status === 'Verified') {
         return 'blue'; // Set color to yellow if status is 'pending'
-      } else if (status === 'Enrolled') {
+      } else if (status === 'Assessed') {
         return 'green'; // Set color to green if status is 'enrolled'
       } else {
         return 'red'; // Default color

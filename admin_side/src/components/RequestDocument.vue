@@ -216,6 +216,11 @@
     },
 
     performAction(action) {
+      action === 'Confirm' ?  (Swal.fire({title: "Approved!",text: "Your action has been approved.",icon: "success"})) :  Swal.fire({
+          title: "Approved!",
+          text: "Your action has been approved.",
+          icon: "success"
+        });
         if (action === "approve") {
         Swal.fire({
           title: "Approved!",
