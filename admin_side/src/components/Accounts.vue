@@ -107,13 +107,13 @@
                   <v-col cols="12" md="3" sm="6">
                     <v-text-field v-model="editedItem.zip_code" label="Zip Code" required maxlength="4" pattern="[0-9]+"
                       @input="validateNumberInput"></v-text-field>
-                  </v-col>
+                  </v-col>  
                 </v-row>
               </v-container>
             </v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn class="bg-green" color="bwhite" variant="text" @click="save">Save</v-btn>
+              <v-btn class="bg-green" color="bwhite" variant="text" @click="confirmSave">Save</v-btn>
               <v-btn class="bg-red" color="white" variant="text" @click="close">Cancel</v-btn>
             </v-card-actions>
           </v-card>
@@ -236,8 +236,9 @@
 </template>
 
 <script>
-
+import Swal from 'sweetalert2';
 import axios from 'axios';
+
 export default {
   data: () => ({
     search: '',
@@ -336,7 +337,9 @@ export default {
     this.initialize();
   },
 
+
   methods: {
+    
     initialize() {
       axios.get('student').then(res => {
         this.students = res.data.student.map(student => ({
@@ -362,6 +365,46 @@ export default {
       this.dialog = false;
       this.selectedFile = null;
     },
+
+    confirmSave() {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to save this user?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, save it!',
+        cancelButtonText: 'No, cancel!',
+        customClass: {
+          container: 'sweet-alert-container',
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.save();
+          Swal.fire(
+            'Saved!',
+            'User has been saved.',
+            'success'
+          );
+        } else {
+          Swal.fire(
+            'Cancelled',
+            'User was not saved.',
+            'error'
+          );
+        }
+      });
+    },
+    save() {
+      console.log('User saved:', this.editedItem);
+      this.dialog = false;
+    },
+    openViewDialog(item) {
+      this.selectedStudent = item;
+      this.viewDialog = true;
+    },
+
     save() {
       // Handle the save action, including the selected file if needed
       console.log(this.selectedFile);
@@ -505,5 +548,8 @@ export default {
   font-size: 11px;
   padding: 1px 4px;
   min-width: 60px;
+}
+.sweet-alert-container {
+  z-index: -9999 !important; /* Ensures the alert is on top of other elements */
 }
 </style>

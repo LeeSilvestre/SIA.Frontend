@@ -174,7 +174,7 @@
         <td :style="{ color: getStatusColor(item.enrollment_status) }" class="centered-text">{{ item.enrollment_status }}</td>
         <td class="centered-text">
           <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon>
-          <v-icon class="me-2" size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon>
+          <!-- <v-icon class="me-2" size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
         </td>
       </tr>
     </template>
@@ -185,7 +185,7 @@
   </v-data-table>
 
   <!-- view user status modal pop -->
-  <v-dialog v-model="viewDialog" max-width="800px">
+  <!-- <v-dialog v-model="viewDialog" max-width="800px">
     <v-card>
       <v-card-title class="d-flex justify-space-between align-center">
         <span class="text-h5 fw-bold m-1" style="color: #2F3F64">
@@ -201,7 +201,7 @@
             <v-col cols="12" sm="4">
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Student ID:</v-list-item-title>
+                  <v-list-item-title class="text-subtitle-1">Student ID: </v-list-item-title>
                   <v-list-item-subtitle>{{ selectedStudent.student_id }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -209,7 +209,7 @@
             <v-col cols="12" sm="4">
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Full Name:</v-list-item-title>
+                  <v-list-item-title class="text-subtitle-1">Full Name: </v-list-item-title>
                   <v-list-item-subtitle>{{ students.full_name }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -217,7 +217,7 @@
             <v-col cols="12" sm="4">
               <v-list-item>
                 <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Contact Number:</v-list-item-title>
+                  <v-list-item-title class="text-subtitle-1">Contact Number: </v-list-item-title>
                   <v-list-item-subtitle>{{ selectedStudent.contact_no }}</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -268,7 +268,83 @@
         </v-container>
       </v-card-text>
     </v-card>
+  </v-dialog> -->
+
+  <v-dialog v-model="viewDialog" max-width="800">
+    <v-card>
+      <div class="dialog-header pt-3 pb-3 pl-5 pr-4">
+        <v-card-title class="dialog-title fs-3 font-weight-black">
+          STUDENT INFORMATION
+          <v-btn icon @click="closeViewDialog" class="close-button">
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+      </div>
+
+      <v-card-text>
+        <div class="d-flex mt-2 p-1">
+          <v-card class="right-section w-100">
+            <v-card-text>
+              <div class="personal-info">
+                <div class=" personal-title" >
+                <v-title class="fs-4 fw-bold">PERSONAL INFORMATION</v-title>
+              </div>
+                <div class="info-box">
+                  <strong class="info-title">STUDENT ID: </strong>
+                  <span class="info-value">{{ selectedStudent.student_id }}</span>
+                </div>
+                <div class="info-box">
+                  <strong class="info-title">Name: </strong>
+                  <span class="info-value">{{ selectedStudent.full_name }}</span>
+                </div>
+                <div class="info-box">
+                  <strong class="info-title">LRN: </strong>
+                  <span class="info-value">{{ selectedStudent.student_lrn }}</span>
+                </div>
+                <div class="info-box">
+                  <strong class="info-title">BIRTHDATE: </strong>
+                  <span class="info-value">{{ selectedStudent.birth_date }}</span>
+                </div>
+                <div class="info-box">
+                  <strong class="info-title">SEX: </strong>
+                  <span class="info-value">{{ selectedStudent.sex_at_birth }}</span>
+                </div>
+                <div class="info-box">
+                  <strong class="info-title">ADDRESS: </strong>
+                  <span class="info-value">{{ selectedStudent.street }} {{ selectedStudent.barangay }}, {{ selectedStudent.city }} {{ selectedStudent.province }} {{ selectedStudent.zip_code }}</span>
+                </div>
+                <div class="info-box">
+                  <strong class="info-title">GUARDIAN NAME: </strong>
+                  <span class="info-value">{{ selectedStudent.guardian }}</span>
+                </div>
+                <div class="info-box">
+                  <strong class="info-title">GUARDIAN CONTACT NUMBER: </strong>
+                  <span class="info-value">{{ selectedStudent.guardian_mobileno }}</span>
+                </div>
+
+                <div class=" personal-title">
+                <v-title class="fs-4 fw-bold">ACADEMIC INFORMATION</v-title>
+              </div>
+                <div class="info-box">
+                  <strong class="info-title">GRADE LEVEL: </strong>
+                  <span class="info-value">{{ selectedStudent.grade_level }}</span>
+                </div>
+                <div class="info-box">
+                  <strong class="info-title">SECTION: </strong>
+                  <span class="info-value">{{ selectedStudent.section }}</span>
+                </div>
+                <div class="info-box">
+                  <strong class="info-title">REASON: </strong>
+                  <span class="info-value">{{ selectedStudent.reason }}</span>
+                </div>
+              </div>
+            </v-card-text>
+          </v-card>
+        </div>
+      </v-card-text>
+    </v-card>
   </v-dialog>
+
   <!-- end view user status modal pop -->
 </template>
 
@@ -283,6 +359,7 @@ export default {
     viewDialog: false,
     selectedStudent: null,
     selectedFile: null,
+    status: '',
     headers: [
       { title: 'Student Number', align: 'start', key: 'student_id' },
       { title: 'Full Name', align: 'center', key: 'full_name' },
@@ -525,17 +602,24 @@ export default {
     goView() {
       this.$router.push('/viewdetails');
     },
-    getStatusColor(status) {
+
+getStatusColor(status) {
       if (status === 'Verifying') {
-        return 'yellow'; // Set color to yellow if status is 'pending'
+        return 'orange'; // Set color to yellow if status is 'pending'
       } else if (status === 'Enrolled') {
         return 'green'; // Set color to green if status is 'enrolled'
       } else {
         return 'red'; // Default color
       }
+    },
+    getRouterLink(status) {
+      if (status === 'Verifying') {
+        return { name: '/Veryfying' }; // Replace 'VerifiedRoute' with your route name
+      } else {
+        return null;
+      }
     }
-
-  },
+  }
 };
 </script>
 
@@ -575,5 +659,48 @@ export default {
 
 .centered-text {
   text-align: center;
+}
+.dialog-header {
+  background-color: var(--dark);
+}
+.dialog-title {
+  color: white;
+  position: relative;
+  margin: 0;
+}
+.close-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.info-box {
+  margin-top: 1rem;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.info-title {
+  font-weight: bold;
+  margin-right: 10px;
+  font-size: 1rem;
+}
+.info-value {
+  flex-grow: 1;
+  text-align: right;
+  font-size: 1rem;
+}
+.fs-3 {
+  font-size: 1.75rem;
+}
+.fs-4 {
+  font-size: 1.5rem;
+}
+.fw-bold {
+  font-weight: bold;
+}
+
+.personal-title {
+  margin-bottom: 1rem;
+  margin-top: 1rem;
+  color: var(--dark);
 }
 </style>

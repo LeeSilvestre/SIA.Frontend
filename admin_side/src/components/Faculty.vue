@@ -150,7 +150,7 @@
               <img :src="selectedFaculty.imageSrc" alt="Faculty Image"
                 style="max-width: 100%; height: auto; margin-bottom: 3rem;"><br>
                 <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">FACULTY ID:</strong> {{ selectedFaculty.faculty_id }} <br>
+                  <strong class="text-padding">FACULTY ID:</strong> {{ selectedFaculty.id }} <br>
               </div>
               <div class="d-flex flex-column mb-3 faculty-details-item">
                   <strong class="text-padding">FULL NAME:</strong> {{ selectedFaculty.fname }} {{ selectedFaculty.mname }} {{ selectedFaculty.lname}} {{ selectedFaculty.extension }}<br>

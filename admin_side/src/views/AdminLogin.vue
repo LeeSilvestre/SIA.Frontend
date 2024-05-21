@@ -56,9 +56,6 @@
                         <v-btn rectangle color="var(--dark)"> <router-link to="/dashboard" style="color:white; text-decoration: none; width: auto; font-size: 15px; ">Sign in</router-link></v-btn>
                       </div>
                       <div class="text-center pb-2">
-                        <a href="" style="display: inline-block;">
-                          St. Nicholas Academy General Privacy Notice
-                        </a>
                       </div>
                     </v-col>
                   </v-row>
