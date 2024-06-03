@@ -33,7 +33,7 @@
     computed: {
       isLoginPage() {
         // Check if the current route is the login page
-        return this.$route.path === '/login';
+        return this.$route.path === '/login' || this.$route.path === '/student';
       },
     },
   };
