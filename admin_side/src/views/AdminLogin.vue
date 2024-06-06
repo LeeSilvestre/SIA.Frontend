@@ -27,7 +27,7 @@
                           <img src="/src/assets/schoolLogo.png" class="logo-logo">
                         </div>
                         <h2 class="text-center lh-0 fs-4 fw-normal">
-                          Welcome to  <span class="sna-text">SNA!</span>
+                          Welcome to  <span class="sna-text">SNACI</span>
                         </h2>
                         <h4 class="text-center pt-0 fs-6">
                            REGISTRAR ADMIN PORTAL
@@ -53,7 +53,7 @@
                         </v-form> 
                       </v-card-text>
                       <div class="text-center pb-2 mx-md-auto">
-                        <v-btn rectangle color="var(--dark)"> <router-link to="/dashboard" style="color:white; text-decoration: none; width: auto; font-size: 15px; ">Sign in</router-link></v-btn>
+                        <v-btn rectangle color="var(--dark)"> <router-link to="/dashboard" style="color:white; text-decoration: none; width: auto; font-size: 15px; ">Log in</router-link></v-btn>
                       </div>
                       <div class="text-center pb-2">
                       </div>
@@ -126,7 +126,7 @@ import axios from 'axios';
 
   .app {
     position: relative; /* Ensure the parent is positioned relative */
-    background-image: url('../assets/BG.jpg');
+    background-image: url('../assets/BG.png');
     background-size: cover;
     background-repeat: no-repeat;
   }
@@ -138,7 +138,7 @@ import axios from 'axios';
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
+    background-color: rgba(0, 0, 0, 0.6);
   }
 
   .logo-container {
