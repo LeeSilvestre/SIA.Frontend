@@ -21,7 +21,7 @@
         <td>{{ item.grade_level }}</td>
         <td>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
-          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;" @click="openViewDialog(item)">mdi-eye</v-icon>
+          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;" @click="handleViewIconClick(item)">mdi-eye</v-icon>
         </td>
       </tr>
     </template>
@@ -69,7 +69,6 @@
                 <hr>
                 <div class="personal-info">
                   <!-- Personal information details -->
-                  <!-- Mother's details -->
                   <div class="info-box">
                     <strong class="info-title">Full Name: </strong>
                     <span class="info-value">{{ selectedStudent.first_name }} {{ selectedStudent.middle_name }}</span>
@@ -103,7 +102,6 @@
                     <strong class="info-title">Guardian Contact #: </strong>
                     <span class="info-value">{{ selectedStudent.guardian_mobileno }}</span>
                   </div>
-                  <!-- Father's details -->
                   <!-- Add other personal information details here -->
                 </div>
               </v-card-text>
@@ -114,7 +112,6 @@
                 <hr>
                 <div class="personal-info">
                   <!-- Personal information details -->
-                  <!-- Mother's details -->
                   <div class="info-box">
                     <strong class="info-title">Section: </strong>
                     <span class="info-value">{{ selectedStudent.section }}</span>
@@ -139,6 +136,8 @@
       </v-card-text>
     </v-card>
   </v-dialog>
+
+  
 </template>
 
 <script>
@@ -280,13 +279,17 @@ export default {
     },
 
     //modal dialog to view the student record
-    openViewDialog(item) {
-      this.selectedStudent = item;
-      this.viewDialog = true;
-    },
+    // openViewDialog(item) {
+    //   this.selectedStudent = item;
+    //   this.viewDialog = true;
+    // },
 
-    closeViewDialog() {
-        this.viewDialog = false;
+    // closeViewDialog() {
+    //     this.viewDialog = false;
+    // },
+
+    handleViewIconClick(item) {
+      this.$emit('view-student', item);
     },
     // end ofmodal dialog to view the student record
 

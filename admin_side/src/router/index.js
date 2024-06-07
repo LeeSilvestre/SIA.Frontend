@@ -63,9 +63,21 @@ const router = createRouter({
     },
     {
       path: '/student',
-      component: () => import('../views/Student.vue')
-    }
+      component: () => import('../views/Student.vue'),
+    },
+    { path: '/junior-high-record/:id', 
+      component: () => import('../components/JuniorHighRecord.vue'), 
+      props: true 
+    },
+    { path: '/senior-high-record/:id', 
+      component: () => import('../components/SeniorHighRecord.vue'), 
+      props: true 
+    },
 
+    { path: '/faculty-record/:id', 
+      component: () => import('../components/FacultyRecord.vue'), 
+      props: true 
+    },
 
     //     path: '/subjectschedule',
     //     component: () => import('../views/SubjectSchedule.vue')
