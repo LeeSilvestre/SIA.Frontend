@@ -40,6 +40,11 @@ const router = createRouter({
       path: '/request',
       component: () => import('../views/Document.vue'),
     },
+    {
+      path: '/schedule',
+      component: () => import('../views/Schedule.vue'),
+    },
+
 
     {
     path: '/juniorhigh',
@@ -78,6 +83,11 @@ const router = createRouter({
       component: () => import('../components/FacultyRecord.vue'), 
       props: true 
     },
+    { path: '/request-document:id', 
+      component: () => import('../components/RequestDocumentRec.vue'), 
+      props: true 
+    },
+  
 
     //     path: '/subjectschedule',
     //     component: () => import('../views/SubjectSchedule.vue')

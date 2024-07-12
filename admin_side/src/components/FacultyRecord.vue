@@ -5,9 +5,9 @@
           <v-card flat>
             <v-card class="step-card">
               <v-card-text class="student-leftinfo">
-                <img :src="student.imageSrc" alt="Student Image" class="student-image"><br>
+                <img :src="Faculty.imageSrc" alt="Student Image" class="student-image"><br>
                 <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">STUDENT ID:</strong> {{ student.student_id }} <br>
+                  <strong class="text-padding">STUDENT ID:</strong> {{ student.faculty_id }} <br>
                 </div>
                 <div class="d-flex flex-column mb-3 faculty-details-item">
                   <strong class="text-padding">FULL NAME:</strong> {{ student.first_name }} {{ student.middle_name }} {{ student.last_name }} {{ student.extension }}<br>
@@ -34,6 +34,8 @@
   </template>
   
   <script>
+import Faculty from './Faculty.vue';
+
   export default {
     props: {
       student: {

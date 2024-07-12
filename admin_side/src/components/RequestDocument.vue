@@ -68,7 +68,7 @@
         <td>{{ item.status }}</td>
         <td>
           <div class="button-container"> 
-          <v-btn class="bg-blue small-button" @click="openViewDialog(item)"> View Status</v-btn>
+          <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)"> View Status</v-btn>
           <v-btn class="bg-green small-button"> Verified</v-btn>
         </div>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
@@ -172,6 +172,8 @@ export default {
         },
       ];
     },
+
+    
     confirmAction(action) {
       Swal.fire({
         title: "Are you sure?",
@@ -189,6 +191,10 @@ export default {
           this.performAction(action);
         }
       });
+    },
+
+    handleViewIconClick(item) {
+      this.$emit('view-student', item);
     },
 
     performAction(action) {
@@ -330,7 +336,11 @@ export default {
     },
 
   },
+
+
 };
+
+
 </script>
 
 <style lang="scss">

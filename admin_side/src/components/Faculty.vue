@@ -321,7 +321,7 @@ export default {
           console.log(this.faculty);
       })
       .catch(error => {
-        console.error('Error loading facultys:', error);
+        console.error('Error loading faculties:', error);
       });
     },
 
