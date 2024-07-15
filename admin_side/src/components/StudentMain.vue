@@ -36,9 +36,6 @@
                       <v-text-field v-model="middlename" :counter="10" :rules="nameRules" label="Middle name" hide-details required outlined></v-text-field>
                     </v-col>
                     <v-col cols="12" md="3">
-                      <v-text-field v-model="age" :rules="ageRules" label="Age" hide-details required outlined></v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="3">
                       <v-text-field v-model="contactNumber" :rules="contactNumberRules" label="Contact Number" hide-details required outlined></v-text-field>
                     </v-col>
                     <v-col cols="12" md="3">
@@ -78,7 +75,7 @@
                     <v-col cols="12" md="3">
                       <v-select v-model="gradeLevel" :items="['Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']" label="Grade Level" clearable outlined></v-select>
                     </v-col>
-                    <v-col v-if="showSection" cols="12" md="3">
+                    <!-- <v-col v-if="showSection" cols="12" md="3">
                       <v-select v-model="section" :items="[
                         'St. Anne', 'St. Bernadette', 'St. Charles', 'St. Elizabeth', 'St. Faustina',
                         'St. George', 'St. Pedro Calungsod', 'St. Lorenzo Ruiz', 'St. Gabriel', 'St. Michael',
@@ -86,7 +83,7 @@
                         'St. Stephen', 'St. Vincent', 'St. Catherine', 'St. Albertus', 'St. Benedict', 'St. Maximillian',
                         'St. Peter', 'St. Thomas', 'St. Isidore', 'St. Joseph'
                       ]" label="Section" clearable outlined></v-select>
-                    </v-col>
+                    </v-col> -->
                     <v-col v-if="showStrand" cols="12" md="3">
                       <v-select v-model="strand" :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']" label="Strand" clearable outlined></v-select>
                     </v-col>
@@ -126,10 +123,6 @@
       nameRules: [
         value => !!value || 'Name is required.',
         value => (value && value.length <= 10) || 'Name must be less than 10 characters.'
-      ],
-      ageRules: [
-        value => !!value || 'Age is required.',
-        value => (value && !isNaN(Number(value))) || 'Age must be a number.'
       ],
       contactNumberRules: [
         value => !!value || 'Contact Number is required.',

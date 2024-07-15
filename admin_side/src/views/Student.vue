@@ -59,7 +59,7 @@
     display: flex;
     flex-direction: column;
     padding: 1rem;
-    flex: 1; /* Ensure it takes the remaining space */
+    flex: 1; 
   }
   
   .student-table {
