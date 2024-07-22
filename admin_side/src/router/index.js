@@ -87,6 +87,7 @@ const router = createRouter({
       component: () => import('../components/RequestDocumentRec.vue'), 
       props: true 
     },
+
   
 
     //     path: '/subjectschedule',

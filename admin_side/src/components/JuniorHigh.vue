@@ -1,18 +1,16 @@
 <template>
   <v-data-table :search="search" :headers="headers" :items="displayedStudents"
     :sort-by="[{ key: 'studentId', order: 'asc' }]">
+
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title class="text-h6 font-weight-black" style="color: #2F3F64">JUNIOR HIGH MASTER
           LIST</v-toolbar-title>
-        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
-
         <v-text-field v-model="search" class="w-20 mr-16 " density="compact" label="Search"
           prepend-inner-icon="mdi-magnify" variant="solo-filled" flat hide-details single-line></v-text-field>
-
-
       </v-toolbar>
     </template>
+
     <template v-slot:item="{ item }">
       <tr>
         <td>{{ item.student_id }}</td>
@@ -20,124 +18,14 @@
         <td>{{ item.student_lrn }}</td>
         <td>{{ item.grade_level }}</td>
         <td>
-          <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
-          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;" @click="handleViewIconClick(item)">mdi-eye</v-icon>
+          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;"
+            @click="handleViewIconClick(item)">mdi-eye</v-icon>
         </td>
       </tr>
     </template>
-    <!-- <template v-slot:no-data>
-      <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
-    </template> -->
+
   </v-data-table>
 
-  <v-dialog v-model="viewDialog" max-width="800">
-    <v-card>
-      <div class="pt-3 pb-3 pl-5 pr-4" style="background-color: var(--dark)">
-        <v-card-title class="fs-3 font-weight-black" style="color: white; position: relative; margin: 0;">
-          STUDENT DETAILS
-          <v-btn icon @click="closeViewDialog" class="close-button " style="position: absolute; top: 0; right: 0;">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>  
-        </v-card-title>
-      </div>
-        
-      <v-card-text>
-        <div class="d-flex mt-2 p-1">
-          <v-card class="mr-3" style="width: 50%; background-color: #f0f0f0;">
-            <v-card-text class="student-leftinfo">
-              <img :src="selectedStudent.imageSrc" alt="Faculty Image"
-                style="max-width: 100%; height: auto; margin-bottom: 3rem;"><br>
-                <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">STUDENT ID:</strong> {{ selectedStudent.student_id }} <br>
-              </div>
-              <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">FULL NAME:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name}} {{ selectedStudent.last_name}} {{ selectedStudent.extension }}<br>
-              </div>
-              <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">LRN:</strong> {{ selectedStudent.student_lrn }}<br>
-              </div>
-              <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">Grade Level:</strong> {{ selectedStudent.grade_level }}<br>
-              </div>
-            </v-card-text>
-          </v-card>
-
-          <div class="parent-container">
-          <v-card class="right-section w-100" style="box-shadow: 5px 10px #888888;">
-              <v-card-text>
-                <h3 class="section-title">PERSONAL INFORMATION</h3>
-                <hr>
-                <div class="personal-info">
-                  <!-- Personal information details -->
-                  <div class="info-box">
-                    <strong class="info-title">Full Name: </strong>
-                    <span class="info-value">{{ selectedStudent.first_name }} {{ selectedStudent.middle_name }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Contact #: </strong>
-                    <span class="info-value">{{ selectedStudent.contact_no }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Birthdate: </strong>
-                    <span class="info-value">{{ selectedStudent.birth_date }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Sex: </strong>
-                    <span class="info-value">{{ selectedStudent.sex_at_birth }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Religion: </strong>
-                    <span class="info-value">{{ selectedStudent.religion }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Address: </strong>
-                    <span class="info-value">{{ selectedStudent.houseNumber}} {{ selectedStudent.street}} {{ selectedStudent.barangay}}
-                      {{ selectedStudent.city}} ,{{ selectedStudent.province}} {{ selectedStudent.zip_code}}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Guardian Name: </strong>
-                    <span class="info-value">{{ selectedStudent.guardian }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Guardian Contact #: </strong>
-                    <span class="info-value">{{ selectedStudent.guardian_mobileno }}</span>
-                  </div>
-                  <!-- Add other personal information details here -->
-                </div>
-              </v-card-text>
-            </v-card>
-            <v-card class="lower-section w-100" style="box-shadow: 5px 10px #888888;">
-              <v-card-text>
-                <h3 class="section-title">ACADEMIC INFORMATION</h3>
-                <hr>
-                <div class="personal-info">
-                  <!-- Personal information details -->
-                  <div class="info-box">
-                    <strong class="info-title">Section: </strong>
-                    <span class="info-value">{{ selectedStudent.section }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Grade Level: </strong>
-                    <span class="info-value">{{ selectedStudent.grade_level }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">School Year: </strong>
-                    <span class="info-value">{{ selectedStudent.year }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Password: </strong>
-                    <span class="info-value">{{ selectedStudent.password }}</span>
-                  </div>
-                </div>
-              </v-card-text>
-            </v-card>
-          </div>
-        </div>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
-
-  
 </template>
 
 <script>
@@ -219,11 +107,6 @@ export default {
     },
   },
 
-  watch: {
-    dialog(val) {
-      val || this.close();
-    },
-  },
 
   mounted() {
     this.initialize();
@@ -312,6 +195,7 @@ export default {
   height: 100%;
 
 }
+
 .student-card {
   width: w-auto;
   border-radius: 17px;
@@ -335,6 +219,7 @@ export default {
   text-align: left;
   padding: 1rem;
 }
+
 .close-button:hover {
   color: red;
 }
@@ -386,8 +271,9 @@ export default {
   color: var(--dark);
   opacity: 75%;
 }
+
 .faculty-details-item {
-  padding: 8px 0; 
+  padding: 8px 0;
   justify-content: left;
   text-align: left;
   align-items: start;
