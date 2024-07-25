@@ -355,7 +355,7 @@
     <template v-slot:item="{ item }">
 
       <tr>
-        <td>{{ item.student_id }}</td>
+        <td>{{ item.rec_no }}</td>
         <td>{{ item.student_lrn}}</td>
         <td> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
         <td>{{ item.sex_at_birth }}</td>
@@ -480,7 +480,7 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: 'Student No.', align: 'start', key:'student_id'},
+      { title: 'Record No.', align: 'start', key:'student_id'},
       { title: 'Student Lrn', align: 'start', key: 'lrn' },
       { title: 'Full Name', align: 'start', key: 'full_name' },
       { title: 'Gender', align: 'start', key:'grade_lvl'},
@@ -604,7 +604,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           if(action === 'Confirm') {
-            axios.put(`student/editstat/${item.student_id}`, { enrollment_status: 'Assessed' })
+            axios.put(`student/editstat/${item.rec_no}`, { enrollment_status: 'Assessed' })
             .then(res=>{
               console.log(res.data);
               Swal.fire({

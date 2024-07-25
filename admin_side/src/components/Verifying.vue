@@ -478,17 +478,17 @@ export default {
     },
 
     save() {
-      if (!this.validateForm()) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Please fill in all required fields!',
-          customClass: {
-            container: 'sweet-alert-container',
-          }
-        });
-        return;
-      }
+      // if (!this.validateForm()) {
+      //   Swal.fire({
+      //     icon: 'error',
+      //     title: 'Oops...',
+      //     text: 'Please fill in all required fields!',
+      //     customClass: {
+      //       container: 'sweet-alert-container',
+      //     }
+      //   });
+      //   return;
+      // }
 
       console.log(this.editedItem);
       if (this.editedIndex > -1) {

@@ -130,7 +130,7 @@
     <template v-slot:item="{ item }">
 
       <tr>
-        <td>{{ item.student_id }}</td>
+        <td>{{ item.rec_no }}</td>
         <td>{{ item.student_lrn }}</td>
         <td> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
         <td>{{ item.sex_at_birth }}</td>
@@ -426,7 +426,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           if (action === 'Confirm') {
-            axios.put(`student/editstat/${item.student_id}`, { enrollment_status: 'Verified' })
+            axios.put(`student/editstat/${item.rec_no}`, { enrollment_status: 'Verified' })
               .then(res => {
                 console.log(res.data);
                 Swal.fire({
