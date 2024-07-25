@@ -11,6 +11,8 @@
         </span>
       </button>
     </div>
+
+    <!-- ADMIN TAB -->
     <div class="menu" v-if="this.role == 'admin'">
       <router-link class="button" to="/dashboard">
         <span class="material-icons">dashboard</span>
@@ -71,13 +73,14 @@
         <span class="text">Subject Scheduling</span>
       </router-link>
     </div>
+    
+    <!-- ENCODER TAB -->
     <div class="menu" v-if="this.role == 'encoder'">
       <router-link class="button" to="/dashboard">
         <span class="material-icons">dashboard</span>
         <span class="text">Dashboard</span>
       </router-link>
 
-      <!-- ENCODER TAB -->
       <div class="submenu" @click="toggleSubmenu1">
         <router-link class="button" to="/enlistment">
           <span class="material-icons">keyboard</span>
@@ -93,7 +96,14 @@
           </li>
         </ul>
       </div>
+    </div>
 
+    <!-- TREASURER TABS-->
+    <div class="menu" v-if="this.role == 'assessor'">
+      <router-link class="button" to="/assestment">
+        <span class="material-icons">assessment</span>
+        <span class="text">Assessment</span>
+      </router-link>
     </div>
   
     <div class="menu-logout">

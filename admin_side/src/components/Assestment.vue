@@ -355,7 +355,7 @@
     <template v-slot:item="{ item }">
 
       <tr>
-        <td>{{ item.rec_no }}</td>
+        <td>{{ item.student_recno }}</td>
         <td>{{ item.student_lrn}}</td>
         <td> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
         <td>{{ item.sex_at_birth }}</td>
@@ -365,7 +365,7 @@
         <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
 
         <td>
-          <v-btn color="primary" dark v-bind="props" @click="assessItem(item, 'Confirm')" :disabled="item.enrollment_status === 'Assessed'"> Assess</v-btn>
+          <v-btn color="primary" dark v-bind="props" @click="assessItem(item, 'Confirm')" :disabled="item.enrollment_status=== 'Assessed'"> Assess</v-btn>
           <!-- <v-btn>Assessed</v-btn> -->
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
         <!-- Archive Icon -->
@@ -604,7 +604,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           if(action === 'Confirm') {
-            axios.put(`student/editstat/${item.rec_no}`, { enrollment_status: 'Assessed' })
+            axios.put(`student/editstat/${item.student_recno}`, { enrollment_status: 'Assessed' })
             .then(res=>{
               console.log(res.data);
               Swal.fire({

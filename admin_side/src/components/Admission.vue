@@ -130,17 +130,17 @@
     <template v-slot:item="{ item }">
 
       <tr>
-        <td>{{ item.rec_no }}</td>
+        <td>{{ item.student_recno }}</td>
         <td>{{ item.student_lrn }}</td>
         <td> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
         <td>{{ item.sex_at_birth }}</td>
         <td>{{ item.grade_level }}</td>
         <td>Incoming</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status == 'Verified' ?
-          item.enrollment_status : 'Verifying' }}</td>
+        <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status == 'Verified' || 'Assessed' || 'Enrolled'?
+          item.enrollment_status : 'For Verification' }}</td>
 
         <td>
-          <v-btn color="primary" dark v-bind="props" @click="assessItem(item, 'Confirm')"> Verify</v-btn>
+          <v-btn color="primary" dark v-bind="props" @click="assessItem(item, 'Confirm')" :disabled="item.enrollment_status=== 'Assessed'"> Verify</v-btn>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
           <!-- Archive Icon -->
           <!-- <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
@@ -322,7 +322,7 @@ export default {
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
       return this.students.filter(student => Object.values(student)
-        .some(value => value === 'Pending'
+        .some(value => value === 'Pending' || value === 'Assessed'
         ));
     }
   },
@@ -426,7 +426,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           if (action === 'Confirm') {
-            axios.put(`student/editstat/${item.rec_no}`, { enrollment_status: 'Verified' })
+            axios.put(`student/editstat/${item.student_recno}`, { enrollment_status: 'Verified' })
               .then(res => {
                 console.log(res.data);
                 Swal.fire({
@@ -494,9 +494,9 @@ export default {
       this.$router.push('/viewdetails');
     },
     getStatusColor(status) {
-      if (status !== 'Verified') {
+      if (status === 'Verified') {
         return 'blue'; // Set color to yellow if status is 'pending'
-      } else if (status === 'Verified') {
+      } else if (status == 'Assessed' || 'Enrolled') {
         return 'green'; // Set color to green if status is 'enrolled'
       } else {
         return 'red'; // Default color
