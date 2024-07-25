@@ -129,7 +129,7 @@
 
                   <v-col cols="12" md="3" sm="6">
                     <v-text-field v-model="editedItem.year" label="S.Y." required></v-text-field>
-                  </v-col>
+                  </v-col>studentType
 
                   <v-col cols="12" md="3" sm="6">
                     <v-text-field v-model="editedItem.guardian" label="Guardian Name" required></v-text-field>

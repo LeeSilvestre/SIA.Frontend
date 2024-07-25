@@ -11,9 +11,9 @@
           <StudentMain />
         </div>
       </main>
-    </div>
+    </div> 
   </template>
-  
+   
   <script>
   import Header from '../components/StudentHeader.vue';
   import StudentMain from '../components/StudentMain.vue'

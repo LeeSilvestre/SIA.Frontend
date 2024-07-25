@@ -25,9 +25,23 @@
                     <h2 class="text-center lh-0 fs-4 fw-normal">
                       Welcome to <span class="sna-text">SNACI</span>
                     </h2>
-                    <h4 class="text-center pt-0 fs-6">
-                      REGISTRAR ADMIN PORTAL
-                    </h4>
+                    <div v-if="panel == 'Registrar'">
+                      <h4 class="text-center pt-0 fs-6">
+                        REGISTRAR ADMIN PORTAL
+                      </h4>
+
+                    </div>
+                    <div v-if="panel == 'Encoder'">
+                      <h4 class="text-center pt-0 fs-6">
+                        ENCODER PORTAL
+                      </h4>
+                    </div>
+                    <div v-if="panel == 'Assessor'">
+                      <h4 class="text-center pt-0 fs-6">
+                        ASSESSOR PORTAL
+                      </h4>
+                    </div>
+                    <v-select v-model="panel" :items="['Registrar', 'Encoder', 'Assessor']" label="lOG IN ON" clearable outlined></v-select>
                     <v-form class="pt-4">
                       <v-text-field
                         v-model="email"
@@ -73,10 +87,12 @@
 <script>
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import UAParser from 'ua-parser-js';
 
 export default {
   data: () => ({
     step: 1,
+    panel: '',
     email: '',
     password: '',
     errorMessage: '',
@@ -89,24 +105,34 @@ export default {
     // Any setup logic can go here
   },
   methods: {
-    login() {
+    async login() {
+      // const userAgent = navigator.userAgent;
+      // const deviceInfo = this.getDeviceInfo(userAgent);
 
-      axios.post('loginadmin', {
-        email: this.email,
-        password: this.password
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(res => {
-        console.log(res.data);
-        console.log(JSON.stringify(res.data.user))
-        localStorage.setItem('userInfo', JSON.stringify(res.data.user));
+      try {
+        const response = await axios.post('loginadmin', {
+          email: this.email,
+          password: this.password,
+          device_info: 'browser',
+          system_name: this.panel
+        });
         
-        this.$router.push('/dashboard');
-      })
-      .catch(error => {
+        // Handle successful login
+        console.log(response.data);
+        console.log(JSON.stringify(response.data.user))
+        let user = response.data.user
+        if(user.role ==  this.panel.toLowerCase() || (user.role == 'admin' && this.panel == 'Registrar')) {
+          localStorage.setItem('userInfo', JSON.stringify(response.data.user));
+          this.$router.push('/dashboard');
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Unauthorized Access Wrong portal. Please try again later!",
+          });
+        }
+        // Redirect or update UI as needed
+      } catch (error) {
         console.log('Error details:', error.response.data);
         if (error.response && error.response.status === 422) {
           const errors = error.response.data.errors;
@@ -126,7 +152,13 @@ export default {
             text: "Error logging in. Please try again later!",
           });
         }
-      });
+      }
+    },
+    getDeviceInfo(userAgent) {
+      // This function can use a library to parse the user agent string
+      const agent = new UAParser(userAgent);
+      console.log(agent.getBrowser);
+      return `${agent.browser.name} on ${agent.os.name}`;
     }
   }
 }

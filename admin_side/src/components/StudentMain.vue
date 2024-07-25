@@ -27,6 +27,11 @@
                   </div>
                   <v-row>
                     <v-col cols="12" md="3">
+                      <v-select v-model="studentType" :items="['incoming', 'returning']" label="Student Type" clearable outlined></v-select>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12" md="3">
                       <v-text-field v-model="lastname" :counter="10" :rules="nameRules" label="Last name" hide-details required outlined></v-text-field>
                     </v-col>
                     <v-col cols="12" md="3">
@@ -73,7 +78,8 @@
                   </div>
                   <v-row>
                     <v-col cols="12" md="3">
-                      <v-select v-model="gradeLevel" :items="['Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']" label="Grade Level" clearable outlined></v-select>
+                      <v-select v-model="gradeLevel" :items="gradeLevels" label="Grade Level" clearable outlined></v-select>
+
                     </v-col>
                     <!-- <v-col v-if="showSection" cols="12" md="3">
                       <v-select v-model="section" :items="[
@@ -101,68 +107,85 @@
 
   <script>
   export default {
-    data: () => ({
-      valid: false,
-      firstname: '',
-      lastname: '',
-      middlename: '',
-      age: '',
-      contactNumber: '',
-      sex: '',
-      birthdate: '',
-      email: '',
-      houseNumber: '',
-      street: '',
-      barangay: '',
-      city: '',
-      province: '',
-      zipCode: '',
-      gradeLevel: '',
-      section: '',
-      strand: '',
-      nameRules: [
-        value => !!value || 'Name is required.',
-        value => (value && value.length <= 10) || 'Name must be less than 10 characters.'
-      ],
-      contactNumberRules: [
-        value => !!value || 'Contact Number is required.',
-        value => (value && value.length <= 10) || 'Contact Number must be less than 10 characters.'
-      ],
-      birthdateRules: [
-        value => !!value || 'Birthdate is required.'
-      ],
-      emailRules: [
-        value => !!value || 'E-mail is required.',
-        value => /.+@.+\..+/.test(value) || 'E-mail must be valid.'
-      ],
-      houseNumberRules: [
-        value => !!value || 'House Number is required.'
-      ],
-      streetRules: [
-        value => !!value || 'Street is required.'
-      ],
-      barangayRules: [
-        value => !!value || 'Barangay is required.'
-      ],
-      cityRules: [
-        value => !!value || 'City is required.'
-      ],
-      provinceRules: [
-        value => !!value || 'Province is required.'
-      ],
-      zipCodeRules: [
-        value => !!value || 'Zip Code is required.'
-      ]
-    }),
-    computed: {
-      showSection() {
-        return this.gradeLevel === 'Grade 7' || this.gradeLevel === 'Grade 8' || this.gradeLevel === 'Grade 9' || this.gradeLevel === 'Grade 10' || this.gradeLevel === 'Grade 11' || this.gradeLevel === 'Grade 12';
-      },
-      showStrand() {
-        return this.gradeLevel === 'Grade 11' || this.gradeLevel === 'Grade 12';
+  data: () => ({
+    valid: false,
+    studentType: '',
+    firstname: '',
+    lastname: '',
+    middlename: '',
+    age: '',
+    contactNumber: '',
+    sex: '',
+    birthdate: '',
+    email: '',
+    houseNumber: '',
+    street: '',
+    barangay: '',
+    city: '',
+    province: '',
+    zipCode: '',
+    gradeLevel: '', // To store the selected grade level
+    section: '',
+    strand: '',
+    nameRules: [
+      value => !!value || 'Name is required.',
+      value => (value && value.length <= 10) || 'Name must be less than 10 characters.'
+    ],
+    contactNumberRules: [
+      value => !!value || 'Contact Number is required.',
+      value => (value && value.length <= 10) || 'Contact Number must be less than 10 characters.'
+    ],
+    birthdateRules: [
+      value => !!value || 'Birthdate is required.'
+    ],
+    emailRules: [
+      value => !!value || 'E-mail is required.',
+      value => /.+@.+\..+/.test(value) || 'E-mail must be valid.'
+    ],
+    houseNumberRules: [
+      value => !!value || 'House Number is required.'
+    ],
+    streetRules: [
+      value => !!value || 'Street is required.'
+    ],
+    barangayRules: [
+      value => !!value || 'Barangay is required.'
+    ],
+    cityRules: [
+      value => !!value || 'City is required.'
+    ],
+    provinceRules: [
+      value => !!value || 'Province is required.'
+    ],
+    zipCodeRules: [
+      value => !!value || 'Zip Code is required.'
+    ],
+    gradeLevels: [], // To store available grade levels based on studentType
+  }),
+  computed: {
+    showStrand() {
+      return this.gradeLevel === 'Grade 11' || this.gradeLevel === 'Grade 12';
+    }
+  },
+  watch: {
+    studentType(newType) {
+      if (newType === 'returning') {
+        this.gradeLevels = ['Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
+        // Optionally, reset the gradeLevel if it is not in the new set
+        if (!this.gradeLevels.includes(this.gradeLevel)) {
+          this.gradeLevel = '';
+        }
+      } else {
+        this.gradeLevels = ['Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12'];
+        // Optionally, reset the gradeLevel if it is not in the new set
+        if (!this.gradeLevels.includes(this.gradeLevel)) {
+          this.gradeLevel = '';
+        }
       }
     }
   }
+}
+
   </script>
   
   

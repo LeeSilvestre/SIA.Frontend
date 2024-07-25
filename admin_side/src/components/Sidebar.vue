@@ -22,7 +22,8 @@
         <span class="material-icons">manage_accounts</span>
         <span class="text">Accounts</span>
       </router-link>
-
+      
+      
       <!-- ENCODER TAB -->
       <div class="submenu" @click="toggleSubmenu1">
         <router-link class="button" to="/enlistment">
@@ -32,12 +33,14 @@
         </router-link>
         <ul class="submenu-content" v-show="submenuVisible1" @click.stop>
           <li>
+          </li>
+          <li>
             <router-link class="button" to="/enlistment"><span class="text">Enlistment</span></router-link>
           </li>
           <li>
             <router-link class="button" to="/admission"><span class="text">Admission</span></router-link>
           </li>
-        </ul>
+        </ul> 
       </div>
 
       <!-- TREASURER TAB -->
@@ -80,7 +83,12 @@
         <span class="material-icons">dashboard</span>
         <span class="text">Dashboard</span>
       </router-link>
-
+      
+      <router-link class="button" to="/student">
+        <span class="material-icons">app_registration</span>
+        <span class="text">Pre-Registration</span>
+      </router-link>
+        
       <div class="submenu" @click="toggleSubmenu1">
         <router-link class="button" to="/enlistment">
           <span class="material-icons">keyboard</span>
