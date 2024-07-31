@@ -7,12 +7,8 @@
             <span class="material-icons">feed</span>
             Senior High School
           </h2>
-          <v-data-table-virtual
-            :headers="seniorStrand"
-            :items="strand"
-            height="400"
-            item-value="name"
-          ></v-data-table-virtual>
+          <v-data-table-virtual :headers="seniorStrand" :items="strand" height="400"
+            item-value="name"></v-data-table-virtual>
         </div>
       </div>
 
@@ -22,12 +18,8 @@
             <span class="material-icons">feed</span>
             Junior High School
           </h2>
-          <v-data-table-virtual
-            :headers="junior"
-            :items="juniorHigh"
-            height="400"
-            item-value="name"
-          ></v-data-table-virtual>
+          <v-data-table-virtual :headers="junior" :items="juniorHigh" height="400"
+            item-value="name"></v-data-table-virtual>
         </div>
       </div>
     </div>
@@ -51,18 +43,6 @@
           <canvas ref="strandChartCanvas"></canvas>
         </div>
       </div>
-      <div class="school-announcements">
-        <h1 class="info-text">
-          <span class="material-icons">announcement</span>
-          Announcements
-        </h1>
-        <button @click="openAnnouncementModal" class="add-announcement-button">
-          <span class="material-icons">add</span> Add Announcement
-        </button>
-        <div>
-          <!-- Your announcements content goes here -->
-        </div>
-      </div>
     </div>
   </main>
 </template>
@@ -74,6 +54,7 @@ export default {
       chart: null,
       strandChart: null,
       sidebarCollapsed: false,
+      dialog: false,
       junior: [
         { title: 'GRADE LEVEL', text: 'Grade Level', value: 'grade_level' },
         { title: 'TOTAL STUDENTS', text: 'Total', value: 'total' }
@@ -199,7 +180,8 @@ main {
   flex-direction: column;
 }
 
-.top-left, .bottom-left {
+.top-left,
+.bottom-left {
   flex: 1 1 48%;
   padding: 1rem;
   margin-bottom: 2rem;
@@ -220,59 +202,54 @@ main {
 }
 
 .total-enrolees {
-  flex: 0 0 30%; 
+  flex: 50%;
   padding: 1rem;
   color: var(--dark);
   border-radius: 5px;
   border: 1px solid var(--light);
   border-left: 6px solid var(--dark-alt);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
+  display: flex;
+  flex-direction: column;
+}
+.strand-enrolees canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+.strand-enrolees canvas {
+  width: 100% !important;
+  height: 100% !important;
 }
 
-.strand-enrolees { 
-  flex: 1 1 30%; 
+.strand-enrolees {
+  flex: 50%;
   padding: 1rem;
   color: var(--dark);
   border-radius: 5px;
   border: 1px solid var(--light);
   border-left: 6px solid var(--dark-alt);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
+  display: flex;
+  flex-direction: column;
+
 }
 
-.school-announcements { 
-  flex: 1 1 40%; 
+.school-announcements {
+  flex: 1 1 40%;
   padding: 1rem;
   color: var(--dark);
   border-radius: 5px;
   border: 1px solid var(--light);
   border-left: 6px solid var(--dark-alt);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
-}
-
-table {
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
-  border: 0.5px solid rgb(228, 228, 228);
-  width: 100%;
-}
-
-th {
-  color: var(--dark);
-  font-size: 20px;
-  text-align: center;
-  text-shadow: 0 0 1px;
-}
-
-td {
-  color: var(--dark);
-  font-weight: 600;
-  vertical-align: middle;
 }
 
 .info-text {
   color: var(--dark);
-  font-size: 20px;
+  font-size: 25px;
   text-shadow: 0 0 1px;
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 .material-icons {
@@ -312,5 +289,25 @@ h6 {
   font-size: 15px;
 }
 
-.add-announcement-button {}
+@media screen and (max-width: 1046px) {
+  main {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .left-container,
+  .right-container {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .top-left,
+  .bottom-left,
+  .total-enrolees,
+  .strand-enrolees,
+  .school-announcements {
+    margin-bottom: 1rem;
+  }
+}
+
 </style>

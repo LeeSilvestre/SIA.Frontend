@@ -4,39 +4,50 @@
     :headers="headers"
     :items="displayedStudents"
     :sort-by="[{ key: 'studentId', order: 'asc' }]"
-    
-    
   >
-    <template v-slot:top >
-      <v-toolbar flat >
-        <v-toolbar-title class="text-h6 font-weight-black" style="color: #2F3F64">SENIOR HIGH MASTER LIST</v-toolbar-title>
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title
+          class="text-h6 font-weight-black"
+          style="color: #2f3f64"
+          >SENIOR HIGH MASTER LIST</v-toolbar-title
+        >
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
         <v-text-field
-        v-model="search"
-        class="w-20 mr-16 "
-        density="compact"
-        label="Search"
-        prepend-inner-icon="mdi-magnify"
-        variant="solo-filled"
-        flat
-        hide-details  
-        single-line
-      ></v-text-field>
-      
-      
+          v-model="search"
+          class="w-20 mr-16"
+          density="compact"
+          label="Search"
+          prepend-inner-icon="mdi-magnify"
+          variant="solo-filled"
+          flat
+          hide-details
+          single-line
+        ></v-text-field>
       </v-toolbar>
     </template>
-    <template v-slot:item="{ item }" >
+    <template v-slot:item="{ item }">
       <tr>
         <td>{{ item.student_id }}</td>
-        <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
+        <td>
+          {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
+          {{ item.extension }}
+        </td>
         <td>{{ item.student_lrn }}</td>
         <td>{{ item.grade_level }}</td>
         <td>{{ item.strand }}</td>
         <td>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
-          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem" @click="handleViewIconClick(item)">mdi-eye</v-icon>
+          <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)"
+              >View</v-btn
+            >
+          <!-- <v-icon
+            size="small"
+            style="color: #2f3f64; margin: 0.5rem"
+            @click="handleViewIconClick(item)"
+            >mdi-eye</v-icon
+          > -->
         </td>
       </tr>
     </template>
@@ -47,82 +58,81 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 export default {
-  
   data: () => ({
-    search: '',
+    search: "",
     dialog: false,
     selectedStudent: null,
     viewDialog: false,
     headers: [
-      { title: 'Student ID', align: 'start', key: 'student_id' },
-      { title: 'Name', align: 'start', key:'full_name'},
-      { title: 'LRN',align: 'start', key: 'student_lrn' },
-      { title: 'Grade Level',align: 'start', key: 'grade_level' },
-      { title: 'Strand', align: 'start', key: 'strand' },
-      { title: 'View Detail', align: 'start', sortable: false },
+      { title: "Student ID", align: "start", key: "student_id" },
+      { title: "Name", align: "start", key: "full_name" },
+      { title: "LRN", align: "start", key: "student_lrn" },
+      { title: "Grade Level", align: "start", key: "grade_level" },
+      { title: "Strand", align: "start", key: "strand" },
+      { title: "View Detail", align: "start", sortable: false },
     ],
     students: [],
     value: [],
     editedIndex: -1,
     editedItem: {
-      student_id: '',
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      extension: '',
-      contact_no: '',
-      birth_date: '',
-      birth_place: '',
-      civil_status: '',
-      sex_at_birth: '',
-      citizenship: '',
-      religion: '',
-      region: '',
-      province: '',
-      city: '',
-      barangay: '',
-      street: '',
-      zip_code: '',
+      student_id: "",
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      extension: "",
+      contact_no: "",
+      birth_date: "",
+      birth_place: "",
+      civil_status: "",
+      sex_at_birth: "",
+      citizenship: "",
+      religion: "",
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      street: "",
+      zip_code: "",
     },
     defaultItem: {
-      student_id: '',
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      extension: '',
-      contact_no: '',
-      birth_date: '',
-      birth_place: '',
-      civil_status: '',
-      sex_at_birth: '',
-      citizenship: '',
-      religion: '',
-      region: '',
-      province: '',
-      city: '',
-      barangay: '',
-      street: '',
-      zip_code: '',
-      
+      student_id: "",
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      extension: "",
+      contact_no: "",
+      birth_date: "",
+      birth_place: "",
+      civil_status: "",
+      sex_at_birth: "",
+      citizenship: "",
+      religion: "",
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      street: "",
+      zip_code: "",
     },
-    
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
+      return this.editedIndex === -1
+        ? "Add Student"
+        : "Edit Student Information";
     },
     displayedStudents() {
-      
       const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
-    return this.students.filter(student =>
-      Object.values(student).some(value =>
-        typeof value === 'string' && value.toLowerCase().includes(searchTerm)
-    
-    )
-    );
+      return this.students.filter((student) =>
+        Object.values(student).some(
+          (value) =>
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchTerm)
+        )
+      );
     },
   },
 
@@ -132,13 +142,13 @@ export default {
     },
   },
 
-  mounted(){
+  mounted() {
     this.initialize();
     this.getData();
   },
   methods: {
-    getData(){
-      axios.get('jhs').then(res=>{
+    getData() {
+      axios.get("jhs").then((res) => {
         let tmp = res.data;
         console.log(tmp);
         // TO PASS THE VALUE OF DATA
@@ -152,7 +162,7 @@ export default {
             }
           }
         */
-        this.value = tmp.student; 
+        this.value = tmp.student;
         console.log(this.value);
         /* 
           STRUCTURE
@@ -165,24 +175,27 @@ export default {
 
         console.log(this.value[0].student_id);
         console.log(this.defaultItem);
-
-      })
-
+      });
     },
     initialize() {
-      axios.get('shs').then(res => {
-        console.log(res.data);
-        let tmp = res.data;
-        this.students =tmp.student;
-        console.log(this.students);
-        this.students.forEach(student => {
-          student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-          student.imageSrc = student.image ? `http://127.0.0.1:8000/uploads/profile/${student.image.image}` : '';
+      axios
+        .get("shs")
+        .then((res) => {
+          console.log(res.data);
+          let tmp = res.data;
+          this.students = tmp.student;
+          console.log(this.students);
+          this.students.forEach((student) => {
+            student.full_name =
+              `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
+            student.imageSrc = student.image
+              ? `http://127.0.0.1:8000/uploads/profile/${student.image.image}`
+              : "";
           });
-      })
-      .catch(error => {
-        console.error('Error loading students:', error);
-      });
+        })
+        .catch((error) => {
+          console.error("Error loading students:", error);
+        });
     },
 
     // openViewDialog(item) {
@@ -194,9 +207,8 @@ export default {
     //     this.viewDialog = false;
     // },
     handleViewIconClick(item) {
-      this.$emit('view-student', item);
+      this.$emit("view-student", item);
     },
-
 
     // save() {
     //   if (this.editedIndex > -1) {
@@ -206,7 +218,6 @@ export default {
     //   }
     //   this.close();
     // },
-    
   },
 };
 </script>
@@ -214,7 +225,6 @@ export default {
 <style lang="scss">
 .v-data-table {
   height: 100%;
-
 }
 .student-card {
   width: w-auto;
@@ -242,7 +252,6 @@ export default {
 .close-button:hover {
   color: red;
 }
-
 
 .info-title {
   font-weight: bold;
@@ -291,7 +300,7 @@ export default {
   opacity: 75%;
 }
 .faculty-details-item {
-  padding: 8px 0; 
+  padding: 8px 0;
   justify-content: left;
   text-align: left;
   align-items: start;
@@ -302,5 +311,4 @@ export default {
   flex-direction: column;
   gap: 20px;
 }
-
 </style>

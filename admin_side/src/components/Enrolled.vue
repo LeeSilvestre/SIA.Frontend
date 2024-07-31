@@ -173,7 +173,7 @@
         <td class="centered-text">Incoming</td>
         <td :style="{ color: getStatusColor(item.enrollment_status) }" class="centered-text">{{ item.enrollment_status }}</td>
         <td class="centered-text">
-          <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon>
+          <v-btn class="bg-blue small-button" @click="openViewDialog(item)">View</v-btn>
           <!-- <v-icon class="me-2" size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
         </td>
       </tr>
@@ -272,76 +272,46 @@
 
   <v-dialog v-model="viewDialog" max-width="800">
     <v-card>
-      <div class="dialog-header pt-3 pb-3 pl-5 pr-4">
+      <div class="dialog-header">
         <v-card-title class="dialog-title fs-3 font-weight-black">
           STUDENT INFORMATION
-          <v-btn icon @click="closeViewDialog" class="close-button">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
         </v-card-title>
       </div>
 
       <v-card-text>
-        <div class="d-flex mt-2 p-1">
-          <v-card class="right-section w-100">
-            <v-card-text>
-              <div class="personal-info">
-                <div class=" personal-title" >
-                <v-title class="fs-4 fw-bold">PERSONAL INFORMATION</v-title>
-              </div>
-                <div class="info-box">
-                  <strong class="info-title">STUDENT ID: </strong>
-                  <span class="info-value">{{ selectedStudent.student_id }}</span>
-                </div>
-                <div class="info-box">
-                  <strong class="info-title">Name: </strong>
-                  <span class="info-value">{{ selectedStudent.full_name }}</span>
-                </div>
-                <div class="info-box">
-                  <strong class="info-title">LRN: </strong>
-                  <span class="info-value">{{ selectedStudent.student_lrn }}</span>
-                </div>
-                <div class="info-box">
-                  <strong class="info-title">BIRTHDATE: </strong>
-                  <span class="info-value">{{ selectedStudent.birth_date }}</span>
-                </div>
-                <div class="info-box">
-                  <strong class="info-title">SEX: </strong>
-                  <span class="info-value">{{ selectedStudent.sex_at_birth }}</span>
-                </div>
-                <div class="info-box">
-                  <strong class="info-title">ADDRESS: </strong>
-                  <span class="info-value">{{ selectedStudent.street }} {{ selectedStudent.barangay }}, {{ selectedStudent.city }} {{ selectedStudent.province }} {{ selectedStudent.zip_code }}</span>
-                </div>
-                <div class="info-box">
-                  <strong class="info-title">GUARDIAN NAME: </strong>
-                  <span class="info-value">{{ selectedStudent.guardian }}</span>
-                </div>
-                <div class="info-box">
-                  <strong class="info-title">GUARDIAN CONTACT NUMBER: </strong>
-                  <span class="info-value">{{ selectedStudent.guardian_mobileno }}</span>
-                </div>
-
-                <div class=" personal-title">
-                <v-title class="fs-4 fw-bold">ACADEMIC INFORMATION</v-title>
-              </div>
-                <div class="info-box">
-                  <strong class="info-title">GRADE LEVEL: </strong>
-                  <span class="info-value">{{ selectedStudent.grade_level }}</span>
-                </div>
-                <div class="info-box">
-                  <strong class="info-title">SECTION: </strong>
-                  <span class="info-value">{{ selectedStudent.section }}</span>
-                </div>
-                <div class="info-box">
-                  <strong class="info-title">REASON: </strong>
-                  <span class="info-value">{{ selectedStudent.reason }}</span>
-                </div>
-              </div>
-            </v-card-text>
-          </v-card>
-        </div>
+        <v-container>
+          <v-row dense>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field v-model="selectedStudent.student_id" label="Student ID" readonly></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field v-model="selectedStudent.student_lrn" label="LRN" readonly></v-text-field>
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field v-model="selectedStudent.full_name" label="Full Name" readonly></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field v-model="selectedStudent.contact_no" label="Contact Number" readonly></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field v-model="selectedStudent.sex_at_birth" label="Sex" readonly></v-text-field>
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field v-model="selectedStudent.birth_place" label="Birthplace" readonly></v-text-field>
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field v-model="selectedStudent.street" label="Address" readonly></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field v-model="selectedStudent.religion" label="Religion" readonly></v-text-field>
+            </v-col>
+          </v-row>
+        </v-container>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn class="bg-red" color="white" variant="text" @click="closeViewDialog">Close</v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 

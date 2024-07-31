@@ -18,8 +18,11 @@
         <td>{{ item.student_lrn }}</td>
         <td>{{ item.grade_level }}</td>
         <td>
-          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;"
-            @click="handleViewIconClick(item)">mdi-eye</v-icon>
+          <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)"
+              >View</v-btn
+            >
+          <!-- <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;"
+            @click="handleViewIconClick(item)">mdi-eye</v-icon> -->
         </td>
       </tr>
     </template>
@@ -42,7 +45,7 @@ export default {
       { title: 'Name', align: 'start', key: 'full_name' },
       { title: 'LRN', key: 'student_lrn' },
       { title: 'Grade Level', key: 'grade_level' },
-      { title: 'Actions', sortable: false },
+      { title: 'Actions', sortable: false, align: 'start'},
     ],
     students: [],
     value: [],

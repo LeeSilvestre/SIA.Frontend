@@ -9,10 +9,17 @@
                 <v-col cols="12" md="5" class="rectangle-color">
                   <v-card-text class="white--text mt-16 pt-14 mx-auto">
                     <div class="logo-container">
-                      <img src="/src/assets/schoolLogo3.png" max-height="900" max-width="900" class="logo">
+                      <img
+                        src="/src/assets/schoolLogo3.png"
+                        max-height="900"
+                        max-width="900"
+                        class="logo"
+                      />
                     </div>
                     <div class="text-container text-center">
-                      <h1 class="mt-auto h1 font-weight-black">ST.NICHOLAS ACADEMY OF CASTILLEJOS INC.</h1>
+                      <h1 class="mt-auto h1 font-weight-black">
+                        ST.NICHOLAS ACADEMY OF CASTILLEJOS INC.
+                      </h1>
                       <p class="h6 font-weight-normal">CASTILLEJOS, ZAMBALES</p>
                     </div>
                   </v-card-text>
@@ -20,7 +27,7 @@
                 <v-col cols="12" md="7">
                   <v-card-text class="mt-1">
                     <div class="text-center mb-1">
-                      <img src="/src/assets/schoolLogo.png" class="logo-logo">
+                      <img src="/src/assets/schoolLogo.png" class="logo-logo" />
                     </div>
                     <h2 class="text-center lh-0 fs-4 fw-normal">
                       Welcome to <span class="sna-text">SNACI</span>
@@ -29,19 +36,20 @@
                       <h4 class="text-center pt-0 fs-6">
                         REGISTRAR ADMIN PORTAL
                       </h4>
-
                     </div>
                     <div v-if="panel == 'Encoder'">
-                      <h4 class="text-center pt-0 fs-6">
-                        ENCODER PORTAL
-                      </h4>
+                      <h4 class="text-center pt-0 fs-6">ENCODER PORTAL</h4>
                     </div>
                     <div v-if="panel == 'Assessor'">
-                      <h4 class="text-center pt-0 fs-6">
-                        ASSESSOR PORTAL
-                      </h4>
+                      <h4 class="text-center pt-0 fs-6">ASSESSOR PORTAL</h4>
                     </div>
-                    <v-select v-model="panel" :items="['Registrar', 'Encoder', 'Assessor']" label="lOG IN ON" clearable outlined></v-select>
+                    <v-select
+                      v-model="panel"
+                      :items="['Registrar', 'Encoder', 'Assessor']"
+                      label="lOG IN ON"
+                      clearable
+                      outlined
+                    ></v-select>
                     <v-form class="pt-4">
                       <v-text-field
                         v-model="email"
@@ -54,11 +62,12 @@
                       />
                       <v-text-field
                         v-model="password"
-                        id="password"
+                        :type="showPassword ? 'text' : 'password'"
                         label="Password"
                         name="Password"
                         prepend-icon="mdi-lock"
-                        type="password"
+                        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                        @click:append="togglePasswordVisibility"
                         color="var(--dark)"
                         variant="underlined"
                       />
@@ -68,7 +77,12 @@
                     <v-btn
                       rectangle
                       color="var(--dark)"
-                      style="color:white; text-decoration: none; width: auto; font-size: 15px;"
+                      style="
+                        color: white;
+                        text-decoration: none;
+                        width: auto;
+                        font-size: 15px;
+                      "
                       @click="login"
                     >
                       Log in
@@ -85,45 +99,52 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
-import axios from 'axios';
-import UAParser from 'ua-parser-js';
+import Swal from "sweetalert2";
+import axios from "axios";
+import UAParser from "ua-parser-js";
 
 export default {
   data: () => ({
     step: 1,
-    panel: '',
-    email: '',
-    password: '',
-    errorMessage: '',
-    emptyFieldsError: false
+    panel: "",
+    email: "",
+    password: "",
+    errorMessage: "",
+    showPassword: false,
+    emptyFieldsError: false,
   }),
   props: {
-    source: String
+    source: String,
   },
   mounted() {
     // Any setup logic can go here
   },
   methods: {
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
     async login() {
       // const userAgent = navigator.userAgent;
       // const deviceInfo = this.getDeviceInfo(userAgent);
 
       try {
-        const response = await axios.post('loginadmin', {
+        const response = await axios.post("loginadmin", {
           email: this.email,
           password: this.password,
-          device_info: 'browser',
-          system_name: this.panel
+          device_info: "browser",
+          system_name: this.panel,
         });
-        
+
         // Handle successful login
         console.log(response.data);
-        console.log(JSON.stringify(response.data.user))
-        let user = response.data.user
-        if(user.role ==  this.panel.toLowerCase() || (user.role == 'admin' && this.panel == 'Registrar')) {
-          localStorage.setItem('userInfo', JSON.stringify(response.data.user));
-          this.$router.push('/dashboard');
+        console.log(JSON.stringify(response.data.user));
+        let user = response.data.user;
+        if (
+          user.role == this.panel.toLowerCase() ||
+          (user.role == "admin" && this.panel == "Registrar")
+        ) {
+          localStorage.setItem("userInfo", JSON.stringify(response.data.user));
+          this.$router.push("/dashboard");
         } else {
           Swal.fire({
             icon: "error",
@@ -133,12 +154,12 @@ export default {
         }
         // Redirect or update UI as needed
       } catch (error) {
-        console.log('Error details:', error.response.data);
+        console.log("Error details:", error.response.data);
         if (error.response && error.response.status === 422) {
           const errors = error.response.data.errors;
-          let errorMessage = '';
+          let errorMessage = "";
           for (const key in errors) {
-            errorMessage += `${key}: ${errors[key].join(', ')}\n`;
+            errorMessage += `${key}: ${errors[key].join(", ")}\n`;
           }
           Swal.fire({
             icon: "error",
@@ -159,21 +180,21 @@ export default {
       const agent = new UAParser(userAgent);
       console.log(agent.getBrowser);
       return `${agent.browser.name} on ${agent.os.name}`;
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>
 .app {
   position: relative;
-  background-image: url('../assets/BG.png');
+  background-image: url("../assets/BG.png");
   background-size: cover;
   background-repeat: no-repeat;
 }
 
 .app::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;

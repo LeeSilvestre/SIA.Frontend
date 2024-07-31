@@ -1,19 +1,38 @@
 <template>
   <v-data-table :search="search" :headers="headers" :items="displayedStudents"
     :sort-by="[{ key: 'studentId', order: 'asc' }]">
+
+    <!-- content of the table (top) -->
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">USER ACCOUNTS LIST</v-toolbar-title>
+        <v-toolbar-title 
+          class="text-h6 font-weight-black " 
+          style="color: #2F3F64">USER ACCOUNTS LIST
+        </v-toolbar-title>
 
-        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
-
-        <v-text-field v-model="search" class="w-auto mr-1 " density="compact" label="Search"
-          prepend-inner-icon="mdi-magnify" variant="solo-filled" flat hide-details single-line></v-text-field>
+        <v-text-field 
+          v-model="search" 
+          class="w-auto mr-1 " 
+          density="compact" 
+          label="Search"
+          prepend-inner-icon="mdi-magnify" 
+          variant="solo-filled" 
+          flat hide-details single-line>
+        </v-text-field>
+    <!-- content of the table (top) -->
 
         <!-- create new popup modal -->
         <v-dialog v-model="dialog" max-width="1000px">
           <template v-slot:activator="{ props }">
-            <v-btn class="mb-2 rounded-l" color="primary" dark v-bind="props" prepend-icon="mdi-plus">ADD USERS</v-btn>
+            <!-- card header content -->
+            <v-btn 
+              class="mb-2 rounded-l" 
+              color="primary" dark 
+              v-bind="props" 
+              prepend-icon="mdi-plus"
+              >ADD USERS
+            </v-btn>
+            <!-- end of card header content -->
           </template>
 
           <v-card>
@@ -21,134 +40,146 @@
               <v-card-title><span class="fs-3 fw-bold m-2" style="color: white">{{ formTitle }}</span></v-card-title>
             </div>
             <v-card-text>
-              <label class="fw-light fs-4">PERSONAL INFORMATION</label>
+              <label class="fw-regular fs-5">User Information</label>
               <v-container>
-                <v-row>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.grade_level" :items="['7', '8', '9', '10']"
-                      label="Grade Level Applying" required></v-select>
-                  </v-col>
-                </v-row>
-
                 <v-row dense>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.student_lrn" label="LRN" required maxlength="10"
-                      @input="validateNumberInput"></v-text-field>
+                  <v-col cols="12" md="6" sm="6">
+                    <v-text-field 
+                      v-model="editedItem.last_name" 
+                      :rules="[rules.required]"
+                      label="Last Name" 
+                      required
+                      pattern="[A-Za-z .'-]+">
+                    </v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.last_name" label="Last Name" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
+                  <v-col cols="12" md="6" sm="6">
+                    <v-text-field 
+                    v-model="editedItem.first_name" 
+                    label="First Name" required
+                    :rules="[rules.required]"
+                    pattern="[A-Za-z .'-]+">
+                  </v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.first_name" label="First Name" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
+                  <v-col cols="12" md="6" sm="6">
+                    <v-text-field 
+                      v-model="editedItem.middle_name" 
+                      label="Middle Name"
+                      pattern="[A-Za-z .'-]+">
+                    </v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.middle_name" label="Middle Name"
-                      pattern="[A-Za-z .'-]+"></v-text-field>
+                  <v-col cols="12" md="6" sm="6">
+                    <v-text-field 
+                      v-model="editedItem.extension_name" 
+                      label="Extension Name"
+                      pattern="[A-Za-z .'-]+">
+                    </v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.contact_no" label="Contact no." required maxlength="10"
-                      pattern="[0-9]+" @input="validateNumberInput"></v-text-field>
+                  <v-col cols="12" md="6" sm="6">
+                    <v-text-field
+                      label="Email Address"
+                      model-value="Doe"
+                      suffix="@sna.edu.ph"
+                      :rules="[rules.required]"
+                    ></v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.birth_date" label="Date of Birth" type="date" required
-                      @input="formatDate"></v-text-field>
+                  <v-col cols="12" md="6" sm="6">
+                    <v-text-field
+                      v-model="password"
+                      :rules="[rules.required, rules.min]"
+                      hint="At least 8 characters"
+                      label="Password"
+                      name="input-10-1"
+                      counter
+                    ></v-text-field>
                   </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.sex_at_birth" :items="['Male', 'Female']" label="SEX" required
-                      item-value="item"></v-select>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.religion" label="Religion" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.region" :items="[
-                      'Region I', 'Region II', 'Region III', 'Region IV-A', 'Region IV-B',
-                      'Region V', 'Region VI', 'Region VII', 'Region VIII', 'Region IX',
-                      'Region X', 'Region XI', 'Region XII', 'Region XIII', 'BARMM', 'CAR'
-                    ]" label="Region" required></v-select>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.province" label="Province" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.city" label="City/Municipality" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.barangay" label="Barangay" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.street" label="Street" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.houseNumber" label="House Number" required
-                      pattern="[0-9 .'-]+ " ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.zip_code" label="Zip Code" required maxlength="4" pattern="[0-9]+"
-                      @input="validateNumberInput"></v-text-field>
-                  </v-col>  
                 </v-row>
+
+                <v-divider></v-divider>
+                <!-- checkbox -->
+              <label class="fw-regular fs-5">Roles and Department</label><br>
+              <label class="fw-light fs-6"><strong>Instruction: </strong>Select all the roles you want to assign to the user by clicking the checkboxes.</label>
+              <v-row>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    label="Admin"
+                    value="success"
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    label="Faculty"
+                    value="success"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    label="Student Personnel"
+                    value="success"
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    label="Encoder"
+                    value="success"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    label="Verifier"
+                    value="success"
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    label="Accessor"
+                    value="success"
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+              <!-- checkbox -->
               </v-container>
             </v-card-text>
+            
+            <!-- card buttons -->
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn class="bg-green" color="bwhite" variant="text" @click="confirmSave">Save</v-btn>
+              <v-btn class="bg-green" color="bwhite" variant="text" @click="confirmSave">Apply</v-btn>
               <v-btn class="bg-red" color="white" variant="text" @click="close">Cancel</v-btn>
             </v-card-actions>
+            <!-- card buttons -->
           </v-card>
         </v-dialog>
-
-
       </v-toolbar>
     </template>
+
+    <!-- header content -->
     <template v-slot:item="{ item }">
       <tr>
-        <td>{{ item.student_id }}</td>
-        <!-- <td>{{ item.student_lrn }}</td> -->
-        <td>{{ item.last_name }}, {{ item.first_name }} {{ item.middle_name }} {{ item.extension
-          }}</td>
-        <td >{{ item.sex_at_birth }}</td>
-        <td>{{ item.grade_level }}</td>
-        <td>Incoming</td>
-        <!-- <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status }}</td> -->
-        <td>Pending</td>
+        <td>{{ item.employee_id }}</td>
         <td>
-          <v-btn class="bg-green small-button">Verified</v-btn>
-          <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
-          <!-- Archive Icon -->
-          <!-- <v-icon class="me-2" size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
+          {{ item.last_name }}, 
+          {{ item.first_name }} 
+          {{ item.middle_name }} 
+          {{ item.extension}}
+        </td>
+        <td >{{ item.account_role }}</td>
+        <td>{{ item.account_dpt }}</td>
+
+        <td>
+          <v-btn class="bg-blue small-button">View</v-btn>
         </td>
       </tr>
     </template>
-
-    <!-- <template v-slot:no-data>
-      <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
-    </template> -->
+    <!-- end of header content -->
   </v-data-table>
 
   <!-- view user status modal pop -->
-  <v-dialog v-model="viewDialog" max-width="800px">
+  <!-- <v-dialog v-model="viewDialog" max-width="800px">
     <v-card>
       <v-card-title class="d-flex justify-space-between align-center">
         <span class="text-h5 fw-bold m-1" style="color: #2F3F64">
@@ -231,7 +262,7 @@
         </v-container>
       </v-card-text>
     </v-card>
-  </v-dialog>
+  </v-dialog> -->
   <!-- end view user status modal pop -->
 </template>
 
@@ -243,65 +274,49 @@ export default {
   data: () => ({
     search: '',
     dialog: false,
+    email: '', // for email input
     dialogDelete: false,
     viewDialog: false,
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: 'Employee No.', align: 'start', key: 'student_id' },
-      // { title: 'Student Lrn', align: 'start', key: 'lrn' },
+      { title: 'Employee ID', align: 'start', key: 'employee_id' },
       { title: 'Full Name', align: 'start', key: 'full_name' },
-      { title: 'Gender', align: 'start', key: 'grade_lvl' },
-      { title: 'Grade Level', align: 'start', key: 'grade_lvl' },
-      { title: 'Student Status', align: 'start', key: 'status' },
-      { title: 'Status', align: 'start', key: 'status' },
+      { title: 'Role', align: 'start', key: 'account_role' },
+      { title: 'Department', align: 'start', key: 'account_dpt' },
       { title: 'Actions', align: 'start', sortable: false },
     ],
 
     students: [],
     editedIndex: -1,
     editedItem: {
-      student_id: '',
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      extension: '',
-      contact_no: '',
-      birth_date: '',
-      sex_at_birth: '',
-      religion: '',
-      region: '',
-      province: '',
-      city: '',
-      barangay: '',
-      street: '',
-      zip_code: '',
-      sy: '',
-      section: '',
+      employee_id: '',
+      full_name: '',
+      email: '',
+      password: '',
+      account_role: '',
+      account_dpt: '',
     },
     defaultItem: {
-      student_id: '',
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      extension: '',
-      contact_no: '',
-      birth_date: '',
-      birth_place: '',
-      sex_at_birth: '',
-      religion: '',
-      region: '',
-      province: '',
-      city: '',
-      barangay: '',
-      street: '',
-      zip_code: '',
-      year: '',
-      section: '',
+      employee_id: '',
+      full_name: '',
+      email: '',
+      password: '',
+      account_role: '',
+      account_dpt: '',
 
     },
-
+    rules: {
+        required: value => !!value || 'Field is required', //required fields
+      },
+      
+    email: value => {
+          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          return pattern.test(value) || 'Invalid e-mail.'
+      },
   }),
+  
+
 
   computed: {
     formTitle() {
@@ -321,18 +336,8 @@ export default {
     dialog(val) {
       val || this.close();
     },
-    dialogDelete(val) {
-      val || this.closeDelete();
-    },
   },
-  watch: {
-    'editedItem.grade_level'(newGrade) {
-      if (['7', '8', '9', '10'].includes(newGrade)) {
-        this.editedItem.strand = 'N/A';
-      }
-    }
-  },
-
+  
   mounted() {
     this.initialize();
   },
@@ -550,6 +555,6 @@ export default {
   min-width: 60px;
 }
 .sweet-alert-container {
-  z-index: -9999 !important; /* Ensures the alert is on top of other elements */
+  z-index: 9999 !important; /* Ensures the alert is on top of other elements */
 }
 </style>

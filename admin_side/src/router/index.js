@@ -54,10 +54,10 @@ const router = createRouter({
       path: '/seniorhigh',
       component: () => import('../views/SeniorHighRec.vue'),
     },
-    {
-      path: '/alumni',
-      component: () => import('../views/AlumniRec.vue'),
-    },
+    // {
+    //   path: '/alumni',
+    //   component: () => import('../views/AlumniRec.vue'),
+    // },
     {
       path: '/faculty',
       component: () => import('../views/FacultyRec.vue'),

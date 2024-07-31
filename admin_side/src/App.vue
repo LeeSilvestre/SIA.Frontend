@@ -77,9 +77,14 @@ button {
         will-change: transform, opacity;
 
         @media (max-width: 768px){
-          
+           
             padding-left: 7rem;
         }
+        
+        @media (max-width:1047px ){
+          flex-direction: column ;
+        }
+        
     }
     .headerAndContent {
         display: flex;

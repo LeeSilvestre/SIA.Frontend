@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-stepper alt-labels :items="['Student Details', 'Personal Information', 'Academic Information']">
+    <v-stepper alt-labels :items="['Student Details', 'Request Detail']">
       <template v-slot:item.1>
         <div class="step-card">
           <img :src="student.imageSrc" alt="Student Image" class="student-image"><br>
@@ -24,7 +24,7 @@
       </template>
 
       <template v-slot:item.2>
-        <h3 class="section-title">PERSONAL INFORMATION</h3>
+        <h3 class="section-title">Request Detail</h3>
         <hr>
         <v-container>
           <v-row>
@@ -32,15 +32,15 @@
               <v-text-field label="Full Name" v-model="student.full_name" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field label="Contact #" v-model="student.contact_no" outlined readonly
+              <v-text-field label="Type of Document" v-model="student.document_type" outlined readonly
                 hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field label="Birthdate" v-model="student.birth_date" outlined readonly
+              <v-text-field label="Purpose of Request" v-model="student.reason" outlined readonly
                 hide-details></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field label="Sex" v-model="student.sex_at_birth" outlined readonly hide-details></v-text-field>
+            <!-- <v-col cols="12" sm="6">
+              <v-text-field label="Status" v-model="student.status" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field label="Religion" v-model="student.religion" outlined readonly hide-details></v-text-field>
@@ -55,31 +55,14 @@
             <v-col cols="12" sm="6">
               <v-text-field label="Guardian Contact #" v-model="student.guardian_mobileno" outlined readonly
                 hide-details></v-text-field>
-            </v-col>
+            </v-col> -->
           </v-row>
+          <br>
         </v-container>
-      </template>
-
-      <template v-slot:item.3>
-        <h3 class="section-title">ACADEMIC INFORMATION</h3>
-        <hr>
-        <v-container>
-          <v-row>
-            <v-col cols="12" sm="6">
-              <v-text-field label="Section" v-model="student.section" outlined readonly hide-details></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field label="Grade Level" v-model="student.grade_level" outlined readonly
-                hide-details></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field label="School Year" v-model="student.year" outlined readonly hide-details></v-text-field>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-text-field label="Password" v-model="student.password" outlined readonly hide-details></v-text-field>
-            </v-col>
-          </v-row>
-        </v-container>
+        <div class="button-container">
+            <v-btn class="bg-green large-button">Approve Request</v-btn>
+            <v-btn class="bg-red large-button">Cancel Request</v-btn>
+          </div>
       </template>
     </v-stepper>
   </div>
@@ -120,5 +103,10 @@ export default {
   height: auto;
   margin-bottom: 1rem;
   /* Adjust margin if necessary */
+}
+
+.button-container {
+  display: flex;
+  gap: 10px; /* Adjust the gap as needed */
 }
 </style>

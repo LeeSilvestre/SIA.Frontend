@@ -9,55 +9,6 @@
         <v-text-field v-model="search" class="w-20 mr-16 " density="compact" label="Search"
           prepend-inner-icon="mdi-magnify" variant="solo-filled" flat hide-details single-line></v-text-field>
 
-        <v-dialog v-model="viewDialog" max-width="800">
-          <v-card>
-            <div class="pt-3 pb-3 pl-5 pr-4" style="background-color: var(--dark)">
-              <v-card-title class="fs-3 font-weight-black" style="color: white; position: relative; margin: 0;">
-                REQUEST DETAILS
-                <v-btn icon @click="closeViewDialog" class="close-button" style="position: absolute; top: 0; right: 0;">
-                  <v-icon>mdi-close</v-icon>
-                </v-btn>
-              </v-card-title>
-            </div>
-
-            <v-card-text>
-              <div class="d-flex mt-2 p-1">
-                <v-card class="right-section w-100" >
-                  <v-card-text>
-                    <div class="personal-info">
-                      <!-- Personal information details -->
-                      <!-- Mother's details -->
-                      <div class="info-box">
-                        <strong class="info-title">STUDENT ID: </strong>
-                        <span class="info-value">{{ selectedStudent.student_id }}</span>
-                      </div>
-                      <div class="info-box">
-                        <strong class="info-title">NAME: </strong>
-                        <span class="info-value">{{ selectedStudent.full_name }}</span>
-                      </div>
-                      <div class="info-box">
-                        <strong class="info-title">TYPE OF DOCUMENT REQUEST: </strong>
-                        <span class="info-value">{{ selectedStudent.full_name }}</span>
-                      </div>
-                      <div class="info-box">
-                        <strong class="info-title">STATUS: </strong>
-                        <span class="info-value">{{ selectedStudent.status }}</span>
-                      </div>
-                      <div class="info-box">
-                        <strong class="info-title">PURPOSE OF REQUEST: </strong>
-                        <span class="info-value">{{ selectedStudent.reason }}</span>
-                      </div>
-
-                      <!-- Father's details -->
-                      <!-- Add other personal information details here -->
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-dialog>
-
       </v-toolbar>
     </template>
     <template v-slot:item="{ item }">
@@ -68,8 +19,8 @@
         <td>{{ item.status }}</td>
         <td>
           <div class="button-container"> 
-          <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)"> View Status</v-btn>
-          <v-btn class="bg-green small-button"> Verified</v-btn>
+          <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)">View</v-btn>
+          <v-btn class="bg-green small-button"> Verify</v-btn>
         </div>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
         <!-- Archive Icon -->

@@ -35,7 +35,8 @@
           <li>
           </li>
           <li>
-            <router-link class="button" to="/enlistment"><span class="text">Enlistment</span></router-link>
+            <router-link class="button" to="/enlistment"><span class="text">
+              Enlistment</span></router-link>
           </li>
           <li>
             <router-link class="button" to="/admission"><span class="text">Admission</span></router-link>
@@ -63,7 +64,7 @@
         <ul class="submenu-content" v-show="submenuVisible" @click.stop>
           <li><router-link class="button" to="/juniorhigh" exact active-class="active">Junior High</router-link></li>
           <li><router-link class="button" to="/seniorhigh" exact active-class="active">Senior High</router-link></li>
-          <li><router-link class="button" to="/alumni" exact active-class="active">Alumni</router-link></li>
+          <!-- <li><router-link class="button" to="/alumni" exact active-class="active">Alumni</router-link></li> -->
           <li><router-link class="button" to="/faculty" exact active-class="active">Faculty</router-link></li>
         </ul>
       </div>

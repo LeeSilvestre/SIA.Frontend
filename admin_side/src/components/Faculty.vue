@@ -4,126 +4,185 @@
     :headers="headers"
     :items="displayedFaculty"
     :sort-by="[{ key: 'id', order: 'asc' }]"
-    
-    
   >
-    <template v-slot:top >
-      <v-toolbar flat >
-        <v-toolbar-title class="text-h6 font-weight-black" style="color: #2F3F64">FACULTY MASTER LIST</v-toolbar-title>
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title
+          class="text-h6 font-weight-black"
+          style="color: #2f3f64"
+          >FACULTY MASTER LIST</v-toolbar-title
+        >
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
         <v-text-field
-        v-model="search"
-        class="w-20 mr-16 "
-        density="compact"
-        label="Search"
-        prepend-inner-icon="mdi-magnify"
-        variant="solo-filled"
-        flat
-        hide-details  
-        single-line
-      ></v-text-field>
-      
-      
-      <v-dialog v-model="dialog" max-width="1000px">
+          v-model="search"
+          class="w-20 mr-16"
+          density="compact"
+          label="Search"
+          prepend-inner-icon="mdi-magnify"
+          variant="solo-filled"
+          flat
+          hide-details
+          single-line
+        ></v-text-field>
 
-        <v-dialog v-model="viewDialog" max-width="800">
-    <v-card>
-      <div class="pt-3 pb-3 pl-5 pr-4" style="background-color: var(--dark)">
-        <v-card-title class="fs-3 font-weight-black" style="color: white; position: relative; margin: 0;">
-          FACULTY DETAILS
-          <v-btn icon @click="closeViewDialog" class="close-button " style="position: absolute; top: 0; right: 0;">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>  
-        </v-card-title>
-      </div>
-        
-      <v-card-text>
-        <div class="d-flex mt-2 p-1">
-          <v-card class="mr-3" style="width: 50%; background-color: #f0f0f0;">
-            <v-card-text class="student-leftinfo">
-              <img :src="selectedStudent.imageSrc" alt="Faculty Image"
-                style="max-width: 100%; height: auto; margin-bottom: 3rem;"><br>
-                <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">FACULTY ID:</strong> {{ selectedStudent.student_id }} <br>
+        <v-dialog v-model="dialog" max-width="1000px">
+          <v-dialog v-model="viewDialog" max-width="800">
+            <v-card>
+              <div
+                class="pt-3 pb-3 pl-5 pr-4"
+                style="background-color: var(--dark)"
+              >
+                <v-card-title
+                  class="fs-3 font-weight-black"
+                  style="color: white; position: relative; margin: 0"
+                >
+                  FACULTY DETAILS
+                  <v-btn
+                    icon
+                    @click="closeViewDialog"
+                    class="close-button"
+                    style="position: absolute; top: 0; right: 0"
+                  >
+                    <v-icon>mdi-close</v-icon>
+                  </v-btn>
+                </v-card-title>
               </div>
-              <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">FULL NAME:</strong> {{ selectedStudent.first_name }} {{ selectedStudent.middle_name}} {{ selectedStudent.last_name}} {{ selectedStudent.extension }}<br>
-              </div>
-              <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">POSITION:</strong> {{ selectedStudent.position }}<br>
-              </div>
-              <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">DEPARTMENT:</strong> {{ selectedStudent.department }}<br>
-              </div>
-            </v-card-text>
-          </v-card>
 
-          <div class="parent-container">
-          <v-card class="right-section w-100" style="box-shadow: 5px 10px #888888;">
               <v-card-text>
-                <h3 class="section-title">PERSONAL INFORMATION</h3>
-                <hr>
-                <div class="personal-info">
-                  <!-- Personal information details -->
-                  <!-- Mother's details -->
-                  <div class="info-box">
-                    <strong class="info-title">Full Name: </strong>
-                    <span class="info-value">{{ selectedStudent.first_name }} {{ selectedStudent.middle_name }}</span>
+                <div class="d-flex mt-2 p-1">
+                  <v-card
+                    class="mr-3"
+                    style="width: 50%; background-color: #f0f0f0"
+                  >
+                    <v-card-text class="student-leftinfo">
+                      <img
+                        :src="selectedStudent.imageSrc"
+                        alt="Faculty Image"
+                        style="
+                          max-width: 100%;
+                          height: auto;
+                          margin-bottom: 3rem;
+                        "
+                      /><br />
+                      <div class="d-flex flex-column mb-3 faculty-details-item">
+                        <strong class="text-padding">FACULTY ID:</strong>
+                        {{ selectedStudent.student_id }} <br />
+                      </div>
+                      <div class="d-flex flex-column mb-3 faculty-details-item">
+                        <strong class="text-padding">FULL NAME:</strong>
+                        {{ selectedStudent.first_name }}
+                        {{ selectedStudent.middle_name }}
+                        {{ selectedStudent.last_name }}
+                        {{ selectedStudent.extension }}<br />
+                      </div>
+                      <div class="d-flex flex-column mb-3 faculty-details-item">
+                        <strong class="text-padding">POSITION:</strong>
+                        {{ selectedStudent.position }}<br />
+                      </div>
+                      <div class="d-flex flex-column mb-3 faculty-details-item">
+                        <strong class="text-padding">DEPARTMENT:</strong>
+                        {{ selectedStudent.department }}<br />
+                      </div>
+                    </v-card-text>
+                  </v-card>
+
+                  <div class="parent-container">
+                    <v-card
+                      class="right-section w-100"
+                      style="box-shadow: 5px 10px #888888"
+                    >
+                      <v-card-text>
+                        <h3 class="section-title">PERSONAL INFORMATION</h3>
+                        <hr />
+                        <div class="personal-info">
+                          <!-- Personal information details -->
+                          <!-- Mother's details -->
+                          <div class="info-box">
+                            <strong class="info-title">Full Name: </strong>
+                            <span class="info-value"
+                              >{{ selectedStudent.first_name }}
+                              {{ selectedStudent.middle_name }}</span
+                            >
+                          </div>
+                          <div class="info-box">
+                            <strong class="info-title">Contact #: </strong>
+                            <span class="info-value">{{
+                              selectedStudent.contact_no
+                            }}</span>
+                          </div>
+                          <div class="info-box">
+                            <strong class="info-title">Birthdate: </strong>
+                            <span class="info-value">{{
+                              selectedStudent.birth_date
+                            }}</span>
+                          </div>
+                          <div class="info-box">
+                            <strong class="info-title">Sex: </strong>
+                            <span class="info-value">{{
+                              selectedStudent.sex_at_birth
+                            }}</span>
+                          </div>
+                          <div class="info-box">
+                            <strong class="info-title">Religion: </strong>
+                            <span class="info-value">{{
+                              selectedStudent.religion
+                            }}</span>
+                          </div>
+                          <div class="info-box">
+                            <strong class="info-title">Address: </strong>
+                            <span class="info-value"
+                              >{{ selectedStudent.houseNumber }}
+                              {{ selectedStudent.street }}
+                              {{ selectedStudent.barangay }}
+                              {{ selectedStudent.city }} ,{{
+                                selectedStudent.province
+                              }}
+                              {{ selectedStudent.zip_code }}</span
+                            >
+                          </div>
+                          <div class="info-box">
+                            <strong class="info-title">Guardian Name: </strong>
+                            <span class="info-value">{{
+                              selectedStudent.guardian
+                            }}</span>
+                          </div>
+                          <div class="info-box">
+                            <strong class="info-title"
+                              >Guardian Contact #:
+                            </strong>
+                            <span class="info-value">{{
+                              selectedStudent.guardian_mobileno
+                            }}</span>
+                          </div>
+                          <!-- Father's details -->
+                          <!-- Add other personal information details here -->
+                        </div>
+                      </v-card-text>
+                    </v-card>
                   </div>
-                  <div class="info-box">
-                    <strong class="info-title">Contact #: </strong>
-                    <span class="info-value">{{ selectedStudent.contact_no }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Birthdate: </strong>
-                    <span class="info-value">{{ selectedStudent.birth_date }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Sex: </strong>
-                    <span class="info-value">{{ selectedStudent.sex_at_birth }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Religion: </strong>
-                    <span class="info-value">{{ selectedStudent.religion }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Address: </strong>
-                    <span class="info-value">{{ selectedStudent.houseNumber}} {{ selectedStudent.street}} {{ selectedStudent.barangay}}
-                      {{ selectedStudent.city}} ,{{ selectedStudent.province}} {{ selectedStudent.zip_code}}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Guardian Name: </strong>
-                    <span class="info-value">{{ selectedStudent.guardian }}</span>
-                  </div>
-                  <div class="info-box">
-                    <strong class="info-title">Guardian Contact #: </strong>
-                    <span class="info-value">{{ selectedStudent.guardian_mobileno }}</span>
-                  </div>
-                  <!-- Father's details -->
-                  <!-- Add other personal information details here -->
                 </div>
               </v-card-text>
             </v-card>
-          </div>
-        </div>
-      </v-card-text>
-    </v-card>
-  </v-dialog>
-</v-dialog>
-
+          </v-dialog>
+        </v-dialog>
       </v-toolbar>
     </template>
     <template v-slot:item="{ item }">
       <tr>
         <td>{{ item.faculty_id }}</td>
-        <td>{{ item.fname }} {{ item.mname }} {{ item.lname }} {{ item.extension }}</td>
+        <td>
+          {{ item.fname }} {{ item.mname }} {{ item.lname }}
+          {{ item.extension }}
+        </td>
         <td>{{ item.position }}</td>
         <td>{{ item.department }}</td>
         <td>{{ item.email }}</td>
         <td>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
-          <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;" @click="openViewDialog(item)">mdi-eye</v-icon>
+          <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)"
+              >View</v-btn
+            >
         </td>
       </tr>
     </template>
@@ -131,35 +190,52 @@
       <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
     </template> -->
   </v-data-table>
-  
+
   <v-dialog v-model="viewDialog" max-width="800">
     <v-card>
       <div class="pt-3 pb-3 pl-5 pr-4" style="background-color: var(--dark)">
-        <v-card-title class="fs-3 font-weight-black" style="color: white; position: relative; margin: 0;">
+        <v-card-title
+          class="fs-3 font-weight-black"
+          style="color: white; position: relative; margin: 0"
+        >
           FACULTY DETAILS
-          <v-btn icon @click="closeViewDialog" class="close-button " style="position: absolute; top: 0; right: 0;">
+          <v-btn
+            icon
+            @click="closeViewDialog"
+            class="close-button"
+            style="position: absolute; top: 0; right: 0"
+          >
             <v-icon>mdi-close</v-icon>
-          </v-btn>  
+          </v-btn>
         </v-card-title>
       </div>
-        
+
       <v-card-text>
         <div class="d-flex mt-2 p-1">
-          <v-card class="mr-3" style="width: 30%; background-color: #f0f0f0;">
+          <v-card class="mr-3" style="width: 30%; background-color: #f0f0f0">
             <v-card-text class="student-leftinfo">
-              <img :src="selectedFaculty.imageSrc" alt="Faculty Image"
-                style="max-width: 100%; height: auto; margin-bottom: 3rem;"><br>
-                <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">FACULTY ID:</strong> {{ selectedFaculty.id }} <br>
+              <img
+                :src="selectedFaculty.imageSrc"
+                alt="Faculty Image"
+                style="max-width: 100%; height: auto; margin-bottom: 3rem"
+              /><br />
+              <div class="d-flex flex-column mb-3 faculty-details-item">
+                <strong class="text-padding">FACULTY ID:</strong>
+                {{ selectedFaculty.id }} <br />
               </div>
               <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">FULL NAME:</strong> {{ selectedFaculty.fname }} {{ selectedFaculty.mname }} {{ selectedFaculty.lname}} {{ selectedFaculty.extension }}<br>
+                <strong class="text-padding">FULL NAME:</strong>
+                {{ selectedFaculty.fname }} {{ selectedFaculty.mname }}
+                {{ selectedFaculty.lname }} {{ selectedFaculty.extension
+                }}<br />
               </div>
               <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">Position:</strong> {{ selectedFaculty.position }}<br>
+                <strong class="text-padding">Position:</strong>
+                {{ selectedFaculty.position }}<br />
               </div>
               <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">Department:</strong> {{ selectedFaculty.department }}<br>
+                <strong class="text-padding">Department:</strong>
+                {{ selectedFaculty.department }}<br />
               </div>
             </v-card-text>
           </v-card>
@@ -167,11 +243,9 @@
           <v-card style="flex-grow: 1">
             <v-card-text>
               <h3 class="fs-5 fw-bold">PERSONAL INFORMATION</h3>
-              <hr>
+              <hr />
               <div class="student-family">
-                <v-row>
-
-                </v-row>
+                <v-row> </v-row>
               </div>
             </v-card-text>
           </v-card>
@@ -179,91 +253,91 @@
       </v-card-text>
     </v-card>
   </v-dialog>
-
-
-
 </template>
 
 <script>
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import axios from "axios";
+import Swal from "sweetalert2";
 export default {
-  
   data: () => ({
-    search: '',
+    search: "",
     dialog: false,
     selectedFaculty: null,
     viewDialog: false,
     headers: [
-      { title: 'Faculty ID', align: 'start', key:'faculty_id'},
-      { title: 'Name', align: 'start', key:'full_name'},
-      { title: 'Position', align: 'start', key: 'position' },
-      { title: 'Department', align: 'start', key: 'department' },
-      { title: 'Email', align: 'start', key: 'email' },
-      { title: 'Actions', sortable: false },
+      { title: "Faculty ID", align: "start", key: "faculty_id" },
+      { title: "Name", align: "start", key: "full_name" },
+      { title: "Position", align: "start", key: "position" },
+      { title: "Department", align: "start", key: "department" },
+      { title: "Email", align: "start", key: "email" },
+      { title: "Actions", sortable: false },
     ],
     students: [],
     faculty: [],
     editedIndex: -1,
     editedItem: {
-      faculty_id: '',
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      extension: '',
-      position: '',
-      department: '',
-      email: '',
-      contact_no: '',
-      birth_date: '',
-      birth_place: '',
-      civil_status: '',
-      sex_at_birth: '',
-      citizenship: '',
-      religion: '',
-      region: '',
-      province: '',
-      city: '',
-      barangay: '',
-      street: '',
-      zip_code: '',
+      faculty_id: "",
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      extension: "",
+      position: "",
+      department: "",
+      email: "",
+      contact_no: "",
+      birth_date: "",
+      birth_place: "",
+      civil_status: "",
+      sex_at_birth: "",
+      citizenship: "",
+      religion: "",
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      street: "",
+      zip_code: "",
     },
     defaultItem: {
-      faculty_id: '',
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      extension: '',
-      position: '',
-      department: '',
-      email: '',
-      contact_no: '',
-      birth_date: '',
-      birth_place: '',
-      civil_status: '',
-      sex_at_birth: '',
-      citizenship: '',
-      religion: '',
-      region: '',
-      province: '',
-      city: '',
-      barangay: '',
-      street: '',
-      zip_code: '',
+      faculty_id: "",
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      extension: "",
+      position: "",
+      department: "",
+      email: "",
+      contact_no: "",
+      birth_date: "",
+      birth_place: "",
+      civil_status: "",
+      sex_at_birth: "",
+      citizenship: "",
+      religion: "",
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      street: "",
+      zip_code: "",
     },
   }),
 
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
+      return this.editedIndex === -1
+        ? "Add Student"
+        : "Edit Student Information";
     },
     displayedFaculty() {
       const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
-    return this.faculty.filter(student =>
-      Object.values(student).some(value =>
-        typeof value === 'string' && value.toLowerCase().includes(searchTerm)
-    )
-    );
+      return this.faculty.filter((student) =>
+        Object.values(student).some(
+          (value) =>
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchTerm)
+        )
+      );
     },
   },
 
@@ -275,66 +349,71 @@ export default {
       val || this.closeDelete();
     },
   },
-  
-  watch: {
-      'editedItem.year'(newYear) {
-        const pattern = /^\d{4}-\d{4}$/;
-        if (pattern.test(newYear)) {
-          const years = newYear.split('-');
-          const startYear = parseInt(years[0]);
-          const endYear = parseInt(years[1]);
 
-          if (endYear - startYear === 1) {
-            this.editedItem.year = `${startYear + 1}-${endYear + 1}`;
-          }
+  watch: {
+    "editedItem.year"(newYear) {
+      const pattern = /^\d{4}-\d{4}$/;
+      if (pattern.test(newYear)) {
+        const years = newYear.split("-");
+        const startYear = parseInt(years[0]);
+        const endYear = parseInt(years[1]);
+
+        if (endYear - startYear === 1) {
+          this.editedItem.year = `${startYear + 1}-${endYear + 1}`;
         }
       }
     },
-
-    watch: {
-    'editedItem.grade_level'(newGrade) {
-      if (['7', '8', '9', '10'].includes(newGrade)) {
-        this.editedItem.strand = 'N/A';
-      } else {
-
-        this.editedItem.strand = ''; 
-      }
-    }
   },
 
- mounted(){
-  this.initialize();
- },
+  watch: {
+    "editedItem.grade_level"(newGrade) {
+      if (["7", "8", "9", "10"].includes(newGrade)) {
+        this.editedItem.strand = "N/A";
+      } else {
+        this.editedItem.strand = "";
+      }
+    },
+  },
+
+  mounted() {
+    this.initialize();
+  },
 
   methods: {
     initialize() {
-      axios.get('faculty').then(res => {
-        console.log(res.data);
-        let tmp = res.data;
-       tmp.full_name 
-        this.faculty =tmp.faculty;
-        console.log(this.faculty);
-        this.faculty.forEach(faculty => {
-          faculty.full_name = `${faculty.fname} ${faculty.mname} ${faculty.lname} ${faculty.extension}`.trim();
-          faculty.imageSrc = faculty.image ? `http://127.0.0.1:8000/uploads/profile/${faculty.image.image}` : '';
+      axios
+        .get("faculty")
+        .then((res) => {
+          console.log(res.data);
+          let tmp = res.data;
+          tmp.full_name;
+          this.faculty = tmp.faculty;
+          console.log(this.faculty);
+          this.faculty.forEach((faculty) => {
+            faculty.full_name =
+              `${faculty.fname} ${faculty.mname} ${faculty.lname} ${faculty.extension}`.trim();
+            faculty.imageSrc = faculty.image
+              ? `http://127.0.0.1:8000/uploads/profile/${faculty.image.image}`
+              : "";
           });
           console.log(this.faculty);
-      })
-      .catch(error => {
-        console.error('Error loading faculties:', error);
-      });
+        })
+        .catch((error) => {
+          console.error("Error loading faculties:", error);
+        });
     },
 
     initialize() {
-      axios.get('student').then(res => {
+      axios.get("student").then((res) => {
         let tmp = res.data;
         this.students = tmp.student;
         console.log(this.students);
 
         // Format full name and adjust strand property
-        this.students.forEach(student => {
+        this.students.forEach((student) => {
           // Format full name
-          student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
+          student.full_name =
+            `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
 
           // Check grade level and adjust strand property
           if (student.grade_level <= 10) {
@@ -343,7 +422,6 @@ export default {
         });
       });
     },
-
 
     close() {
       this.dialog = false;
@@ -361,19 +439,19 @@ export default {
     },
 
     closeViewDialog() {
-      console.log("selectedStudent:", this.selectedStudent); 
+      console.log("selectedStudent:", this.selectedStudent);
       this.viewDialog = false;
     },
 
     save() {
       if (!this.validateForm()) {
         Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Please fill in all required fields!',
+          icon: "error",
+          title: "Oops...",
+          text: "Please fill in all required fields!",
           customClass: {
-            container: 'sweet-alert-container',
-          }
+            container: "sweet-alert-container",
+          },
         });
         return;
       }
@@ -386,33 +464,34 @@ export default {
         this.students.push(this.editedItem);
         tmp.image = this.selectedFile;
         // console.log(this.tmp);
-        axios.post('student', tmp).then(res => {
-          console.log(res);
-        }).catch(error => {
-          console.error(error);
-        });
+        axios
+          .post("student", tmp)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
       this.close();
     },
 
-    
     prependCountryCode() {
-      if (!this.editedItem.guardian_mobileno.startsWith('+63')) {
-        this.editedItem.guardian_mobileno = '+63';
+      if (!this.editedItem.guardian_mobileno.startsWith("+63")) {
+        this.editedItem.guardian_mobileno = "+63";
       }
     },
 
     validateForm() {
       for (const key in this.editedItem) {
         if (this.editedItem.hasOwnProperty(key)) {
-          if (this.editedItem[key] === '' || this.editedItem[key] === null) {
-            return false; 
+          if (this.editedItem[key] === "" || this.editedItem[key] === null) {
+            return false;
           }
         }
       }
-      return true; 
+      return true;
     },
-
 
     // save() {
     //   if (this.editedIndex > -1) {
@@ -422,7 +501,6 @@ export default {
     //   }
     //   this.close();
     // },
-    
   },
 };
 </script>
@@ -430,7 +508,6 @@ export default {
 <style lang="scss">
 .v-data-table {
   height: 100%;
-
 }
 .student-card {
   width: w-auto;
@@ -458,7 +535,6 @@ export default {
 .close-button:hover {
   color: red;
 }
-
 
 .info-title {
   font-weight: bold;
@@ -507,7 +583,7 @@ export default {
   opacity: 75%;
 }
 .faculty-details-item {
-  padding: 8px 0; 
+  padding: 8px 0;
   justify-content: left;
   text-align: left;
   align-items: start;
