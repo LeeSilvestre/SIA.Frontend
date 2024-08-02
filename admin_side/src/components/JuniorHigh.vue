@@ -19,7 +19,8 @@
         <td>{{ item.grade_level }}</td>
         <td>
           <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)"
-              >View</v-btn
+              >
+              <v-icon icon="mdi-eye" start></v-icon>View</v-btn
             >
           <!-- <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;"
             @click="handleViewIconClick(item)">mdi-eye</v-icon> -->

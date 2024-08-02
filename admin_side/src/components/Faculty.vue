@@ -181,7 +181,8 @@
         <td>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
           <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)"
-              >View</v-btn
+              >
+              <v-icon icon="mdi-eye" start></v-icon>View</v-btn
             >
         </td>
       </tr>

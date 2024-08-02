@@ -5,32 +5,19 @@
     <!-- content of the table (top) -->
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title 
-          class="text-h6 font-weight-black " 
-          style="color: #2F3F64">USER ACCOUNTS LIST
+        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">USER ACCOUNTS LIST
         </v-toolbar-title>
 
-        <v-text-field 
-          v-model="search" 
-          class="w-auto mr-1 " 
-          density="compact" 
-          label="Search"
-          prepend-inner-icon="mdi-magnify" 
-          variant="solo-filled" 
-          flat hide-details single-line>
+        <v-text-field v-model="search" class="w-auto mr-1 " density="compact" label="Search"
+          prepend-inner-icon="mdi-magnify" variant="solo-filled" flat hide-details single-line>
         </v-text-field>
-    <!-- content of the table (top) -->
+        <!-- content of the table (top) -->
 
         <!-- create new popup modal -->
         <v-dialog v-model="dialog" max-width="1000px">
           <template v-slot:activator="{ props }">
             <!-- card header content -->
-            <v-btn 
-              class="mb-2 rounded-l" 
-              color="primary" dark 
-              v-bind="props" 
-              prepend-icon="mdi-plus"
-              >ADD USERS
+            <v-btn class="mb-2 rounded-l" color="primary" dark v-bind="props" prepend-icon="mdi-plus">ADD USERS
             </v-btn>
             <!-- end of card header content -->
           </template>
@@ -44,107 +31,62 @@
               <v-container>
                 <v-row dense>
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field 
-                      v-model="editedItem.last_name" 
-                      :rules="[rules.required]"
-                      label="Last Name" 
-                      required
+                    <v-text-field v-model="editedItem.last_name" :rules="[rules.required]" label="Last Name" required
                       pattern="[A-Za-z .'-]+">
                     </v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field 
-                    v-model="editedItem.first_name" 
-                    label="First Name" required
-                    :rules="[rules.required]"
-                    pattern="[A-Za-z .'-]+">
-                  </v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="6" sm="6">
-                    <v-text-field 
-                      v-model="editedItem.middle_name" 
-                      label="Middle Name"
+                    <v-text-field v-model="editedItem.first_name" label="First Name" required :rules="[rules.required]"
                       pattern="[A-Za-z .'-]+">
                     </v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field 
-                      v-model="editedItem.extension_name" 
-                      label="Extension Name"
-                      pattern="[A-Za-z .'-]+">
+                    <v-text-field v-model="editedItem.middle_name" label="Middle Name" pattern="[A-Za-z .'-]+">
                     </v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field
-                      label="Email Address"
-                      model-value="Doe"
-                      suffix="@sna.edu.ph"
-                      :rules="[rules.required]"
-                    ></v-text-field>
+                    <v-text-field v-model="editedItem.extension_name" label="Extension Name" pattern="[A-Za-z .'-]+">
+                    </v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field
-                      v-model="password"
-                      :rules="[rules.required, rules.min]"
-                      hint="At least 8 characters"
-                      label="Password"
-                      name="input-10-1"
-                      counter
-                    ></v-text-field>
+                    <v-text-field label="Email Address" model-value="Doe" suffix="@sna.edu.ph"
+                      :rules="[rules.required]"></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="6" sm="6">
+                    <v-text-field v-model="password" :rules="[rules.required, rules.min]" hint="At least 8 characters"
+                      label="Password" name="input-10-1" counter></v-text-field>
                   </v-col>
                 </v-row>
 
                 <v-divider></v-divider>
                 <!-- checkbox -->
-              <label class="fw-regular fs-5">Roles and Department</label><br>
-              <label class="fw-light fs-6"><strong>Instruction: </strong>Select all the roles you want to assign to the user by clicking the checkboxes.</label>
-              <v-row>
-                <v-col cols="12" md="4" sm="4">
-                  <v-checkbox
-                    color="success"
-                    label="Admin"
-                    value="success"
-                  ></v-checkbox>
-                  <v-checkbox
-                    color="success"
-                    label="Faculty"
-                    value="success"
-                  ></v-checkbox>
-                </v-col>
-                <v-col cols="12" md="4" sm="4">
-                  <v-checkbox
-                    color="success"
-                    label="Student Personnel"
-                    value="success"
-                  ></v-checkbox>
-                  <v-checkbox
-                    color="success"
-                    label="Encoder"
-                    value="success"
-                  ></v-checkbox>
-                </v-col>
-                <v-col cols="12" md="4" sm="4">
-                  <v-checkbox
-                    color="success"
-                    label="Verifier"
-                    value="success"
-                  ></v-checkbox>
-                  <v-checkbox
-                    color="success"
-                    label="Accessor"
-                    value="success"
-                  ></v-checkbox>
-                </v-col>
-              </v-row>
-              <!-- checkbox -->
+                <label class="fw-regular fs-5">Roles and Department</label><br>
+                <label class="fw-light fs-6"><strong>Instruction: </strong>Select all the roles you want to assign to
+                  the user by
+                  clicking the checkboxes.</label>
+                <v-row>
+                  <v-col cols="12" md="4" sm="4">
+                    <v-checkbox color="success" label="Admin" value="success"></v-checkbox>
+                    <v-checkbox color="success" label="Faculty" value="success"></v-checkbox>
+                  </v-col>
+                  <v-col cols="12" md="4" sm="4">
+                    <v-checkbox color="success" label="Student Personnel" value="success"></v-checkbox>
+                    <v-checkbox color="success" label="Encoder" value="success"></v-checkbox>
+                  </v-col>
+                  <v-col cols="12" md="4" sm="4">
+                    <v-checkbox color="success" label="Verifier" value="success"></v-checkbox>
+                    <v-checkbox color="success" label="Accessor" value="success"></v-checkbox>
+                  </v-col>
+                </v-row>
+                <!-- checkbox -->
               </v-container>
             </v-card-text>
-            
+
             <!-- card buttons -->
             <v-card-actions>
               <v-spacer></v-spacer>
@@ -162,16 +104,19 @@
       <tr>
         <td>{{ item.employee_id }}</td>
         <td>
-          {{ item.last_name }}, 
-          {{ item.first_name }} 
-          {{ item.middle_name }} 
-          {{ item.extension}}
+          {{ item.last_name }},
+          {{ item.first_name }}
+          {{ item.middle_name }}
+          {{ item.extension }}
         </td>
-        <td >{{ item.account_role }}</td>
+        <td>{{ item.account_role }}</td>
         <td>{{ item.account_dpt }}</td>
 
         <td>
-          <v-btn class="bg-blue small-button">View</v-btn>
+          <v-btn class="ma-2" color="primary" @click="openViewDialog">
+              <v-icon icon="mdi-eye" start></v-icon>
+              View
+            </v-btn>
         </td>
       </tr>
     </template>
@@ -307,15 +252,15 @@ export default {
 
     },
     rules: {
-        required: value => !!value || 'Field is required', //required fields
-      },
-      
+      required: value => !!value || 'Field is required', //required fields
+    },
+
     email: value => {
-          const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-          return pattern.test(value) || 'Invalid e-mail.'
-      },
+      const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return pattern.test(value) || 'Invalid e-mail.'
+    },
   }),
-  
+
 
 
   computed: {
@@ -337,14 +282,14 @@ export default {
       val || this.close();
     },
   },
-  
+
   mounted() {
     this.initialize();
   },
 
 
   methods: {
-    
+
     initialize() {
       axios.get('student').then(res => {
         this.students = res.data.student.map(student => ({
@@ -554,7 +499,9 @@ export default {
   padding: 1px 4px;
   min-width: 60px;
 }
+
 .sweet-alert-container {
-  z-index: 9999 !important; /* Ensures the alert is on top of other elements */
+  z-index: 9999 !important;
+  /* Ensures the alert is on top of other elements */
 }
 </style>

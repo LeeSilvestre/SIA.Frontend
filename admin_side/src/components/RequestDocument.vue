@@ -19,8 +19,7 @@
         <td>{{ item.status }}</td>
         <td>
           <div class="button-container"> 
-          <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)">View</v-btn>
-          <v-btn class="bg-green small-button"> Verify</v-btn>
+          <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)"><v-icon icon="mdi-eye" start></v-icon>View</v-btn>
         </div>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
         <!-- Archive Icon -->

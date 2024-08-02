@@ -39,7 +39,7 @@
           <span class="material-icons">bar_chart</span>
           Senior High Strands
         </h1>
-        <div>
+        <div> 
           <canvas ref="strandChartCanvas"></canvas>
         </div>
       </div>
@@ -178,6 +178,7 @@ main {
   flex: 1 1 48%;
   display: flex;
   flex-direction: column;
+  
 }
 
 .top-left,
@@ -188,8 +189,15 @@ main {
   color: var(--dark);
   border-radius: 5px;
   border: 1px solid var(--light);
-  border-left: 6px solid var(--dark-alt);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
+}
+
+.top-left {
+  border-left: 6px solid green;
+}
+
+.bottom-left {
+    border-left: 6px solid red;
 }
 
 .right-container {
@@ -207,14 +215,10 @@ main {
   color: var(--dark);
   border-radius: 5px;
   border: 1px solid var(--light);
-  border-left: 6px solid var(--dark-alt);
+  border-left: 6px solid rgba(179, 179, 11, 0.658);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
   display: flex;
   flex-direction: column;
-}
-.strand-enrolees canvas {
-  width: 100% !important;
-  height: 100% !important;
 }
 .strand-enrolees canvas {
   width: 100% !important;
@@ -227,22 +231,13 @@ main {
   color: var(--dark);
   border-radius: 5px;
   border: 1px solid var(--light);
-  border-left: 6px solid var(--dark-alt);
+  border-left: 6px solid rgb(4, 4, 149);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
   display: flex;
   flex-direction: column;
 
 }
 
-.school-announcements {
-  flex: 1 1 40%;
-  padding: 1rem;
-  color: var(--dark);
-  border-radius: 5px;
-  border: 1px solid var(--light);
-  border-left: 6px solid var(--dark-alt);
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 3px 8px;
-}
 
 .info-text {
   color: var(--dark);

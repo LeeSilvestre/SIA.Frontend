@@ -51,12 +51,13 @@
 
         <td>
           <v-btn
-            color="primary"
+            color="success"
             dark
             v-bind="props"
             @click="assessItem(item, 'Confirm')"
             :disabled="item.enrollment_status === 'Assessed'"
           >
+          <v-icon icon="mdi-check" start></v-icon>
             Verify</v-btn
           >
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->

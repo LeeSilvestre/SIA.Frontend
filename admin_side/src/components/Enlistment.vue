@@ -28,7 +28,7 @@
         <v-dialog v-model="dialog" max-width="1000px">
           <template v-slot:activator="{ props }">
             <v-btn
-              class="mb-2 rounded-l border"
+              class="mb-2"
               color="primary"
               dark
               v-bind="props"
@@ -47,7 +47,7 @@
               >
             </div>
             <v-card-text>
-              <label class="fw-regular fs-5">PERSONAL INFORMATION</label>
+              <label class="fw-regular fs-5">Personal Information</label>
               <v-container>
                 <v-row dense>
                   <v-col cols="12" md="3" sm="6">
@@ -64,7 +64,7 @@
                     <v-text-field
                       v-model="editedItem.student_lrn"
                       label="LRN"
-                      required
+                      :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
 
@@ -72,7 +72,7 @@
                     <v-text-field
                       v-model="editedItem.last_name"
                       label="Last Name"
-                      required
+                      :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
 
@@ -80,7 +80,7 @@
                     <v-text-field
                       v-model="editedItem.first_name"
                       label="First Name"
-                      required
+                      :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
 
@@ -96,7 +96,7 @@
                     <v-text-field
                       v-model="editedItem.contact_no"
                       label="Contact no."
-                      required
+                      :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
 
@@ -105,7 +105,7 @@
                       v-model="editedItem.birth_date"
                       label="Date of Birth dd/mm/yy"
                       type="date"
-                      required
+                      :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
 
@@ -114,7 +114,7 @@
                       v-model="editedItem.sex_at_birth"
                       :items="['Male', 'Female']"
                       label="SEX"
-                      required
+                      :rules="[rules.required]"
                     ></v-select>
                   </v-col>
 
@@ -122,7 +122,46 @@
                     <v-text-field
                       v-model="editedItem.religion"
                       label="Religion"
-                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="3" sm="6">
+                    <v-text-field
+                      v-model="editedItem.houseNumber"
+                      label="House Number"
+                      :rules="[rules.required]"
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="3" sm="6">
+                    <v-text-field
+                      v-model="editedItem.street"
+                      label="Street"
+                      :rules="[rules.required]"
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="3" sm="6">
+                    <v-text-field
+                      v-model="editedItem.barangay"
+                      label="Barangay"
+                      :rules="[rules.required]"
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="3" sm="6">
+                    <v-text-field
+                      v-model="editedItem.city"
+                      label="City/Municipality"
+                      :rules="[rules.required]"
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="3" sm="6">
+                    <v-text-field
+                      v-model="editedItem.province"
+                      label="Province"
+                      :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
 
@@ -148,61 +187,20 @@
                         'CAR',
                       ]"
                       label="Region"
-                      required
+                      :rules="[rules.required]"
                     ></v-select>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field
-                      v-model="editedItem.province"
-                      label="Province"
-                      required
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field
-                      v-model="editedItem.city"
-                      label="City/Municipality"
-                      required
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field
-                      v-model="editedItem.barangay"
-                      label="Barangay"
-                      required
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field
-                      v-model="editedItem.street"
-                      label="Street"
-                      required
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field
-                      v-model="editedItem.houseNumber"
-                      label="House Number"
-                      required
-                    ></v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="3" sm="6">
                     <v-text-field
                       v-model="editedItem.zip_code"
                       label="Zip Code"
-                      required
+                      :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
 
                   <!-- other info -->
                 </v-row>
-                <hr />
               </v-container>
             </v-card-text>
             <v-card-actions>
@@ -238,10 +236,14 @@
 
         <td>
           <div class="button-container">
-            <v-btn class="bg-blue small-button" @click="openViewDialog"
-              >View</v-btn
-            >
-            <v-btn class="bg-green small-button" @click="verify"> Verify</v-btn>
+            <v-btn class="ma-2" color="primary" @click="openViewDialog">
+              <v-icon icon="mdi-eye" start></v-icon>
+              View
+            </v-btn>
+            <v-btn class="ma-2" color="success" @click="verify">
+              <v-icon icon="mdi-check" start></v-icon>
+              Verify
+            </v-btn>
           </div>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
           <!-- Archive Icon -->
@@ -258,7 +260,7 @@
   <!-- view user status modal pop -->
   <v-dialog v-model="viewDialog" max-width="800">
     <v-card>
-      <div style="background-color: var(--dark); color: white;">
+      <div style="background-color: var(--dark); color: white">
         <v-card-title class="dialog-title fs-3 font-weight-black">
           STUDENT INFORMATION
         </v-card-title>
@@ -328,20 +330,10 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          class="bg-blue"
-          color="white"
-          variant="text"
-          @click="edit"
-          >Edit</v-btn>
-          <v-btn
-          class="bg-green"
-          color="white"
-          variant="text"
-          @click="applyChanges"
-          :hidden="!isModified"
-          hidden
-          >Apply Changes</v-btn>
+        <v-btn class="bg-blue" color="white" variant="text" @click="edit"
+          >Edit</v-btn
+        >
+
         <v-btn
           class="bg-red"
           color="white"
@@ -364,7 +356,6 @@ export default {
     viewDialog: false,
     selectedStudent: null,
     selectedFile: null,
-    originalStudent: null,
     headers: [
       { title: "Student No.", align: "start", key: "student_id" },
       { title: "Student Lrn", align: "start", key: "lrn" },
@@ -417,6 +408,9 @@ export default {
       year: "",
       section: "",
     },
+    rules: {
+      required: (value) => !!value || "Field is required", //required fields
+    },
   }),
 
   computed: {
@@ -434,9 +428,6 @@ export default {
             value.toLowerCase().includes(searchTerm)
         )
       );
-    },
-    isModified() {
-      return JSON.stringify(this.selectedStudent) !== JSON.stringify(this.originalStudent);
     },
   },
 
@@ -592,7 +583,7 @@ export default {
           }
         });
       });
-    }
+    },
   },
 };
 </script>
@@ -628,7 +619,7 @@ export default {
 
 .button-container {
   display: flex;
-  gap: 10px;
+  gap: 0.5px;
 }
 
 .small-button {

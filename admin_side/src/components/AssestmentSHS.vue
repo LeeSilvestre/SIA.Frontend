@@ -367,7 +367,8 @@
         <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
 
         <td>
-          <v-btn color="primary" dark v-bind="props" @click="assessItem(item, 'Confirm')"> Verify</v-btn>
+          <v-btn color="success" dark v-bind="props" @click="assessItem(item, 'Confirm')"> 
+            <v-icon icon="mdi-check-circle" start></v-icon>Verify</v-btn>
           <!-- <v-btn>Assessed</v-btn> -->
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
         <!-- Archive Icon -->
@@ -383,88 +384,97 @@
   </v-data-table>
   
    <!-- view user status modal pop -->
-   <v-dialog v-model="viewDialog" max-width="800px">
+   <v-dialog v-model="viewDialog" max-width="800">
     <v-card>
-      <v-card-title class="d-flex justify-space-between align-center">
-        <span class="text-h5 fw-bold m-1" style="color: #2F3F64">
-          STUDENT DETAILS
-        </span>
-        <v-btn icon @click="closeViewDialog" class="close-button">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-card-title>
+      <div style="background-color: var(--dark); color: white">
+        <v-card-title class="dialog-title fs-3 font-weight-black">
+          STUDENT INFORMATION
+        </v-card-title>
+      </div>
+
       <v-card-text>
         <v-container>
-          <v-row>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Student ID:</v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.student_id }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+          <v-row dense>
+            <v-col cols="12" md="4" sm="6">
+              <v-text-field
+                v-model="selectedStudent.student_id"
+                label="Student ID"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Full Name:</v-list-item-title>
-                  <v-list-item-subtitle>{{ students.full_name }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-col cols="12" md="4" sm="6">
+              <v-text-field
+                v-model="selectedStudent.student_lrn"
+                label="LRN"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Contact Number:</v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.contact_no }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-col cols="12" md="4" sm="6">
+              <v-text-field
+                v-model="selectedStudent.grade_level"
+                label="Grade Level"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Birthplace: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.birth_place}}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="selectedStudent.full_name"
+                label="Full Name"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Sex: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.sex_at_birth }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.contact_no"
+                label="Contact Number"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Religion: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.religion}}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.sex_at_birth"
+                label="Sex"
+                readonly
+              ></v-text-field>
             </v-col>
-
-              <hr>
-
-              <v-row>
-                <v-col cols="12" sm="4">
-                  <v-list-item>
-                    <v-list-item-content>
-                      <v-list-item-title class="text-subtitle-1">Address: </v-list-item-title>
-                      <v-list-item-subtitle>
-                        {{ selectedStudent.street }} {{ selectedStudent.barangay }},
-                        {{ selectedStudent.city }} {{ selectedStudent.province}}
-                        {{ selectedStudent.zip_code }}
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </v-col>
-              </v-row>
-
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.birth_place"
+                label="Birthplace"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.religion"
+                label="Religion"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="selectedStudent.street"
+                label="Address"
+                readonly
+              ></v-text-field>
+            </v-col>
           </v-row>
         </v-container>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn class="bg-blue" color="white" variant="text" @click="edit"
+          >Edit</v-btn
+        >
+
+        <v-btn
+          class="bg-red"
+          color="white"
+          variant="text"
+          @click="closeViewDialog"
+          >Cancel</v-btn
+        >
+      </v-card-actions>
     </v-card>
   </v-dialog>
     <!-- end view user status modal pop -->
@@ -485,13 +495,13 @@ export default {
       { title: 'Student No.', align: 'start', key:'student_id'},
       { title: 'Student Lrn', align: 'start', key: 'lrn' },
       { title: 'Full Name', align: 'start', key: 'full_name' },
-      { title: 'Gender', align: 'start', key:'grade_lvl'},
-      { title: 'Grade Level.', align: 'start', key:'grade_lvl'},
-      { title: 'Semester.', align: 'start', key:'grade_lvl'},
-      { title: 'Strand.', align: 'start', key:'grade_lvl'},
+      { title: 'Gender', align: 'start', key:'sex_at_birth'},
+      { title: 'Grade Level', align: 'start', key:'grade_lvl'},
+      { title: 'Semester', align: 'start', key:'semester_shs'},
+      { title: 'Strand', align: 'start', key:'strand_shs'},
       { title: 'Date Enrolled', align: 'start', key: 'date' },
-      { title: 'Student Status', align: 'start', key: 'status' },
-      { title: 'Enrollment Status', align: 'start', key: 'status' },
+      { title: 'Student Status', align: 'start', key: 'stud_status' },
+      { title: 'Enrollment Status', align: 'start', key: 'enrol_status' },
       { title: 'Actions', sortable: false },
     ],
 

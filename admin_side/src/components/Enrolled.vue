@@ -1,179 +1,57 @@
 <template>
-  <v-data-table :search="search" 
-  :headers="headers" 
-  :items="displayedStudents"
-  :sort-by="[{ key: 'studentId', order: 'asc' }]"
-  class="table-with-bold-headers">
+  <v-data-table
+    :search="search"
+    :headers="headers"
+    :items="displayedStudents"
+    :sort-by="[{ key: 'studentId', order: 'asc' }]"
+    class="table-with-bold-headers"
+  >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">STUDENT MASTER LIST</v-toolbar-title>
+        <v-toolbar-title
+          class="text-h6 font-weight-black"
+          style="color: #2f3f64"
+          >STUDENT MASTER LIST</v-toolbar-title
+        >
 
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
-        <v-text-field v-model="search" class="w-auto mr-1 " density="compact" label="Search"
-          prepend-inner-icon="mdi-magnify" variant="solo-filled" flat hide-details single-line></v-text-field>
+        <v-text-field
+          v-model="search"
+          class="w-auto mr-1"
+          density="compact"
+          label="Search"
+          prepend-inner-icon="mdi-magnify"
+          variant="solo-filled"
+          flat
+          hide-details
+          single-line
+        ></v-text-field>
 
         <!-- create new popup modal -->
-        <!-- <v-dialog v-model="dialog" max-width="1000px">
-
-          <template v-slot:activator="{ props }">
-            <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Enroll
-              Student</v-btn>
-          </template>
-
-
-          <v-card>
-            <v-card-title><span class="text-h5 fw-bold m-2" style="color: #2F3F64;">{{ formTitle }}</span></v-card-title>
-            <v-card-text>
-              <label class="fw-light">PERSONAL INFORMATION</label>
-              <v-container>
-
-                <v-row dense>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.student_lrn" label="LRN" required maxlength="10"
-                      @input="validateNumberInput"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-
-                    <v-text-field v-model="editedItem.last_name" label="Last Name" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-
-                    <v-text-field v-model="editedItem.first_name" label="First Name" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-
-                    <v-text-field v-model="editedItem.middle_name" label="Middle Name" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.contact_no" label="Contact no." required
-                      pattern="[0-9]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.birth_date" label="Date of Birth dd/mm/yy" type="date"
-                      required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.sex_at_birth" :items="['Male', 'Female']" label="SEX"
-                      required></v-select>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.religion" label="Religion" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.region"
-                      :items="['Region I', 'Region II', 'Region III', 'Region IV-A', 'Region IV-B', 'Region V', 'Region VI', 'Region VII', 'Region VIII', 'Region IX', 'Region X', 'Region XI', 'Region XII', 'Region XIII', 'BARMM', 'CAR']"
-                      label="Region" required></v-select>
-
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.province" label="Province" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.city" label="City" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.barangay" label="Barangay" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.street" label="Street" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.houseNumber" label="House Number" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.zip_code" label="Zip Code" required></v-text-field>
-                  </v-col>
-
-
-                </v-row>
-                <hr>
-                <label class="fw-light mb-3">ACADEMIC INFORMATION</label>
-                <v-row>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.adviser_id" label="Adviser" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.section" :items="['St. Anne', 'St. Bernadette', 'St. Charles', 'St. Elizabeth', 'St. Faustina',
-                      'St. George', 'St. Pedro Calungsod', 'St. Lorenzo Ruiz', 'St. Gabriel', 'St. Michael',
-                      'St. Raphael', 'St. Patrick', 'St. Scholastica', 'St. Homobonus', 'St. Helena', 'St. Louise',
-                      'St. Stephen', 'St. Vincent', 'St. Catherine', 'St. Albertus', 'St. Benedict', 'St. Maximillian',
-                      'St. Peter', 'St. Thomas', 'St. Isidore', 'St. Joseph'
-                    ]" label="Section" required></v-select>
-
-                  </v-col>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.grade_level" :items="['7', '8', '9', '10', '11', '12',]" label="Grade"
-                      required></v-select>
-                  </v-col>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.strand" :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']" label="Strand"
-                      required :disabled="['7', '8', '9', '10'].includes(editedItem.grade_level)"></v-select>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.year" label="S.Y." required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.guardian" label="Guardian Name" required></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.guardian_mobileno" label="Guardian Mobile #" required
-                      pattern="[0-9]+" @input="prependCountryCode"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.password" label="Password" required></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-              <v-btn color="primary" @click="triggerFileInput">Attach File</v-btn>
-              <input type="file" ref="fileInput" @change="handleFileUpload" style="display: none" />
-              <v-chip v-if="selectedFile" class="ma-2" color="primary" dark>
-                {{ selectedFile.name }}
-              </v-chip>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn color="red" variant="text" @click="close">Cancel</v-btn>
-              <v-btn color="blue-darken-1" variant="text" @click="save">Save</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog> -->
-
-
       </v-toolbar>
     </template>
     <template v-slot:item="{ item }">
-
       <tr>
         <td class="start-text">{{ item.student_id }}</td>
-        <td class="centered-text">{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
+        <td class="centered-text">
+          {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
+          {{ item.extension }}
+        </td>
         <td class="start-text">{{ item.section }}</td>
         <td class="centered-text">{{ item.enrollment_date }}</td>
         <td class="centered-text">Incoming</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }" class="centered-text">{{ item.enrollment_status }}</td>
+        <td
+          :style="{ color: getStatusColor(item.enrollment_status) }"
+          class="centered-text"
+        >
+          {{ item.enrollment_status }}
+        </td>
         <td class="centered-text">
-          <v-btn class="bg-blue small-button" @click="openViewDialog(item)">View</v-btn>
+          <v-btn class="bg-blue small-button" @click="openViewDialog(item)"
+            >
+            <v-icon icon="mdi-eye" start></v-icon>View</v-btn
+          >
           <!-- <v-icon class="me-2" size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
         </td>
       </tr>
@@ -282,35 +160,73 @@
         <v-container>
           <v-row dense>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field v-model="selectedStudent.student_id" label="Student ID" readonly></v-text-field>
+              <v-text-field
+                v-model="selectedStudent.student_id"
+                label="Student ID"
+                readonly
+              ></v-text-field>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field v-model="selectedStudent.student_lrn" label="LRN" readonly></v-text-field>
+              <v-text-field
+                v-model="selectedStudent.student_lrn"
+                label="LRN"
+                readonly
+              ></v-text-field>
             </v-col>
             <v-col cols="12" md="12" sm="6">
-              <v-text-field v-model="selectedStudent.full_name" label="Full Name" readonly></v-text-field>
+              <v-text-field
+                v-model="selectedStudent.full_name"
+                label="Full Name"
+                readonly
+              ></v-text-field>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field v-model="selectedStudent.contact_no" label="Contact Number" readonly></v-text-field>
+              <v-text-field
+                v-model="selectedStudent.contact_no"
+                label="Contact Number"
+                readonly
+              ></v-text-field>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field v-model="selectedStudent.sex_at_birth" label="Sex" readonly></v-text-field>
+              <v-text-field
+                v-model="selectedStudent.sex_at_birth"
+                label="Sex"
+                readonly
+              ></v-text-field>
             </v-col>
             <v-col cols="12" md="12" sm="6">
-              <v-text-field v-model="selectedStudent.birth_place" label="Birthplace" readonly></v-text-field>
+              <v-text-field
+                v-model="selectedStudent.birth_place"
+                label="Birthplace"
+                readonly
+              ></v-text-field>
             </v-col>
             <v-col cols="12" md="12" sm="6">
-              <v-text-field v-model="selectedStudent.street" label="Address" readonly></v-text-field>
+              <v-text-field
+                v-model="selectedStudent.street"
+                label="Address"
+                readonly
+              ></v-text-field>
             </v-col>
             <v-col cols="12" md="6" sm="6">
-              <v-text-field v-model="selectedStudent.religion" label="Religion" readonly></v-text-field>
+              <v-text-field
+                v-model="selectedStudent.religion"
+                label="Religion"
+                readonly
+              ></v-text-field>
             </v-col>
           </v-row>
         </v-container>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn class="bg-red" color="white" variant="text" @click="closeViewDialog">Close</v-btn>
+        <v-btn
+          class="bg-red"
+          color="white"
+          variant="text"
+          @click="closeViewDialog"
+          >Close</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -319,85 +235,87 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2';
-import axios from 'axios';
+import Swal from "sweetalert2";
+import axios from "axios";
 export default {
   data: () => ({
-    search: '',
+    search: "",
     dialog: false,
     dialogDelete: false,
     viewDialog: false,
     selectedStudent: null,
     selectedFile: null,
-    status: '',
+    status: "",
     headers: [
-      { title: 'Student Number', align: 'start', key: 'student_id' },
-      { title: 'Full Name', align: 'center', key: 'full_name' },
-      { title: 'Section', align: 'center', key: 'section' },
-      { title: 'Date Enrolled', align: 'center', key: 'date' },
-      { title: 'Student Status', align: 'center', key: 'status' },
-      { title: 'Enrollment Status', align: 'center', key: 'status' },
-      { title: 'Actions', align: 'center', sortable: false },
+      { title: "Student Number", align: "start", key: "student_id" },
+      { title: "Full Name", align: "center", key: "full_name" },
+      { title: "Section", align: "center", key: "section" },
+      { title: "Date Enrolled", align: "center", key: "date" },
+      { title: "Student Status", align: "center", key: "status" },
+      { title: "Enrollment Status", align: "center", key: "status" },
+      { title: "Actions", align: "center", sortable: false },
     ],
 
     students: [],
     editedIndex: -1,
     editedItem: {
-      student_id: '',
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      extension: '',
-      contact_no: '',
-      birth_date: '',
-      sex_at_birth: '',
-      religion: '',
-      region: '',
-      province: '',
-      city: '',
-      barangay: '',
-      street: '',
-      zip_code: '',
-      sy: '',
-      section: '',
+      student_id: "",
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      extension: "",
+      contact_no: "",
+      birth_date: "",
+      sex_at_birth: "",
+      religion: "",
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      street: "",
+      zip_code: "",
+      sy: "",
+      section: "",
     },
     defaultItem: {
-      student_id: '',
-      first_name: '',
-      last_name: '',
-      middle_name: '',
-      extension: '',
-      contact_no: '',
-      birth_date: '',
-      birth_place: '',
-      sex_at_birth: '',
-      religion: '',
-      region: '',
-      province: '',
-      city: '',
-      barangay: '',
-      street: '',
-      zip_code: '',
-      year: '',
-      section: '',
-
+      student_id: "",
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      extension: "",
+      contact_no: "",
+      birth_date: "",
+      birth_place: "",
+      sex_at_birth: "",
+      religion: "",
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      street: "",
+      zip_code: "",
+      year: "",
+      section: "",
     },
-
   }),
 
   computed: {
-  formTitle() {
-    return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
+    formTitle() {
+      return this.editedIndex === -1
+        ? "Add Student"
+        : "Edit Student Information";
+    },
+    displayedStudents() {
+      const searchTerm = this.search.toLowerCase();
+      return this.students.filter((student) =>
+        Object.values(student).some(
+          (value) =>
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchTerm)
+        )
+      );
+    },
   },
-  displayedStudents() {
-    const searchTerm = this.search.toLowerCase();
-    return this.students.filter(student =>
-      Object.values(student).some(value =>
-        typeof value === 'string' && value.toLowerCase().includes(searchTerm)
-      )
-    );
-  },
-},
 
   watch: {
     dialog(val) {
@@ -409,14 +327,13 @@ export default {
   },
 
   watch: {
-    'editedItem.grade_level'(newGrade) {
-      if (['7', '8', '9', '10'].includes(newGrade)) {
-        this.editedItem.strand = 'N/A';
+    "editedItem.grade_level"(newGrade) {
+      if (["7", "8", "9", "10"].includes(newGrade)) {
+        this.editedItem.strand = "N/A";
       } else {
-
-        this.editedItem.strand = ''; 
+        this.editedItem.strand = "";
       }
-    }
+    },
   },
 
   mounted() {
@@ -425,15 +342,16 @@ export default {
 
   methods: {
     initialize() {
-      axios.get('student').then(res => {
+      axios.get("student").then((res) => {
         let tmp = res.data;
         this.students = tmp.student;
         console.log(this.students);
 
         // Format full name and adjust strand property
-        this.students.forEach(student => {
+        this.students.forEach((student) => {
           // Format full name
-          student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
+          student.full_name =
+            `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
 
           // Check grade level and adjust strand property
           if (student.grade_level <= 10) {
@@ -444,10 +362,10 @@ export default {
     },
 
     watch: {
-      'editedItem.year'(newYear) {
+      "editedItem.year"(newYear) {
         const pattern = /^\d{4}-\d{4}$/;
         if (pattern.test(newYear)) {
-          const years = newYear.split('-');
+          const years = newYear.split("-");
           const startYear = parseInt(years[0]);
           const endYear = parseInt(years[1]);
 
@@ -455,7 +373,7 @@ export default {
             this.editedItem.year = `${startYear + 1}-${endYear + 1}`;
           }
         }
-      }
+      },
     },
 
     // triggerFileInput() {
@@ -484,7 +402,7 @@ export default {
     },
 
     closeViewDialog() {
-      console.log("selectedStudent:", this.selectedStudent); 
+      console.log("selectedStudent:", this.selectedStudent);
       this.viewDialog = false;
       // Clear the selected student data
     },
@@ -523,31 +441,31 @@ export default {
     },
 
     prependCountryCode() {
-      if (!this.editedItem.guardian_mobileno.startsWith('+63')) {
-        this.editedItem.guardian_mobileno = '+63';
+      if (!this.editedItem.guardian_mobileno.startsWith("+63")) {
+        this.editedItem.guardian_mobileno = "+63";
       }
     },
 
     validateForm() {
       for (const key in this.editedItem) {
         if (this.editedItem.hasOwnProperty(key)) {
-          if (this.editedItem[key] === '' || this.editedItem[key] === null) {
-            return false; 
+          if (this.editedItem[key] === "" || this.editedItem[key] === null) {
+            return false;
           }
         }
       }
-      return true; 
+      return true;
     },
 
     save() {
       if (!this.validateForm()) {
         Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'Please fill in all required fields!',
+          icon: "error",
+          title: "Oops...",
+          text: "Please fill in all required fields!",
           customClass: {
-            container: 'sweet-alert-container',
-          }
+            container: "sweet-alert-container",
+          },
         });
         return;
       }
@@ -560,43 +478,45 @@ export default {
         this.students.push(this.editedItem);
         tmp.image = this.selectedFile;
         // console.log(this.tmp);
-        axios.post('student', tmp).then(res => {
-          console.log(res);
-        }).catch(error => {
-          console.error(error);
-        });
+        axios
+          .post("student", tmp)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
       this.close();
     },
 
     goView() {
-      this.$router.push('/viewdetails');
+      this.$router.push("/viewdetails");
     },
 
-getStatusColor(status) {
-      if (status === 'Verifying') {
-        return 'orange'; // Set color to yellow if status is 'pending'
-      } else if (status === 'Enrolled') {
-        return 'green'; // Set color to green if status is 'enrolled'
+    getStatusColor(status) {
+      if (status === "Verifying") {
+        return "orange"; // Set color to yellow if status is 'pending'
+      } else if (status === "Enrolled") {
+        return "green"; // Set color to green if status is 'enrolled'
       } else {
-        return 'red'; // Default color
+        return "red"; // Default color
       }
     },
     getRouterLink(status) {
-      if (status === 'Verifying') {
-        return { name: '/Veryfying' }; // Replace 'VerifiedRoute' with your route name
+      if (status === "Verifying") {
+        return { name: "/Veryfying" }; // Replace 'VerifiedRoute' with your route name
       } else {
         return null;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
 .v-data-table {
   height: 100%;
-
 }
 
 .student-popup {
@@ -616,7 +536,7 @@ getStatusColor(status) {
 
 .v-list-item-subtitle {
   font-size: 1rem;
-  color: #2F3F64;
+  color: #2f3f64;
 }
 
 .close-button:hover {

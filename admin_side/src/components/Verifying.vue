@@ -196,7 +196,9 @@
         </td>
         <td style="text-align: center">
           <v-btn class="bg-green small-button" @click="openViewDialog(item)"
-            >Enroll</v-btn
+            >
+            <v-icon icon="mdi-check" start></v-icon>
+            Enroll</v-btn
           >
         </td>
       </tr>
@@ -216,7 +218,7 @@
         </v-card-title>
       </div>
       <v-card-text>
-        <label class="fw-regular fs-5">PERSONAL INFORMATION</label>
+        <label class="fw-regular fs-5">Personal Information</label>
         <v-container>
           <v-row dense>
             <v-col cols="12" md="3" sm="6">
@@ -326,7 +328,7 @@
             </v-col>
           </v-row>
           <hr />
-          <label class="fw-regular mb-3 fs-5">ACADEMIC INFORMATION</label>
+          <label class="fw-regular mb-3 fs-5">Academic Information</label>
           <v-row>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
@@ -430,8 +432,8 @@ export default {
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Section", align: "center", key: "section" },
       { title: "Date Enrolled", align: "center", key: "date" },
-      { title: "Student Status", align: "center", key: "status" },
-      { title: "Enrollment Status", align: "center", key: "status" },
+      { title: "Student Status", align: "center", key: "stud_status" },
+      { title: "Enrollment Status", align: "center", key: "enrol_status" },
       { title: "Actions", align: "center", sortable: false },
     ],
 

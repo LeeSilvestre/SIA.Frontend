@@ -7,7 +7,7 @@
               <v-card-text class="student-leftinfo">
                 <img :src="Faculty.imageSrc" alt="Student Image" class="student-image"><br>
                 <div class="d-flex flex-column mb-3 faculty-details-item">
-                  <strong class="text-padding">STUDENT ID:</strong> {{ student.faculty_id }} <br>
+                  <strong class="text-padding">FACULTY ID:</strong> {{ student.faculty_id }} <br>
                 </div>
                 <div class="d-flex flex-column mb-3 faculty-details-item">
                   <strong class="text-padding">FULL NAME:</strong> {{ student.first_name }} {{ student.middle_name }} {{ student.last_name }} {{ student.extension }}<br>
