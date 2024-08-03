@@ -56,6 +56,7 @@
             v-bind="props"
             @click="assessItem(item, 'Confirm')"
             :disabled="item.enrollment_status === 'Assessed'"
+            size="small"
           >
           <v-icon icon="mdi-check" start></v-icon>
             Verify</v-btn

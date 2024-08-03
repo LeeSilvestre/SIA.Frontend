@@ -195,9 +195,9 @@
           {{ item.enrollment_status }}
         </td>
         <td style="text-align: center">
-          <v-btn class="bg-green small-button" @click="openViewDialog(item)"
+          <v-btn color="success" size="small" @click="openViewDialog(item)"
             >
-            <v-icon icon="mdi-check" start></v-icon>
+            <v-icon icon="mdi-check-circle" start></v-icon>
             Enroll</v-btn
           >
         </td>
@@ -332,13 +332,13 @@
           <v-row>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="viewItem.adviser_id"
+                v-model="editedItem.adviser_id"
                 label="Adviser"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="3" sm="6">
               <v-select
-                v-model="viewItem.section"
+                v-model="editedItem.section"
                 :items="[
                   'St. Anne',
                   'St. Bernadette',
@@ -372,14 +372,14 @@
             </v-col>
             <v-col cols="12" md="3" sm="6">
               <v-select
-                v-model="viewItem.grade_level"
+                v-model="editedItem.grade_level"
                 :items="['7', '8', '9', '10', '11', '12']"
                 label="Grade"
               ></v-select>
             </v-col>
             <v-col cols="12" md="3" sm="6">
               <v-select
-                v-model="viewItem.strand"
+                v-model="editedItem.strand"
                 :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
                 label="Strand"
                 :disabled="['7', '8', '9', '10'].includes(viewItem.grade_level)"
@@ -387,7 +387,7 @@
             </v-col>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="viewItem.password"
+                v-model="editedItem.password"
                 label="Password"
               ></v-text-field>
             </v-col>

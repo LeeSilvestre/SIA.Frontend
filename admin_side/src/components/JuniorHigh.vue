@@ -18,7 +18,7 @@
         <td>{{ item.student_lrn }}</td>
         <td>{{ item.grade_level }}</td>
         <td>
-          <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)"
+          <v-btn color="primary" size="small" @click="handleViewIconClick(item)"
               >
               <v-icon icon="mdi-eye" start></v-icon>View</v-btn
             >

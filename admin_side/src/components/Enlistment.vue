@@ -58,8 +58,6 @@
                       required
                     ></v-select>
                   </v-col>
-                </v-row>
-                <v-row dense>
                   <v-col cols="12" md="3" sm="6">
                     <v-text-field
                       v-model="editedItem.student_lrn"
@@ -68,7 +66,7 @@
                     ></v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="3" sm="6">
+                  <v-col cols="12" md="12" sm="6">
                     <v-text-field
                       v-model="editedItem.last_name"
                       label="Last Name"
@@ -76,7 +74,7 @@
                     ></v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="3" sm="6">
+                  <v-col cols="12" md="12" sm="6">
                     <v-text-field
                       v-model="editedItem.first_name"
                       label="First Name"
@@ -84,10 +82,18 @@
                     ></v-text-field>
                   </v-col>
 
-                  <v-col cols="12" md="3" sm="6">
+                  <v-col cols="12" md="12" sm="6">
                     <v-text-field
                       v-model="editedItem.middle_name"
                       label="Middle Name"
+                      required
+                    ></v-text-field>
+                  </v-col>
+
+                  <v-col cols="12" md="12" sm="6">
+                    <v-text-field
+                      v-model="editedItem.extension"
+                      label="Extension Name"
                       required
                     ></v-text-field>
                   </v-col>
@@ -236,13 +242,32 @@
 
         <td>
           <div class="button-container">
-            <v-btn class="ma-2" color="primary" @click="openViewDialog">
+            <v-btn
+              class="no-gap-button"
+              size="small"
+              color="primary"
+              @click="openViewDialog"
+            >
               <v-icon icon="mdi-eye" start></v-icon>
               View
             </v-btn>
-            <v-btn class="ma-2" color="success" @click="verify">
+            <v-btn
+              class="no-gap-button"
+              size="small"
+              color="success"
+              @click="verify"
+            >
               <v-icon icon="mdi-check" start></v-icon>
               Verify
+            </v-btn>
+            <v-btn
+              class="no-gap-button"
+              size="small"
+              color="#D6E200"
+              @click="edit"
+            >
+              <v-icon icon="mdi-pencil" start></v-icon>
+              Edit
             </v-btn>
           </div>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
@@ -330,10 +355,6 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn class="bg-blue" color="white" variant="text" @click="edit"
-          >Edit</v-btn
-        >
-
         <v-btn
           class="bg-red"
           color="white"
@@ -616,14 +637,8 @@ export default {
 .close-button:hover {
   color: red;
 }
-
 .button-container {
   display: flex;
-  gap: 0.5px;
-}
-
-.small-button {
-  padding: 3px 5px 2px;
-  font-size: 11px;
+  gap: 7px;
 }
 </style>

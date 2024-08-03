@@ -366,15 +366,37 @@
         <td >Incoming</td>
         <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
 
-        <td>
+        <!-- <td>
           <v-btn color="success" dark v-bind="props" @click="assessItem(item, 'Confirm')"> 
             <v-icon icon="mdi-check-circle" start></v-icon>Verify</v-btn>
+          <v-btn>Assessed</v-btn>
+          <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon>
+        Archive Icon
+          <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon>
+        </td> -->
+        
+        <td>
+          <v-btn class="ma-2" color="primary" @click="openViewDialog"
+          size=small>
+            <v-icon icon="mdi-eye" start></v-icon>
+            View
+          </v-btn>
+          <v-btn
+            color="success"
+            dark
+            v-bind="props"
+            @click="assessItem(item, 'Confirm')"
+            :disabled="item.enrollment_status === 'Assessed'"
+            size="small"
+          >
+            <v-icon icon="mdi-check-circle" start></v-icon>
+            Assess
+          </v-btn>
           <!-- <v-btn>Assessed</v-btn> -->
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
-        <!-- Archive Icon -->
+          <!-- Archive Icon -->
           <!-- <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
         </td>
-        
       </tr>
     </template>
           

@@ -1,15 +1,30 @@
 <template>
-  <v-data-table :search="search" :headers="headers" :items="displayedStudents"
-    :sort-by="[{ key: 'studentId', order: 'asc' }]">
-
+  <v-data-table
+    :search="search"
+    :headers="headers"
+    :items="displayedStudents"
+    :sort-by="[{ key: 'studentId', order: 'asc' }]"
+  >
     <!-- content of the table (top) -->
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title class="text-h6 font-weight-black " style="color: #2F3F64">USER ACCOUNTS LIST
+        <v-toolbar-title
+          class="text-h6 font-weight-black"
+          style="color: #2f3f64"
+          >USER ACCOUNTS LIST
         </v-toolbar-title>
 
-        <v-text-field v-model="search" class="w-auto mr-1 " density="compact" label="Search"
-          prepend-inner-icon="mdi-magnify" variant="solo-filled" flat hide-details single-line>
+        <v-text-field
+          v-model="search"
+          class="w-auto mr-1"
+          density="compact"
+          label="Search"
+          prepend-inner-icon="mdi-magnify"
+          variant="solo-filled"
+          flat
+          hide-details
+          single-line
+        >
         </v-text-field>
         <!-- content of the table (top) -->
 
@@ -17,72 +32,198 @@
         <v-dialog v-model="dialog" max-width="1000px">
           <template v-slot:activator="{ props }">
             <!-- card header content -->
-            <v-btn class="mb-2 rounded-l" color="primary" dark v-bind="props" prepend-icon="mdi-plus">ADD USERS
+            <v-btn
+              class="mb-2 rounded-l"
+              color="primary"
+              dark
+              v-bind="props"
+              prepend-icon="mdi-plus"
+              >ADD USERS
             </v-btn>
             <!-- end of card header content -->
           </template>
 
           <v-card>
-            <div style="background-color: var(--dark);">
-              <v-card-title><span class="fs-3 fw-bold m-2" style="color: white">{{ formTitle }}</span></v-card-title>
+            <div style="background-color: var(--dark)">
+              <v-card-title
+                ><span class="fs-3 fw-bold m-2" style="color: white">{{
+                  formTitle
+                }}</span></v-card-title
+              >
             </div>
             <v-card-text>
-              <label class="fw-regular fs-5">User Information</label>
+              <label class="fw-regular fs-4">User Information</label>
               <v-container>
                 <v-row dense>
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field v-model="editedItem.last_name" :rules="[rules.required]" label="Last Name" required
-                      pattern="[A-Za-z .'-]+">
+                    <v-text-field
+                      v-model="editedItem.last_name"
+                      :rules="[rules.required]"
+                      label="Last Name"
+                      required
+                      pattern="[A-Za-z .'-]+"
+                    >
                     </v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field v-model="editedItem.first_name" label="First Name" required :rules="[rules.required]"
-                      pattern="[A-Za-z .'-]+">
+                    <v-text-field
+                      v-model="editedItem.first_name"
+                      label="First Name"
+                      required
+                      :rules="[rules.required]"
+                      pattern="[A-Za-z .'-]+"
+                    >
                     </v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field v-model="editedItem.middle_name" label="Middle Name" pattern="[A-Za-z .'-]+">
+                    <v-text-field
+                      v-model="editedItem.middle_name"
+                      label="Middle Name"
+                      pattern="[A-Za-z .'-]+"
+                    >
                     </v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field v-model="editedItem.extension_name" label="Extension Name" pattern="[A-Za-z .'-]+">
+                    <v-text-field
+                      v-model="editedItem.extension_name"
+                      label="Extension Name"
+                      pattern="[A-Za-z .'-]+"
+                    >
                     </v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field label="Email Address" model-value="Doe" suffix="@sna.edu.ph"
-                      :rules="[rules.required]"></v-text-field>
+                    <v-text-field
+                      label="Email Address"
+                      model-value="Doe"
+                      suffix="@sna.edu.ph"
+                      :rules="[rules.required]"
+                    ></v-text-field>
                   </v-col>
 
                   <v-col cols="12" md="6" sm="6">
-                    <v-text-field v-model="password" :rules="[rules.required, rules.min]" hint="At least 8 characters"
-                      label="Password" name="input-10-1" counter></v-text-field>
+                    <v-text-field
+                      v-model="password"
+                      :rules="[rules.required, rules.min]"
+                      hint="At least 8 characters"
+                      label="Password"
+                      name="input-10-1"
+                      counter
+                    ></v-text-field>
                   </v-col>
                 </v-row>
 
                 <v-divider></v-divider>
                 <!-- checkbox -->
-                <label class="fw-regular fs-5">Roles and Department</label><br>
-                <label class="fw-light fs-6"><strong>Instruction: </strong>Select all the roles you want to assign to
-                  the user by
-                  clicking the checkboxes.</label>
-                <v-row>
-                  <v-col cols="12" md="4" sm="4">
-                    <v-checkbox color="success" label="Admin" value="success"></v-checkbox>
-                    <v-checkbox color="success" label="Faculty" value="success"></v-checkbox>
-                  </v-col>
-                  <v-col cols="12" md="4" sm="4">
-                    <v-checkbox color="success" label="Student Personnel" value="success"></v-checkbox>
-                    <v-checkbox color="success" label="Encoder" value="success"></v-checkbox>
-                  </v-col>
-                  <v-col cols="12" md="4" sm="4">
-                    <v-checkbox color="success" label="Verifier" value="success"></v-checkbox>
-                    <v-checkbox color="success" label="Accessor" value="success"></v-checkbox>
-                  </v-col>
-                </v-row>
+                <v-container class="role-panel-wrapper">
+                  <!-- role and deparment checkbox -->
+                  <v-container class="role-container">
+                    <label class="fw-regular fs-4">Role and Department</label>
+                    <br />
+                    <label class="fw-light fs-6">
+                      <strong>Instruction: </strong>Select the role you want to
+                      assign to the user by clicking the checkbox.
+                    </label>
+                    <v-row>
+                      <v-col cols="12" md="4" sm="4">
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedRole"
+                          :value="'Admin'"
+                          label="Admin"
+                        ></v-checkbox>
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedRole"
+                          :value="'Faculty'"
+                          label="Faculty"
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12" md="4" sm="4">
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedRole"
+                          :value="'Student Personnel'"
+                          label="Student Personnel"
+                        ></v-checkbox>
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedRole"
+                          :value="'Encoder'"
+                          label="Encoder"
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12" md="4" sm="4">
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedRole"
+                          :value="'Verifier'"
+                          label="Verifier"
+                        ></v-checkbox>
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedRole"
+                          :value="'Accessor'"
+                          label="Accessor"
+                        ></v-checkbox>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+                  <!-- end role and deparment checkbox -->
+
+                  <!-- panel checkbox -->
+                  <v-container class="panel-container">
+                    <label class="fw-regular fs-4">Panel</label>
+                    <br />
+                    <!-- <label class="fw-light fs-6">
+                      <strong>Instruction: </strong>Select the panel you want to
+                      assign to the user by clicking the checkbox.
+                    </label>
+                    <v-row>
+                      <v-col cols="12" md="4" sm="4">
+                        <v-checkbox
+                          v-model="selectedPanel"
+                          :value="'Admin'"
+                          label="Admin"
+                        ></v-checkbox>
+                        <v-checkbox
+                          v-model="selectedPanel"
+                          :value="'Faculty'"
+                          label="Faculty"
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12" md="4" sm="4">
+                        <v-checkbox
+                          v-model="selectedPanel"
+                          :value="'Student Personnel'"
+                          label="Student Personnel"
+                        ></v-checkbox>
+                        <v-checkbox
+                          v-model="selectedPanel"
+                          :value="'Encoder'"
+                          label="Encoder"
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12" md="4" sm="4">
+                        <v-checkbox
+                          v-model="selectedPanel"
+                          :value="'Verifier'"
+                          label="Verifier"
+                        ></v-checkbox>
+                        <v-checkbox
+                          v-model="selectedPanel"
+                          :value="'Accessor'"
+                          label="Accessor"
+                        ></v-checkbox>
+                      </v-col>
+                    </v-row> -->
+                  </v-container>
+                  <!-- end panel checkbox -->
+                </v-container>
+
                 <!-- checkbox -->
               </v-container>
             </v-card-text>
@@ -90,8 +231,16 @@
             <!-- card buttons -->
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn class="bg-green" color="bwhite" variant="text" @click="confirmSave">Apply</v-btn>
-              <v-btn class="bg-red" color="white" variant="text" @click="close">Cancel</v-btn>
+              <v-btn
+                class="bg-green"
+                color="bwhite"
+                variant="text"
+                @click="confirmSave"
+                >Apply</v-btn
+              >
+              <v-btn class="bg-red" color="white" variant="text" @click="close"
+                >Cancel</v-btn
+              >
             </v-card-actions>
             <!-- card buttons -->
           </v-card>
@@ -111,167 +260,161 @@
         </td>
         <td>{{ item.account_role }}</td>
         <td>{{ item.account_dpt }}</td>
-
+        <td>{{ item.account_panel }}</td>
         <td>
-          <v-btn class="ma-2" color="primary" @click="openViewDialog">
-              <v-icon icon="mdi-eye" start></v-icon>
-              View
-            </v-btn>
+          <v-btn class="ma-2" size="small" color="primary" @click="openViewDialog">
+            <v-icon icon="mdi-eye" start></v-icon>
+            View
+          </v-btn>
         </td>
       </tr>
     </template>
+
     <!-- end of header content -->
   </v-data-table>
 
   <!-- view user status modal pop -->
-  <!-- <v-dialog v-model="viewDialog" max-width="800px">
+  <v-dialog v-model="viewDialog" max-width="800">
     <v-card>
-      <v-card-title class="d-flex justify-space-between align-center">
-        <span class="text-h5 fw-bold m-1" style="color: #2F3F64">
-          STUDENT DETAILS
-        </span>
-        <v-btn icon @click="closeViewDialog" class="close-button">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-card-title>
+      <div style="background-color: var(--dark); color: white">
+        <v-card-title class="dialog-title fs-3 font-weight-black">
+          FACULTY INFORMATION
+        </v-card-title>
+      </div>
+
       <v-card-text>
         <v-container>
-          <v-row>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Student ID:</v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.student_id }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+          <v-row dense>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.employee_id"
+                label="Employee ID"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Full Name:</v-list-item-title>
-                  <v-list-item-subtitle>{{ students.full_name }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.panel"
+                label="Panel"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Contact Number:</v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.contact_no }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="selectedStudent.full_name"
+                label="Full Name"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Birthplace: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.birth_place }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="selectedStudent.email"
+                label="Email"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Sex: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.sex_at_birth }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.account_role"
+                label="Role"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Religion: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.religion }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.account_dpt"
+                label="Deparment"
+                readonly
+              ></v-text-field>
             </v-col>
-
-            <hr>
-
-            <v-row>
-              <v-col cols="12" sm="4">
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-subtitle-1">Address: </v-list-item-title>
-                    <v-list-item-subtitle>
-                      {{ selectedStudent.street }} {{ selectedStudent.barangay }},
-                      {{ selectedStudent.city }} {{ selectedStudent.province }}
-                      {{ selectedStudent.zip_code }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-col>
-            </v-row>
-
           </v-row>
         </v-container>
       </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn class="bg-blue" color="white" variant="text" @click="edit"
+          >Edit</v-btn
+        >
+
+        <v-btn
+          class="bg-red"
+          color="white"
+          variant="text"
+          @click="closeViewDialog"
+          >Cancel</v-btn
+        >
+      </v-card-actions>
     </v-card>
-  </v-dialog> -->
+  </v-dialog>
   <!-- end view user status modal pop -->
 </template>
 
 <script>
-import Swal from 'sweetalert2';
-import axios from 'axios';
+import Swal from "sweetalert2";
+import axios from "axios";
 
 export default {
   data: () => ({
-    search: '',
+    search: "",
     dialog: false,
-    email: '', // for email input
+    email: "", // for email input
     dialogDelete: false,
     viewDialog: false,
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: 'Employee ID', align: 'start', key: 'employee_id' },
-      { title: 'Full Name', align: 'start', key: 'full_name' },
-      { title: 'Role', align: 'start', key: 'account_role' },
-      { title: 'Department', align: 'start', key: 'account_dpt' },
-      { title: 'Actions', align: 'start', sortable: false },
+      { title: "Employee ID", align: "start", key: "employee_id" },
+      { title: "Full Name", align: "start", key: "full_name" },
+      { title: "Role", align: "start", key: "account_role" },
+      { title: "Department", align: "start", key: "account_dpt" },
+      { title: "Panel", align: "start", key: "account_panel" },
+      { title: "Actions", align: "start", sortable: false },
     ],
 
     students: [],
     editedIndex: -1,
     editedItem: {
-      employee_id: '',
-      full_name: '',
-      email: '',
-      password: '',
-      account_role: '',
-      account_dpt: '',
+      employee_id: "",
+      full_name: "",
+      email: "",
+      password: "",
+      account_role: "",
+      account_dpt: "",
     },
     defaultItem: {
-      employee_id: '',
-      full_name: '',
-      email: '',
-      password: '',
-      account_role: '',
-      account_dpt: '',
-
+      employee_id: "",
+      full_name: "",
+      email: "",
+      password: "",
+      account_role: "",
+      account_dpt: "",
     },
+    selectedRole: "",
+    selectedPanel: "",
     rules: {
-      required: value => !!value || 'Field is required', //required fields
+      required: (value) => !!value || "Field is required", //required fields
     },
 
-    email: value => {
-      const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      return pattern.test(value) || 'Invalid e-mail.'
+    email: (value) => {
+      const pattern =
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return pattern.test(value) || "Invalid e-mail.";
     },
   }),
 
-
-
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? 'ADD USER ACCOUNT' : 'Edit Student Information';
+      return this.editedIndex === -1
+        ? "ADD USER ACCOUNT"
+        : "Edit Student Information";
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter(student =>
-        Object.values(student).some(value =>
-          typeof value === 'string' && value.toLowerCase().includes(searchTerm)
+      return this.students.filter((student) =>
+        Object.values(student).some(
+          (value) =>
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchTerm)
         )
       );
     },
@@ -287,18 +430,20 @@ export default {
     this.initialize();
   },
 
-
   methods: {
-
     initialize() {
-      axios.get('student').then(res => {
-        this.students = res.data.student.map(student => ({
-          ...student,
-          full_name: `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
-        }));
-      }).catch(error => {
-        console.error('Error fetching students:', error);
-      });
+      axios
+        .get("student")
+        .then((res) => {
+          this.students = res.data.student.map((student) => ({
+            ...student,
+            full_name:
+              `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
+          }));
+        })
+        .catch((error) => {
+          console.error("Error fetching students:", error);
+        });
     },
 
     triggerFileInput() {
@@ -318,36 +463,28 @@ export default {
 
     confirmSave() {
       Swal.fire({
-        title: 'Are you sure?',
+        title: "Are you sure?",
         text: "Do you want to save this user?",
-        icon: 'warning',
+        icon: "warning",
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, save it!',
-        cancelButtonText: 'No, cancel!',
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, save it!",
+        cancelButtonText: "No, cancel!",
         customClass: {
-          container: 'sweet-alert-container',
-        }
+          container: "sweet-alert-container",
+        },
       }).then((result) => {
         if (result.isConfirmed) {
           this.save();
-          Swal.fire(
-            'Saved!',
-            'User has been saved.',
-            'success'
-          );
+          Swal.fire("Saved!", "User has been saved.", "success");
         } else {
-          Swal.fire(
-            'Cancelled',
-            'User was not saved.',
-            'error'
-          );
+          Swal.fire("Cancelled", "User was not saved.", "error");
         }
       });
     },
     save() {
-      console.log('User saved:', this.editedItem);
+      console.log("User saved:", this.editedItem);
       this.dialog = false;
     },
     openViewDialog(item) {
@@ -407,7 +544,7 @@ export default {
     },
 
     save() {
-      console.log(this.editedItem)
+      console.log(this.editedItem);
       if (this.editedIndex > -1) {
         Object.assign(this.students[this.editedIndex], this.editedItem);
       } else {
@@ -415,51 +552,65 @@ export default {
         this.students.push(this.editedItem);
         tmp.image = this.selectedFile;
         // console.log(this.tmp);
-        axios.post('student', tmp).then(res => {
-          console.log(res);
-        }).catch(error => {
-          console.error(error);
-        });
+        axios
+          .post("student", tmp)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
       this.close();
     },
 
     goView() {
-      this.$router.push('/viewdetails');
+      this.$router.push("/viewdetails");
     },
     getStatusColor(status) {
-      if (status === 'Verifying') {
-        return 'yellow'; // Set color to yellow if status is 'pending'
-      } else if (status === 'Enrolled') {
-        return 'green'; // Set color to green if status is 'enrolled'
+      if (status === "Verifying") {
+        return "yellow"; // Set color to yellow if status is 'pending'
+      } else if (status === "Enrolled") {
+        return "green"; // Set color to green if status is 'enrolled'
       } else {
-        return 'red'; // Default color
+        return "red"; // Default color
       }
     },
 
     prependCountryCode() {
-      if (!this.editedItem.guardian_mobileno.startsWith('+63')) {
-        this.editedItem.guardian_mobileno = '+63';
+      if (!this.editedItem.guardian_mobileno.startsWith("+63")) {
+        this.editedItem.guardian_mobileno = "+63";
       }
     },
 
     validateNumberInput(event) {
       const input = event.target.value;
-      event.target.value = input.replace(/\D/g, '');
+      event.target.value = input.replace(/\D/g, "");
     },
 
     formatDate(event) {
       const input = event.target.value;
-      const [year, month, day] = input.split('-');
+      const [year, month, day] = input.split("-");
       if (year && month && day) {
         const monthNames = [
-          'January', 'February', 'March', 'April', 'May', 'June', 'July',
-          'August', 'September', 'October', 'November', 'December'
+          "January",
+          "February",
+          "March",
+          "April",
+          "May",
+          "June",
+          "July",
+          "August",
+          "September",
+          "October",
+          "November",
+          "December",
         ];
-        this.editedItem.birth_date = `${day} ${monthNames[parseInt(month) - 1]} ${year}`;
+        this.editedItem.birth_date = `${day} ${
+          monthNames[parseInt(month) - 1]
+        } ${year}`;
       }
     },
-
   },
 };
 </script>
@@ -467,7 +618,6 @@ export default {
 <style lang="scss">
 .v-data-table {
   height: 100%;
-
 }
 
 .student-popup {
@@ -487,7 +637,7 @@ export default {
 
 .v-list-item-subtitle {
   font-size: 1rem;
-  color: #2F3F64;
+  color: #2f3f64;
 }
 
 .close-button:hover {
@@ -503,5 +653,29 @@ export default {
 .sweet-alert-container {
   z-index: 9999 !important;
   /* Ensures the alert is on top of other elements */
+}
+
+.role-container,
+.panel-container {
+  width: 48%;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.role-panel-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  position: relative;
+}
+
+.role-panel-wrapper::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 1px;
+  background-color: #ccc;
 }
 </style>

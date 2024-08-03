@@ -38,17 +38,12 @@
         <td>{{ item.grade_level }}</td>
         <td>{{ item.strand }}</td>
         <td>
-          <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="editItem(item)">mdi-pencil</v-icon> -->
-          <v-btn class="bg-blue small-button" @click="handleViewIconClick(item)"
+          <v-btn color="primary" size="small" @click="handleViewIconClick(item)"
               >
               <v-icon icon="mdi-eye" start></v-icon>View</v-btn
             >
-          <!-- <v-icon
-            size="small"
-            style="color: #2f3f64; margin: 0.5rem"
-            @click="handleViewIconClick(item)"
-            >mdi-eye</v-icon
-          > -->
+          <!-- <v-icon size="small" style="color: #2F3F64; margin: 0.5rem;"
+            @click="handleViewIconClick(item)">mdi-eye</v-icon> -->
         </td>
       </tr>
     </template>
