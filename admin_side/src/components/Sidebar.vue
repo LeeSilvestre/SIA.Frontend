@@ -72,7 +72,7 @@
         <span class="material-icons">edit_document</span>
         <span class="text">Document Request</span>
       </router-link>
-      <router-link class="button" to="/schedule">
+      <router-link class="button" to="/scheduling">
         <span class="material-icons">schedule</span>
         <span class="text">Subject Scheduling</span>
       </router-link>

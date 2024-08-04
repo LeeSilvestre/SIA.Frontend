@@ -3,7 +3,7 @@
     <v-stepper :items="['GUIDELINES', 'FORM']">
       <template v-slot:item.1>
         <v-card flat>
-          <v-card-title> PRE-REGISTRATION GUIDELINES </v-card-title>
+          <v-card-title>PRE-REGISTRATION GUIDELINES</v-card-title>
           <v-card-text>
             <h1>Here are the guidelines...</h1>
           </v-card-text>
@@ -12,24 +12,14 @@
 
       <template v-slot:item.2>
         <v-card flat>
-          <v-card-title> PRE-REGISTRATION FORM </v-card-title>
+          <v-card-title>PRE-REGISTRATION FORM</v-card-title>
+          <v-divider></v-divider>
           <v-card-text>
             <v-form v-model="valid">
               <v-container>
                 <div class="academic">
                   <h1>PERSONAL INFORMATION</h1>
                 </div>
-                <v-row>
-                  <v-col cols="12" md="3">
-                    <v-select
-                      v-model="studentType"
-                      :items="['incoming', 'returning']"
-                      label="Student Type"
-                      clearable
-                      outlined
-                    ></v-select>
-                  </v-col>
-                </v-row>
                 <v-row>
                   <v-col cols="12" md="3">
                     <v-text-field
@@ -59,16 +49,6 @@
                       :counter="10"
                       :rules="nameRules"
                       label="Middle name"
-                      hide-details
-                      required
-                      outlined
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3">
-                    <v-text-field
-                      v-model="contactNumber"
-                      :rules="contactNumberRules"
-                      label="Contact Number"
                       hide-details
                       required
                       outlined
@@ -165,9 +145,33 @@
                   </v-col>
                 </v-row>
                 <div class="academic">
+                  <h1>CONTACT INFORMATION</h1>
+                </div>
+                <v-row>
+                <v-col cols="12" md="3">
+                    <v-text-field
+                      v-model="contactNumber"
+                      :rules="contactNumberRules"
+                      label="Contact Number"
+                      hide-details
+                      required
+                      outlined
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <div class="academic">
                   <h1>ACADEMIC INFORMATION</h1>
                 </div>
                 <v-row>
+                  <v-col cols="12" md="3">
+                    <v-select
+                      v-model="studentType"
+                      :items="['incoming', 'returning']"
+                      label="Student Type"
+                      clearable
+                      outlined
+                    ></v-select>
+                  </v-col>
                   <v-col cols="12" md="3">
                     <v-select
                       v-model="gradeLevel"
@@ -177,15 +181,6 @@
                       outlined
                     ></v-select>
                   </v-col>
-                  <!-- <v-col v-if="showSection" cols="12" md="3">
-                      <v-select v-model="section" :items="[
-                        'St. Anne', 'St. Bernadette', 'St. Charles', 'St. Elizabeth', 'St. Faustina',
-                        'St. George', 'St. Pedro Calungsod', 'St. Lorenzo Ruiz', 'St. Gabriel', 'St. Michael',
-                        'St. Raphael', 'St. Patrick', 'St. Scholastica', 'St. Homobonus', 'St. Helena', 'St. Louise',
-                        'St. Stephen', 'St. Vincent', 'St. Catherine', 'St. Albertus', 'St. Benedict', 'St. Maximillian',
-                        'St. Peter', 'St. Thomas', 'St. Isidore', 'St. Joseph'
-                      ]" label="Section" clearable outlined></v-select>
-                    </v-col> -->
                   <v-col v-if="showStrand" cols="12" md="3">
                     <v-select
                       v-model="strand"
@@ -198,7 +193,11 @@
                 </v-row>
               </v-container>
             </v-form>
-            <v-btn class="bg-green large-button">Submit</v-btn>
+            <v-row justify="end">
+              <v-col cols="auto">
+                <v-btn color="success" prepend-icon="mdi-check-circle">Submit</v-btn>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </template>

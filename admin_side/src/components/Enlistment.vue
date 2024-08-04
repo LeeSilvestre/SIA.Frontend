@@ -47,25 +47,9 @@
               >
             </div>
             <v-card-text>
-              <label class="fw-regular fs-5">Personal Information</label>
               <v-container>
+                <label class="fw-regular fs-4 mb-3">Personal Information</label>
                 <v-row dense>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select
-                      v-model="editedItem.grade_level"
-                      :items="['7', '8', '9', '10']"
-                      label="Grade Level Applying"
-                      required
-                    ></v-select>
-                  </v-col>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field
-                      v-model="editedItem.student_lrn"
-                      label="LRN"
-                      :rules="[rules.required]"
-                    ></v-text-field>
-                  </v-col>
-
                   <v-col cols="12" md="12" sm="6">
                     <v-text-field
                       v-model="editedItem.last_name"
@@ -95,14 +79,6 @@
                       v-model="editedItem.extension"
                       label="Extension Name"
                       required
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field
-                      v-model="editedItem.contact_no"
-                      label="Contact no."
-                      :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
 
@@ -204,6 +180,46 @@
                       :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
+
+                  <v-container>
+                    <label class="fw-regular fs-4 mb-3"
+                      >Contact Information</label
+                    >
+
+                    <v-row dense>
+                      <v-col cols="12" md="6" sm="6">
+                        <v-text-field
+                          v-model="editedItem.contact_no"
+                          label="Contact no."
+                          :rules="[rules.required]"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
+
+                  <v-container>
+                    <label class="fw-regular fs-4 mb-3"
+                      >Academic Information</label
+                    >
+
+                    <v-row dense>
+                      <v-col cols="12" md="6" sm="6">
+                        <v-select
+                          v-model="editedItem.grade_level"
+                          :items="['7', '8', '9', '10']"
+                          label="Grade Level Applying"
+                          required
+                        ></v-select>
+                      </v-col>
+                      <v-col cols="12" md="6" sm="6">
+                        <v-text-field
+                          v-model="editedItem.student_lrn"
+                          label="LRN"
+                          :rules="[rules.required]"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-container>
 
                   <!-- other info -->
                 </v-row>

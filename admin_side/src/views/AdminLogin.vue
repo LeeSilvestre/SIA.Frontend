@@ -46,9 +46,10 @@
                     <v-select
                       v-model="panel"
                       :items="['Registrar', 'Encoder', 'Assessor']"
-                      label="lOG IN ON"
+                      label="LOG IN AS"
                       clearable
-                      outlined
+                      variant="underlined"
+                      prepend-icon="mdi-arrow-right"
                     ></v-select>
                     <v-form class="pt-4">
                       <v-text-field

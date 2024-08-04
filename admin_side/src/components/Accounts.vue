@@ -52,8 +52,8 @@
               >
             </div>
             <v-card-text>
-              <label class="fw-regular fs-4">User Information</label>
               <v-container>
+                <label class="fw-regular fs-4 mb-3">Personal Information</label>
                 <v-row dense>
                   <v-col cols="12" md="6" sm="6">
                     <v-text-field
@@ -94,7 +94,9 @@
                     >
                     </v-text-field>
                   </v-col>
-
+                </v-row>
+                <label class="fw-regular fs-4 mb-3">Email and Password Information</label>
+                <v-row>
                   <v-col cols="12" md="6" sm="6">
                     <v-text-field
                       label="Email Address"
@@ -115,7 +117,6 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
-
                 <v-divider></v-divider>
                 <!-- checkbox -->
                 <v-container class="role-panel-wrapper">
