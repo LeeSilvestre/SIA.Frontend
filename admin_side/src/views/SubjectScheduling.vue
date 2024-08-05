@@ -1,82 +1,74 @@
 <template>
     <main>
       <div class="top-container">
-          <h1 class="bg-title">SUBJECT SCHEDULING</h1>
-          <div class="studentProfile">
-              <span class="material-icons">edit_calendar</span>
-              <span class="text fw-bolder">SUBJECT SCHEDULING</span>   
-          </div>    
-      </div> 
-      <hr>
+        <h1 class="bg-title">SUBJECT SCHEDULING</h1>
+        <div class="studentProfile">
+          <span class="material-icons">edit_calendar</span>
+          <span class="text fw-bolder">SUBJECT SCHEDULING</span>
+        </div>
+      </div>
+      <hr />
   
       <div class="bottom-container">
+        <div class="jhs-container">
+          <h3><span class="material-icons"> school</span>Junior High</h3>
   
-          <div class="jhs-container">
-              <h3><span class="material-icons"> school</span>Junior High</h3>
+          <JuniorTable />
+        </div>
   
-              <JuniorTable/>
-          </div>
-  
-          <div class="shs-container">
+        <div class="shs-container">
           <h3><span class="material-icons"> school</span>Senior High</h3>
   
-              <SeniorTable/>
-          </div>
-  
+          <SeniorTable />
+        </div>
       </div>
     </main>
-  
   </template>
   
   <script>
-  import JuniorTable from '../components/Scheduling/JuniorTable.vue';
-  import SeniorTable from '../components/Scheduling/SeniorTable.vue';
+  import JuniorTable from "../components/Scheduling/JuniorTable.vue";
+  import SeniorTable from "../components/Scheduling/SeniorTable.vue";
   export default {
-      components:{
-          SeniorTable,
-          JuniorTable
-      }
-  }
-  </script >
+    components: {
+      SeniorTable,
+      JuniorTable,
+    },
+  };
+  </script>
   
   <style lang="scss" scoped>
   main {
-      display: flex;
-      flex-direction: column;
+    display: flex;
+    flex-direction: column;
   }
   
-  .top-container{
-      display: flex;
-      margin: 0.5rem;
+  .top-container {
+    margin: 0.5rem;
   
-      .bg-title{
-        z-index: -1;
-  position: absolute;
-  opacity: 4%;
-  margin-top: -40px;
-  font-size: 100px;
-  font-family: Impact, fantasy;
+    .bg-title {
+      z-index: -1;
+      position: absolute;
+      opacity: 0.04; 
+      margin-top: -40px;
+      font-size: 100px;
+      font-family: Impact, fantasy;
+    }
+    .studentProfile {
+      display: flex; 
+      align-items: center;
+  
+      .material-icons {
+        color: var(--dark);
+        font-size: 2.5rem;
       }
-      .studentProfile{
-          flex: 1;
-  
-          .material-icons{
-            color: var(--dark);
-            font-size: 2.5rem;
-          }
-          .text{
-            position: relative;
-      color: var(--dark);
-      font-size: 2.5rem;
-      font-weight: 900;
-      bottom: 0.3rem;
-      left: 0.5rem;
-      
-  
-          }
+      .text {
+        color: var(--dark);
+        font-size: 2.5rem;
+        font-weight: 900;
+        margin-left: 0.5rem; 
       }
-  
-  } 
+    }
+  }
   
   .bottom-container{
       display: flex;
@@ -90,28 +82,34 @@
               color: var(--dark);
               margin-bottom: 1fr;
   
-              .material-icons{
-                  position:relative;
-                  font-size: 35px;
-                  top: 10px;  
-                  right: 5px;
-              }
-          }
+      .material-icons {
+        font-size: 35px;
+        margin-right: 5px; 
+      }
+    }
   
-      .jhs-container{
-          flex: 0.5;
-          padding: 0.5rem;
-          border-radius: 10px;
-          border-left: 4px solid var(--dark-alt);
-          box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px;
+    .jhs-container,
+    .shs-container {
+      flex: 1;
+      padding: 1rem; 
+      border-radius: 10px;
+      box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px;
+  
+      &:nth-of-type(1) {
+        border-left: 4px solid var(--dark-alt);
       }
   
-      .shs-container{
-          flex: 0.5;
-          padding: 0.5rem;
-          border-radius: 10px;
-          border-right: 4px solid var(--dark-alt);
-          box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px;
+      &:nth-of-type(2) {
+        border-right: 4px solid var(--dark-alt);
       }
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .bottom-container {
+      flex-direction: column;
+      gap: 1rem;
+    }
   }
   </style>
+  
