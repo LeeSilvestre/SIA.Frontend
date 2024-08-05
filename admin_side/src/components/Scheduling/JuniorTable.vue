@@ -309,16 +309,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-data-table {
-  .v-table__wrapper {
-    padding: 1.5rem;
+// .v-data-table {
+//   .v-table__wrapper {
+//     padding: 1.5rem;
 
-    .v-data-table__th {
-      font-size: 17px;
-      font-weight: 800;
-      text-align: center;
-    }
-  }
+//     .v-data-table__th {
+//       font-size: 17px;
+//       font-weight: 800;
+//       text-align: center;
+//     }
+//   }
   .icon {
     text-align: center;
     display: flex;
@@ -348,5 +348,5 @@ export default {
       cursor: pointer;
     }
   }
-}
+
 </style>
