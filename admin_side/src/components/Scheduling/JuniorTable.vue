@@ -45,8 +45,7 @@
               <span @click="openViewDialog(item)" class="view"
                 ><v-icon>mdi-eye</v-icon>View</span
               >
-              <span @click="openAddDialog(item)" class="add"
-              color="success"
+              <span @click="openAddDialog(item)" class="add" color="success"
                 ><v-icon>mdi-plus-circle</v-icon>Add</span
               >
             </div>
@@ -309,44 +308,105 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// .v-data-table {
-//   .v-table__wrapper {
-//     padding: 1.5rem;
+.v-data-table {
+  .v-table__wrapper {
+    padding: 1.5rem;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
-//     .v-data-table__th {
-//       font-size: 17px;
-//       font-weight: 800;
-//       text-align: center;
-//     }
-//   }
+    .v-data-table__th {
+      font-size: 17px;
+      font-weight: 800;
+      text-align: center;
+      color: white;
+      padding: 1rem;
+    }
+
+    .v-data-table__td {
+      text-align: center;
+      padding: 1rem;
+    }
+  }
+
   .icon {
     text-align: center;
     display: flex;
     justify-content: center;
     margin: 0.5rem;
 
-    .view {
-      display: flex;
-      gap: 0.3rem;
-      align-items: center;
-      margin-right: 1rem;
-      color: white;
-      background-color: var(--dark);
-      padding: 0.5rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
+    .view,
     .add {
       display: flex;
       gap: 0.3rem;
       align-items: center;
       color: white;
-      background-color: green;
-      padding: 0.5rem;
+      padding: 0.5rem 1rem;
       border-radius: 5px;
       cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .view {
+      background-color: #007bff;
+    }
+
+    .view:hover {
+      background-color: #0056b3;
+    }
+
+    .add {
+      background-color: green;
+      margin-left: 1rem;
+    }
+
+    .add:hover {
+      background-color: darkgreen;
+    }
+  }
+}
+
+.v-toolbar {
+  // background-color: #007bff;
+  color: white;
+
+  .v-select {
+    color: white;
+    border-color: white;
+
+    .v-input__control {
+      color: white;
+
+      .v-input__slot {
+        color: white;
+      }
     }
   }
 
+  .v-btn {
+    color: white;
+  }
+
+}
+
+.v-dialog {
+  .v-card {
+    border-radius: 10px;
+  }
+}
+
+.v-card-title {
+  background-color: #007bff;
+  color: white;
+  padding: 1rem;
+}
+
+.v-card-actions {
+  padding: 1rem;
+
+  .v-btn {
+    color: #007bff;
+  }
+}
 </style>
+

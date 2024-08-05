@@ -438,17 +438,16 @@ export default {
       { title: "Actions", align: "center", sortable: false },
     ],
 
-    displayedStudents: [
-        {
-          student_id: '1', 
-          full_name:"Jaja",
-          section:'St. Anne',
-          date:'',
-          stud_status:'',
-          date:'enroll_status',
-        }
+    // displayedStudents: [
+    //     {
+    //       student_id: '1', 
+    //       full_name:"Jaja",
+    //       section:'St. Anne',
+    //       date:'',
+    //       stud_status:'',
+    //       date:'enroll_status',
+    //     }
 
-    ],
     editedIndex: -1,
     editedItem: {
       student_id: "",
@@ -501,7 +500,7 @@ export default {
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) =>
+      return this.students.filter((students) =>
         Object.values(student).some((value) => value === "Assessed")
       );
     },
