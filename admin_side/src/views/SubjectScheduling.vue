@@ -81,7 +81,10 @@
   .bottom-container{
       display: flex;
       justify-content: center;
+<<<<<<< HEAD
       flex-direction: column;
+=======
+>>>>>>> parent of 713ef23e (updates)
       gap: 2rem;
           h3 {
               text-shadow: 0 0 1px;
