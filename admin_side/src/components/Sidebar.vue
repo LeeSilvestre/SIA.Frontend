@@ -41,6 +41,9 @@
           <li>
             <router-link class="button" to="/admission"><span class="text">Admission</span></router-link>
           </li>
+          <li>
+            <router-link class="button" to="/upload"><span class="text">Document Uploading</span></router-link>
+          </li>
         </ul> 
       </div>
 
@@ -67,6 +70,7 @@
           <!-- <li><router-link class="button" to="/alumni" exact active-class="active">Alumni</router-link></li> -->
           <li><router-link class="button" to="/faculty" exact active-class="active">Faculty</router-link></li>
         </ul>
+
       </div>
       <router-link class="button" to="/request">
         <span class="material-icons">edit_document</span>
@@ -74,7 +78,7 @@
       </router-link>
       <router-link class="button" to="/scheduling">
         <span class="material-icons">schedule</span>
-        <span class="text">Subject Scheduling</span>
+        <span class="text">Subject Scheduling</span>  
       </router-link>
     </div>
     

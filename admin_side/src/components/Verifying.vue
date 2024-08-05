@@ -180,11 +180,12 @@
       <tr>
         <td style="text-align: center">{{ item.student_id }}</td>
         <td style="text-align: center">
-          {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
-          {{ item.extension }}
+          <!-- {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
+          {{ item.extension }} -->
+          {{ item.full_name }}
         </td>
         <td style="text-align: center">{{ item.section }}</td>
-        <td style="text-align: center">{{ item.enrollment_date }}</td>
+        <td style="text-align: center">{{ item.date }}</td>
         <td style="text-align: center">Incoming</td>
         <td
           :style="{
@@ -433,11 +434,21 @@ export default {
       { title: "Section", align: "center", key: "section" },
       { title: "Date Enrolled", align: "center", key: "date" },
       { title: "Student Status", align: "center", key: "stud_status" },
-      { title: "Enrollment Status", align: "center", key: "enrol_status" },
+      { title: "Enrollment Status", align: "center", key: "enroll_status" },
       { title: "Actions", align: "center", sortable: false },
     ],
 
-    students: [],
+    displayedStudents: [
+        {
+          student_id: '1', 
+          full_name:"Jaja",
+          section:'St. Anne',
+          date:'',
+          stud_status:'',
+          date:'enroll_status',
+        }
+
+    ],
     editedIndex: -1,
     editedItem: {
       student_id: "",

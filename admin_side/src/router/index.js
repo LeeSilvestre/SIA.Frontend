@@ -35,7 +35,10 @@ const router = createRouter({
       path: "/assestment",
       component: () => import("../views/Assesment.vue"),
     },
-
+    {
+      path: "/upload",
+      component: () => import("../views/DocumentUpload.vue"),
+    },
     {
       path: '/request',
       component: () => import('../views/Document.vue'),

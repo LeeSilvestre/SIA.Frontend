@@ -39,7 +39,7 @@
   }
   </script >
   
-  <style lang="scss">
+  <style lang="scss" scoped>
   main {
       display: flex;
       flex-direction: column;
@@ -81,6 +81,7 @@
   .bottom-container{
       display: flex;
       justify-content: center;
+      flex-direction: column;
       gap: 2rem;
           h3 {
               text-shadow: 0 0 1px;
