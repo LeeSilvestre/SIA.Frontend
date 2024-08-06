@@ -90,7 +90,29 @@ export default {
   props: {
     student: {
       type: Object,
-      required: true
+      required: true,
+      default: () => ({
+        student_id: '',
+        full_name: '',
+        student_lrn: '',
+        grade_level: '',
+        imageSrc: '',
+        contact_no: '',
+        birth_date: '',
+        sex_at_birth: '',
+        religion: '',
+        houseNumber: '',
+        street: '',
+        barangay: '',
+        city: '',
+        province: '',
+        zip_code: '',
+        guardian: '',
+        guardian_mobileno: '',
+        section: '',
+        year: '',
+        password: ''
+      })
     }
   },
   computed: {
@@ -99,7 +121,6 @@ export default {
     }
   }
 };
-
 </script>
 
 <style scoped>

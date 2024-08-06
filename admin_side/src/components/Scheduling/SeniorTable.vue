@@ -9,24 +9,22 @@
     <template v-slot:top>
       <v-menu transition="scale-transition">
         <template v-slot:activator="{ props }">
-          <v-toolbar class="pt-3">
-            <v-toolbar-title></v-toolbar-title>
-            <v-select
-              v-bind="props"
-              :items="strandLevels"
-              v-model="selectedStrand"
-              label="Strand"
-              variant="solo-filled"
-              class="mr-2 m-auto"
-            ></v-select>
-            <v-btn
-              @click="resetStrand"
-              color="danger"
-              rounded="xl"
-              variant="text"
-            >
-              <v-icon>mdi-close-circle</v-icon>Clear</v-btn
-            >
+          <v-toolbar flat class="pt-2">
+              <v-toolbar-title
+                class="text-h6 font-weight-black"
+                style="color: #2f3f64"
+                >SENIOR HIGH SCHEDULE</v-toolbar-title
+              >
+              
+              <v-select
+                clearable
+                label="Grade Level"
+                v-bind="props"
+                :items="strandLevels"
+                v-model="selectedStrand"
+                variant="solo-filled"
+                class="mr-2 m-auto"
+              ></v-select>
           </v-toolbar>
         </template>
       </v-menu>

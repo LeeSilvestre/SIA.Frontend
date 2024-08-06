@@ -28,152 +28,6 @@
         ></v-text-field>
 
         <!-- create new popup modal -->
-        <!-- <v-dialog v-model="dialog" max-width="1000px">
-
-          <template v-slot:activator="{ props }">
-            <v-btn class="mb-2 rounded-l	" color="primary" dark v-bind="props" prepend-icon="mdi-plus">Enroll
-              Student</v-btn>
-          </template>
-
-
-          <v-card>
-            <v-card-title><span class="text-h5 fw-bold m-2" style="color: #2F3F64;">{{ formTitle
-                }}</span></v-card-title>
-            <v-card-text>
-              <label class="fw-light">PERSONAL INFORMATION</label>
-              <v-container>
-
-                <v-row dense>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.student_lrn" label="LRN" required maxlength="10"
-                      @input="validateNumberInput"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-
-                    <v-text-field v-model="editedItem.last_name" label="Last Name" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-
-                    <v-text-field v-model="editedItem.first_name" label="First Name" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-
-                    <v-text-field v-model="editedItem.middle_name" label="Middle Name" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.contact_no" label="Contact no." required
-                      pattern="[0-9]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.birth_date" label="Date of Birth dd/mm/yy" type="date"
-                      required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.sex_at_birth" :items="['Male', 'Female']" label="SEX"
-                      required></v-select>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.religion" label="Religion" required
-                      pattern="[A-Za-z .'-]+"></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.region"
-                      :items="['Region I', 'Region II', 'Region III', 'Region IV-A', 'Region IV-B', 'Region V', 'Region VI', 'Region VII', 'Region VIII', 'Region IX', 'Region X', 'Region XI', 'Region XII', 'Region XIII', 'BARMM', 'CAR']"
-                      label="Region" required></v-select>
-
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.province" label="Province" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.city" label="City" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.barangay" label="Barangay" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.street" label="Street" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.houseNumber" label="House Number" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.zip_code" label="Zip Code" required></v-text-field>
-                  </v-col>
-
-                 
-                </v-row>
-                <hr>
-                <label class="fw-light mb-3">ACADEMIC INFORMATION</label>
-                <v-row>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.adviser_id" label="Adviser" required></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.section" :items="['St. Anne', 'St. Bernadette', 'St. Charles', 'St. Elizabeth', 'St. Faustina',
-                      'St. George', 'St. Pedro Calungsod', 'St. Lorenzo Ruiz', 'St. Gabriel', 'St. Michael',
-                      'St. Raphael', 'St. Patrick', 'St. Scholastica', 'St. Homobonus', 'St. Helena', 'St. Louise',
-                      'St. Stephen', 'St. Vincent', 'St. Catherine', 'St. Albertus', 'St. Benedict', 'St. Maximillian',
-                      'St. Peter', 'St. Thomas', 'St. Isidore', 'St. Joseph'
-                    ]" label="Section" required></v-select>
-
-                  </v-col>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.grade_level" :items="['7', '8', '9', '10', '11', '12',]" label="Grade"
-                      required></v-select>
-                  </v-col>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-select v-model="editedItem.strand" :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']" label="Strand"
-                      required :disabled="['7', '8', '9', '10'].includes(editedItem.grade_level)"></v-select>
-                  </v-col>
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.year" label="S.Y." required></v-text-field>
-                  </v-col>studentType
-
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.guardian" label="Guardian Name" required></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.guardian_mobileno" label="Guardian Mobile #" required
-                      pattern="[0-9]+" @input="prependCountryCode"></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3" sm="6">
-                    <v-text-field v-model="editedItem.password" label="Password" required></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-container>
-              <v-btn color="primary" @click="triggerFileInput">Attach File</v-btn>
-              <input type="file" ref="fileInput" @change="handleFileUpload" style="display: none" />
-              <v-chip v-if="selectedFile" class="ma-2" color="primary" dark>
-                {{ selectedFile.name }}
-              </v-chip>
-            </v-card-text>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn class="bg-green" color="bwhite" variant="text" @click="save">Save</v-btn>
-              <v-btn class="bg-red" color="white" variant="text" @click="close">Cancel</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-dialog> -->
       </v-toolbar>
     </template>
     <template v-slot:item="{ item }">
@@ -424,7 +278,7 @@ export default {
     dialogDelete: false,
     viewDialog: false,
     selectedStudent: null,
-    // selectedFile: null,
+    selectedFile: null,
     headers: [
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Grade", align: "center", key: "grade_level" },
@@ -443,7 +297,7 @@ export default {
     //       stud_status:'',
     //       date:'enroll_status',
     //     }
-
+    students: [],
     editedIndex: -1,
     students: [],
     editedItem: {
@@ -721,7 +575,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .v-data-table {
   height: 100%;
 }

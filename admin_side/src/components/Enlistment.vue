@@ -396,12 +396,12 @@ export default {
     headers: [
       { title: "Student No.", align: "start", key: "student_id" },
       { title: "Student Lrn", align: "start", key: "lrn" },
-      { title: "Full Name", align: "start", key: "full_name" },
+      { title: "Full Name", align: "center", key: "full_name" },
       { title: "Gender", align: "start", key: "grade_lvl" },
       { title: "Grade Level", align: "start", key: "grade_lvl" },
       { title: "Student Status", align: "start", key: "status" },
       { title: "Status", align: "start", key: "status" },
-      { title: "Actions", align: "start", sortable: false },
+      { title: "Actions", align: "center", sortable: false },
     ],
 
     students: [],

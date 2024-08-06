@@ -10,26 +10,22 @@
       <template v-slot:top>
         <v-menu transition="scale-transition">
           <template v-slot:activator="{ props }">
-            <v-toolbar class="pt-3">
-              <v-toolbar-title></v-toolbar-title>
-
+            <v-toolbar flat class="pt-2">
+              <v-toolbar-title
+                class="text-h6 font-weight-black"
+                style="color: #2f3f64"
+                >JUNIOR HIGH SCHEDULE</v-toolbar-title
+              >
+              
               <v-select
+                clearable
+                label="Grade Level"
                 v-bind="props"
                 :items="gradeLevels"
                 v-model="selectedGrade"
-                label="Grade Level"
                 variant="solo-filled"
                 class="mr-2 m-auto"
               ></v-select>
-
-              <v-btn
-                @click="resetGrade"
-                color="danger"
-                rounded="xl"
-                variant="text"
-              >
-                <v-icon>mdi-close-circle</v-icon>Clear</v-btn
-              >
             </v-toolbar>
           </template>
         </v-menu>
@@ -309,6 +305,7 @@ export default {
 
 <style lang="scss" scoped>
 .v-data-table {
+  height: 100%;
   .v-table__wrapper {
     padding: 1.5rem;
     background-color: #f5f5f5;
@@ -335,27 +332,22 @@ export default {
     justify-content: center;
     margin: 0.5rem;
 
-    .view,
+    .view {
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+      margin-right: 1rem;
+      color: white;
+      background-color: var(--dark);
+      padding: 0.5rem;
+      border-radius: 5px;
+    }
+
     .add {
       display: flex;
       gap: 0.3rem;
       align-items: center;
       color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .view {
-      background-color: #007bff;
-    }
-
-    .view:hover {
-      background-color: #0056b3;
-    }
-
-    .add {
       background-color: green;
       margin-left: 1rem;
     }
@@ -409,4 +401,3 @@ export default {
   }
 }
 </style>
-
