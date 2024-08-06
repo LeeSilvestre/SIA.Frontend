@@ -4,6 +4,7 @@
       <template v-slot:item.1>
         <v-card flat>
           <v-card-title>PRE-REGISTRATION GUIDELINES</v-card-title>
+          <v-card-title>PRE-REGISTRATION GUIDELINES</v-card-title>
           <v-card-text>
             <h1>Here are the guidelines...</h1>
           </v-card-text>
@@ -20,6 +21,27 @@
                 <div class="academic">
                   <h1>PERSONAL INFORMATION</h1>
                 </div>
+                <v-row>
+                  <!-- <v-col cols="12" md="3">
+                    <v-select
+                      v-model="studentType"
+                      :items="['incoming', 'returning']"
+                      label="Student Type"
+                      clearable
+                      outlined
+                    ></v-select>
+                  </v-col> -->
+                  <v-col cols="12" md="3">
+                    <v-text-field
+                      v-model="student_lrn"
+                      :counter="10"
+                      label="Student LRN"
+                      hide-details
+                      required
+                      outlined
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
                 <v-row>
                   <v-col cols="12" md="3">
                     <v-text-field
@@ -85,6 +107,16 @@
                   </v-col>
                   <v-col cols="12" md="3">
                     <v-text-field
+                      v-model="religion"
+                      :rules="emailRules"
+                      label="Religion"
+                      hide-details
+                      required
+                      outlined
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="3">
+                    <v-text-field
                       v-model="houseNumber"
                       :rules="houseNumberRules"
                       label="House Number"
@@ -128,6 +160,16 @@
                       v-model="province"
                       :rules="provinceRules"
                       label="Province"
+                      hide-details
+                      required
+                      outlined
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="3">
+                    <v-text-field
+                      v-model="region"
+                      :rules="provinceRules"
+                      label="Region"
                       hide-details
                       required
                       outlined
@@ -190,14 +232,10 @@
                       outlined
                     ></v-select>
                   </v-col>
-                </v-row>
+                </v-row>  
               </v-container>
             </v-form>
-            <v-row justify="end">
-              <v-col cols="auto">
-                <v-btn color="success" prepend-icon="mdi-check-circle">Submit</v-btn>
-              </v-col>
-            </v-row>
+            <v-btn class="bg-green large-button" @click="enroll">Submit</v-btn>
           </v-card-text>
         </v-card>
       </template>
@@ -206,14 +244,18 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data: () => ({
     valid: false,
+    studnet_lrn: "",
     studentType: "",
     firstname: "",
     lastname: "",
     middlename: "",
     age: "",
+    religion: "", 
     contactNumber: "",
     sex: "",
     birthdate: "",
@@ -224,6 +266,7 @@ export default {
     city: "",
     province: "",
     zipCode: "",
+    region: "",
     gradeLevel: "", // To store the selected grade level
     section: "",
     strand: "",
@@ -261,11 +304,11 @@ export default {
     studentType(newType) {
       if (newType === "returning") {
         this.gradeLevels = [
-          "Grade 8",
-          "Grade 9",
-          "Grade 10",
-          "Grade 11",
-          "Grade 12",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
         ];
         // Optionally, reset the gradeLevel if it is not in the new set
         if (!this.gradeLevels.includes(this.gradeLevel)) {
@@ -273,12 +316,12 @@ export default {
         }
       } else {
         this.gradeLevels = [
-          "Grade 7",
-          "Grade 8",
-          "Grade 9",
-          "Grade 10",
-          "Grade 11",
-          "Grade 12",
+          "7",
+          "8",
+          "9",
+          "10",
+          "11",
+          "12",
         ];
         // Optionally, reset the gradeLevel if it is not in the new set
         if (!this.gradeLevels.includes(this.gradeLevel)) {
@@ -287,6 +330,39 @@ export default {
       }
     },
   },
+  mounted(){
+  },
+  methods: {
+    enroll(){
+      const data = {
+        student_lrn : this.student_lrn,
+        first_name : this.firstname,
+        middle_name : this.middlename,
+        last_name : this.lastname,
+        extension : this.extension,
+        sex_at_birth : this.sex,
+        birth_date : this.birthdate,
+        email :this.email,
+        region : this.region,
+        province : this.province,
+        city : this.city,
+        barangay : this.barangay,
+        street : this.street,
+        zip_code : this.zipCode,
+        religion : this.religion,
+        contact_no : this.contactNumber,
+        strand : this.strand,
+        grade_level: this.gradeLevel,
+      }
+      axios.post('student', data).then(res=>{
+        console.log(res);
+
+      }).catch(error =>{
+        console.error(error);
+      })
+    }
+
+  }
 };
 </script>
 

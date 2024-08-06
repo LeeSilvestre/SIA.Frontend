@@ -561,7 +561,7 @@ export default {
         });
       }
       this.close();
-    },
+    }, 
 
     goView() {
       this.$router.push('/viewdetails');

@@ -311,7 +311,6 @@ export default {
 .v-data-table {
   .v-table__wrapper {
     padding: 1.5rem;
-<<<<<<< HEAD
     background-color: #f5f5f5;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -330,15 +329,6 @@ export default {
     }
   }
 
-=======
-
-    .v-data-table__th {
-      font-size: 17px;
-      font-weight: 800;
-      text-align: center;
-    }
-  }
->>>>>>> parent of 713ef23e (updates)
   .icon {
     text-align: center;
     display: flex;
@@ -392,7 +382,6 @@ export default {
       }
     }
   }
-<<<<<<< HEAD
 
   .v-btn {
     color: white;
@@ -418,8 +407,6 @@ export default {
   .v-btn {
     color: #007bff;
   }
-=======
->>>>>>> parent of 713ef23e (updates)
 }
 </style>
 

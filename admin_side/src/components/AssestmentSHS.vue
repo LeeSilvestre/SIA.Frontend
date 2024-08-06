@@ -361,7 +361,7 @@
         <td>{{ item.sex_at_birth }}</td>
         <td>{{ item.grade_level }}</td>
         <td>{{ item.grade_level }}</td>
-        <td>{{ item.strand.toUpperCase() }}</td>
+        <td>{{ item.strand}}</td>
         <td>{{ item.enrollment_date}}</td>
         <td >Incoming</td>
         <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
@@ -577,10 +577,15 @@ export default {
       return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
     },
     displayedStudents() {
-      const searchTerm = this.search.toLowerCase();
-      return this.students.filter(student =>Object.values(student)
-        .some(value =>(value === 'Verified')
-    ));}
+      const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
+      return this.students.filter((student) =>
+        Object.values(student).some(
+          (value) =>
+            typeof value === "string" &&
+            value.toLowerCase().includes(searchTerm)
+        )
+      );
+    },
   },
 
   watch: {
@@ -612,10 +617,6 @@ export default {
       })
       this.students.forEach(student => {
   student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-    if (student.grade_level < 11 || student.grade_level > 12) {
-        // Remove the strand property
-        student.strand = "N/A";
-    }
       });
     },
 
@@ -640,7 +641,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           if(action === 'Confirm') {
-            axios.put(`student/editstat/${item.student_id}`, { enrollment_status: 'Assessed' })
+            axios.put(`student/editstat/${item.student_recno}`, { enrollment_status: 'Assessed' })
             .then(res=>{
               console.log(res.data);
               Swal.fire({

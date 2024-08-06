@@ -308,11 +308,7 @@ export default {
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
       return this.students.filter((student) =>
-        Object.values(student).some(
-          (value) =>
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchTerm)
-        )
+        Object.values(student).some((value) => value === "Enrolled")
       );
     },
   },

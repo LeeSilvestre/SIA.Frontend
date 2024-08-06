@@ -140,7 +140,7 @@ export default {
 
   mounted() {
     this.initialize();
-    this.getData();
+    // this.getData();
   },
   methods: {
     getData() {

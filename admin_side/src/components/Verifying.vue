@@ -178,15 +178,13 @@
     </template>
     <template v-slot:item="{ item }">
       <tr>
-        <td style="text-align: center">{{ item.student_id }}</td>
-        <td style="text-align: center">
+        <td style="text-align: center"> 
           <!-- {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
           {{ item.extension }} -->
           {{ item.full_name }}
         </td>
-        <td style="text-align: center">{{ item.section }}</td>
-        <td style="text-align: center">{{ item.date }}</td>
         <td style="text-align: center">Incoming</td>
+        <td style="text-align: center">{{item.grade_level}}</td>
         <td
           :style="{
             color: getStatusColor(item.enrollment_status),
@@ -372,18 +370,17 @@
               ></v-select>
             </v-col>
             <v-col cols="12" md="3" sm="6">
-              <v-select
-                v-model="editedItem.grade_level"
-                :items="['7', '8', '9', '10', '11', '12']"
-                label="Grade"
-              ></v-select>
+              <v-text-field
+                v-model="selectedStudent.grade_level"
+                label="Grade level"
+                readonly
+              ></v-text-field>
             </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-select
+            <v-col v-if="selectedStudent.grade_level > 10" cols="12" md="3" sm="6">
+              <v-select 
                 v-model="editedItem.strand"
                 :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
                 label="Strand"
-                :disabled="['7', '8', '9', '10'].includes(viewItem.grade_level)"
               ></v-select>
             </v-col>
             <v-col cols="12" md="6" sm="6">
@@ -401,7 +398,7 @@
           class="bg-green"
           color="white"
           variant="text"
-          @click="markEnrolled"
+          @click="markEnrolled(selectedStudent.student_recno)"
           >Mark as Enrolled</v-btn
         >
         <v-btn
@@ -429,14 +426,13 @@ export default {
     selectedStudent: null,
     // selectedFile: null,
     headers: [
-      { title: "Student No.", align: "center", key: "student_id" },
       { title: "Full Name", align: "center", key: "full_name" },
-      { title: "Section", align: "center", key: "section" },
-      { title: "Date Enrolled", align: "center", key: "date" },
+      { title: "Grade", align: "center", key: "grade_level" },
       { title: "Student Status", align: "center", key: "stud_status" },
-      { title: "Enrollment Status", align: "center", key: "enroll_status" },
+      { title: "Enrollment Status", align: "center", key: "enrollment_status" },
       { title: "Actions", align: "center", sortable: false },
     ],
+    lname: "",
 
     // displayedStudents: [
     //     {
@@ -449,6 +445,7 @@ export default {
     //     }
 
     editedIndex: -1,
+    students: [],
     editedItem: {
       student_id: "",
       first_name: "",
@@ -468,6 +465,7 @@ export default {
       sy: "",
       section: "",
     },
+    fixedPass: "",
     defaultItem: {
       student_id: "",
       first_name: "",
@@ -488,7 +486,7 @@ export default {
       year: "",
       section: "",
     },
-    viewItem: {},
+    itemView: {},
     formTitle: "",
   }),
 
@@ -500,7 +498,7 @@ export default {
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter((students) =>
+      return this.students.filter((student) =>
         Object.values(student).some((value) => value === "Assessed")
       );
     },
@@ -516,7 +514,7 @@ export default {
   },
 
   watch: {
-    "editedItem.grade_level"(newGrade) {
+    "selectedStudent.grade_level"(newGrade) {
       if (["7", "8", "9", "10"].includes(newGrade)) {
         this.editedItem.strand = "N/A";
       } else {
@@ -526,7 +524,9 @@ export default {
   },
 
   mounted() {
+    const year  = new Date().getFullYear()  // returns the current year
     this.initialize();
+    // this.fixedPass = selectedStudent.last_name + 'SNA' + year ;
   },
 
   methods: {
@@ -534,6 +534,8 @@ export default {
       axios
         .get("student")
         .then((res) => {
+          this.lname = res.data.student.last_name;
+          console.log(this.lname);
           this.students = res.data.student.map((student) => ({
             ...student,
             full_name:
@@ -542,6 +544,30 @@ export default {
         })
         .catch((error) => {
           console.error("Error fetching students:", error);
+        });
+    },
+
+    markEnrolled(item){
+      console.log(item);
+      axios
+        .put(`create/${item}`, {
+          enrollment_status: "Enrolled",
+          adviser_id : this.editedItem.adviser_id,
+          password : this.editedItem.password
+        })
+        .then((res) => {
+          console.log(res.data);
+          Swal.fire({
+            title: "Approved!",
+            text: "Your action has been approved.",
+            icon: "success",
+          });
+          setTimeout(() => {
+            window.location.reload();
+          }, 3000); //
+        })
+        .catch((err) => {
+          console.error(err);
         });
     },
 
@@ -609,7 +635,7 @@ export default {
     },
 
     viewItem(item) {
-      this.viewItem = item;
+      this.itemView = item;
       this.viewDialog = true;
     },
 

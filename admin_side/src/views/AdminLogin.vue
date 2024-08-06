@@ -144,6 +144,7 @@ export default {
           user.role == this.panel.toLowerCase() ||
           (user.role == "admin" && this.panel == "Registrar")
         ) {
+          this.showToast('Login Succesfully', 'success', 2000)
           localStorage.setItem("userInfo", JSON.stringify(response.data.user));
           this.$router.push("/dashboard");
         } else {
@@ -155,7 +156,7 @@ export default {
         }
         // Redirect or update UI as needed
       } catch (error) {
-        console.log("Error details:", error.response.data);
+        console.log("Error details:", error);
         if (error.response && error.response.status === 422) {
           const errors = error.response.data.errors;
           let errorMessage = "";
@@ -182,6 +183,24 @@ export default {
       console.log(agent.getBrowser);
       return `${agent.browser.name} on ${agent.os.name}`;
     },
+    showToast(message , icon , duration) { 
+    const Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: duration,
+      timerProgressBar: true,
+      didOpen: (toast) => {
+        toast.addEventListener('mouseenter', Swal.stopTimer)
+        toast.addEventListener('mouseleave', Swal.resumeTimer)
+      }
+    })
+    
+    Toast.fire({
+      icon: icon,
+      title: message
+    })
+  }
   },
 };
 </script>
