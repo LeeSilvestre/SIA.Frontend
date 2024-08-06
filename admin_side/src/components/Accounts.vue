@@ -250,19 +250,19 @@
     </template>
 
     <!-- header content -->
-    <template v-slot:item="{ item }">
+        <template v-slot:item="{ item }">
       <tr>
-        <td>{{ item.employee_id }}</td>
-        <td>
+        <td class="text-center">{{ item.employee_id }}</td>
+        <td class="text-center">
           {{ item.last_name }},
           {{ item.first_name }}
           {{ item.middle_name }}
           {{ item.extension }}
         </td>
-        <td>{{ item.account_role }}</td>
-        <td>{{ item.account_dpt }}</td>
-        <td>{{ item.account_panel }}</td>
-        <td>
+        <td class="text-center">{{ item.account_role }}</td>
+        <td class="text-center">{{ item.account_dpt }}</td>
+        <td class="text-center">{{ item.account_panel }}</td>
+        <td class="text-center">
           <v-btn class="ma-2" size="small" color="primary" @click="openViewDialog">
             <v-icon icon="mdi-eye" start></v-icon>
             View
@@ -270,6 +270,7 @@
         </td>
       </tr>
     </template>
+
 
     <!-- end of header content -->
   </v-data-table>
@@ -364,12 +365,12 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: "Employee ID", align: "start", key: "employee_id" },
-      { title: "Full Name", align: "start", key: "full_name" },
-      { title: "Role", align: "start", key: "account_role" },
-      { title: "Department", align: "start", key: "account_dpt" },
-      { title: "Panel", align: "start", key: "account_panel" },
-      { title: "Actions", align: "start", sortable: false },
+      { title: "Employee ID", align: "center", key: "employee_id" },
+      { title: "Full Name", align: "center", key: "full_name" },
+      { title: "Role", align: "center", key: "account_role" },
+      { title: "Department", align: "center", key: "account_dpt" },
+      { title: "Panel", align: "center", key: "account_panel" },
+      { title: "Actions", align: "center", sortable: false },
     ],
 
     students: [],
