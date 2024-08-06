@@ -10,26 +10,22 @@
       <template v-slot:top>
         <v-menu transition="scale-transition">
           <template v-slot:activator="{ props }">
-            <v-toolbar class="pt-3">
-              <v-toolbar-title></v-toolbar-title>
-
+            <v-toolbar flat class="pt-2">
+              <v-toolbar-title
+                class="text-h6 font-weight-black"
+                style="color: #2f3f64"
+                >JUNIOR HIGH SCHEDULE</v-toolbar-title
+              >
+              
               <v-select
+                clearable
+                label="Grade Level"
                 v-bind="props"
                 :items="gradeLevels"
                 v-model="selectedGrade"
-                label="Grade Level"
                 variant="solo-filled"
                 class="mr-2 m-auto"
               ></v-select>
-
-              <v-btn
-                @click="resetGrade"
-                color="danger"
-                rounded="xl"
-                variant="text"
-              >
-                <v-icon>mdi-close-circle</v-icon>Clear</v-btn
-              >
             </v-toolbar>
           </template>
         </v-menu>
@@ -309,28 +305,9 @@ export default {
 
 <style lang="scss" scoped>
 .v-data-table {
+  height: 100%;
   .v-table__wrapper {
     padding: 1.5rem;
-<<<<<<< HEAD
-    background-color: #f5f5f5;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-    .v-data-table__th {
-      font-size: 17px;
-      font-weight: 800;
-      text-align: center;
-      color: white;
-      padding: 1rem;
-    }
-
-    .v-data-table__td {
-      text-align: center;
-      padding: 1rem;
-    }
-  }
-
-=======
 
     .v-data-table__th {
       font-size: 17px;
@@ -338,88 +315,32 @@ export default {
       text-align: center;
     }
   }
->>>>>>> parent of 713ef23e (updates)
   .icon {
     text-align: center;
     display: flex;
     justify-content: center;
     margin: 0.5rem;
 
-    .view,
+    .view {
+      display: flex;
+      gap: 0.3rem;
+      align-items: center;
+      margin-right: 1rem;
+      color: white;
+      background-color: var(--dark);
+      padding: 0.5rem;
+      border-radius: 5px;
+    }
+
     .add {
       display: flex;
       gap: 0.3rem;
       align-items: center;
       color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .view {
-      background-color: #007bff;
-    }
-
-    .view:hover {
-      background-color: #0056b3;
-    }
-
-    .add {
       background-color: green;
-      margin-left: 1rem;
-    }
-
-    .add:hover {
-      background-color: darkgreen;
+      padding: 0.5rem;
+      border-radius: 5px;
     }
   }
-}
-
-.v-toolbar {
-  // background-color: #007bff;
-  color: white;
-
-  .v-select {
-    color: white;
-    border-color: white;
-
-    .v-input__control {
-      color: white;
-
-      .v-input__slot {
-        color: white;
-      }
-    }
-  }
-<<<<<<< HEAD
-
-  .v-btn {
-    color: white;
-  }
-
-}
-
-.v-dialog {
-  .v-card {
-    border-radius: 10px;
-  }
-}
-
-.v-card-title {
-  background-color: #007bff;
-  color: white;
-  padding: 1rem;
-}
-
-.v-card-actions {
-  padding: 1rem;
-
-  .v-btn {
-    color: #007bff;
-  }
-=======
->>>>>>> parent of 713ef23e (updates)
 }
 </style>
-
