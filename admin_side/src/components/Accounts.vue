@@ -95,6 +95,8 @@
                     </v-text-field>
                   </v-col>
                 </v-row>
+
+                <v-divider></v-divider>
                 <label class="fw-regular fs-4 mb-3">Email and Password Information</label>
                 <v-row>
                   <v-col cols="12" md="6" sm="6">
@@ -179,48 +181,54 @@
                   <v-container class="panel-container">
                     <label class="fw-regular fs-4">Panel</label>
                     <br />
-                    <!-- <label class="fw-light fs-6">
-                      <strong>Instruction: </strong>Select the panel you want to
-                      assign to the user by clicking the checkbox.
-                    </label>
-                    <v-row>
-                      <v-col cols="12" md="4" sm="4">
-                        <v-checkbox
-                          v-model="selectedPanel"
-                          :value="'Admin'"
-                          label="Admin"
-                        ></v-checkbox>
-                        <v-checkbox
-                          v-model="selectedPanel"
-                          :value="'Faculty'"
-                          label="Faculty"
-                        ></v-checkbox>
-                      </v-col>
-                      <v-col cols="12" md="4" sm="4">
-                        <v-checkbox
-                          v-model="selectedPanel"
-                          :value="'Student Personnel'"
-                          label="Student Personnel"
-                        ></v-checkbox>
-                        <v-checkbox
-                          v-model="selectedPanel"
-                          :value="'Encoder'"
-                          label="Encoder"
-                        ></v-checkbox>
-                      </v-col>
-                      <v-col cols="12" md="4" sm="4">
-                        <v-checkbox
-                          v-model="selectedPanel"
-                          :value="'Verifier'"
-                          label="Verifier"
-                        ></v-checkbox>
-                        <v-checkbox
-                          v-model="selectedPanel"
-                          :value="'Accessor'"
-                          label="Accessor"
-                        ></v-checkbox>
-                      </v-col>
-                    </v-row> -->
+                      <label class="fw-light fs-6">
+                        <strong>Instruction: </strong>Select the panel you want to
+                        assign to the user by clicking the checkbox.
+                      </label>
+                      <v-row>
+                        <v-col cols="12" md="4" sm="4">
+                          <v-checkbox
+                            color="success"
+                            v-model="selectedPanel"
+                            :value="'Admin'"
+                            label="Admin"
+                          ></v-checkbox>
+                          <v-checkbox
+                            color="success"
+                            v-model="selectedPanel"
+                            :value="'Faculty'"
+                            label="Faculty"
+                          ></v-checkbox>
+                        </v-col>
+                        <v-col cols="12" md="4" sm="4">
+                          <v-checkbox
+                            color="success"
+                            v-model="selectedPanel"
+                            :value="'Student Personnel'"
+                            label="Student Personnel"
+                          ></v-checkbox>
+                          <v-checkbox
+                            color="success"
+                            v-model="selectedPanel"
+                            :value="'Encoder'"
+                            label="Encoder"
+                          ></v-checkbox>
+                        </v-col>
+                        <v-col cols="12" md="4" sm="4">
+                          <v-checkbox
+                            color="success"
+                            v-model="selectedPanel"
+                            :value="'Verifier'"
+                            label="Verifier"
+                          ></v-checkbox>
+                          <v-checkbox
+                            color="success"
+                            v-model="selectedPanel"
+                            :value="'Accessor'"
+                            label="Accessor"
+                          ></v-checkbox>
+                        </v-col>
+                      </v-row>
                   </v-container>
                   <!-- end panel checkbox -->
                 </v-container>
@@ -237,7 +245,7 @@
                 color="bwhite"
                 variant="text"
                 @click="confirmSave"
-                >Apply</v-btn
+                >Save</v-btn
               >
               <v-btn class="bg-red" color="white" variant="text" @click="close"
                 >Cancel</v-btn

@@ -11,11 +11,9 @@
         <v-menu transition="scale-transition">
           <template v-slot:activator="{ props }">
             <v-toolbar flat class="pt-2">
-              <v-toolbar-title
-                class="text-h6 font-weight-black"
-                style="color: #2f3f64"
-                >JUNIOR HIGH SCHEDULE</v-toolbar-title
-              >
+              <v-toolbar-title class="text-h6 font-weight-black" style="color: #2f3f64">
+                JUNIOR HIGH SCHEDULE
+              </v-toolbar-title>
               
               <v-select
                 clearable
@@ -38,12 +36,12 @@
           <td>{{ item.adviser }}</td>
           <td>
             <div class="icon">
-              <span @click="openViewDialog(item)" class="view"
-                ><v-icon>mdi-eye</v-icon>View</span
-              >
-              <span @click="openAddDialog(item)" class="add" color="success"
-                ><v-icon>mdi-plus-circle</v-icon>Add</span
-              >
+              <span @click="openViewDialog(item)" class="view" style="cursor: pointer">
+                <v-icon>mdi-eye</v-icon>View
+              </span>
+              <span @click="openAddDialog(item)" class="add" style="cursor: pointer">
+                <v-icon>mdi-plus-circle</v-icon>Add
+              </span>
             </div>
           </td>
         </tr>
@@ -53,8 +51,8 @@
     <!-- View Dialog -->
     <v-dialog v-model="viewDialog" max-width="1000px">
       <v-card>
-        <v-card-title>
-          <span class="headline">View Schedule</span>
+        <v-card-title style="background-color: var(--dark)">
+          <span class="fs-5 fw-bold m-2" style="color: white">VIEW SCHEDULE</span>
         </v-card-title>
 
         <v-container>
@@ -62,7 +60,7 @@
         </v-container>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn text @click="viewDialog = false">Close</v-btn>
+          <v-btn text @click="viewDialog = false" class="bg-red" color="white">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -70,19 +68,28 @@
     <!-- Add Dialog -->
     <v-dialog v-model="addDialog" max-width="600px">
       <v-card>
-        <v-card-title>
-          <span class="headline">Add Schedule</span>
+        <v-card-title style="background-color: var(--dark)">
+          <span class="fs-5 fw-bold m-2" style="color: white">ADD SCHEDULE</span>
         </v-card-title>
+        
         <v-card-text>
           <v-select
             v-model="newItem.subject"
             :items="juniorSubjects"
             label="Subject"
-            variant="solo-filled"
             class="mr-2 m-auto"
           ></v-select>
-          <!-- Form for adding details -->
+
           <v-form ref="form">
+            <!-- Grade Level -->
+            <v-select
+              v-model="newItem.grade"
+              :items="gradeLevels"
+              label="Grade Level"
+              class="mr-2 m-auto"
+              required
+            ></v-select>
+
             <!-- Class Code -->
             <v-text-field
               v-model="newItem.classCode"
@@ -91,7 +98,8 @@
             ></v-text-field>
 
             <v-row dense>
-              <v-col cols="6" sm="">
+              <v-col cols="6">
+                <!-- Day -->
                 <v-select
                   v-model="newItem.day"
                   :items="daysOfWeek"
@@ -99,9 +107,8 @@
                   required
                 ></v-select>
               </v-col>
-              <!-- Day -->
-
-              <v-col cols="6" sm="6">
+              
+              <v-col cols="6">
                 <!-- Time -->
                 <v-text-field
                   v-model="newItem.time"
@@ -128,9 +135,9 @@
           </v-form>
         </v-card-text>
         <v-card-actions>
-          <v-btn color="blue darken-1" text @click="addNewSchedule">Add</v-btn>
+          <v-btn text @click="addNewSchedule" class="bg-green" color="white">Add</v-btn>
           <v-spacer></v-spacer>
-          <v-btn text @click="addDialog = false">Close</v-btn>
+          <v-btn text @click="addDialog = false" class="bg-red" color="white">Close</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -142,6 +149,7 @@ import ViewSchedule from "./ViewSchedule.vue";
 // import api from "../../services/api";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
+
 export default {
   components: {
     ViewSchedule,
@@ -194,12 +202,6 @@ export default {
         { value: "Grade 10", title: "Grade 10" },
       ],
       selectedGrade: "",
-      juniorData: {
-        junior_id: null,
-        section: "",
-        adviser: "",
-        grade: "",
-      },
       daysOfWeek: [
         "Monday",
         "Tuesday",
@@ -234,11 +236,10 @@ export default {
       currentItem: {},
       newItem: {
         subject: null,
+        grade: "",
         classCode: "",
-        classDescription: "",
         day: "",
         time: "",
-        section: "",
         room: "",
         faculty: "",
       },
@@ -248,10 +249,7 @@ export default {
   computed: {
     filteredJuniorList() {
       console.log("Selected Grade:", this.selectedGrade);
-      console.log(
-        "Junior List Grades:",
-        this.juniorList.map((item) => item.grade)
-      );
+      console.log("Junior List Grades:", this.juniorList.map((item) => item.grade));
       if (!Array.isArray(this.juniorList)) {
         console.error("juniorList is not an array");
         return [];
@@ -259,9 +257,7 @@ export default {
       if (!this.selectedGrade) {
         return this.juniorList;
       }
-      return this.juniorList.filter(
-        (item) => item.grade === this.selectedGrade
-      );
+      return this.juniorList.filter((item) => item.grade === this.selectedGrade);
     },
   },
 
@@ -293,11 +289,43 @@ export default {
     openAddDialog() {
       this.addDialog = true;
     },
+    
     addNewSchedule() {
-      // Here, you would add logic to handle the new schedule addition
-      // For now, we will just close the dialog and clear newItem
+      if (
+        this.newItem.subject &&
+        this.newItem.grade &&
+        this.newItem.classCode &&
+        this.newItem.day &&
+        this.newItem.time &&
+        this.newItem.room &&
+        this.newItem.faculty
+      ) {
+        // Logic to add new schedule
+        Swal.fire({
+          icon: "success",
+          title: "Schedule Added",
+          text: "The new schedule has been added successfully!",
+        });
 
-      this.addDialog = false;
+        // Reset the newItem object
+        this.newItem = {
+          subject: null,
+          grade: "",
+          classCode: "",
+          day: "",
+          time: "",
+          room: "",
+          faculty: "",
+        };
+
+        this.addDialog = false;
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Please fill out all fields before adding a new schedule.",
+        });
+      }
     },
   },
 };
