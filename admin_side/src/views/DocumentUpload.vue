@@ -1,10 +1,10 @@
 <template>
   <main>
     <div class="top-container">
-      <h1 class="bg-title">SUBJECT SCHEDULING</h1>
+      <h1 class="bg-title">DOCUMENT</h1>
       <div class="studentProfile">
-        <span class="material-icons">edit_calendar</span>
-        <span class="text fw-bolder">SUBJECT SCHEDULING</span>
+        <span class="material-icons">upload_file</span>
+        <span class="text">DOCUMENT</span>
       </div>
     </div>
     <hr />
