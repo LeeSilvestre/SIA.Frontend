@@ -220,11 +220,9 @@ export default {
           title: "Technology and Livelihood Education (TLE)",
           subject: "Technology and Livelihood Education (TLE)",
         },
-        { id: 7, title: "Health Education", subject: "Health Education" },
-        { id: 8, title: "Music", subject: "Music" },
-        { id: 9, title: "Arts", subject: "Arts" },
+        { id: 7, title: "Chirstian Living", subject: "Chirstian Living" },
         {
-          id: 10,
+          id: 8,
           title: "Physical Education (PE)",
           subject: "Physical Education (PE)",
         },

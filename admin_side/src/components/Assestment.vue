@@ -467,11 +467,10 @@ export default {
     selectedFile: null,
     headers: [
       { title: "Record No.", align: "start", key: "student_id" },
-      { title: "Student LRN", align: "start", key: "lrn" },
+      { title: "Student LRN", align: "start", key: "student_lrn" },
       { title: "Full Name", align: "start", key: "full_name" },
-      { title: "Gender", align: "start", key: "grade_lvl" },
+      { title: "Gender", align: "start", key: "sex_at_birth" },
       { title: "Grade Level", align: "start", key: "grade_lvl" },
-      { title: "Date Enrolled", align: "start", key: "date" },
       { title: "Student Status", align: "start", key: "stud_status" },
       { title: "Enrollment Status", align: "start", key: "enrol_status" },
       { title: "Actions", sortable: false, align: "start" },
