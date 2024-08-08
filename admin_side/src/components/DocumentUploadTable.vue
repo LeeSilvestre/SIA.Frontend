@@ -1,306 +1,437 @@
 <template>
-    <v-container>
-      <v-data-table
-        :search="search"
-        :headers="headers"
-        :items="filteredJuniorList"
-        :sort-by="[{ key: 'section', order: 'asc' }]"
-      >
-        <!-- toolbar  -->
-        <template v-slot:top>
-          <v-menu transition="scale-transition">
-            <template v-slot:activator="{ props }">
-              <v-toolbar class="pt-3">
-                <v-toolbar-title></v-toolbar-title>
-  
+  <v-data-table
+    :search="search"
+    :headers="headers"
+    :items="displayedStudents"
+    :sort-by="[{ key: 'studentId', order: 'asc' }]"
+  >
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title
+          class="text-h6 font-weight-black"
+          style="color: #2f3f64"
+          >DOCUMENT LIST</v-toolbar-title
+        >
 
-                
-              </v-toolbar>
-            </template>
-          </v-menu>
-        </template>
-  
-        <template v-slot:item="{ item }">
-          <tr :key="item.junior_id">
-            <td>{{ item.grade }}</td>
-            <td style="padding: 1rem">{{ item.section }}</td>
-            <td>{{ item.adviser }}</td>
-            <td>
-              <div class="icon">
-                <span @click="openViewDialog(item)" class="view"
-                  ><v-icon>mdi-eye</v-icon>View</span
-                >
-                <span @click="openAddDialog(item)" class="add"
-                color="success"
-                  ><v-icon>mdi-plus-circle</v-icon>Add</span
-                >
-              </div>
-            </td>
-          </tr>
-        </template>
-      </v-data-table>
-  
-      <!-- View Dialog -->
-      <v-dialog v-model="viewDialog" max-width="1000px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">View Schedule</span>
-          </v-card-title>
-  
-          <v-container>
-          </v-container>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn text @click="viewDialog = false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-  
-      <!-- Add Dialog -->
-      <v-dialog v-model="addDialog" max-width="600px">
-        <v-card>
-          <v-card-title>
-            <span class="headline">Add Schedule</span>
-          </v-card-title>
-          <v-card-text>
-            <v-select
-              v-model="newItem.subject"
-              :items="juniorSubjects"
-              label="Subject"
-              variant="solo-filled"
-              class="mr-2 m-auto"
-            ></v-select>
-            <!-- Form for adding details -->
-            <v-form ref="form">
-              <!-- Class Code -->
-              <v-text-field
-                v-model="newItem.classCode"
-                label="Class Code"
-                required
-              ></v-text-field>
-  
-              <v-row dense>
-                <v-col cols="6" sm="">
-                  <v-select
-                    v-model="newItem.day"
-                    :items="daysOfWeek"
-                    label="Day"
-                    required
-                  ></v-select>
-                </v-col>
-                <!-- Day -->
-  
-                <v-col cols="6" sm="6">
-                  <!-- Time -->
-                  <v-text-field
-                    v-model="newItem.time"
-                    label="Time"
-                    type="time"
-                    required
-                  ></v-text-field>
-                </v-col>
-              </v-row>
-  
-              <!-- Room -->
-              <v-text-field
-                v-model="newItem.room"
-                label="Room"
-                required
-              ></v-text-field>
-  
-              <!-- Faculty -->
-              <v-text-field
-                v-model="newItem.faculty"
-                label="Faculty"
-                required
-              ></v-text-field>
-            </v-form>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn color="blue darken-1" text @click="addNewSchedule">Add</v-btn>
-            <v-spacer></v-spacer>
-            <v-btn text @click="addDialog = false">Close</v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-container>
-  </template>
-  
-  <script>
-  // import api from "../../services/api";
-  import Swal from "sweetalert2";
-  import "sweetalert2/dist/sweetalert2.min.css";
-  export default {
-    components: {
-    },
-    data() {
-      return {
-        search: "",
-        juniorList: [
+        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
-        ],
-        headers: [
-          { title: "Grade", key: "grade" },
-          { title: "Section", key: "section" },
-          { title: "Adviser", key: "adviser" },
-          { title: "Schedule", align: "center", sortable: false },
-        ],
-        gradeLevels: [
-          { value: "Grade 7", title: "Grade 7", text: "Grade 7" },
-          { value: "Grade 8", title: "Grade 8", text: "Grade 8" },
-          { value: "Grade 9", title: "Grade 9" },
-          { value: "Grade 10", title: "Grade 10" },
-        ],
-        selectedGrade: "",
-        juniorData: {
-          junior_id: null,
-          section: "",
-          adviser: "",
-          grade: "",
-        },
-        daysOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-        juniorSubjects: [
-          { id: 1, title: "Mathematics", subject: "Mathematics" },
-          { id: 2, title: "Science", subject: "Science" },
-          { id: 3, title: "English", subject: "English" },
-          { id: 4, title: "Filipino", subject: "Filipino" },
-          { id: 5, title: "Araling Panlipunan", subject: "Araling Panlipunan" },
-          {
-            id: 6,
-            title: "Technology and Livelihood Education (TLE)",
-            subject: "Technology and Livelihood Education (TLE)",
-          },
-          { id: 7, title: "Health Education", subject: "Health Education" },
-          { id: 8, title: "Music", subject: "Music" },
-          { id: 9, title: "Arts", subject: "Arts" },
-          {
-            id: 10,
-            title: "Physical Education (PE)",
-            subject: "Physical Education (PE)",
-          },
-        ],
-        viewDialog: false,
-        addDialog: false,
-        currentItem: {},
-        newItem: {
-          subject: null,
-          classCode: "",
-          classDescription: "",
-          day: "",
-          time: "",
-          section: "",
-          room: "",
-          faculty: "",
-        },
-      };
+        <v-text-field
+          v-model="search"
+          class="w-auto mr-1"
+          density="compact"
+          label="Search"
+          prepend-inner-icon="mdi-magnify"
+          variant="solo-filled"
+          flat
+          hide-details
+          single-line
+        ></v-text-field>
+
+        <!-- create new popup modal -->
+      </v-toolbar>
+    </template>
+    <template v-slot:item="{ item }">
+      <tr>
+        <td style="text-align: center">{{ item.student_id }}</td>
+        <td style="text-align: center">
+          {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
+          {{ item.extension }}
+          <!-- {{ item.full_name }} -->
+        </td>
+        <td style="text-align: center">{{ item.section }}</td>
+        <td style="text-align: center">{{ item.date }}</td>
+        <td style="text-align: center">Incoming</td>
+        <td
+          :style="{
+            color: getStatusColor(item.enrollment_status),
+            textAlign: 'center',
+          }"
+        >
+          {{ item.enrollment_status }}
+        </td>
+        <td style="text-align: center">
+          <v-btn color="success" size="small" @click="openViewDialog(item)"
+            >
+            <v-icon icon="mdi-paperclip" start></v-icon>
+            Upload</v-btn
+          >
+        </td>
+      </tr>
+    </template>
+
+    <!-- <template v-slot:no-data>
+      <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
+    </template> -->
+  </v-data-table>
+
+  <!-- start of enroll dialog -->
+  <v-dialog v-model="viewDialog" max-width="900px">
+    <v-card>
+      <div style="background-color: var(--dark); color: white;">
+        <v-card-title class="dialog-title fs-3 font-weight-black">
+          UPLOAD DOCUMENT
+        </v-card-title>
+      </div>
+      <v-card-text>
+        <v-container>
+          <v-row dense>
+            <v-col cols="12" md="12" sm="6">
+              <v-file-input
+              label="PSA/Birth Certificate"
+              counter
+              multiple
+              show-size
+            ></v-file-input>
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-file-input
+              label="Good Moral"
+              counter
+              multiple
+              show-size
+            ></v-file-input>
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-file-input
+              label="Form 137/Transcript of Record"
+              counter
+              multiple
+              show-size
+            ></v-file-input>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          class="bg-green"
+          color="white"
+          variant="text"
+          @click="markEnrolled"
+          >Save</v-btn
+        >
+        <v-btn
+          class="bg-red"
+          color="white"
+          variant="text"
+          @click="closeViewDialog"
+          >Cancel</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <!-- end enroll dialog modal pop -->
+</template>
+
+<script>
+import Swal from "sweetalert2";
+import axios from "axios";
+export default {
+  data: () => ({
+    search: "",
+    dialog: false,
+    dialogDelete: false,
+    viewDialog: false,
+    selectedStudent: null,
+    selectedFile: null,
+    headers: [
+      { title: "Student No.", align: "center", key: "student_id" },
+      { title: "Full Name", align: "center", key: "full_name" },
+      { title: "Section", align: "center", key: "section" },
+      { title: "Date Enrolled", align: "center", key: "date" },
+      { title: "Student Status", align: "center", key: "stud_status" },
+      { title: "Enrollment Status", align: "center", key: "enroll_status" },
+      { title: "Actions", align: "center", sortable: false },
+    ],
+
+    // displayedStudents: [
+    //     {
+    //       student_id: '1', 
+    //       full_name:"Jaja",
+    //       section:'St. Anne',
+    //       date:'',
+    //       stud_status:'',
+    //       date:'enroll_status',
+    //     }
+    students: [],
+    editedIndex: -1,
+    editedItem: {
+      student_id: "",
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      extension: "",
+      contact_no: "",
+      birth_date: "",
+      sex_at_birth: "",
+      religion: "",
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      street: "",
+      zip_code: "",
+      sy: "",
+      section: "",
     },
-  
-    computed: {
-      filteredJuniorList() {
-        console.log("Selected Grade:", this.selectedGrade);
-        console.log(
-          "Junior List Grades:",
-          this.juniorList.map((item) => item.grade)
-        );
-        if (!Array.isArray(this.juniorList)) {
-          console.error("juniorList is not an array");
-          return [];
+    defaultItem: {
+      student_id: "",
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      extension: "",
+      contact_no: "",
+      birth_date: "",
+      birth_place: "",
+      sex_at_birth: "",
+      religion: "",
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      street: "",
+      zip_code: "",
+      year: "",
+      section: "",
+    },
+    viewItem: {},
+    formTitle: "",
+  }),
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1
+        ? "ENROLL NEW STUDENT"
+        : "Edit Student Information";
+    },
+    displayedStudents() {
+      const searchTerm = this.search.toLowerCase();
+      return this.students.filter((student) =>
+        Object.values(student).some((value) => value === "Assessed")
+      );
+    },
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+  },
+
+  watch: {
+    "editedItem.grade_level"(newGrade) {
+      if (["7", "8", "9", "10"].includes(newGrade)) {
+        this.editedItem.strand = "N/A";
+      } else {
+        this.editedItem.strand = "";
+      }
+    },
+  },
+
+  mounted() {
+    this.initialize();
+  },
+
+  methods: {
+    initialize() {
+      axios
+        .get("student")
+        .then((res) => {
+          this.students = res.data.student.map((student) => ({
+            ...student,
+            full_name:
+              `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
+          }));
+        })
+        .catch((error) => {
+          console.error("Error fetching students:", error);
+        });
+    },
+
+    watch: {
+      "editedItem.year"(newYear) {
+        const pattern = /^\d{4}-\d{4}$/;
+        if (pattern.test(newYear)) {
+          const years = newYear.split("-");
+          const startYear = parseInt(years[0]);
+          const endYear = parseInt(years[1]);
+
+          if (endYear - startYear === 1) {
+            this.editedItem.year = `${startYear + 1}-${endYear + 1}`;
+          }
         }
-        if (!this.selectedGrade) {
-          return this.juniorList;
-        }
-        return this.juniorList.filter(
-          (item) => item.grade === this.selectedGrade
-        );
       },
     },
-  
-    // Disable to test the static data
-    //   mounted(){
-    //   this.getJuniorData();
-    //   },
-  
-    methods: {
-      async getJuniorData() {
-        try {
-          const response = await api.get("/student");
-          this.juniorList = response.data;
-          console.log(this.juniorList);
-        } catch (error) {
-          console.error("Error fetching items:", error);
-        }
-      },
-  
-      resetGrade() {
-        this.selectedGrade = ""; // Reset selectedGrade to clear the v-select
-      },
-  
-      openViewDialog(item) {
-        this.currentItem = item;
-        this.viewDialog = true;
-      },
-  
-      openAddDialog() {
-        this.addDialog = true;
-      },
-      addNewSchedule() {
-        // Here, you would add logic to handle the new schedule addition
-        // For now, we will just close the dialog and clear newItem
-  
-        this.addDialog = false;
-      },
+
+    // triggerFileInput() {
+    //   this.$refs.fileInput.click();
+    // },
+
+    // handleFileUpload(event) {
+    //   const file = event.target.files[0];
+    //   if (file) {
+    //     this.selectedFile = file;
+    //   }
+    // },
+    close() {
+      this.dialog = false;
+      this.selectedFile = null;
     },
-  };
-  </script>
-  
-  <style lang="scss" scoped>
-  .v-data-table {
-    .v-table__wrapper {
-      padding: 1.5rem;
-  
-      .v-data-table__th {
-        font-size: 17px;
-        font-weight: 800;
-        text-align: center;
+    save() {
+      console.log(this.selectedFile);
+      this.dialog = false;
+      this.selectedFile = null;
+    },
+
+    openViewDialog(item) {
+      this.selectedStudent = item;
+      this.viewDialog = true;
+    },
+
+    closeViewDialog() {
+      console.log("selectedStudent:", this.selectedStudent);
+      this.viewDialog = false;
+      // Clear the selected student data
+    },
+
+    editItem(item) {
+      this.editedIndex = this.students.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+
+    archiveItem(item) {
+      this.editedIndex = this.students.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+
+    deleteItemConfirm() {
+      this.students.splice(this.editedIndex, 1);
+      this.closeDelete();
+    },
+
+    viewItem(item) {
+      this.viewItem = item;
+      this.viewDialog = true;
+    },
+
+    close() {
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    prependCountryCode() {
+      if (!this.editedItem.guardian_mobileno.startsWith("+63")) {
+        this.editedItem.guardian_mobileno = "+63";
       }
-    }
-    .icon {
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      margin: 0.5rem;
-  
-      .view {
-        display: flex;
-        gap: 0.3rem;
-        align-items: center;
-        margin-right: 1rem;
-        color: white;
-        background-color: var(--dark);
-        padding: 0.5rem;
-        border-radius: 5px;
-        cursor: pointer;
+    },
+
+    validateForm() {
+      for (const key in this.editedItem) {
+        if (this.editedItem.hasOwnProperty(key)) {
+          if (this.editedItem[key] === "" || this.editedItem[key] === null) {
+            return false;
+          }
+        }
       }
-  
-      .add {
-        display: flex;
-        gap: 0.3rem;
-        align-items: center;
-        color: white;
-        background-color: green;
-        padding: 0.5rem;
-        border-radius: 5px;
-        cursor: pointer;
+      return true;
+    },
+
+    save() {
+      // if (!this.validateForm()) {
+      //   Swal.fire({
+      //     icon: 'error',
+      //     title: 'Oops...',
+      //     text: 'Please fill in all required fields!',
+      //     customClass: {
+      //       container: 'sweet-alert-container',
+      //     }
+      //   });
+      //   return;
+      // }
+
+      console.log(this.editedItem);
+      if (this.editedIndex > -1) {
+        Object.assign(this.students[this.editedIndex], this.editedItem);
+      } else {
+        let tmp = this.editedItem;
+        this.students.push(this.editedItem);
+        tmp.image = this.selectedFile;
+        // console.log(this.tmp);
+        axios
+          .post("student", tmp)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
       }
-    }
-  }
-  </style>
-  
+      this.close();
+    },
+
+    goView() {
+      this.$router.push("/viewdetails");
+    },
+    getStatusColor(status) {
+      if (status === "Verifying") {
+        return "yellow"; // Set color to yellow if status is 'pending'
+      } else if (status === "Enrolled") {
+        return "green"; // Set color to green if status is 'enrolled'
+      } else {
+        return "red"; // Default color
+      }
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+.v-data-table {
+  height: 100%;
+}
+
+.student-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.v-card-title {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.v-list-item-title {
+  font-weight: bold;
+}
+
+.v-list-item-subtitle {
+  font-size: 1rem;
+  color: #2f3f64;
+}
+
+.close-button:hover {
+  color: red;
+}
+
+.sweet-alert-container {
+  z-index: 9999 !important;
+}
+</style>

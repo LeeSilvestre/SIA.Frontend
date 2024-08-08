@@ -181,6 +181,7 @@
                     ></v-text-field>
                   </v-col>
 
+                  <v-divider></v-divider>
                   <v-container>
                     <label class="fw-regular fs-4 mb-3"
                       >Contact Information</label
@@ -197,6 +198,7 @@
                     </v-row>
                   </v-container>
 
+                  <v-divider></v-divider>
                   <v-container>
                     <label class="fw-regular fs-4 mb-3"
                       >Academic Information</label

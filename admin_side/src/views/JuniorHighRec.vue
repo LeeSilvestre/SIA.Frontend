@@ -42,8 +42,8 @@ import JuniorHighRecord from '../components/JuniorHighRecord.vue';
 export default {
   data() {
     return {
-      activeTab: 'MasterList', // Default active tab
-      tabs: [], // Array to store the open tabs
+      activeTab: 'MasterList', 
+      tabs: [],
     };
   },
   methods: {
