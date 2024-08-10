@@ -4,7 +4,7 @@
       <main class="main-content">
         <div class="top-container">
           <div class="studentProfile">
-            <div class="text">PRE-REGSTRATION PROCESS</div>
+            <div class="text">PRE-REGISTRATION PROCESS</div>
           </div>
         </div>
         <div class="student-table">

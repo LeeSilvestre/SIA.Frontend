@@ -97,13 +97,14 @@
                 </v-row>
 
                 <v-divider></v-divider>
-                <label class="fw-regular fs-4 mb-3">Email and Password Information</label>
+                <label class="fw-regular fs-4 mb-3"
+                  >Email and Password Information</label
+                >
                 <v-row>
                   <v-col cols="12" md="6" sm="6">
                     <v-text-field
                       label="Email Address"
-                      model-value="Doe"
-                      suffix="@sna.edu.ph"
+                      placeholder="Doe@sna.edu.ph"
                       :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
@@ -181,54 +182,54 @@
                   <v-container class="panel-container">
                     <label class="fw-regular fs-4">Panel</label>
                     <br />
-                      <label class="fw-light fs-6">
-                        <strong>Instruction: </strong>Select the panel you want to
-                        assign to the user by clicking the checkbox.
-                      </label>
-                      <v-row>
-                        <v-col cols="12" md="4" sm="4">
-                          <v-checkbox
-                            color="success"
-                            v-model="selectedPanel"
-                            :value="'Admin'"
-                            label="Admin"
-                          ></v-checkbox>
-                          <v-checkbox
-                            color="success"
-                            v-model="selectedPanel"
-                            :value="'Faculty'"
-                            label="Faculty"
-                          ></v-checkbox>
-                        </v-col>
-                        <v-col cols="12" md="4" sm="4">
-                          <v-checkbox
-                            color="success"
-                            v-model="selectedPanel"
-                            :value="'Student Personnel'"
-                            label="Student Personnel"
-                          ></v-checkbox>
-                          <v-checkbox
-                            color="success"
-                            v-model="selectedPanel"
-                            :value="'Encoder'"
-                            label="Encoder"
-                          ></v-checkbox>
-                        </v-col>
-                        <v-col cols="12" md="4" sm="4">
-                          <v-checkbox
-                            color="success"
-                            v-model="selectedPanel"
-                            :value="'Verifier'"
-                            label="Verifier"
-                          ></v-checkbox>
-                          <v-checkbox
-                            color="success"
-                            v-model="selectedPanel"
-                            :value="'Accessor'"
-                            label="Accessor"
-                          ></v-checkbox>
-                        </v-col>
-                      </v-row>
+                    <label class="fw-light fs-6">
+                      <strong>Instruction: </strong>Select the panel you want to
+                      assign to the user by clicking the checkbox.
+                    </label>
+                    <v-row>
+                      <v-col cols="12" md="4" sm="4">
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedPanel"
+                          :value="'Admin'"
+                          label="Admin"
+                        ></v-checkbox>
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedPanel"
+                          :value="'Faculty'"
+                          label="Faculty"
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12" md="4" sm="4">
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedPanel"
+                          :value="'Student Personnel'"
+                          label="Student Personnel"
+                        ></v-checkbox>
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedPanel"
+                          :value="'Encoder'"
+                          label="Encoder"
+                        ></v-checkbox>
+                      </v-col>
+                      <v-col cols="12" md="4" sm="4">
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedPanel"
+                          :value="'Verifier'"
+                          label="Verifier"
+                        ></v-checkbox>
+                        <v-checkbox
+                          color="success"
+                          v-model="selectedPanel"
+                          :value="'Accessor'"
+                          label="Accessor"
+                        ></v-checkbox>
+                      </v-col>
+                    </v-row>
                   </v-container>
                   <!-- end panel checkbox -->
                 </v-container>
@@ -258,7 +259,7 @@
     </template>
 
     <!-- header content -->
-        <template v-slot:item="{ item }">
+    <template v-slot:item="{ item }">
       <tr>
         <td class="text-center">{{ item.employee_id }}</td>
         <td class="text-center">
@@ -267,83 +268,437 @@
           {{ item.middle_name }}
           {{ item.extension }}
         </td>
-        <td class="text-center">{{ item.account_role }}</td>
+        <td class="text-center">{{ item.email }}</td>
         <td class="text-center">{{ item.account_dpt }}</td>
-        <td class="text-center">{{ item.account_panel }}</td>
         <td class="text-center">
-          <v-btn class="ma-2" size="small" color="primary" @click="openViewDialog">
+          <v-btn
+            class="ma-2"
+            size="small"
+            color="primary"
+            @click="openViewDialog"
+          >
             <v-icon icon="mdi-eye" start></v-icon>
             View
+          </v-btn>
+          <v-btn
+            class="ma-2"
+            size="small"
+            color="#D6E200"
+            @click="openEditDialog"
+          >
+            <v-icon icon="mdi-pencil" start></v-icon>
+            Edit
           </v-btn>
         </td>
       </tr>
     </template>
 
-
     <!-- end of header content -->
   </v-data-table>
 
   <!-- view user status modal pop -->
-  <v-dialog v-model="viewDialog" max-width="800">
+  <v-dialog v-model="viewDialog" max-width="1000">
     <v-card>
       <div style="background-color: var(--dark); color: white">
         <v-card-title class="dialog-title fs-3 font-weight-black">
           FACULTY INFORMATION
         </v-card-title>
       </div>
-
       <v-card-text>
         <v-container>
+          <label class="fw-regular fs-4 mb-3">Personal Information</label>
           <v-row dense>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="selectedStudent.employee_id"
-                label="Employee ID"
+                v-model="selectedStudent.last_name"
+                label="Last Name"
                 readonly
-              ></v-text-field>
+              >
+              </v-text-field>
             </v-col>
+
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="selectedStudent.panel"
-                label="Panel"
+                v-model="selectedStudent.first_name"
+                label="First Name"
                 readonly
-              ></v-text-field>
+              >
+              </v-text-field>
             </v-col>
-            <v-col cols="12" md="12" sm="6">
+
+            <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="selectedStudent.full_name"
-                label="Full Name"
+                v-model="selectedStudent.middle_name"
+                label="Middle Name"
+              >
+              </v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.extension_name"
+                label="Extension Name"
                 readonly
-              ></v-text-field>
+              >
+              </v-text-field>
             </v-col>
-            <v-col cols="12" md="12" sm="6">
+          </v-row>
+
+          <v-divider></v-divider>
+          <label class="fw-regular fs-4 mb-3"
+            >Email and Password Information</label
+          >
+          <v-row>
+            <v-col cols="12" md="6" sm="6">
               <v-text-field
+                label="Email Address"
+                model-value="Doe"
                 v-model="selectedStudent.email"
-                label="Email"
                 readonly
               ></v-text-field>
             </v-col>
+
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="selectedStudent.account_role"
-                label="Role"
-                readonly
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.account_dpt"
-                label="Deparment"
+                v-model="selectedStudent.password"
+                label="Password"
                 readonly
               ></v-text-field>
             </v-col>
           </v-row>
+          <v-divider></v-divider>
+          <!-- checkbox -->
+          <v-container class="role-panel-wrapper">
+            <!-- role and deparment checkbox -->
+            <v-container class="role-container">
+              <label class="fw-regular fs-4">Role and Department</label>
+              <br />
+              <label class="fw-light fs-6">
+                <strong>Instruction: </strong>Select the role you want to assign
+                to the user by clicking the checkbox.
+              </label>
+              <v-row>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Admin'"
+                    label="Admin"
+                    readonly
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Faculty'"
+                    label="Faculty"
+                    readonly
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Student Personnel'"
+                    label="Student Personnel"
+                    readonly
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Encoder'"
+                    label="Encoder"
+                    readonly
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Verifier'"
+                    label="Verifier"
+                    readonly
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Accessor'"
+                    label="Accessor"
+                    readonly
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+            </v-container>
+            <!-- end role and deparment checkbox -->
+
+            <!-- panel checkbox -->
+            <v-container class="panel-container">
+              <label class="fw-regular fs-4">Panel</label>
+              <br />
+              <label class="fw-light fs-6">
+                <strong>Instruction: </strong>Select the panel you want to
+                assign to the user by clicking the checkbox.
+              </label>
+              <v-row>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.panel"
+                    :value="'Admin'"
+                    label="Admin"
+                    readonly
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Faculty'"
+                    label="Faculty"
+                    readonly
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Student Personnel'"
+                    label="Student Personnel"
+                    readonly
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Encoder'"
+                    label="Encoder"
+                    readonly
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Verifier'"
+                    label="Verifier"
+                    readonly
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Accessor'"
+                    label="Accessor"
+                    readonly
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+            </v-container>
+            <!-- end panel checkbox -->
+          </v-container>
+
+          <!-- checkbox -->
         </v-container>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn class="bg-blue" color="white" variant="text" @click="edit"
-          >Edit</v-btn
+
+        <v-btn
+          class="bg-red"
+          color="white"
+          variant="text"
+          @click="closeViewDialog"
+          >Cancel</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+  <!-- end of VIEW dialog -->
+  <v-dialog v-model="editDialog" max-width="1000">
+    <v-card>
+      <div style="background-color: var(--dark); color: white">
+        <v-card-title class="dialog-title fs-3 font-weight-black">
+          FACULTY INFORMATION
+        </v-card-title>
+      </div>
+      <v-card-text>
+        <v-container>
+          <label class="fw-regular fs-4 mb-3">Personal Information</label>
+          <v-row dense>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.last_name"
+                label="Last Name"
+              >
+              </v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.first_name"
+                label="First Name"
+              >
+              </v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.middle_name"
+                label="Middle Name"
+              >
+              </v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.extension_name"
+                label="Extension Name"
+              >
+              </v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-divider></v-divider>
+          <label class="fw-regular fs-4 mb-3"
+            >Email and Password Information</label
+          >
+          <v-row>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                label="Email Address"
+                model-value="Doe"
+                v-model="selectedStudent.email"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.password"
+                label="Password"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-divider></v-divider>
+          <!-- checkbox -->
+          <v-container class="role-panel-wrapper">
+            <!-- role and deparment checkbox -->
+            <v-container class="role-container">
+              <label class="fw-regular fs-4">Role and Department</label>
+              <br />
+              <label class="fw-light fs-6">
+                <strong>Instruction: </strong>Select the role you want to assign
+                to the user by clicking the checkbox.
+              </label>
+              <v-row>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Admin'"
+                    label="Admin"
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Faculty'"
+                    label="Faculty"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Student Personnel'"
+                    label="Student Personnel"
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Encoder'"
+                    label="Encoder"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Verifier'"
+                    label="Verifier"
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Accessor'"
+                    label="Accessor"
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+            </v-container>
+            <!-- end role and deparment checkbox -->
+
+            <!-- panel checkbox -->
+            <v-container class="panel-container">
+              <label class="fw-regular fs-4">Panel</label>
+              <br />
+              <label class="fw-light fs-6">
+                <strong>Instruction: </strong>Select the panel you want to
+                assign to the user by clicking the checkbox.
+              </label>
+              <v-row>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.panel"
+                    :value="'Admin'"
+                    label="Admin"
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Faculty'"
+                    label="Faculty"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Student Personnel'"
+                    label="Student Personnel"
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Encoder'"
+                    label="Encoder"
+                  ></v-checkbox>
+                </v-col>
+                <v-col cols="12" md="4" sm="4">
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Verifier'"
+                    label="Verifier"
+                  ></v-checkbox>
+                  <v-checkbox
+                    color="success"
+                    v-model="selectedStudent.role"
+                    :value="'Accessor'"
+                    label="Accessor"
+                  ></v-checkbox>
+                </v-col>
+              </v-row>
+            </v-container>
+            <!-- end panel checkbox -->
+          </v-container>
+
+          <!-- checkbox -->
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+
+        <v-btn
+          class="bg-green"
+          color="white"
+          variant="text"
+          @click="saveChanges"
+          >Save Changes</v-btn
         >
 
         <v-btn
@@ -370,14 +725,14 @@ export default {
     email: "", // for email input
     dialogDelete: false,
     viewDialog: false,
+    editDialog: false,
     selectedStudent: null,
     selectedFile: null,
     headers: [
       { title: "Employee ID", align: "center", key: "employee_id" },
       { title: "Full Name", align: "center", key: "full_name" },
-      { title: "Role", align: "center", key: "account_role" },
+      { title: "Email", align: "center", key: "email" },
       { title: "Department", align: "center", key: "account_dpt" },
-      { title: "Panel", align: "center", key: "account_panel" },
       { title: "Actions", align: "center", sortable: false },
     ],
 
@@ -493,6 +848,38 @@ export default {
         }
       });
     },
+
+    saveChanges() {
+      Swal.fire({
+        title: "Do you want to save the changes?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        customClass: {
+          container: "sweet-alert-container",
+        },
+        denyButtonText: `Don't save`,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire({
+            title: "Saved!",
+            icon: "success",
+            customClass: {
+              container: "sweet-alert-container",
+            },
+          });
+        } else if (result.isDenied) {
+          Swal.fire({
+            title: "Changes are not saved",
+            icon: "info",
+            customClass: {
+              container: "sweet-alert-container",
+            },
+          });
+        }
+      });
+    },
+
     save() {
       console.log("User saved:", this.editedItem);
       this.dialog = false;
@@ -502,6 +889,11 @@ export default {
       this.viewDialog = true;
     },
 
+    openEditDialog(item) {
+      this.selectedStudent = item;
+      this.editDialog = true;
+    },
+
     save() {
       // Handle the save action, including the selected file if needed
       console.log(this.selectedFile);
@@ -509,14 +901,15 @@ export default {
       this.selectedFile = null;
     },
 
-    openViewDialog(item) {
-      this.selectedStudent = item;
-      this.viewDialog = true;
+    closeViewDialog() {
+      console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent
+      this.viewDialog = false;
+      // Clear the selected student data
     },
 
     closeViewDialog() {
       console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent
-      this.viewDialog = false;
+      this.editDialog = false;
       // Clear the selected student data
     },
 
@@ -662,7 +1055,6 @@ export default {
 
 .sweet-alert-container {
   z-index: 9999 !important;
-  /* Ensures the alert is on top of other elements */
 }
 
 .role-container,

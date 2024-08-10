@@ -67,7 +67,7 @@ export default {
       { title: "LRN", align: "start", key: "student_lrn" },
       { title: "Grade Level", align: "start", key: "grade_level" },
       { title: "Strand", align: "start", key: "strand" },
-      { title: "View Detail", align: "start", sortable: false },
+      { title: "Actions", align: "start", sortable: false },
     ],
     students: [],
     value: [],

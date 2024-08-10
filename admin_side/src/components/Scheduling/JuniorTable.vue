@@ -362,7 +362,6 @@ export default {
       display: flex;
       gap: 0.3rem;
       align-items: center;
-      margin-right: 1rem;
       color: white;
       background-color: var(--dark);
       padding: 0.5rem;
@@ -376,6 +375,8 @@ export default {
       color: white;
       background-color: green;
       margin-left: 1rem;
+      padding: 0.5rem;
+      border-radius: 5px;
     }
 
     .add:hover {

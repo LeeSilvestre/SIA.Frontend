@@ -77,6 +77,7 @@
           <v-row dense>
             <v-col cols="12" md="12" sm="6">
               <v-file-input
+              v-model="editedItem.psa"
               label="PSA/Birth Certificate"
               counter
               multiple
@@ -85,6 +86,7 @@
             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-file-input
+              v-model="editedItem.goodMoral"
               label="Good Moral"
               counter
               multiple
@@ -93,6 +95,7 @@
             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-file-input
+              v-model="editedItem.tor"
               label="Form 137/Transcript of Record"
               counter
               multiple

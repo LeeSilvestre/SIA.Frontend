@@ -4,9 +4,9 @@
       <template v-slot:item.1>
         <v-card flat>
           <v-card-title>PRE-REGISTRATION GUIDELINES</v-card-title>
-          <v-card-title>PRE-REGISTRATION GUIDELINES</v-card-title>
           <v-card-text>
             <h1>Here are the guidelines...</h1>
+            <pdf src="../assets/enrollment.pdf" />
           </v-card-text>
         </v-card>
       </template>
@@ -245,8 +245,12 @@
 
 <script>
 import axios from 'axios';
+import pdf from "vue-pdf";
 
 export default {
+  components: {
+    pdf,
+  },
   data: () => ({
     valid: false,
     studnet_lrn: "",

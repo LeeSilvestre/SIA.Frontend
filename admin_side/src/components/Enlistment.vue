@@ -234,7 +234,7 @@
                 color="bwhite"
                 variant="text"
                 @click="save"
-                >Apply</v-btn
+                >Save</v-btn
               >
               <v-btn class="bg-red" color="white" variant="text" @click="close"
                 >Cancel</v-btn
@@ -282,7 +282,7 @@
               class="no-gap-button"
               size="small"
               color="#D6E200"
-              @click="edit"
+              @click="openEditDialog"
             >
               <v-icon icon="mdi-pencil" start></v-icon>
               Edit
@@ -301,73 +301,188 @@
   </v-data-table>
 
   <!-- view user status modal pop -->
-  <v-dialog v-model="viewDialog" max-width="800">
+  <v-dialog v-model="viewDialog" max-width="1000px">
     <v-card>
       <div style="background-color: var(--dark); color: white">
         <v-card-title class="dialog-title fs-3 font-weight-black">
           STUDENT INFORMATION
         </v-card-title>
       </div>
-
       <v-card-text>
         <v-container>
+          <label class="fw-regular fs-4 mb-3">Personal Information</label>
           <v-row dense>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.student_id"
-                label="Student ID"
-                readonly
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.student_lrn"
-                label="LRN"
-                readonly
-              ></v-text-field>
-            </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-text-field
-                v-model="selectedStudent.full_name"
-                label="Full Name"
+                v-model="selectedStudent.last_name"
+                label="Last Name"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+
+            <v-col cols="12" md="12" sm="6">
               <v-text-field
-                v-model="selectedStudent.contact_no"
-                label="Contact Number"
+                v-model="selectedStudent.first_name"
+                label="First Name"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+
+            <v-col cols="12" md="12" sm="6">
               <v-text-field
+                v-model="selectedStudent.middle_name"
+                label="Middle Name"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="selectedStudent.extension"
+                label="Extension Name"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.birth_date"
+                label="Date of Birth dd/mm/yy"
+                type="date"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-select
                 v-model="selectedStudent.sex_at_birth"
-                label="Sex"
+                :items="['Male', 'Female']"
+                label="SEX"
                 readonly
-              ></v-text-field>
+              ></v-select>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.birth_place"
-                label="Birthplace"
-                readonly
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
+
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.religion"
                 label="Religion"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="12" sm="6">
+
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.street"
-                label="Address"
+                v-model="selectedStudent.houseNumber"
+                label="House Number"
                 readonly
               ></v-text-field>
             </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.street"
+                label="Street"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.barangay"
+                label="Barangay"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.city"
+                label="City/Municipality"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.province"
+                label="Province"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-select
+                v-model="selectedStudent.region"
+                :items="[
+                  'Region I',
+                  'Region II',
+                  'Region III',
+                  'Region IV-A',
+                  'Region IV-B',
+                  'Region V',
+                  'Region VI',
+                  'Region VII',
+                  'Region VIII',
+                  'Region IX',
+                  'Region X',
+                  'Region XI',
+                  'Region XII',
+                  'Region XIII',
+                  'BARMM',
+                  'CAR',
+                ]"
+                label="Region"
+                readonly
+              ></v-select>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.zip_code"
+                label="Zip Code"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-divider></v-divider>
+            <v-container>
+              <label class="fw-regular fs-4 mb-3">Contact Information</label>
+
+              <v-row dense>
+                <v-col cols="12" md="6" sm="6">
+                  <v-text-field
+                    v-model="selectedStudent.contact_no"
+                    label="Contact no."
+                    readonly
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+
+            <v-divider></v-divider>
+            <v-container>
+              <label class="fw-regular fs-4 mb-3">Academic Information</label>
+
+              <v-row dense>
+                <v-col cols="12" md="6" sm="6">
+                  <v-select
+                    v-model="selectedStudent.grade_level"
+                    :items="['7', '8', '9', '10']"
+                    label="Grade Level Applying"
+                    readonly
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" md="6" sm="6">
+                  <v-text-field
+                    v-model="selectedStudent.student_lrn"
+                    label="LRN"
+                    readonly
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+
+            <!-- other info -->
           </v-row>
         </v-container>
       </v-card-text>
@@ -383,9 +498,200 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <!-- Edit modal pop -->
+
+  <v-dialog v-model="editDialog" max-width="1000px">
+    <v-card>
+      <div style="background-color: var(--dark); color: white">
+        <v-card-title class="dialog-title fs-3 font-weight-black">
+          STUDENT INFORMATION
+        </v-card-title>
+      </div>
+      <v-card-text>
+        <v-container>
+          <label class="fw-regular fs-4 mb-3">Personal Information</label>
+          <v-row dense>
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="selectedStudent.last_name"
+                label="Last Name"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="selectedStudent.first_name"
+                label="First Name"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="selectedStudent.middle_name"
+                label="Middle Name"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="12" sm="6">
+              <v-text-field
+                v-model="selectedStudent.extension"
+                label="Extension Name"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.birth_date"
+                label="Date of Birth dd/mm/yy"
+                type="date"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-select
+                v-model="selectedStudent.sex_at_birth"
+                :items="['Male', 'Female']"
+                label="Sex"
+              ></v-select>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.religion"
+                label="Religion"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.houseNumber"
+                label="House Number"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.street"
+                label="Street"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.barangay"
+                label="Barangay"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.city"
+                label="City/Municipality"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.province"
+                label="Province"
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-select
+                v-model="selectedStudent.region"
+                :items="[
+                  'Region I',
+                  'Region II',
+                  'Region III',
+                  'Region IV-A',
+                  'Region IV-B',
+                  'Region V',
+                  'Region VI',
+                  'Region VII',
+                  'Region VIII',
+                  'Region IX',
+                  'Region X',
+                  'Region XI',
+                  'Region XII',
+                  'Region XIII',
+                  'BARMM',
+                  'CAR',
+                ]"
+                label="Region"
+              ></v-select>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.zip_code"
+                label="Zip Code"
+              ></v-text-field>
+            </v-col>
+
+            <v-divider></v-divider>
+            <v-container>
+              <label class="fw-regular fs-4 mb-3">Contact Information</label>
+
+              <v-row dense>
+                <v-col cols="12" md="6" sm="6">
+                  <v-text-field
+                    v-model="selectedStudent.contact_no"
+                    label="Contact no."
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+
+            <v-divider></v-divider>
+            <v-container>
+              <label class="fw-regular fs-4 mb-3">Academic Information</label>
+
+              <v-row dense>
+                <v-col cols="12" md="6" sm="6">
+                  <v-select
+                    v-model="selectedStudent.grade_level"
+                    :items="['7', '8', '9', '10']"
+                    label="Grade Level Applying"
+                  ></v-select>
+                </v-col>
+                <v-col cols="12" md="6" sm="6">
+                  <v-text-field
+                    v-model="selectedStudent.student_lrn"
+                    label="LRN"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-container>
+
+            <!-- other info -->
+          </v-row>
+        </v-container>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          class="bg-green"
+          color="bwhite"
+          variant="text"
+          @click="saveChanges"
+          >Save Changes</v-btn
+        >
+        <v-btn
+          class="bg-red"
+          color="white"
+          variant="text"
+          @click="closeEditDialog"
+          >Cancel</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
+import Swal from "sweetalert2";
 import axios from "axios";
 export default {
   data: () => ({
@@ -393,6 +699,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     viewDialog: false,
+    editDialog: false,
     selectedStudent: null,
     selectedFile: null,
     headers: [
@@ -527,14 +834,93 @@ export default {
       this.selectedFile = null;
     },
 
+    async saveChanges() {
+      try {
+        const result = await Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert these changes!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, save changes!",
+          customClass: {
+            container: "sweet-alert-container",
+          },
+        });
+
+        if (result.isConfirmed) {
+          // Save changes logic here
+          Swal.fire("Saved!", "Your changes have been saved.", "success");
+          this.editDialog = false;
+        }
+      } catch (error) {
+        Swal.fire("Error!", "There was an error saving your changes.", "error");
+      }
+    },
+
+    // async save() {
+    //   Swal.fire({
+    //     title: "Are you sure?",
+    //     text: "Do you want to save this user?",
+    //     icon: "warning",
+    //     showCancelButton: true,
+    //     confirmButtonColor: "#3085d6",
+    //     cancelButtonColor: "#d33",
+    //     confirmButtonText: "Yes, save it!",
+    //     cancelButtonText: "No, cancel!",
+    //     customClass: {
+    //       container: "sweet-alert-container",
+    //     },
+    //   }).then((result) => {
+    //     if (result.isConfirmed) {
+    //       this.save();
+    //       Swal.fire("Saved!", "User has been saved.", "success");
+    //     } else {
+    //       Swal.fire("Cancelled", "User was not saved.", "error");
+    //     }
+    //   });
+    // },
+
+    async close() {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'All unsaved changes will be lost.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, discard changes!',
+        cancelButtonText: 'No, keep editing',
+        customClass: {
+          container: "sweet-alert-container",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.close(); // or any other method to handle cancellation
+        }
+      });
+    },
+
     openViewDialog(item) {
       this.selectedStudent = item;
       this.viewDialog = true;
     },
 
+    openEditDialog(item) {
+      this.selectedStudent = item;
+      this.editDialog = true;
+    },
+
     closeViewDialog() {
       console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent
       this.viewDialog = false;
+      // Clear the selected student data
+    },
+
+    closeEditDialog() {
+      console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent
+      this.editDialog = false;
       // Clear the selected student data
     },
 
@@ -555,13 +941,13 @@ export default {
       this.closeDelete();
     },
 
-    close() {
-      this.dialog = false;
-      this.$nextTick(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      });
-    },
+    // close() {
+    //   this.dialog = false;
+    //   this.$nextTick(() => {
+    //     this.editedItem = Object.assign({}, this.defaultItem);
+    //     this.editedIndex = -1;
+    //   });
+    // },
 
     closeDelete() {
       this.dialogDelete = false;
@@ -571,25 +957,72 @@ export default {
       });
     },
 
+    // save() {
+    //   console.log(this.editedItem);
+    //   if (this.editedIndex > -1) {
+    //     Object.assign(this.students[this.editedIndex], this.editedItem);
+    //   } else {
+    //     let tmp = this.editedItem;
+    //     this.students.push(this.editedItem);
+    //     tmp.image = this.selectedFile;
+    //     // console.log(this.tmp);
+    //     axios
+    //       .post("student", tmp)
+    //       .then((res) => {
+    //         console.log(res);
+    //       })
+    //       .catch((error) => {
+    //         console.error(error);
+    //       });
+    //   }
+    //   this.close();
+    // },
+
     save() {
-      console.log(this.editedItem);
-      if (this.editedIndex > -1) {
-        Object.assign(this.students[this.editedIndex], this.editedItem);
-      } else {
-        let tmp = this.editedItem;
-        this.students.push(this.editedItem);
-        tmp.image = this.selectedFile;
-        // console.log(this.tmp);
-        axios
-          .post("student", tmp)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      }
-      this.close();
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "Do you want to save this student?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, save it!',
+        customClass: {
+          container: "sweet-alert-container",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          console.log(this.editedItem);
+          if (this.editedIndex > -1) {
+            // Update existing student
+            Object.assign(this.students[this.editedIndex], this.editedItem);
+          } else {
+            // Add new student
+            let tmp = this.editedItem;
+            this.students.push(this.editedItem);
+            tmp.image = this.selectedFile;
+            axios
+              .post("student", tmp)
+              .then((res) => {
+                Swal.fire(
+                  'Saved!',
+                  'Student has been saved.',
+                  'success'
+                );
+                console.log(res);
+              })
+              .catch((error) => {
+                Swal.fire(
+                  'Error!',
+                  'Student was not saved.',
+                  'error'
+                );
+                console.error(error);
+              });
+          }
+          this.close();
+        }
+      });
     },
 
     goView() {
@@ -655,8 +1088,13 @@ export default {
 .close-button:hover {
   color: red;
 }
+
 .button-container {
   display: flex;
   gap: 7px;
+}
+
+.sweet-alert-container {
+  z-index: 9999 !important;
 }
 </style>
