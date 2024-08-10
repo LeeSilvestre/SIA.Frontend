@@ -705,7 +705,7 @@
           class="bg-red"
           color="white"
           variant="text"
-          @click="closeViewDialog"
+          @click="closeEditDialog"
           >Cancel</v-btn
         >
       </v-card-actions>
@@ -907,7 +907,7 @@ export default {
       // Clear the selected student data
     },
 
-    closeViewDialog() {
+    closeEditDialog() {
       console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent
       this.editDialog = false;
       // Clear the selected student data
