@@ -606,27 +606,42 @@ export default {
     },
 
     confirmSave() {
+  Swal.fire({
+    title: "Are you sure?",
+    text: "Do you want to save this user?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Yes, save it!",
+    cancelButtonText: "No, cancel!",
+    customClass: {
+      container: "sweet-alert-container",
+    },
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.save();
       Swal.fire({
-        title: "Are you sure?",
-        text: "Do you want to save this user?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, save it!",
-        cancelButtonText: "No, cancel!",
+        title: "Saved!",
+        text: "User has been saved.",
+        icon: "success",
         customClass: {
           container: "sweet-alert-container",
         },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.save();
-          Swal.fire("Saved!", "User has been saved.", "success");
-        } else {
-          Swal.fire("Cancelled", "User was not saved.", "error");
-        }
       });
-    },
+    } else {
+      Swal.fire({
+        title: "Cancelled",
+        text: "User was not saved.",
+        icon: "error",
+        customClass: {
+          container: "sweet-alert-container",
+        },
+      });
+    }
+  });
+},
+
 
     saveChanges() {
       Swal.fire({
