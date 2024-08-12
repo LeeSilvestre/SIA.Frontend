@@ -35,8 +35,8 @@
         <td>{{ item.adviser }}</td>
         <td>
           <div class="icon">
-            <span @click="openViewDialog(item)" class="view"><v-icon>mdi-eye</v-icon>View</span>
-            <span @click="openAddDialog(item)" class="add"><v-icon>mdi-plus-circle</v-icon>Add</span>
+            <span @click="openViewDialog(item)" class="view" style="cursor: pointer"><v-icon>mdi-eye</v-icon>View</span>
+            <span @click="openAddDialog(item)" class="add" style="cursor: pointer"><v-icon>mdi-plus-circle</v-icon>Add</span>
           </div>
         </td>
       </tr>
@@ -275,6 +275,9 @@ export default {
           icon: "success",
           title: "Schedule Added",
           text: "The new schedule has been added successfully!",
+          customClass: {
+            container: "sweet-alert"
+          }
         });
 
         // Reset the newItem object

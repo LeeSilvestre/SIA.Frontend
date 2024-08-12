@@ -92,7 +92,7 @@
                     <v-select
                       v-model="editedItem.sex_at_birth"
                       :items="['Male', 'Female']"
-                      label="SEX"
+                      label="Sex  "
                       required
                     ></v-select>
                   </v-col>
@@ -331,8 +331,12 @@
         </td>
 
         <td>
-          <v-btn class="ma-2" color="primary" @click="openViewDialog"
-          size=small>
+          <v-btn
+            class="ma-2"
+            color="primary"
+            @click="openViewDialog"
+            size="small"
+          >
             <v-icon icon="mdi-eye" start></v-icon>
             View
           </v-btn>
@@ -361,77 +365,196 @@
   </v-data-table>
 
   <!-- view user status modal pop -->
-  <v-dialog v-model="viewDialog" max-width="800">
+  <v-dialog v-model="viewDialog" max-width="1000px">
     <v-card>
       <div style="background-color: var(--dark); color: white">
         <v-card-title class="dialog-title fs-3 font-weight-black">
           STUDENT INFORMATION
         </v-card-title>
       </div>
-
       <v-card-text>
         <v-container>
+          <label class="fw-bold fs-5 mb-3">Personal Information</label>
           <v-row dense>
-            <v-col cols="12" md="4" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.student_id"
                 label="Student ID"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="4" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.student_lrn"
                 label="LRN"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="4" sm="6">
+
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.grade_level"
-                label="Grade Level"
+                v-model="selectedStudent.last_name"
+                label="Last Name"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="12" sm="6">
+
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.full_name"
-                label="Full Name"
+                v-model="selectedStudent.first_name"
+                label="First Name"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.middle_name"
+                label="Middle Name"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.contact_no"
-                label="Contact Number"
+                label="Contact no."
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.birth_date"
+                label="Date of Birth dd/mm/yy"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.sex_at_birth"
                 label="Sex"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.birth_place"
-                label="Birthplace"
-                readonly
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
+
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.religion"
                 label="Religion"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="12" sm="6">
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.region"
+                label="Region"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.province"
+                label="Province"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.city"
+                label="City"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-select
+                v-model="selectedStudent.barangay"
+                label="Barangay"
+                readonly
+              ></v-select>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.street"
-                label="Address"
+                label="Street"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.houseNumber"
+                label="House Number"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.zip_code"
+                label="Zip Code"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <!-- other info -->
+          </v-row>
+          <hr />
+          <label class="fw-bold fs-5 mb-3">Contact Information</label>
+          <v-row>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.contact_no"
+                label="Contact no."
+                readonly
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <hr />
+          <label class="fw-bold fs-5 mb-3">Academic Information</label>
+          <v-row>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.adviser_id"
+                label="Adviser"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.section"
+                label="Section"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <!-- <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.strand"
+                label="Strand"
+                readonly
+              ></v-text-field>
+            </v-col> -->
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.grade_level"
+                label="Grade Level"
+                readonly
+              ></v-text-field>
+            </v-col>
+
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.year"
+                label="S.Y."
                 readonly
               ></v-text-field>
             </v-col>
@@ -440,7 +563,6 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-
         <v-btn
           class="bg-red"
           color="white"
@@ -451,6 +573,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
   <!-- end view user status modal pop -->
 </template>
 
@@ -471,8 +594,9 @@ export default {
       { title: "Full Name", align: "start", key: "full_name" },
       { title: "Gender", align: "start", key: "sex_at_birth" },
       { title: "Grade Level", align: "start", key: "grade_lvl" },
+      { title: "Date Enrolled", align: "start", key: "date_enrolled" },
       { title: "Student Status", align: "start", key: "stud_status" },
-      { title: "Enrollment Status", align: "start", key: "enrol_status" },
+      { title: "Status", align: "start", key: "enrol_status" },
       { title: "Actions", sortable: false, align: "start" },
     ],
 

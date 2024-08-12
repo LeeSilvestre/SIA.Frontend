@@ -53,7 +53,7 @@ export default {
       if (existingTab) {
         this.activeTab = existingTab.id; // Switch to the existing tab
       } else {
-        if (this.tabs.length < 4) {
+        if (this.tabs.length < 6) {
           const newTab = {
             id: `Information-${student.student_id || new Date().getTime()}`, // Ensure id is unique
             student: student

@@ -79,8 +79,8 @@
         </v-card-title>
       </div>
       <v-card-text>
-        <label class="fw-regular fs-5">Personal Information</label>
         <v-container>
+          <label class="fw-bold fs-5 mb-3">Personal Information</label>
           <v-row dense>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
@@ -189,7 +189,7 @@
             </v-col>
           </v-row>
           <hr />
-          <label class="fw-regular mb-3 fs-5">Academic Information</label>
+          <label class="fw-bold fs-5 mb-3"">Academic Information</label>
           <v-row>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
@@ -233,7 +233,7 @@
             </v-col>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.grade_level"
+                v-model="editedItem.grade_level"
                 label="Grade level"
                 readonly
               ></v-text-field>
@@ -266,7 +266,7 @@
           color="white"
           variant="text"
           @click="markEnrolled(selectedStudent.student_recno)"
-          >Mark as Enrolled</v-btn
+          >Enroll Student</v-btn
         >
         <v-btn
           class="bg-red"
@@ -287,8 +287,8 @@
         </v-card-title>
       </div>
       <v-card-text>
-        <label class="fw-regular fs-5">Personal Information</label>
         <v-container>
+          <label class="fw-bold fs-5 mb-3">Personal Information</label>
           <v-row dense>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
@@ -397,7 +397,7 @@
             </v-col>
           </v-row>
           <hr />
-          <label class="fw-regular mb-3 fs-5">Academic Information</label>
+          <label class="fw-bold fs-5 mb-3">Academic Information</label>
           <v-row>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
@@ -406,39 +406,11 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="3" sm="6">
-              <v-select
+              <v-text-field
                 v-model="selectedStudent.section"
-                :items="[
-                  'St. Anne',
-                  'St. Bernadette',
-                  'St. Charles',
-                  'St. Elizabeth',
-                  'St. Faustina',
-                  'St. George',
-                  'St. Pedro Calungsod',
-                  'St. Lorenzo Ruiz',
-                  'St. Gabriel',
-                  'St. Michael',
-                  'St. Raphael',
-                  'St. Patrick',
-                  'St. Scholastica',
-                  'St. Homobonus',
-                  'St. Helena',
-                  'St. Louise',
-                  'St. Stephen',
-                  'St. Vincent',
-                  'St. Catherine',
-                  'St. Albertus',
-                  'St. Benedict',
-                  'St. Maximillian',
-                  'St. Peter',
-                  'St. Thomas',
-                  'St. Isidore',
-                  'St. Joseph',
-                ]"
                 label="Section"
                 readonly
-              ></v-select>
+              ></v-text-field>
             </v-col>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
@@ -453,12 +425,11 @@
               md="3"
               sm="6"
             >
-              <v-select
+              <v-text-field
                 v-model="selectedStudent.strand"
-                :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
                 label="Strand"
                 readonly
-              ></v-select>
+              ></v-text-field> 
             </v-col>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
@@ -469,7 +440,7 @@
             </v-col>
           </v-row>
           <hr />
-          <label class="fw-regular mb-3 fs-5">Document Information</label>
+          <label class="fw-bold fs-5 mb-3">Document Information</label>
           <v-row>
             <v-col cols="12" md="12" sm="6">
               <v-row align="center">
@@ -582,9 +553,9 @@ export default {
     fileUrl: BGImage, // Use your local image here
     headers: [
       { title: "Full Name", align: "center", key: "full_name" },
-      { title: "Grade", align: "center", key: "grade_level" },
       { title: "Student Status", align: "center", key: "stud_status" },
-      { title: "Enrollment Status", align: "center", key: "enrollment_status" },
+      { title: "Grade", align: "center", key: "grade_level" },
+      { title: "Status", align: "center", key: "enrollment_status" },
       { title: "Actions", align: "center", sortable: false },
     ],
     lname: "",

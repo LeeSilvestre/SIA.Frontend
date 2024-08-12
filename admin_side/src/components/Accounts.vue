@@ -53,7 +53,7 @@
             </div>
             <v-card-text>
               <v-container>
-                <label class="fw-regular fs-4 mb-3">Personal Information</label>
+                <label class="fw-bold fs-5 mb-3">Personal Information</label>
                 <v-row dense>
                   <v-col cols="12" md="6" sm="6">
                     <v-text-field
@@ -97,7 +97,7 @@
                 </v-row>
 
                 <v-divider></v-divider>
-                <label class="fw-regular fs-4 mb-3"
+                <label class="fw-bold fs-5 mb-3"
                   >Email and Password Information</label
                 >
                 <v-row>
@@ -125,7 +125,7 @@
                 <v-container class="role-panel-wrapper">
                   <!-- role and deparment checkbox -->
                   <v-container class="role-container">
-                    <label class="fw-regular fs-4">Role and Department</label>
+                    <label class="fw-bold fs-5 mb-3">Role and Department</label>
                     <br />
                     <label class="fw-light fs-6">
                       <strong>Instruction: </strong>Select the role you want to
@@ -180,7 +180,7 @@
 
                   <!-- panel checkbox -->
                   <v-container class="panel-container">
-                    <label class="fw-regular fs-4">Panel</label>
+                    <label class="fw-bold fs-5 mb-3">Panel</label>
                     <br />
                     <label class="fw-light fs-6">
                       <strong>Instruction: </strong>Select the panel you want to
@@ -306,7 +306,7 @@
       </div>
       <v-card-text>
         <v-container>
-          <label class="fw-regular fs-4 mb-3">Personal Information</label>
+          <label class="fw-bold fs-5 mb-3">Personal Information</label>
           <v-row dense>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
@@ -345,7 +345,7 @@
           </v-row>
 
           <v-divider></v-divider>
-          <label class="fw-regular fs-4 mb-3"
+          <label class="fw-bold fs-5 mb-3"
             >Email and Password Information</label
           >
           <v-row>
@@ -371,7 +371,7 @@
           <v-container class="role-panel-wrapper">
             <!-- role and deparment checkbox -->
             <v-container class="role-container">
-              <label class="fw-regular fs-4">Role and Department</label>
+              <label class="fw-bold fs-5 mb-3">Role and Department</label>
               <br />
               <label class="fw-light fs-6">
                 <strong>Instruction: </strong>Select the role you want to assign
@@ -432,7 +432,7 @@
 
             <!-- panel checkbox -->
             <v-container class="panel-container">
-              <label class="fw-regular fs-4">Panel</label>
+              <label class="fw-bold fs-5 mb-3">Panel</label>
               <br />
               <label class="fw-light fs-6">
                 <strong>Instruction: </strong>Select the panel you want to
@@ -518,7 +518,7 @@
       </div>
       <v-card-text>
         <v-container>
-          <label class="fw-regular fs-4 mb-3">Personal Information</label>
+          <label class="fw-bold fs-5 mb-3">Personal Information</label>
           <v-row dense>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
@@ -554,7 +554,7 @@
           </v-row>
 
           <v-divider></v-divider>
-          <label class="fw-regular fs-4 mb-3"
+          <label class="fw-bold fs-5 mb-3"
             >Email and Password Information</label
           >
           <v-row>
@@ -578,7 +578,7 @@
           <v-container class="role-panel-wrapper">
             <!-- role and deparment checkbox -->
             <v-container class="role-container">
-              <label class="fw-regular fs-4">Role and Department</label>
+              <label class="fw-bold fs-5 mb-3">Role and Department</label>
               <br />
               <label class="fw-light fs-6">
                 <strong>Instruction: </strong>Select the role you want to assign
@@ -588,13 +588,13 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Admin'"
                     label="Admin"
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Faculty'"
                     label="Faculty"
                   ></v-checkbox>
@@ -602,13 +602,13 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Student Personnel'"
                     label="Student Personnel"
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Encoder'"
                     label="Encoder"
                   ></v-checkbox>
@@ -616,13 +616,13 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Verifier'"
                     label="Verifier"
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Accessor'"
                     label="Accessor"
                   ></v-checkbox>
@@ -633,7 +633,7 @@
 
             <!-- panel checkbox -->
             <v-container class="panel-container">
-              <label class="fw-regular fs-4">Panel</label>
+              <label class="fw-bold fs-5 mb-3">Panel</label>
               <br />
               <label class="fw-light fs-6">
                 <strong>Instruction: </strong>Select the panel you want to
@@ -643,13 +643,13 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.panel"
+                    v-model="editedItem.panel"
                     :value="'Admin'"
                     label="Admin"
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Faculty'"
                     label="Faculty"
                   ></v-checkbox>
@@ -657,13 +657,13 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Student Personnel'"
                     label="Student Personnel"
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Encoder'"
                     label="Encoder"
                   ></v-checkbox>
@@ -671,13 +671,13 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Verifier'"
                     label="Verifier"
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="editedItem.role"
                     :value="'Accessor'"
                     label="Accessor"
                   ></v-checkbox>
