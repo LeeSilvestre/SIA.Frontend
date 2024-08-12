@@ -51,7 +51,7 @@
                       variant="underlined"
                       prepend-icon="mdi-arrow-right"
                     ></v-select>
-                    <v-form class="pt-4">
+                    <v-form class="pt-4" @keydown.enter="login">
                       <v-text-field
                         v-model="email"
                         label="Email/ID"
