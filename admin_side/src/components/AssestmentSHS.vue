@@ -352,18 +352,17 @@
 
       </v-toolbar>
     </template>
-    <template v-slot:item="{ item }">
+    <template v-slot:item="{ item, index }">
 
       <tr>
-        <td>{{ item.student_id }}</td>
+        <td>{{ index + 1 }}</td>
         <td>{{ item.student_lrn}}</td>
         <td> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
         <td>{{ item.sex_at_birth }}</td>
         <td>{{ item.grade_level }}</td>
-        <td>{{ item.grade_level }}</td>
+        <td>{{ item.semester }}</td>
         <td>{{ item.strand}}</td>
-        <td>{{ item.enrollment_date}}</td>
-        <td >Incoming</td>
+        <td>{{ item.student_type }}</td>
         <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
 
         <!-- <td>
@@ -514,15 +513,14 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: 'Student No.', align: 'start', key:'student_id'},
+      { title: "#", key: "index" },
       { title: 'Student Lrn', align: 'start', key: 'lrn' },
       { title: 'Full Name', align: 'start', key: 'full_name' },
       { title: 'Gender', align: 'start', key:'sex_at_birth'},
       { title: 'Grade Level', align: 'start', key:'grade_lvl'},
-      { title: 'Semester', align: 'start', key:'semester_shs'},
-      { title: 'Strand', align: 'start', key:'strand_shs'},
-      { title: 'Date Enrolled', align: 'start', key: 'date' },
-      { title: 'Student Status', align: 'start', key: 'stud_status' },
+      { title: 'Semester', align: 'start', key:'semester'},
+      { title: 'Strand', align: 'start', key:'strand'},
+      { title: 'Student Type', align: 'start', key: 'student_type' },
       { title: 'Enrollment Status', align: 'start', key: 'enrol_status' },
       { title: 'Actions', sortable: false },
     ],
@@ -577,15 +575,13 @@ export default {
       return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
     },
     displayedStudents() {
-      const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
+      const searchTerm = this.search.toLowerCase();
       return this.students.filter((student) =>
         Object.values(student).some(
-          (value) =>
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchTerm)
+          (value) => value === "Verified" || value === "Assessed"
         )
       );
-    },
+    },  
   },
 
   watch: {
@@ -606,18 +602,27 @@ export default {
 
   mounted() {
     this.initialize();
+
   },
 
   methods: {
     initialize() {
       axios.get('shs').then(res=>{
         let tmp = res.data;
-        this.students = tmp.student;
-        console.log(this.students)
-      })
-      this.students.forEach(student => {
-  student.full_name = `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-      });
+        this.students = tmp.student.map(student => ({
+          ...student,
+        full_name : `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`,
+        semester: (month >= 4 && month <= 11) ? '1st Semester' :
+                  (month >= 0 && month <= 3) ? '2st Semester' : 
+                  'Invalid Month'
+        }));
+          console.log(this.students)
+        })
+      const date = new Date();
+      const month = date.getMonth();
+
+      console.log(this.students);
+
     },
 
     triggerFileInput() {

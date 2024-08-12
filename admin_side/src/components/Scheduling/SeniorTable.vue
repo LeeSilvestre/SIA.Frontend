@@ -32,7 +32,7 @@
       <tr :key="item.senior_id">
         <td>{{ item.strand }}</td>
         <td style="padding: 1rem">{{ item.section }}</td>
-        <td>{{ item.adviser }}</td>
+        <td>{{ item.adviser.full_name }}</td>
         <td>
           <div class="icon">
             <span @click="openViewDialog(item)" class="view"><v-icon>mdi-eye</v-icon>View</span>
@@ -132,6 +132,7 @@
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import ViewScheduleSHS from "./ViewScheduleSHS.vue";
+import axios from 'axios';
 
 export default {
   components: {
@@ -141,36 +142,36 @@ export default {
     return {
       search: "",
       seniorList: [
-        {
-          senior_id: 1,
-          section: "St. Michael",
-          adviser: "John Doe",
-          strand: "STEM",
-        },
-        {
-          senior_id: 2,
-          section: "St. Catherine",
-          adviser: "Jane Smith",
-          strand: "GAS",
-        },
-        {
-          senior_id: 3,
-          section: "St. Joseph",
-          adviser: "Robert Brown",
-          strand: "HUMMS",
-        },
-        {
-          senior_id: 4,
-          section: "St. Francis",
-          adviser: "Emily Davis",
-          strand: "ABM",
-        },
-        {
-          senior_id: 5,
-          section: "St. Michael",
-          adviser: "Michael Johnson",
-          strand: "TVL",
-        },
+        // {
+        //   senior_id: 1,
+        //   section: "St. Michael",
+        //   adviser: "John Doe",
+        //   strand: "STEM",
+        // },
+        // {
+        //   senior_id: 2,
+        //   section: "St. Catherine",
+        //   adviser: "Jane Smith",
+        //   strand: "GAS",
+        // },
+        // {
+        //   senior_id: 3,
+        //   section: "St. Joseph",
+        //   adviser: "Robert Brown",
+        //   strand: "HUMMS",
+        // },
+        // {
+        //   senior_id: 4,
+        //   section: "St. Francis",
+        //   adviser: "Emily Davis",
+        //   strand: "ABM",
+        // },
+        // {
+        //   senior_id: 5,
+        //   section: "St. Michael",
+        //   adviser: "Michael Johnson",
+        //   strand: "TVL",
+        // },
       ],
       headers: [
         { title: "Strand", key: "strand" },
@@ -184,7 +185,6 @@ export default {
         { value: "HE", title: "HE" },
         { value: "HUMSS", title: "HUMSS" },
         { value: "STEM", title: "STEM" },
-        { value: "TVL", title: "TVL" },
       ],
       daysOfWeek: [
         "Monday",
@@ -196,23 +196,21 @@ export default {
         "Sunday",
       ],
       juniorSubjects: [
-        { id: 1, title: "Mathematics", subject: "Mathematics" },
-        { id: 2, title: "Science", subject: "Science" },
-        { id: 3, title: "English", subject: "English" },
-        { id: 4, title: "Filipino", subject: "Filipino" },
-        { id: 5, title: "Araling Panlipunan", subject: "Araling Panlipunan" },
+        { id: 1, title: "Mathematics", value: "Mathematics" },
+        { id: 2, title: "Science", value: "Science" },
+        { id: 3, title: "English", value: "English" },
+        { id: 4, title: "Filipino", value: "Filipino" },
+        { id: 5, title: "Araling Panlipunan", value: "Araling Panlipunan" },
         {
           id: 6,
           title: "Technology and Livelihood Education (TLE)",
-          subject: "Technology and Livelihood Education (TLE)",
+          value: "TLE",
         },
-        { id: 7, title: "Health Education", subject: "Health Education" },
-        { id: 8, title: "Music", subject: "Music" },
-        { id: 9, title: "Arts", subject: "Arts" },
+        { id: 7, title: "Chirstian Living", value: "CL" },
         {
-          id: 10,
+          id: 8,
           title: "Physical Education (PE)",
-          subject: "Physical Education (PE)",
+          value: "PE",
         },
       ],
       viewDialog: false,
@@ -227,6 +225,9 @@ export default {
         faculty: ""
       }
     };
+  },
+  mounted(){
+    this.getSched();
   },
 
   computed: {
@@ -250,6 +251,21 @@ export default {
   },
 
   methods: {
+    async getSched(){
+      try{
+        const res = await axios.get('getSec');
+        const data = res.data.data
+        this.seniorList = data.filter((item) => item.grade_level > 10 && item.grade_level < 13);
+        let hi = [];
+        Object.keys(data).filter(j =>{
+          hi.push(data[j].adviser.full_name);
+        });
+        this.faculty = hi;
+        console.log(this.faculty);
+      } catch(error){
+        console.error("Error fetching items:", error);
+      }
+    },
     openViewDialog(item) {
       this.currentItem = item;
       this.viewDialog = true;

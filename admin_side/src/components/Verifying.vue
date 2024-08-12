@@ -718,9 +718,9 @@ export default {
       axios
         .put(`create/${item}`, {
           enrollment_status: "Enrolled",
-          adviser_id: this.editedItem.adviser_id,
-          password: this.editedItem.password,
-          section: this.editedItem.section,
+          adviser_id : this.editedItem.adviser_id,
+          password : this.editedItem.password,
+          section : this.editedItem.section
         })
         .then((res) => {
           console.log(res.data);

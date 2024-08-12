@@ -405,25 +405,25 @@ export default {
         });
     },
 
-    initialize() {
-      axios.get("student").then((res) => {
-        let tmp = res.data;
-        this.students = tmp.student;
-        console.log(this.students);
+    // initialize() {
+    //   axios.get("student").then((res) => {
+    //     let tmp = res.data;
+    //     this.students = tmp.student;
+    //     console.log(this.students);
 
-        // Format full name and adjust strand property
-        this.students.forEach((student) => {
-          // Format full name
-          student.full_name =
-            `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
+    //     // Format full name and adjust strand property
+    //     this.students.forEach((student) => {
+    //       // Format full name
+    //       student.full_name =
+    //         `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
 
-          // Check grade level and adjust strand property
-          if (student.grade_level <= 10) {
-            delete student.strand;
-          }
-        });
-      });
-    },
+    //       // Check grade level and adjust strand property
+    //       if (student.grade_level <= 10) {
+    //         delete student.strand;
+    //       }
+    //     });
+    //   });
+    // },
 
     close() {
       this.dialog = false;

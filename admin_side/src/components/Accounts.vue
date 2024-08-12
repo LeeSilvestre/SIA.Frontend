@@ -261,26 +261,18 @@
     <!-- header content -->
     <template v-slot:item="{ item }">
       <tr>
-        <td class="text-center">{{ item.employee_id }}</td>
+        <td class="text-center">{{ item.id }}</td>
         <td class="text-center">
-          {{ item.last_name }},
-          {{ item.first_name }}
-          {{ item.middle_name }}
-          {{ item.extension }}
+          {{ item.name}},
         </td>
         <td class="text-center">{{ item.email }}</td>
-        <td class="text-center">{{ item.account_dpt }}</td>
+        <td class="text-center">{{ item.department }}</td>
         <td class="text-center">
-          <v-btn
-            class="ma-2"
-            size="small"
-            color="primary"
-            @click="openViewDialog"
-          >
+          <v-btn class="ma-2" size="small" color="primary" @click="openViewDialog(item)">
             <v-icon icon="mdi-eye" start></v-icon>
             View
           </v-btn>
-          <v-btn
+          <!-- <v-btn
             class="ma-2"
             size="small"
             color="#D6E200"
@@ -288,7 +280,7 @@
           >
             <v-icon icon="mdi-pencil" start></v-icon>
             Edit
-          </v-btn>
+          </v-btn> -->
         </td>
       </tr>
     </template>
@@ -310,8 +302,8 @@
           <v-row dense>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="selectedStudent.last_name"
-                label="Last Name"
+                v-model="dialogItem.id"
+                label="Employee ID"
                 readonly
               >
               </v-text-field>
@@ -319,8 +311,8 @@
 
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="selectedStudent.first_name"
-                label="First Name"
+                v-model="dialogItem.department"
+                label="Panel"
                 readonly
               >
               </v-text-field>
@@ -328,16 +320,8 @@
 
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="selectedStudent.middle_name"
-                label="Middle Name"
-              >
-              </v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.extension_name"
-                label="Extension Name"
+                v-model="dialogItem.name"
+                label="Full Name"
                 readonly
               >
               </v-text-field>
@@ -351,17 +335,16 @@
           <v-row>
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                label="Email Address"
-                model-value="Doe"
-                v-model="selectedStudent.email"
+                v-model="dialogItem.email"
+                label="Email"
                 readonly
               ></v-text-field>
             </v-col>
 
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="selectedStudent.password"
-                label="Password"
+                v-model="dialogItem.role"
+                label="Role"
                 readonly
               ></v-text-field>
             </v-col>
@@ -381,14 +364,14 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Admin'"
                     label="Admin"
                     readonly
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Faculty'"
                     label="Faculty"
                     readonly
@@ -397,14 +380,14 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Student Personnel'"
                     label="Student Personnel"
                     readonly
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Encoder'"
                     label="Encoder"
                     readonly
@@ -413,14 +396,14 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Verifier'"
                     label="Verifier"
                     readonly
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Accessor'"
                     label="Accessor"
                     readonly
@@ -442,14 +425,14 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.panel"
+                    v-model="dialogItem.panel"
                     :value="'Admin'"
                     label="Admin"
                     readonly
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Faculty'"
                     label="Faculty"
                     readonly
@@ -458,14 +441,14 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Student Personnel'"
                     label="Student Personnel"
                     readonly
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Encoder'"
                     label="Encoder"
                     readonly
@@ -474,14 +457,14 @@
                 <v-col cols="12" md="4" sm="4">
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Verifier'"
                     label="Verifier"
                     readonly
                   ></v-checkbox>
                   <v-checkbox
                     color="success"
-                    v-model="selectedStudent.role"
+                    v-model="dialogItem.role"
                     :value="'Accessor'"
                     label="Accessor"
                     readonly
@@ -509,208 +492,6 @@
     </v-card>
   </v-dialog>
   <!-- end of VIEW dialog -->
-  <v-dialog v-model="editDialog" max-width="1000">
-    <v-card>
-      <div style="background-color: var(--dark); color: white">
-        <v-card-title class="dialog-title fs-3 font-weight-black">
-          FACULTY INFORMATION
-        </v-card-title>
-      </div>
-      <v-card-text>
-        <v-container>
-          <label class="fw-regular fs-4 mb-3">Personal Information</label>
-          <v-row dense>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.last_name"
-                label="Last Name"
-              >
-              </v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.first_name"
-                label="First Name"
-              >
-              </v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.middle_name"
-                label="Middle Name"
-              >
-              </v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.extension_name"
-                label="Extension Name"
-              >
-              </v-text-field>
-            </v-col>
-          </v-row>
-
-          <v-divider></v-divider>
-          <label class="fw-regular fs-4 mb-3"
-            >Email and Password Information</label
-          >
-          <v-row>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                label="Email Address"
-                model-value="Doe"
-                v-model="selectedStudent.email"
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.password"
-                label="Password"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-divider></v-divider>
-          <!-- checkbox -->
-          <v-container class="role-panel-wrapper">
-            <!-- role and deparment checkbox -->
-            <v-container class="role-container">
-              <label class="fw-regular fs-4">Role and Department</label>
-              <br />
-              <label class="fw-light fs-6">
-                <strong>Instruction: </strong>Select the role you want to assign
-                to the user by clicking the checkbox.
-              </label>
-              <v-row>
-                <v-col cols="12" md="4" sm="4">
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Admin'"
-                    label="Admin"
-                  ></v-checkbox>
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Faculty'"
-                    label="Faculty"
-                  ></v-checkbox>
-                </v-col>
-                <v-col cols="12" md="4" sm="4">
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Student Personnel'"
-                    label="Student Personnel"
-                  ></v-checkbox>
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Encoder'"
-                    label="Encoder"
-                  ></v-checkbox>
-                </v-col>
-                <v-col cols="12" md="4" sm="4">
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Verifier'"
-                    label="Verifier"
-                  ></v-checkbox>
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Accessor'"
-                    label="Accessor"
-                  ></v-checkbox>
-                </v-col>
-              </v-row>
-            </v-container>
-            <!-- end role and deparment checkbox -->
-
-            <!-- panel checkbox -->
-            <v-container class="panel-container">
-              <label class="fw-regular fs-4">Panel</label>
-              <br />
-              <label class="fw-light fs-6">
-                <strong>Instruction: </strong>Select the panel you want to
-                assign to the user by clicking the checkbox.
-              </label>
-              <v-row>
-                <v-col cols="12" md="4" sm="4">
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.panel"
-                    :value="'Admin'"
-                    label="Admin"
-                  ></v-checkbox>
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Faculty'"
-                    label="Faculty"
-                  ></v-checkbox>
-                </v-col>
-                <v-col cols="12" md="4" sm="4">
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Student Personnel'"
-                    label="Student Personnel"
-                  ></v-checkbox>
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Encoder'"
-                    label="Encoder"
-                  ></v-checkbox>
-                </v-col>
-                <v-col cols="12" md="4" sm="4">
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Verifier'"
-                    label="Verifier"
-                  ></v-checkbox>
-                  <v-checkbox
-                    color="success"
-                    v-model="selectedStudent.role"
-                    :value="'Accessor'"
-                    label="Accessor"
-                  ></v-checkbox>
-                </v-col>
-              </v-row>
-            </v-container>
-            <!-- end panel checkbox -->
-          </v-container>
-
-          <!-- checkbox -->
-        </v-container>
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-
-        <v-btn
-          class="bg-green"
-          color="white"
-          variant="text"
-          @click="saveChanges"
-          >Save Changes</v-btn
-        >
-
-        <v-btn
-          class="bg-red"
-          color="white"
-          variant="text"
-          @click="closeEditDialog"
-          >Cancel</v-btn
-        >
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
   <!-- end view user status modal pop -->
 </template>
 
@@ -726,13 +507,14 @@ export default {
     dialogDelete: false,
     viewDialog: false,
     editDialog: false,
+    dialogItem: [],
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: "Employee ID", align: "center", key: "employee_id" },
-      { title: "Full Name", align: "center", key: "full_name" },
+      { title: "Employee ID", align: "center", key: "id" },
+      { title: "Full Name", align: "center", key: "name" },
       { title: "Email", align: "center", key: "email" },
-      { title: "Department", align: "center", key: "account_dpt" },
+      { title: "Panel", align: "center", key: "department" },
       { title: "Actions", align: "center", sortable: false },
     ],
 
@@ -798,13 +580,10 @@ export default {
   methods: {
     initialize() {
       axios
-        .get("student")
+        .get("getAcc")
         .then((res) => {
-          this.students = res.data.student.map((student) => ({
-            ...student,
-            full_name:
-              `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
-          }));
+          this.students = res.data.user;
+          console.log(this.students);
         })
         .catch((error) => {
           console.error("Error fetching students:", error);
@@ -885,7 +664,7 @@ export default {
       this.dialog = false;
     },
     openViewDialog(item) {
-      this.selectedStudent = item;
+      this.dialogItem = item;
       this.viewDialog = true;
     },
 
@@ -901,11 +680,6 @@ export default {
       this.selectedFile = null;
     },
 
-    closeViewDialog() {
-      console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent
-      this.viewDialog = false;
-      // Clear the selected student data
-    },
 
     closeEditDialog() {
       console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent

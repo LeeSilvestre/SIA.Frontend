@@ -30,9 +30,9 @@
         <!-- create new popup modal -->
       </v-toolbar>
     </template>
-    <template v-slot:item="{ item }">
+    <template v-slot:item="{ item, index}">
       <tr>
-        <td>{{ item.student_recno }}</td>
+        <td>{{ index + 1 }}</td>
         <td>{{ item.student_lrn }}</td>
         <td>
           {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
@@ -55,11 +55,14 @@
             dark
             v-bind="props"
             @click="assessItem(item, 'Confirm')"
-            :disabled="item.enrollment_status === 'Assessed'"
+            :disabled="item.enrollment_status === 'Assessed' || item.enrollment_status === 'Verified'"
             size="small"
           >
           <v-icon icon="mdi-check" start></v-icon>
-            Verify</v-btn
+          <span v-if="item.enrollment_status == 'Assessed' || item.enrollment_status === 'Verified'">Assessed</span>
+          <span v-else>Assess</span>
+
+          </v-btn
           >
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
           <!-- Archive Icon -->
@@ -204,13 +207,13 @@ export default {
     },
 
     headers: [
-      { title: "Student No.", align: "start", key: "student_id" },
-      { title: "Student Lrn", align: "start", key: "lrn" },
+      { title: "#", align: "start", key: "index" },
+      { title: "Student Lrn", align: "start", key: "studnet_lrn" },
       { title: "Full Name", align: "start", key: "full_name" },
-      { title: "Gender", align: "start", key: "grade_lvl" },
-      { title: "Grade Level", align: "start", key: "grade_lvl" },
-      { title: "Student Status", align: "start", key: "status" },
-      { title: "Status", align: "start", key: "status" },
+      { title: "Gender", align: "start", key: "sex_at_birth" },
+      { title: "Grade Level", align: "start", key: "grade_level" },
+      { title: "Student Status", align: "start", key: "student_type" },
+      { title: "Status", align: "start", key: "enrollment_status" },
       { title: "Actions", sortable: false },
     ],
 
@@ -267,7 +270,7 @@ export default {
       const searchTerm = this.search.toLowerCase();
       return this.students.filter((student) =>
         Object.values(student).some(
-          (value) => value === "Pending" || value === "Assessed"
+          (value) => value === "Pending" || value === "Assessed" || value == "Verified"
         )
       );
     },
@@ -443,11 +446,13 @@ export default {
       this.$router.push("/viewdetails");
     },
     getStatusColor(status) {
-      if (status === "Verified") {
-        return "blue"; // Set color to yellow if status is 'pending'
+      if (status === "Pending") {
+        return "orange"; // Set color to yellow if status is 'pending'
       } else if (status == "Assessed" || "Enrolled") {
         return "green"; // Set color to green if status is 'enrolled'
-      } else {
+      } else if(status == "Verified"){
+        return "blue"
+      }else {
         return "red"; // Default color
       }
     },

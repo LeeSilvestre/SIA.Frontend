@@ -14,9 +14,9 @@
     <template v-slot:item="{ item }">
       <tr>
         <td>{{ item.student_id }}</td>
-        <td>{{ item.first_name }} {{ item.middle_name }} {{ item.last_name }} {{ item.extension }}</td>
+        <td>{{ item.full_name }}</td>
         <td>{{ item.document_type }}</td>
-        <td>{{ item.status }}</td>
+        <td>{{ item.document_remarks }}</td>
         <td>
           <div class="button-container"> 
           <v-btn color="primary" size="small" @click="handleViewIconClick(item)"><v-icon icon="mdi-eye" start></v-icon>View</v-btn>
@@ -38,6 +38,7 @@
 
 <script>
 import Swal from 'sweetalert2'
+import axios from 'axios';
 
 export default {
 
@@ -106,21 +107,10 @@ export default {
 
   methods: {
     initialize() {
-      this.students = [
-        {
-          student_id: '2021001',
-          grade_level: '10',
-          strand: 'STEM',
-          email: 'john.doe@example.com',
-          first_name: 'John',
-          middle_name: '',
-          last_name: 'Doe',
-          extension: '',
-          document_type: 'Transcript of Record',
-          status: 'pending',
-          reason: 'Educational Assitance'
-        },
-      ];
+      axios.get('docreq').then(res=>{
+        this.students = res.data.data;
+        console.log(this.students);
+      })
     },
 
     

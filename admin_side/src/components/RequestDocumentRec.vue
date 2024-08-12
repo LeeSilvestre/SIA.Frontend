@@ -75,7 +75,7 @@
             <v-col cols="12" sm="6">
               <v-text-field
                 label="Purpose of Request"
-                v-model="student.reason"
+                v-model="student.purpose"
                 outlined
                 readonly
                 hide-details

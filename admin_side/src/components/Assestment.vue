@@ -324,7 +324,6 @@
         </td>
         <td>{{ item.sex_at_birth }}</td>
         <td>{{ item.grade_level }}</td>
-        <td>{{ item.enrollment_date }}</td>
         <td>Incoming</td>
         <td :style="{ color: getStatusColor(item.enrollment_status) }">
           {{ item.enrollment_status }}

@@ -6,7 +6,7 @@
           <v-card-title>PRE-REGISTRATION GUIDELINES</v-card-title>
           <v-card-text>
             <h1>Here are the guidelines...</h1>
-            <pdf src="../assets/enrollment.pdf" />
+            <!-- <pdf src="../assets/enrollment.pdf" /> -->
           </v-card-text>
         </v-card>
       </template>
@@ -207,15 +207,6 @@
                 <v-row>
                   <v-col cols="12" md="3">
                     <v-select
-                      v-model="studentType"
-                      :items="['incoming', 'returning']"
-                      label="Student Type"
-                      clearable
-                      outlined
-                    ></v-select>
-                  </v-col>
-                  <v-col cols="12" md="3">
-                    <v-select
                       v-model="gradeLevel"
                       :items="gradeLevels"
                       label="Grade Level"
@@ -245,12 +236,13 @@
 
 <script>
 import axios from 'axios';
-import pdf from "vue-pdf";
+// import pdf from "vue-pdf";
+import Swal from "sweetalert2";
 
 export default {
-  components: {
-    pdf,
-  },
+  // components: {
+  //   pdf,
+  // },
   data: () => ({
     valid: false,
     studnet_lrn: "",
@@ -297,43 +289,41 @@ export default {
     cityRules: [(value) => !!value || "City is required."],
     provinceRules: [(value) => !!value || "Province is required."],
     zipCodeRules: [(value) => !!value || "Zip Code is required."],
-    gradeLevels: [], // To store available grade levels based on studentType
+    gradeLevels: ["7", "8", "9", "10", "11", "12"], // To store available grade levels based on studentType
   }),
   computed: {
     showStrand() {
-      return this.gradeLevel === "Grade 11" || this.gradeLevel === "Grade 12";
+      return this.gradeLevel === "11" || this.gradeLevel === "12";
     },
   },
-  watch: {
-    studentType(newType) {
-      if (newType === "returning") {
-        this.gradeLevels = [
-          "8",
-          "9",
-          "10",
-          "11",
-          "12",
-        ];
-        // Optionally, reset the gradeLevel if it is not in the new set
-        if (!this.gradeLevels.includes(this.gradeLevel)) {
-          this.gradeLevel = "";
-        }
-      } else {
-        this.gradeLevels = [
-          "7",
-          "8",
-          "9",
-          "10",
-          "11",
-          "12",
-        ];
-        // Optionally, reset the gradeLevel if it is not in the new set
-        if (!this.gradeLevels.includes(this.gradeLevel)) {
-          this.gradeLevel = "";
-        }
-      }
-    },
-  },
+  // watch: {
+  //   studentType(newType) {
+  //       this.gradeLevels = [
+  //         "8",
+  //         "9",
+  //         "10",
+  //         "11",
+  //         "12",
+  //       ];
+  //       // Optionally, reset the gradeLevel if it is not in the new set
+  //       if (!this.gradeLevels.includes(this.gradeLevel)) {
+  //         this.gradeLevel = "";
+  //       }
+  //       this.gradeLevels = [
+  //         "7",
+  //         "8",
+  //         "9",
+  //         "10",
+  //         "11",
+  //         "12",
+  //       ];
+  //       // Optionally, reset the gradeLevel if it is not in the new set
+  //       if (!this.gradeLevels.includes(this.gradeLevel)) {
+  //         this.gradeLevel = "";
+  //       }
+  //     }
+  //   },
+  // },
   mounted(){
   },
   methods: {
@@ -359,8 +349,14 @@ export default {
         grade_level: this.gradeLevel,
       }
       axios.post('student', data).then(res=>{
-        console.log(res);
-
+        Swal.fire({
+          title: "Approved!",
+          text: "Your action has been approved.",
+          icon: "success",
+        });
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000); //
       }).catch(error =>{
         console.error(error);
       })

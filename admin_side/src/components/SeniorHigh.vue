@@ -121,12 +121,10 @@ export default {
         : "Edit Student Information";
     },
     displayedStudents() {
-      const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
+      const searchTerm = this.search.toLowerCase();
       return this.students.filter((student) =>
         Object.values(student).some(
-          (value) =>
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchTerm)
+          (value) => value === "Enrolled"
         )
       );
     },

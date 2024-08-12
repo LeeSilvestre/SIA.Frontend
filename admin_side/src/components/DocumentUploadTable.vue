@@ -32,15 +32,17 @@
     </template>
     <template v-slot:item="{ item }">
       <tr>
-        <td style="text-align: center">{{ item.student_id }}</td>
+        <td style="text-align: center">{{ item.student_lrn }}</td>
         <td style="text-align: center">
           {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
           {{ item.extension }}
           <!-- {{ item.full_name }} -->
         </td>
         <td style="text-align: center">{{ item.section }}</td>
-        <td style="text-align: center">{{ item.date }}</td>
-        <td style="text-align: center">Incoming</td>
+        <td style="text-align: center">
+          <!-- edit later for proper status  -->
+          Incoming
+        </td>
         <td
           :style="{
             color: getStatusColor(item.enrollment_status),
@@ -139,12 +141,11 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: "Student No.", align: "center", key: "student_id" },
+      { title: "Student LRN.", align: "center", key: "student_lrn" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Section", align: "center", key: "section" },
-      { title: "Date Enrolled", align: "center", key: "date" },
       { title: "Student Status", align: "center", key: "stud_status" },
-      { title: "Enrollment Status", align: "center", key: "enroll_status" },
+      { title: "Enrollment Status", align: "center", key: "enrollment_status" },
       { title: "Actions", align: "center", sortable: false },
     ],
 
@@ -211,7 +212,9 @@ export default {
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
       return this.students.filter((student) =>
-        Object.values(student).some((value) => value === "Assessed")
+        Object.values(student).some(
+          (value) => value === "Pending" || value === "Assessed" || value === "Verified"
+        )
       );
     },
   },
@@ -393,10 +396,10 @@ export default {
       this.$router.push("/viewdetails");
     },
     getStatusColor(status) {
-      if (status === "Verifying") {
-        return "yellow"; // Set color to yellow if status is 'pending'
-      } else if (status === "Enrolled") {
-        return "green"; // Set color to green if status is 'enrolled'
+      if (status === "Verified") {
+        return "blue"; // Set color to yellow if status is 'pending'
+      } else if (status === "Assessed") {
+        return "cyan"; // Set color to green if status is 'enrolled'
       } else {
         return "red"; // Default color
       }

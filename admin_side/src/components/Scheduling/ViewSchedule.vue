@@ -1,64 +1,75 @@
 <template>
-  <v-data-table
-    :search="search"
-    :headers="headers"
-    :items="documentlist"
-    :sort-by="[{ key: 'items_name', order: 'asc' }]"
-  >
-    <!-- toolbar  -->
-    <template v-slot:top>
-      <v-toolbar flat>
-        <v-toolbar-title
-          class="text-h6 font-weight-black"
-          style="color: #2f3f64"
-        ></v-toolbar-title>
-        <v-text-field
-          v-model="search"
-          class="w-auto mr-4"
-          density="compact"
-          label="Search"
-          prepend-inner-icon="mdi-magnify"
-          variant="solo-filled"
-          flat
-          hide-details
-          single-line
-        ></v-text-field>
-      </v-toolbar>
-    </template>
+  <v-container>
+    <v-data-table
+      :search="search"
+      :headers="headers"
+      :items="documentlist"
+      :sort-by="[{ key: 'items_name', order: 'asc' }]"
+    >
+      <!-- Toolbar -->
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title
+            class="text-h6 font-weight-black"
+            style="color: #2f3f64"
+          >
+            Schedule Details
+          </v-toolbar-title>
+          <v-text-field
+            v-model="search"
+            class="w-auto mr-4"
+            density="compact"
+            label="Search"
+            prepend-inner-icon="mdi-magnify"
+            variant="solo-filled"
+            flat
+            hide-details
+            single-line
+          ></v-text-field>
+        </v-toolbar>
+      </template>
 
-    <template v-slot:item="{ item }">
-      <tr :key="item.document_id">
-        <td style="padding: 1rem">{{ item.school_level }}</td>
-        <td>{{ item.report_by }}</td>
-      </tr>
-    </template>
-  </v-data-table>
+      <!-- Table Data -->
+      <template v-slot:item="{ item, index }">
+        <tr >
+          <td style="padding: 1rem">{{ index + 1 }}</td>
+          <td>{{ item.classcode }}</td>
+          <td>{{ item.class_desc }}</td>
+          <td>{{ item.day }}</td>
+          <td>{{ item.time }}</td>
+          <td>{{ item.section }}</td>
+          <td>{{ item.adviser }}</td>
+
+          <!-- Add other columns as needed -->
+        </tr>
+      </template>
+    </v-data-table>
+  </v-container>
 </template>
 
 <script>
-// import api from "../../services/api";
-import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
+import axios from 'axios';
+
 export default {
+  props: {
+    sectionId: {
+      type: String,
+      required: true
+    }
+  },
   data() {
     return {
       search: "",
       documentlist: [],
       headers: [
-        { title: "#", key: "document_type" },
-        { title: "Class Code", key: "document_release_date" },
-        { title: "Class Description", key: "document_release_date" },
-        { title: "Day", key: "document_release_date" },
-        { title: "Time", key: "document_release_date" },
-        { title: "Section", key: "document_release_date" },
-        { title: "Room", key: "document_release_date" },
-        { title: "Faculty", key: "document_release_date" },
+        { title: "#", key: "index" },
+        { title: "Class Code", key: "classcode" },
+        { title: "Class Description", key: "class_desc" },
+        { title: "Day", key: "day" },
+        { title: "Time", key: "time" },
+        { title: "Section", key: "section" },
+        { title: "Faculty", key: "faculty" },
       ],
-      documentData: {
-        document_id: null,
-        document_type: "",
-        status: "",
-      },
     };
   },
 
@@ -67,15 +78,18 @@ export default {
   },
 
   methods: {
-    async getDocx() {
-      try {
-        const response = await api.get("/student");
-        this.documentlist = response.data;
+    getDocx() {
+      console.log(this.sectionId);
+      axios.get(`getSched/${this.sectionId}`).then(res => {
+        this.documentlist = res.data.sched.map((sched)=>({
+          ...sched,
+          adviser: `${sched.faculty.fname} ${sched.faculty.lname}`
+        }));
         console.log(this.documentlist);
-      } catch (error) {
-        console.error("Error fetching items:", error);
-      }
-    },
+      }).catch(error => {
+        console.error("Error fetching data:", error);
+      });
+    }
   },
 };
 </script>
@@ -89,14 +103,6 @@ export default {
     .v-data-table__th {
       font-size: 17px;
       font-weight: 800;
-    }
-  }
-  .icon-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    .v-icon {
-      font-size: 28px;
     }
   }
 }

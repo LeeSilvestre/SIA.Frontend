@@ -30,10 +30,10 @@
       </template>
 
       <template v-slot:item="{ item }">
-        <tr :key="item.junior_id">
-          <td>{{ item.grade }}</td>
+        <tr :key="item.id">
+          <td>{{ item.grade_level }}</td>
           <td style="padding: 1rem">{{ item.section }}</td>
-          <td>{{ item.adviser }}</td>
+          <td>{{ item.adviser.full_name }}</td>
           <td>
             <div class="icon">
               <span @click="openViewDialog(item)" class="view" style="cursor: pointer">
@@ -56,7 +56,7 @@
         </v-card-title>
 
         <v-container>
-          <ViewSchedule />
+          <ViewSchedule :section-id="currentItem.section" />
         </v-container>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -73,30 +73,40 @@
         </v-card-title>
         
         <v-card-text>
-          <v-select
-            v-model="newItem.subject"
-            :items="juniorSubjects"
-            label="Subject"
-            class="mr-2 m-auto"
-          ></v-select>
 
           <v-form ref="form">
             <!-- Grade Level -->
-            <v-select
-              v-model="newItem.grade"
-              :items="gradeLevels"
-              label="Grade Level"
-              class="mr-2 m-auto"
-              required
-            ></v-select>
+             <v-row dense>
+              <v-col cols="6">
+                <v-select
+                  v-model="newItem.grade"
+                  :items="gradeLevels"
+                  label="Grade Level"
+                  class="mr-2 m-auto"
+                  readonly
+                ></v-select>
 
-            <!-- Class Code -->
+              </v-col>
+              <v-col cols="6">
+                 <!-- Room -->
             <v-text-field
-              v-model="newItem.classCode"
-              label="Class Code"
-              required
+              v-model="newItem.section"
+              label="Section"
+              readonly
             ></v-text-field>
 
+
+              </v-col>
+             </v-row>
+             <v-select
+                v-model="newItem.subject"
+                :items="juniorSubjects"
+                item-text="title"
+                item-value="value"
+                label="Subject"
+                class="mr-2 m-auto"
+              ></v-select>
+             
             <v-row dense>
               <v-col cols="6">
                 <!-- Day -->
@@ -110,28 +120,32 @@
               
               <v-col cols="6">
                 <!-- Time -->
-                <v-text-field
+                <v-select
                   v-model="newItem.time"
+                  :items="schedtime"
                   label="Time"
-                  type="time"
+                  class="mr-2 m-auto"
                   required
-                ></v-text-field>
+                ></v-select>
               </v-col>
             </v-row>
 
             <!-- Room -->
             <v-text-field
-              v-model="newItem.room"
+              v-model="newItem.room "
               label="Room"
               required
             ></v-text-field>
 
             <!-- Faculty -->
-            <v-text-field
+            <v-select
               v-model="newItem.faculty"
+              :items="facultyName"
+              item-text="title"
+              item-value="value"
               label="Faculty"
-              required
-            ></v-text-field>
+              class="mr-2 m-auto"
+            ></v-select>
           </v-form>
         </v-card-text>
         <v-card-actions>
@@ -147,6 +161,7 @@
 <script>
 import ViewSchedule from "./ViewSchedule.vue";
 // import api from "../../services/api";
+import axios from 'axios';
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
@@ -156,50 +171,20 @@ export default {
   },
   data() {
     return {
+      selectedSection : null,
       search: "",
-      juniorList: [
-        {
-          junior_id: 1,
-          section: "St. George",
-          adviser: "Denise Lou Punzalan",
-          grade: "Grade 7",
-        },
-        {
-          junior_id: 2,
-          section: "St. Anne",
-          adviser: "Rachel Gomez",
-          grade: "Grade 8",
-        },
-        {
-          junior_id: 3,
-          section: "St. Patrick",
-          adviser: "Michael Smith",
-          grade: "Grade 7",
-        },
-        {
-          junior_id: 4,
-          section: "St. Teresa",
-          adviser: "Anna Johnson",
-          grade: "Grade 9",
-        },
-        {
-          junior_id: 5,
-          section: "St. Jude",
-          adviser: "James Brown",
-          grade: "Grade 8",
-        },
-      ],
+      juniorList: [],
       headers: [
-        { title: "Grade", key: "grade" },
+        { title: "Grade", key: "grade_level" },
         { title: "Section", key: "section" },
-        { title: "Adviser", key: "adviser" },
+        { title: "Adviser", key: "adviser_id" },
         { title: "Schedule", align: "center", sortable: false },
       ],
       gradeLevels: [
-        { value: "Grade 7", title: "Grade 7", text: "Grade 7" },
-        { value: "Grade 8", title: "Grade 8", text: "Grade 8" },
-        { value: "Grade 9", title: "Grade 9" },
-        { value: "Grade 10", title: "Grade 10" },
+        { value: "7", title: "Grade 7", text: "Grade 7" },
+        { value: "8", title: "Grade 8", text: "Grade 8" },
+        { value: "9", title: "Grade 9" },
+        { value: "10", title: "Grade 10" },
       ],
       selectedGrade: "",
       daysOfWeek: [
@@ -211,28 +196,39 @@ export default {
         "Saturday",
         "Sunday",
       ],
+      schedtime:[
+        "7 AM TO 8 AM",
+        "8 AM TO 9 AM",
+        "9:30 AM TO 10:30 AM",
+        "10:30 AM TO 11:30 AM",
+        "1 PM TO 2 PM",
+        "2 PM TO 3 PM",
+        "3 PM TO 4 PM",
+      ],
       juniorSubjects: [
-        { id: 1, title: "Mathematics", subject: "Mathematics" },
-        { id: 2, title: "Science", subject: "Science" },
-        { id: 3, title: "English", subject: "English" },
-        { id: 4, title: "Filipino", subject: "Filipino" },
-        { id: 5, title: "Araling Panlipunan", subject: "Araling Panlipunan" },
+        { id: 1, title: "Mathematics", value: "Mathematics" },
+        { id: 2, title: "Science", value: "Science" },
+        { id: 3, title: "English", value: "English" },
+        { id: 4, title: "Filipino", value: "Filipino" },
+        { id: 5, title: "Araling Panlipunan", value: "Araling Panlipunan" },
         {
           id: 6,
           title: "Technology and Livelihood Education (TLE)",
-          subject: "Technology and Livelihood Education (TLE)",
+          value: "TLE",
         },
-        { id: 7, title: "Chirstian Living", subject: "Chirstian Living" },
+        { id: 7, title: "Chirstian Living", value: "CL" },
         {
           id: 8,
           title: "Physical Education (PE)",
-          subject: "Physical Education (PE)",
+          value: "PE",
         },
       ],
+      facultyName : [],
       viewDialog: false,
       addDialog: false,
       currentItem: {},
       newItem: {
+        section: "",
         subject: null,
         grade: "",
         classCode: "",
@@ -243,11 +239,12 @@ export default {
       },
     };
   },
+  watch:{
+
+  },
 
   computed: {
     filteredJuniorList() {
-      console.log("Selected Grade:", this.selectedGrade);
-      console.log("Junior List Grades:", this.juniorList.map((item) => item.grade));
       if (!Array.isArray(this.juniorList)) {
         console.error("juniorList is not an array");
         return [];
@@ -255,26 +252,36 @@ export default {
       if (!this.selectedGrade) {
         return this.juniorList;
       }
-      return this.juniorList.filter((item) => item.grade === this.selectedGrade);
-    },
+      return this.juniorList.filter((item) => item.grade_level === this.selectedGrade);
+    }
   },
-
+  mounted(){
+    this.getSched();
+    this.getFaculty();
+  },
   // Disable to test the static data
   //   mounted(){
   //   this.getJuniorData();
   //   },
 
   methods: {
-    async getJuniorData() {
-      try {
-        const response = await api.get("/student");
-        this.juniorList = response.data;
-        console.log(this.juniorList);
-      } catch (error) {
+    async getSched(){
+      try{
+        const res = await axios.get('getSec');
+        const data = res.data.data
+        this.juniorList = data.filter((item) => item.grade_level < 11 && item.grade_level > 6);
+      } catch(error){
         console.error("Error fetching items:", error);
       }
     },
-
+    async getFaculty(){
+      const res = await axios.get('faculty');
+      this.facultyName  = res.data.faculty.map((faculty)=>({
+        title: `${faculty.fname} ${faculty.mname} ${faculty.lname} ${faculty.extension}`,
+        value: faculty.id
+      }));
+      console.log(this.facultyName);
+    },
     resetGrade() {
       this.selectedGrade = ""; // Reset selectedGrade to clear the v-select
     },
@@ -284,46 +291,85 @@ export default {
       this.viewDialog = true;
     },
 
-    openAddDialog() {
+    openAddDialog(item) {
+      console.log(item);
+      this.newItem.grade = item.grade_level
+      this.newItem.section = item.section
+
+      
       this.addDialog = true;
+      
     },
     
     addNewSchedule() {
-      if (
-        this.newItem.subject &&
-        this.newItem.grade &&
-        this.newItem.classCode &&
-        this.newItem.day &&
-        this.newItem.time &&
-        this.newItem.room &&
-        this.newItem.faculty
-      ) {
-        // Logic to add new schedule
-        Swal.fire({
-          icon: "success",
-          title: "Schedule Added",
-          text: "The new schedule has been added successfully!",
-        });
-
-        // Reset the newItem object
-        this.newItem = {
-          subject: null,
-          grade: "",
-          classCode: "",
-          day: "",
-          time: "",
-          room: "",
-          faculty: "",
-        };
-
-        this.addDialog = false;
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Error",
-          text: "Please fill out all fields before adding a new schedule.",
-        });
+      console.log(this.newItem.subject);
+      // if (
+      //   this.newItem.subject &&
+      //   this.newItem.gr\ade &&
+      //   this.newItem.day &&
+      //   this.newItem.time &&
+      //   this.newItem.room &&
+      //   this.newItem.faculty
+      // ) {
+      console.log(this.newItem.time);
+      let dt = {
+        grade_level: this.newItem.grade,
+        section: this.newItem.section,
+        adviser_id:this.newItem.faculty,
+        time:  this.newItem.time,
+        day:  "Weekdays"
       }
+        axios.post('createSched', dt).then(res=>{
+          if(res){
+            console.log(res);
+            this.newItem = {
+              subject: null,
+              classCode: "",
+              day: "",
+              time: "",
+              room: "",
+              faculty: "",
+            };
+            Swal.fire({
+              icon: "success",
+              title: "Schedule Added",
+              text: "The new schedule has been added successfully!",
+            });
+          }
+
+        }).catch(error =>{
+          console.log(error.response);
+          let err = error.response.data;
+          this.newItem = {
+              subject: null,
+              classCode: "",
+              day: "",
+              time: "",
+              room: "",
+              faculty: "",
+            };
+          Swal.fire({
+            icon: "error",
+            title: err.Message ,
+            text:`${err.status} ${error.response.statusText}`,
+          });
+        })
+        this.addDialog = false;
+        // axios.post()
+        // Logic to add new schedule
+
+        // axios.post('createSched', dt).then(res=>{
+        //   console.log(res);
+        // })
+        // Reset the newItem object
+
+      // } else {
+      //   Swal.fire({
+      //     icon: "error",
+      //     title: "Error",
+      //     text: "Please fill out all fields before adding a new schedule.",
+      //   });
+      // }
     },
   },
 };

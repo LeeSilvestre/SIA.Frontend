@@ -254,7 +254,7 @@
         </td>
         <td>{{ item.sex_at_birth }}</td>
         <td>{{ item.grade_level }}</td>
-        <td>Incoming</td>
+        <td>{{ item.student_type}}</td>
         <!-- <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td> -->
         <td>Pending</td>
 
@@ -769,9 +769,7 @@ export default {
       const searchTerm = this.search.toLowerCase();
       return this.students.filter((student) =>
         Object.values(student).some(
-          (value) =>
-            typeof value === "string" &&
-            value.toLowerCase().includes(searchTerm)
+          (value) => value == "returning"
         )
       );
     },

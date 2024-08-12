@@ -379,38 +379,6 @@ export default {
     this.getData();
   },
   methods: {
-    getData() {
-      axios.get('jhs').then(res => {
-        let tmp = res.data;
-        console.log(tmp);
-        // TO PASS THE VALUE OF DATA
-        /*
-          tmp =  res.data = {
-            "status": 200
-            "student" : {
-              0: {id: 1, student_id: 202110239},
-              1: {id: 2, student_id: 202110240},
-              2: {id: 3, student_id: 202110241},
-            }
-          }
-        */
-        this.value = tmp.student;
-        console.log(this.value);
-        /* 
-          STRUCTURE
-        tmp = student ={ 
-          0: {id: 1, student_id: 202110239},
-          1: {id: 2, student_id: 202110240},
-          2: {id: 3, student_id: 202110241},
-        }
-        */
-
-        console.log(this.value[0].student_id);
-        console.log(this.defaultItem);
-
-      })
-
-    },
     initialize() {
       axios.get('jhs').then(res => {
         console.log(res.data);

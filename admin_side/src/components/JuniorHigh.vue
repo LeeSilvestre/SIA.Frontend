@@ -100,12 +100,10 @@ export default {
       return this.editedIndex === -1 ? 'Add Student' : 'Edit Student Information';
     },
     displayedStudents() {
-
-      const searchTerm = this.search.toLowerCase(); // Convert search input to lowercase for case-insensitive comparison
-      return this.students.filter(student =>
-        Object.values(student).some(value =>
-          typeof value === 'string' && value.toLowerCase().includes(searchTerm)
-
+      const searchTerm = this.search.toLowerCase();
+      return this.students.filter((student) =>
+        Object.values(student).some(
+          (value) => value === "Enrolled"
         )
       );
     },
