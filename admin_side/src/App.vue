@@ -103,4 +103,16 @@ button {
     }    
 
 }
+
+
+.v-table__wrapper {
+    padding: 1rem;
+    border-radius: 10px;
+
+    .v-data-table__th {
+      font-size: 17px !important; 
+      font-weight: 900 !important;
+      color: var(--dark);
+    }
+  }
 </style>

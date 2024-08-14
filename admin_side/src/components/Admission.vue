@@ -32,16 +32,16 @@
     </template>
     <template v-slot:item="{ item }">
       <tr>
-        <td>{{ item.student_recno }}</td>
-        <td>{{ item.student_lrn }}</td>
-        <td>
+        <td class="text-center">{{ item.student_recno }}</td>
+        <td class="text-center">{{ item.student_lrn }}</td>
+        <td class="text-center">
           {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
           {{ item.extension }}
         </td>
-        <td>{{ item.sex_at_birth }}</td>
-        <td>{{ item.grade_level }}</td>
-        <td>Incoming</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }">
+        <td class="text-center">{{ item.sex_at_birth }}</td>
+        <td class="text-center">{{ item.grade_level }}</td>
+        <td class="text-center">Incoming</td>
+        <td :style="{ color: getStatusColor(item.enrollment_status) }" class="text-center">
           {{
             item.enrollment_status == "Verified" || "Assessed" || "Enrolled"
               ? item.enrollment_status
@@ -49,7 +49,7 @@
           }}
         </td>
 
-        <td>
+        <td class="text-center">
           <v-btn
             color="success"
             v-bind="props"
@@ -203,14 +203,14 @@ export default {
     },
 
     headers: [
-      { title: "Student No.", align: "start", key: "student_id" },
-      { title: "Student Lrn", align: "start", key: "lrn" },
-      { title: "Full Name", align: "start", key: "full_name" },
-      { title: "Gender", align: "start", key: "grade_lvl" },
-      { title: "Grade Level", align: "start", key: "grade_lvl" },
-      { title: "Student Status", align: "start", key: "status" },
-      { title: "Status", align: "start", key: "status" },
-      { title: "Actions", sortable: false },
+      { title: "Student No.", align: "center", key: "student_id" },
+      { title: "Student Lrn", align: "center", key: "lrn" },
+      { title: "Full Name", align: "center", key: "full_name" },
+      { title: "Gender", align: "center", key: "grade_lvl" },
+      { title: "Grade Level", align: "center", key: "grade_lvl" },
+      { title: "Student Status", align: "center", key: "status" },
+      { title: "Status", align: "center", key: "status" },
+      { title: "Actions", align: "center", sortable: false },
     ],
 
     students: [],
@@ -482,4 +482,13 @@ export default {
 .close-button:hover {
   color: red;
 }
+
+.button-container {
+  // display: flex;
+  gap: 7px;
+  align-items: center
+}
+.button-container .v-btn:nth-child(1) { left: 0; }
+.button-container .v-btn:nth-child(2) { left: calc(100% / 50); }
+.button-container .v-btn:nth-child(3) { left: calc(200% / 50); }
 </style>

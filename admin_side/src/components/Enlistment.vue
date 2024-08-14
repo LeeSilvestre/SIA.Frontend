@@ -4,6 +4,7 @@
     :headers="headers"
     :items="displayedStudents"
     :sort-by="[{ key: 'studentId', order: 'asc' }]"
+    
   >
     <template v-slot:top>
       <v-toolbar flat>
@@ -48,7 +49,10 @@
             </div>
             <v-card-text>
               <v-container>
-                <label class="fw-bold fs-5 mb-3">Personal Information</label>
+                <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-account</v-icon>
+                    Personal Information
+                  </h1>
                 <v-row dense>
                   <v-col cols="12" md="12" sm="6">
                     <v-text-field
@@ -95,7 +99,7 @@
                     <v-select
                       v-model="editedItem.sex_at_birth"
                       :items="['Male', 'Female']"
-                      label="SEX"
+                      label="Sex"
                       :rules="[rules.required]"
                     ></v-select>
                   </v-col>
@@ -183,13 +187,15 @@
 
                   <v-divider></v-divider>
                   <v-container>
-                    <label class="fw-bold fs-5 mb-3">Contact Information</label>
-
+                    <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-phone</v-icon>
+                    Contact Information
+                  </h1>
                     <v-row dense>
                       <v-col cols="12" md="6" sm="6">
                         <v-text-field
                           v-model="editedItem.contact_no"
-                          label="Contact no."
+                          label="Contact Number"
                           :rules="[rules.required]"
                         ></v-text-field>
                       </v-col>
@@ -198,10 +204,10 @@
 
                   <v-divider></v-divider>
                   <v-container>
-                    <label class="fw-bold fs-5 mb-3"
-                      >Academic Information</label
-                    >
-
+                    <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-school</v-icon>
+                    Academic Information
+                  </h1>
                     <v-row dense>
                       <v-col cols="12" md="6" sm="6">
                         <v-select
@@ -244,53 +250,50 @@
     </template>
     <template v-slot:item="{ item }">
       <tr>
-        <td>{{ item.student_id }}</td>
-        <td>{{ item.student_lrn }}</td>
-        <td>
-          {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
-          {{ item.extension }}
-        </td>
-        <td>{{ item.sex_at_birth }}</td>
-        <td>{{ item.grade_level }}</td>
-        <td>Incoming</td>
-        <!-- <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td> -->
-        <td>Pending</td>
+  <td class="text-center">{{ item.student_id }}</td>
+  <td class="text-center">{{ item.student_lrn }}</td>
+  <td class="text-center">
+    {{ item.last_name }}, {{ item.first_name }} {{ item.middle_name }}
+    {{ item.extension }}
+  </td>
+  <td class="text-center">{{ item.sex_at_birth }}</td>
+  <td class="text-center">{{ item.grade_level }}</td>
+  <td class="text-center">Incoming</td>
+  <td class="text-center">Pending</td>
 
-        <td>
-          <div class="button-container">
-            <v-btn
-              class="no-gap-button"
-              size="small"
-              color="primary"
-              @click="openViewDialog"
-            >
-              <v-icon icon="mdi-eye" start></v-icon>
-              View
-            </v-btn>
-            <v-btn
-              class="no-gap-button"
-              size="small"
-              color="success"
-              @click="verify"
-            >
-              <v-icon icon="mdi-check" start></v-icon>
-              Verify
-            </v-btn>
-            <v-btn
-              class="no-gap-button"
-              size="small"
-              color="#D6E200"
-              @click="openEditDialog"
-            >
-              <v-icon icon="mdi-pencil" start></v-icon>
-              Edit
-            </v-btn>
-          </div>
-          <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
-          <!-- Archive Icon -->
-          <!-- <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
-        </td>
-      </tr>
+  <td class="text-center">
+    <div class="button-container">
+      <v-btn
+        class="no-gap-button"
+        size="small"
+        color="primary"
+        @click="openViewDialog"
+      >
+        <v-icon icon="mdi-eye" start></v-icon>
+        View
+      </v-btn>
+      <v-btn
+        class="no-gap-button"
+        size="small"
+        color="success"
+        @click="verify"
+      >
+        <v-icon icon="mdi-check" start></v-icon>
+        Verify
+      </v-btn>
+      <v-btn
+        class="no-gap-button"
+        size="small"
+        color="#D6E200"
+        @click="openEditDialog"
+      >
+        <v-icon icon="mdi-pencil" start></v-icon>
+        Edit
+      </v-btn>
+    </div>
+  </td>
+</tr>
+
     </template>
 
     <!-- <template v-slot:no-data>
@@ -308,8 +311,10 @@
       </div>
       <v-card-text>
         <v-container>
-          <label class="fw-bold fs-5 mb-3">Personal Information</label>
-          <v-row dense>
+          <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-account</v-icon>
+                    Personal Information
+                  </h1>          <v-row dense>
             <v-col cols="12" md="12" sm="6">
               <v-text-field
                 v-model="selectedStudent.last_name"
@@ -352,12 +357,12 @@
             </v-col>
 
             <v-col cols="12" md="3" sm="6">
-              <v-select
+              <v-text-field
                 v-model="selectedStudent.sex_at_birth"
                 :items="['Male', 'Female']"
-                label="SEX"
+                label="Sex"
                 readonly
-              ></v-select>
+              ></v-text-field>
             </v-col>
 
             <v-col cols="12" md="3" sm="6">
@@ -409,29 +414,11 @@
             </v-col>
 
             <v-col cols="12" md="3" sm="6">
-              <v-select
+              <v-text-field
                 v-model="selectedStudent.region"
-                :items="[
-                  'Region I',
-                  'Region II',
-                  'Region III',
-                  'Region IV-A',
-                  'Region IV-B',
-                  'Region V',
-                  'Region VI',
-                  'Region VII',
-                  'Region VIII',
-                  'Region IX',
-                  'Region X',
-                  'Region XI',
-                  'Region XII',
-                  'Region XIII',
-                  'BARMM',
-                  'CAR',
-                ]"
                 label="Region"
                 readonly
-              ></v-select>
+              ></v-text-field>
             </v-col>
 
             <v-col cols="12" md="3" sm="6">
@@ -444,13 +431,15 @@
 
             <v-divider></v-divider>
             <v-container>
-              <label class="fw-bold fs-5 mb-3">Contact Information</label>
-
+              <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-phone</v-icon>
+                    Contact Information
+                  </h1>
               <v-row dense>
                 <v-col cols="12" md="6" sm="6">
                   <v-text-field
                     v-model="selectedStudent.contact_no"
-                    label="Contact no."
+                    label="Contact Number"
                     readonly
                   ></v-text-field>
                 </v-col>
@@ -459,8 +448,10 @@
 
             <v-divider></v-divider>
             <v-container>
-              <label class="fw-bold fs-5 mb-3">Academic Information</label>
-
+              <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-school</v-icon>
+                    Academic Information
+                  </h1>
               <v-row dense>
                 <v-col cols="12" md="6" sm="6">
                   <v-select
@@ -508,8 +499,10 @@
       </div>
       <v-card-text>
         <v-container>
-          <label class="fw-bold fs-5 mb-3">Personal Information</label>
-          <v-row dense>
+          <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-account</v-icon>
+                    Personal Information
+                  </h1>          <v-row dense>
             <v-col cols="12" md="12" sm="6">
               <v-text-field
                 v-model="selectedStudent.last_name"
@@ -630,8 +623,10 @@
 
             <v-divider></v-divider>
             <v-container>
-              <label class="fw-bold fs-5 mb-3">Contact Information</label>
-
+              <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-phone</v-icon>
+                    Contact Information
+                  </h1>
               <v-row dense>
                 <v-col cols="12" md="6" sm="6">
                   <v-text-field
@@ -644,8 +639,10 @@
 
             <v-divider></v-divider>
             <v-container>
-              <label class="fw-bold fs-5 mb-3">Academic Information</label>
-
+              <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-school</v-icon>
+                    Academic Information
+                  </h1>
               <v-row dense>
                 <v-col cols="12" md="6" sm="6">
                   <v-select
@@ -701,13 +698,13 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: "Student No.", align: "start", key: "student_id" },
-      { title: "Student Lrn", align: "start", key: "student_lrn" },
+      { title: "Student No.", align: "center", key: "student_id" },
+      { title: "Student Lrn", align: "center", key: "student_lrn" },
       { title: "Full Name", align: "center", key: "full_name" },
-      { title: "Gender", align: "start", key: "sex_at_birth" },
-      { title: "Grade Level", align: "start", key: "grade_level" },
-      { title: "Student Status", align: "start", key: "enrollment_status" },
-      { title: "Status", align: "start", key: "status" },
+      { title: "Gender", align: "center", key: "sex_at_birth" },
+      { title: "Grade Level", align: "center", key: "grade_level" },
+      { title: "Student Status", align: "center", key: "enrollment_status" },
+      { title: "Status", align: "center" , key: "status" },
       { title: "Actions", align: "center", sortable: false },
     ],
 
@@ -1156,11 +1153,21 @@ export default {
 }
 
 .button-container {
-  display: flex;
+  // display: flex;
   gap: 7px;
+  align-items: center
 }
+.button-container .v-btn:nth-child(1) { left: 0; }
+.button-container .v-btn:nth-child(2) { left: calc(100% / 50); }
+.button-container .v-btn:nth-child(3) { left: calc(200% / 50); }
 
 .sweet-alert-container {
   z-index: 9999 !important;
 }
+
+.v-data-table__th,
+.v-data-table__td {
+  text-align: center !important; /* Center align text in header and body cells */
+}
+
 </style>

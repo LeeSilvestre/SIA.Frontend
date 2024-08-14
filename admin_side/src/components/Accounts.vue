@@ -1095,4 +1095,8 @@ export default {
   width: 1px;
   background-color: #ccc;
 }
+.v-data-table__td {
+      text-align: center;
+    }
+
 </style>
