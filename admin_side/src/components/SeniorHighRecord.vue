@@ -6,8 +6,7 @@
           <img :src="student.imageSrc" alt="Student Image" class="student-image"><br>
           <v-row>
             <v-col cols="12" sm="6">
-              <v-text-field label="STUDENT ID" v-model="student.student_id" outlined readonly
-                hide-details></v-text-field>
+              <v-text-field label="STUDENT ID" v-model="student.student_id" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field label="FULL NAME" v-model="student.full_name" outlined readonly hide-details></v-text-field>
@@ -16,8 +15,7 @@
               <v-text-field label="LRN" v-model="student.student_lrn" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field label="Grade Level" v-model="student.grade_level" outlined readonly
-                hide-details></v-text-field>
+              <v-text-field label="Grade Level" v-model="student.grade_level" outlined readonly hide-details></v-text-field>
             </v-col>
           </v-row>
         </div>
@@ -32,12 +30,10 @@
               <v-text-field label="Full Name" v-model="student.full_name" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field label="Contact #" v-model="student.contact_no" outlined readonly
-                hide-details></v-text-field>
+              <v-text-field label="Contact #" v-model="student.contact_no" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field label="Birthdate" v-model="student.birth_date" outlined readonly
-                hide-details></v-text-field>
+              <v-text-field label="Birthdate" v-model="student.birth_date" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field label="Sex" v-model="student.sex_at_birth" outlined readonly hide-details></v-text-field>
@@ -49,12 +45,10 @@
               <v-text-field label="Address" v-model="formattedAddress" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field label="Guardian Name" v-model="student.guardian" outlined readonly
-                hide-details></v-text-field>
+              <v-text-field label="Guardian Name" v-model="student.guardian" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field label="Guardian Contact #" v-model="student.guardian_mobileno" outlined readonly
-                hide-details></v-text-field>
+              <v-text-field label="Guardian Contact #" v-model="student.guardian_mobileno" outlined readonly hide-details></v-text-field>
             </v-col>
           </v-row>
         </v-container>
@@ -69,14 +63,55 @@
               <v-text-field label="Section" v-model="student.section" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
-              <v-text-field label="Grade Level" v-model="student.grade_level" outlined readonly
-                hide-details></v-text-field>
+              <v-text-field label="Grade Level" v-model="student.grade_level" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field label="School Year" v-model="student.year" outlined readonly hide-details></v-text-field>
             </v-col>
             <v-col cols="12" sm="6">
               <v-text-field label="Password" v-model="student.password" outlined readonly hide-details></v-text-field>
+            </v-col>
+
+            <v-col cols="12" sm="12" class="section-title">DOCUMENT INFORMATION</v-col>
+            <!-- File Input Fields -->
+            <v-col cols="12" sm="6">
+              <v-file-input
+                v-model="student.psa"
+                label="PSA/Birth Certificate"
+                counter
+                multiple
+                show-size
+                readonly
+              ></v-file-input>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-icon @click="openViewFile(student.psa)">mdi-eye</v-icon>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-file-input
+                v-model="student.goodMoral"
+                label="Good Moral"
+                counter
+                multiple
+                show-size
+                readonly
+              ></v-file-input>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-icon @click="openViewFile(student.goodMoral)">mdi-eye</v-icon>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-file-input
+                v-model="student.tor"
+                label="Form 137/Transcript of Record"
+                counter
+                multiple
+                show-size
+                readonly
+              ></v-file-input>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-icon @click="openViewFile(student.tor)">mdi-eye</v-icon>
             </v-col>
           </v-row>
         </v-container>
@@ -86,16 +121,37 @@
 </template>
 
 
-
-
-
-
 <script>
 export default {
   props: {
     student: {
       type: Object,
-      required: true
+      required: true,
+      default: () => ({
+        tor: '',
+        goodMoral: '',
+        psa: '',
+        student_id: '',
+        full_name: '',
+        student_lrn: '',
+        grade_level: '',
+        imageSrc: '',
+        contact_no: '',
+        birth_date: '',
+        sex_at_birth: '',
+        religion: '',
+        houseNumber: '',
+        street: '',
+        barangay: '',
+        city: '',
+        province: '',
+        zip_code: '',
+        guardian: '',
+        guardian_mobileno: '',
+        section: '',
+        year: '',
+        password: ''
+      })
     }
   },
   computed: {
@@ -104,7 +160,6 @@ export default {
     }
   }
 };
-
 </script>
 
 <style scoped>
