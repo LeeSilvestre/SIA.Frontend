@@ -52,6 +52,7 @@
         <td class="text-center">
           <v-btn
             color="success"
+            dark
             v-bind="props"
             @click="assessItem(item, 'Confirm')"
             :disabled="item.enrollment_status === 'Assessed'"

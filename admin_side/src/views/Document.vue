@@ -10,12 +10,12 @@
         <hr>
 
         <div class="tab-content">
-      <button @click="handleTabClick('MasterList')" :class="{ active: activeTab === 'MasterList' }">Master List</button>
-      <div v-for="tab in tabs" :key="tab.id" class="student-record-tab">
-        <div class="tab-wrapper" :class="{ active: activeTab === tab.id }">
-          <button @click="handleTabClick(tab.id)" :class="{ active: activeTab === tab.id }">
-            {{ tab.student.full_name || 'Unknown' }}
-            <span class="close-icon material-icons" @click.stop="closeTab(tab.id)">close</span>
+      <button @click="handleTabClick('MasterList')" :class="{ active: activeTab === 'MasterList' }">Request List</button>
+      <div v-if="showStudentRecordTab" class="student-record-tab">
+        <div class="tab-wrapper" :class="{ active: activeTab === 'Information' }">
+          <button @click="handleTabClick('Information')" :class="{ active: activeTab === 'Information' }">
+            Request Detail
+            <span class="close-icon material-icons" @click.stop="closeStudentRecordTab">close</span>
           </button>
         </div>
       </div>
@@ -26,24 +26,12 @@
           <RequestDocument @view-student="handleViewStudent" />
         </div>
       </div>
-      <div v-for="tab in tabs" :key="tab.id">
-        <div v-if="activeTab === tab.id" class="student-table">
-          <RequestDocumentRec :student="tab.student" />
-        </div>
-      </div>
-    </div>
-    <!-- <div class="main-content">
-      <div v-if="activeTab === 'MasterList'">
-        <div class="student-table">
-          <RequestDocument @view-student="handleViewStudent" />
-        </div>
-      </div>
       <div v-if="activeTab === 'Information'">
         <div class="student-table">
           <RequestDocumentRec v-if="selectedStudent" :student="selectedStudent" />
         </div>
       </div>
-    </div> -->
+    </div>
         
 </main>
 
@@ -57,43 +45,23 @@ export default {
   data() {
     return {
       activeTab: 'MasterList', // Default active tab
-      activeTab: 'MasterList', 
-      tabs: [],
+      showStudentRecordTab: false, // Control the visibility of the Student Record tab
+      selectedStudent: null // Store the selected student data
     };
   },
   methods: {
+    handleTabClick(tab) {
+      this.activeTab = tab; // Update active tab
+      this.$emit('tab-clicked', tab); // Emit event with tab name
+    },
     handleViewStudent(student) {
-      console.log('Viewing student:', student);
-      const existingTab = this.tabs.find(tab => tab.student.student_id === student.student_id);
-      if (existingTab) {
-        this.activeTab = existingTab.id; // Switch to the existing tab
-      } else {
-        if (this.tabs.length < 4) {
-          const newTab = {
-            id: `Information-${student.student_id || new Date().getTime()}`, // Ensure id is unique
-            student: student
-          };
-          this.tabs.push(newTab); // Add a new tab
-          this.activeTab = newTab.id; // Switch to the new tab
-        } else {
-          alert("You can only open up to 4 tabs at a time."); // Show alert if the maximum number of tabs is reached
-        }
-      }
+      this.selectedStudent = student; // Set the selected student
+      this.showStudentRecordTab = true; // Show the Student Record tab
+      this.activeTab = 'Information'; // Switch to the Student Record tab
     },
-    handleTabClick(tabId) {
-      this.activeTab = tabId;
-    },
-    closeTab(tabId) {
-      this.tabs = this.tabs.filter(tab => tab.id !== tabId); // Remove the tab
-      if (this.activeTab === tabId) {
-        if (this.tabs.length > 0) {
-          // Switch to the first tab if the active tab is closed
-          this.activeTab = this.tabs[0].id;
-        } else {
-          // Switch to 'MasterList' if no other tabs are open
-          this.activeTab = 'MasterList';
-        }
-      }
+    closeStudentRecordTab() {
+      this.showStudentRecordTab = false; // Hide the Student Record tab
+      this.activeTab = 'MasterList'; // Switch back to the Master List tab
     }
   },
   components: {

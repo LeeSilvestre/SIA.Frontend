@@ -780,10 +780,12 @@ export default {
       val || this.closeDelete();
     },
   },
-  "editedItem.grade_level"(newGrade) {
-    if (["7", "8", "9", "10"].includes(newGrade)) {
-      this.editedItem.strand = "N/A";
-    }
+  watch: {
+    "editedItem.grade_level"(newGrade) {
+      if (["7", "8", "9", "10"].includes(newGrade)) {
+        this.editedItem.strand = "N/A";
+      }
+    },
   },
 
   mounted() {
@@ -875,111 +877,25 @@ export default {
     //   });
     // },
 
-    // async close() {
-    //   Swal.fire({
-    //     title: 'Are you sure?',
-    //     text: 'All unsaved changes will be lost.',
-    //     icon: 'warning',
-    //     showCancelButton: true,
-    //     confirmButtonColor: '#3085d6',
-    //     cancelButtonColor: '#d33',
-    //     confirmButtonText: 'Yes, discard changes!',
-    //     cancelButtonText: 'No, keep editing',
-    //     customClass: {
-    //       container: "sweet-alert-container",
-    //     },
-    //   }).then((result) => {
-    //     if (result.isConfirmed) {
-    //       this.close(); // or any other method to handle cancellation
-    //     }
-    //   });
-    // },
-
-    close() {
+    async close() {
       Swal.fire({
-        title: "Are you sure?",
-        text: "You will lose any unsaved changes!",
-        icon: "warning",
+        title: 'Are you sure?',
+        text: 'All unsaved changes will be lost.',
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, cancel it!",
-        cancelButtonText: "No, keep working",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, discard changes!',
+        cancelButtonText: 'No, keep editing',
         customClass: {
           container: "sweet-alert-container",
         },
       }).then((result) => {
         if (result.isConfirmed) {
-          this.performClose(); 
+          this.close(); // or any other method to handle cancellation
         }
       });
     },
-
-    performClose() {
-      // Hide the modal
-      this.dialog = false;
-      // Reset form or file input if needed
-      this.selectedFile = null;
-      this.editedItem = { ...this.defaultItem };
-    },
-
-    verify() {
-      Swal.fire({
-        title: "Verify this User",
-        text: "Are you sure you want to proceed?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, I'm sure",
-        cancelButtonText: "No, cancel",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.proceed(); 
-          Swal.fire("Saved!", "User has been verified.", "success");
-        }
-      });
-    },
-    proceed() {
-      // padagdag na lang ako logic para sa verification neto
-      console.log("Action verified and proceeded.");
-    },
-
-    closeEditDialog() {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You will lose any unsaved changes!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, cancel it!",
-        cancelButtonText: "No, keep working",
-        customClass: {
-          container: "sweet-alert-container",
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.performCancel(); 
-        }
-      });
-    },
-
-    performCancel() {
-      // Hide the modal
-      this.editDialog = false;
-      // Reset form or file input if needed
-      this.selectedFile = null;
-      this.editedItem = { ...this.defaultItem };
-    },
-
-    // close() {
-    //   this.dialog = false;
-    //   this.$nextTick(() => {
-    //     this.editedItem = Object.assign({}, this.defaultItem);
-    //     this.editedIndex = -1;
-    //   });
-    // },
 
     openViewDialog(item) {
       this.selectedStudent = item;
@@ -997,11 +913,11 @@ export default {
       // Clear the selected student data
     },
 
-    // closeEditDialog() {
-    //   console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent
-    //   this.editDialog = false;
-    //   // Clear the selected student data
-    // },
+    closeEditDialog() {
+      console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent
+      this.editDialog = false;
+      // Clear the selected student data
+    },
 
     editItem(item) {
       this.editedIndex = this.students.indexOf(item);
@@ -1019,6 +935,14 @@ export default {
       this.students.splice(this.editedIndex, 1);
       this.closeDelete();
     },
+
+    // close() {
+    //   this.dialog = false;
+    //   this.$nextTick(() => {
+    //     this.editedItem = Object.assign({}, this.defaultItem);
+    //     this.editedIndex = -1;
+    //   });
+    // },
 
     closeDelete() {
       this.dialogDelete = false;
@@ -1051,13 +975,13 @@ export default {
 
     save() {
       Swal.fire({
-        title: "Are you sure?",
+        title: 'Are you sure?',
         text: "Do you want to save this student?",
-        icon: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, save it!",
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, save it!',
         customClass: {
           container: "sweet-alert-container",
         },
@@ -1075,11 +999,19 @@ export default {
             axios
               .post("student", tmp)
               .then((res) => {
-                Swal.fire("Saved!", "Student has been saved.", "success");
+                Swal.fire(
+                  'Saved!',
+                  'Student has been saved.',
+                  'success'
+                );
                 console.log(res);
               })
               .catch((error) => {
-                Swal.fire("Error!", "Student was not saved.", "error");
+                Swal.fire(
+                  'Error!',
+                  'Student was not saved.',
+                  'error'
+                );
                 console.error(error);
               });
           }

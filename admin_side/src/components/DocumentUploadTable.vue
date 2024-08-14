@@ -50,7 +50,8 @@
           {{ item.enrollment_status }}
         </td>
         <td style="text-align: center">
-          <v-btn color="success" size="small" @click="openViewDialog(item)">
+          <v-btn color="success" size="small" @click="openViewDialog(item)"
+            >
             <v-icon icon="mdi-paperclip" start></v-icon>
             Upload</v-btn
           >
@@ -66,7 +67,7 @@
   <!-- start of enroll dialog -->
   <v-dialog v-model="viewDialog" max-width="900px">
     <v-card>
-      <div style="background-color: var(--dark); color: white">
+      <div style="background-color: var(--dark); color: white;">
         <v-card-title class="dialog-title fs-3 font-weight-black">
           UPLOAD DOCUMENT
         </v-card-title>
@@ -76,30 +77,30 @@
           <v-row dense>
             <v-col cols="12" md="12" sm="6">
               <v-file-input
-                v-model="editedItem.psa"
-                label="PSA/Birth Certificate"
-                counter
-                multiple
-                show-size
-              ></v-file-input>
+              v-model="editedItem.psa"
+              label="PSA/Birth Certificate"
+              counter
+              multiple
+              show-size
+            ></v-file-input>
             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-file-input
-                v-model="editedItem.goodMoral"
-                label="Good Moral"
-                counter
-                multiple
-                show-size
-              ></v-file-input>
+              v-model="editedItem.goodMoral"
+              label="Good Moral"
+              counter
+              multiple
+              show-size
+            ></v-file-input>
             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-file-input
-                v-model="editedItem.tor"
-                label="Form 137/Transcript of Record"
-                counter
-                multiple
-                show-size
-              ></v-file-input>
+              v-model="editedItem.tor"
+              label="Form 137/Transcript of Record"
+              counter
+              multiple
+              show-size
+            ></v-file-input>
             </v-col>
           </v-row>
         </v-container>
@@ -110,7 +111,7 @@
           class="bg-green"
           color="white"
           variant="text"
-          @click="uploadDocument"
+          @click="markEnrolled"
           >Save</v-btn
         >
         <v-btn
@@ -143,13 +144,13 @@ export default {
       { title: "Section", align: "center", key: "section" },
       { title: "Date Enrolled", align: "center", key: "date" },
       { title: "Student Status", align: "center", key: "stud_status" },
-      { title: "Status", align: "center", key: "enroll_status" },
+      { title: "Enrollment Status", align: "center", key: "enroll_status" },
       { title: "Actions", align: "center", sortable: false },
     ],
 
     // displayedStudents: [
     //     {
-    //       student_id: '1',
+    //       student_id: '1', 
     //       full_name:"Jaja",
     //       section:'St. Anne',
     //       date:'',
@@ -294,11 +295,11 @@ export default {
       this.viewDialog = true;
     },
 
-    // closeViewDialog() {
-    //   console.log("selectedStudent:", this.selectedStudent);
-    //   this.viewDialog = false;
-    //   // Clear the selected student data
-    // },
+    closeViewDialog() {
+      console.log("selectedStudent:", this.selectedStudent);
+      this.viewDialog = false;
+      // Clear the selected student data
+    },
 
     editItem(item) {
       this.editedIndex = this.students.indexOf(item);
@@ -400,70 +401,6 @@ export default {
         return "red"; // Default color
       }
     },
-
-    uploadDocument() {
-      Swal.fire({
-        title: "Upload Document",
-        text: "Are you sure you want to proceed?",
-        icon: "question",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, I'm sure",
-        cancelButtonText: "No, cancel",
-        customClass: {
-          container: "sweet-alert-container",
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.proceed();
-
-          setTimeout(() => {
-            Swal.fire({
-              title: "Saved!",
-              text: "Documents have been uploaded.",
-              icon: "success",
-              customClass: {
-                container: "sweet-alert-container",
-              },
-            });
-          }, 200); // 200ms delay
-        }
-      });
-    },
-    proceed() {
-      // padagdag na lang ako logic para sa verification neto
-      this.viewDialog = false;
-      console.log("Action uploaded and proceeded.");
-    },
-
-    closeViewDialog() {
-  Swal.fire({
-    title: "Are you sure?",
-    text: "You will lose any unsaved changes!",
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "Yes, cancel it!",
-    cancelButtonText: "No, keep working",
-    customClass: {
-      container: "sweet-alert-container",
-    },
-  }).then((result) => {
-    if (result.isConfirmed) {
-      this.performCancel(); 
-    }
-  });
-},
-
-performCancel() {
-  // Hide the modal
-  this.viewDialog = false;
-  // Reset form or file input if needed
-  this.selectedFile = null;
-  this.editedItem = { ...this.defaultItem };
-},
   },
 };
 </script>

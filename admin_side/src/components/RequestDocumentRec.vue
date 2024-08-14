@@ -103,12 +103,8 @@
         </v-container>
         <hr />
         <div class="button-container">
-          <v-btn class="bg-green large-button" 
-          @click="approveRequest"
-          :disabled="isApproved"  
-          >Approve Request</v-btn
-          >
-          <!-- <v-btn class="bg-red large-button" @click="cancelRequest">Cancel Request</v-btn> -->
+          <v-btn class="bg-green large-button">Approve Request</v-btn>
+          <v-btn class="bg-red large-button">Cancel Request</v-btn>
         </div>
       </template>
     </v-stepper>
@@ -116,7 +112,6 @@
 </template>
 
 <script>
-import Swal from "sweetalert2";
 export default {
   props: {
     student: {
@@ -124,41 +119,9 @@ export default {
       required: true,
     },
   },
-  data () {
-    return {
-      isApproved: false,
-    }
-  },
   computed: {
     formattedAddress() {
       return `${this.student.houseNumber} ${this.student.street} ${this.student.barangay} ${this.student.city}, ${this.student.province} ${this.student.zip_code}`;
-    },
-  },
-  methods: {
-    approveRequest() {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "Do you want to approve this request?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, approve it!",
-        cancelButtonText: "No, cancel",
-        customClass: {
-          container: "sweet-alert-container",
-        },
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.isApproved = true; 
-          Swal.fire(
-            "Approved!",
-            "The request has been approved.",
-            "success"
-          );
-          // Place the logic to approve the request here
-        }
-      });
     },
   },
 };
@@ -185,9 +148,5 @@ export default {
   display: flex;
   justify-content: end;
   align-items: center;
-}
-
-.sweet-alert-container {
-  z-index: 9999 !important;
 }
 </style>

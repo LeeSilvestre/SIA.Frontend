@@ -48,11 +48,7 @@
           {{ item.enrollment_status }}
         </td>
         <td class="centered-text">
-          <v-btn
-          class="ma-2"
-            size="small"
-            color="primary"
-             @click="openViewDialog(item)"
+          <v-btn class="bg-blue small-button" @click="openViewDialog(item)"
             >
             <v-icon icon="mdi-eye" start></v-icon>View</v-btn
           >
@@ -256,7 +252,7 @@ export default {
       { title: "Section", align: "center", key: "section" },
       { title: "Date Enrolled", align: "center", key: "date" },
       { title: "Student Status", align: "center", key: "status" },
-      { title: "Status", align: "center", key: "status" },
+      { title: "Enrollment Status", align: "center", key: "status" },
       { title: "Actions", align: "center", sortable: false },
     ],
 
