@@ -326,7 +326,13 @@
         <td>{{ item.grade_level }}</td>
         <td>Incoming</td>
         <td :style="{ color: getStatusColor(item.enrollment_status) }">
-          {{ item.enrollment_status }}
+          <v-chip>
+            {{
+            item.enrollment_status == "Verified" ||item.enrollment_status == "Assessed" ||item.enrollment_status == "Enrolled"
+              ? item.enrollment_status
+              : "For Assessement"
+          }}
+          </v-chip>
         </td>
 
         <td>
@@ -702,11 +708,11 @@ export default {
     },
     getStatusColor(status) {
       if (status === "Verified") {
-        return "blue"; // Set color to yellow if status is 'pending'
+        return "#6EACDA"; // Set color to yellow if status is 'pending'
       } else if (status === "Assessed") {
-        return "green"; // Set color to green if status is 'enrolled'
+        return "#FFAD60"; // Set color to green if status is 'enrolled'
       } else {
-        return "red"; // Default color
+        return "#FFD35A"; // Default color
       }
     },
   },

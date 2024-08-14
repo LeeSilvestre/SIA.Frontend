@@ -42,11 +42,11 @@
         <td>{{ item.grade_level }}</td>
         <td>Incoming</td>
         <td :style="{ color: getStatusColor(item.enrollment_status) }">
+          <v-chip>
           {{
-            item.enrollment_status == "Verified" || "Assessed" || "Enrolled"
-              ? item.enrollment_status
-              : "For Verification"
+            item.enrollment_status 
           }}
+          </v-chip>
         </td>
 
         <td>
@@ -59,8 +59,8 @@
             size="small"
           >
           <v-icon icon="mdi-check" start></v-icon>
-          <span v-if="item.enrollment_status == 'Assessed' || item.enrollment_status === 'Verified'">Assessed</span>
-          <span v-else>Assess</span>
+          <span v-if="item.enrollment_status == 'Assessed' || item.enrollment_status === 'Verified'">Admitted</span>
+          <span v-else>Admit</span>
 
           </v-btn
           >
@@ -268,10 +268,7 @@ export default {
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) =>
-        Object.values(student).some(
-          (value) => value === "Pending" || value === "Assessed" || value == "Verified"
-        )
+      return this.students.filter((student) => student.enrollment_status == 'Pending'
       );
     },
   },
@@ -446,14 +443,14 @@ export default {
       this.$router.push("/viewdetails");
     },
     getStatusColor(status) {
-      if (status === "Pending") {
-        return "orange"; // Set color to yellow if status is 'pending'
-      } else if (status == "Assessed" || "Enrolled") {
-        return "green"; // Set color to green if status is 'enrolled'
-      } else if(status == "Verified"){
-        return "blue"
-      }else {
-        return "red"; // Default color
+      if (status === "Verified") {
+        return "#6EACDA"; // Set color to yellow if status is 'pending'
+      } else if (status === "Assessed") {
+        return "#FFAD60"; // Set color to green if status is 'enrolled'
+      } else if(status === "Pending") {
+        return "#FFB200"; // Default color
+      } else {
+        return "grey"
       }
     },
   },

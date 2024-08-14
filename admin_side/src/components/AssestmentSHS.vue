@@ -363,7 +363,13 @@
         <td>{{ item.semester }}</td>
         <td>{{ item.strand}}</td>
         <td>{{ item.student_type }}</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
+        <td :style="{ color: getStatusColor(item.enrollment_status) }"><v-chip>
+          {{
+            item.enrollment_status == "Assessed" ||item.enrollment_status == "Enrolled"
+              ? item.enrollment_status
+              : "For Assessement"
+          }}
+        </v-chip></td>
 
         <!-- <td>
           <v-btn color="success" dark v-bind="props" @click="assessItem(item, 'Confirm')"> 
@@ -748,14 +754,14 @@ export default {
       this.$router.push('/viewdetails');
   },
   getStatusColor(status) {
-      if (status === 'Verified') {
-        return 'blue'; // Set color to yellow if status is 'pending'
-      } else if (status === 'Assessed') {
-        return 'green'; // Set color to green if status is 'enrolled'
+      if (status === "Verified") {
+        return "#6EACDA"; // Set color to yellow if status is 'pending'
+      } else if (status === "Assessed") {
+        return "#FFAD60"; // Set color to green if status is 'enrolled'
       } else {
-        return 'red'; // Default color
+        return "#FFD35A"; // Default color
       }
-    }
+    },
     
   },
 };

@@ -16,7 +16,11 @@
         <td>{{ item.student_id }}</td>
         <td>{{ item.full_name }}</td>
         <td>{{ item.document_type }}</td>
-        <td>{{ item.document_remarks }}</td>
+        <td>
+          <v-chip :color="getStatusColor(item.document_remarks)">
+            {{ item.document_remarks }}
+          </v-chip>
+        </td>
         <td>
           <div class="button-container"> 
           <v-btn color="primary" size="small" @click="handleViewIconClick(item)"><v-icon icon="mdi-eye" start></v-icon>View</v-btn>
@@ -51,7 +55,7 @@ export default {
       { title: 'Student ID', key: 'student_id' },
       { title: 'Name', align: 'start', align: 'start', key: 'full_name' },
       { title: 'Type of Document', align: 'start', key: 'document_type' },
-      { title: 'Status', align: 'start', key: 'status' },
+      { title: 'Status', align: 'start', key: 'document_remarks' },
       { title: 'Actions', align: 'start', sortable: false },
     ],
     students: [],
@@ -106,6 +110,19 @@ export default {
   },
 
   methods: {
+    getStatusColor(status) {
+      if (status == 'Received') {
+        return 'green';
+      } else if (status == 'Pending') {
+        return 'orange';
+      } else if (status == 'For Recieved') {
+        return 'cyan';
+      } else if (status == 'Pending') {
+        return 'orange';
+      } else  {
+        return 'red';
+      }
+    },
     initialize() {
       axios.get('docreq').then(res=>{
         this.students = res.data.data;

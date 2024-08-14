@@ -98,26 +98,19 @@
 
               </v-col>
              </v-row>
-             <v-select
+            <v-row dense>
+              <v-col cols="6">
+                <v-select
                 v-model="newItem.subject"
                 :items="juniorSubjects"
                 item-text="title"
                 item-value="value"
                 label="Subject"
                 class="mr-2 m-auto"
+                required
               ></v-select>
-             
-            <v-row dense>
-              <v-col cols="6">
-                <!-- Day -->
-                <v-select
-                  v-model="newItem.day"
-                  :items="daysOfWeek"
-                  label="Day"
-                  required
-                ></v-select>
+
               </v-col>
-              
               <v-col cols="6">
                 <!-- Time -->
                 <v-select
@@ -223,6 +216,7 @@ export default {
           value: "PE",
         },
       ],
+      allFaculty : [],
       facultyName : [],
       viewDialog: false,
       addDialog: false,
@@ -240,7 +234,10 @@ export default {
     };
   },
   watch:{
-
+    'newItem.subject'(newSubject) {
+      // Filter faculty based on the selected subject
+      this.facultyName = this.allFaculty.filter(faculty => faculty.department === newSubject);
+    },
   },
 
   computed: {
@@ -276,9 +273,10 @@ export default {
     },
     async getFaculty(){
       const res = await axios.get('faculty');
-      this.facultyName  = res.data.faculty.map((faculty)=>({
+      this.allFaculty  = res.data.faculty.map((faculty)=>({
         title: `${faculty.fname} ${faculty.mname} ${faculty.lname} ${faculty.extension}`,
-        value: faculty.id
+        value: faculty.id,
+        department: faculty.department
       }));
       console.log(this.facultyName);
     },
@@ -303,15 +301,13 @@ export default {
     
     addNewSchedule() {
       console.log(this.newItem.subject);
-      // if (
-      //   this.newItem.subject &&
-      //   this.newItem.gr\ade &&
-      //   this.newItem.day &&
-      //   this.newItem.time &&
-      //   this.newItem.room &&
-      //   this.newItem.faculty
-      // ) {
-      console.log(this.newItem.time);
+      if (
+        this.newItem.subject &&
+        this.newItem.grade &&
+        this.newItem.time &&
+        this.newItem.room &&
+        this.newItem.faculty
+      ) {
       let dt = {
         grade_level: this.newItem.grade,
         section: this.newItem.section,
@@ -355,21 +351,14 @@ export default {
           });
         })
         this.addDialog = false;
-        // axios.post()
-        // Logic to add new schedule
 
-        // axios.post('createSched', dt).then(res=>{
-        //   console.log(res);
-        // })
-        // Reset the newItem object
-
-      // } else {
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "Error",
-      //     text: "Please fill out all fields before adding a new schedule.",
-      //   });
-      // }
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Please fill out all fields before adding a new schedule.",
+        });
+      }
     },
   },
 };
@@ -431,7 +420,7 @@ export default {
   }
 }
 
-.v-toolbar {
+.v-toolbar {  
   // background-color: #007bff;
   color: white;
 

@@ -38,10 +38,9 @@
           {{ item.extension }}
           <!-- {{ item.full_name }} -->
         </td>
-        <td style="text-align: center">{{ item.section }}</td>
         <td style="text-align: center">
           <!-- edit later for proper status  -->
-          Incoming
+          {{item.student_type}}
         </td>
         <td
           :style="{
@@ -49,7 +48,7 @@
             textAlign: 'center',
           }"
         >
-          {{ item.enrollment_status }}
+        <v-chip>{{ item.enrollment_status }}</v-chip>
         </td>
         <td style="text-align: center">
           <v-btn color="success" size="small" @click="openViewDialog(item)"
@@ -84,6 +83,7 @@
               counter
               multiple
               show-size
+              @change="handleFileUpload"
             ></v-file-input>
             </v-col>
             <v-col cols="12" md="12" sm="6">
@@ -113,7 +113,7 @@
           class="bg-green"
           color="white"
           variant="text"
-          @click="markEnrolled"
+          @click="upload"
           >Save</v-btn
         >
         <v-btn
@@ -143,42 +143,15 @@ export default {
     headers: [
       { title: "Student LRN.", align: "center", key: "student_lrn" },
       { title: "Full Name", align: "center", key: "full_name" },
-      { title: "Section", align: "center", key: "section" },
-      { title: "Student Status", align: "center", key: "stud_status" },
+      { title: "Student Status", align: "center"  , key: "stud_status" },
       { title: "Enrollment Status", align: "center", key: "enrollment_status" },
       { title: "Actions", align: "center", sortable: false },
     ],
 
     // displayedStudents: [
-    //     {
-    //       student_id: '1', 
-    //       full_name:"Jaja",
-    //       section:'St. Anne',
-    //       date:'',
-    //       stud_status:'',
-    //       date:'enroll_status',
-    //     }
     students: [],
     editedIndex: -1,
-    editedItem: {
-      student_id: "",
-      first_name: "",
-      last_name: "",
-      middle_name: "",
-      extension: "",
-      contact_no: "",
-      birth_date: "",
-      sex_at_birth: "",
-      religion: "",
-      region: "",
-      province: "",
-      city: "",
-      barangay: "",
-      street: "",
-      zip_code: "",
-      sy: "",
-      section: "",
-    },
+    editedItem: {},
     defaultItem: {
       student_id: "",
       first_name: "",
@@ -211,10 +184,7 @@ export default {
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) =>
-        Object.values(student).some(
-          (value) => value === "Pending" || value === "Assessed" || value === "Verified"
-        )
+      return this.students.filter((student) => student.enrollment_status != 'Enrolled' && student.student_type == 'incoming'
       );
     },
   },
@@ -273,6 +243,10 @@ export default {
       },
     },
 
+    handleFileUpload(event) {
+      this.editedItem.psa = event.target.files[0];
+    },
+
     // triggerFileInput() {
     //   this.$refs.fileInput.click();
     // },
@@ -283,6 +257,26 @@ export default {
     //     this.selectedFile = file;
     //   }
     // },
+
+    upload(){ 
+      console.log(this.editedItem.psa); 
+      let formData = new FormData();
+
+      formData.append('student_lrn', this.selectedStudent);
+      formData.append('image', this.editedItem.psa);
+      console.log(formData[0]);
+      axios.post('imageStud', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+      }) 
+      .then(res=>{
+        console.log(res);
+      })
+      .catch(error=>{
+        console.error (error.response);
+      })
+    },
     close() {
       this.dialog = false;
       this.selectedFile = null;
@@ -294,7 +288,7 @@ export default {
     },
 
     openViewDialog(item) {
-      this.selectedStudent = item;
+      this.selectedStudent = item.student_lrn;
       this.viewDialog = true;
     },
 
@@ -397,11 +391,13 @@ export default {
     },
     getStatusColor(status) {
       if (status === "Verified") {
-        return "blue"; // Set color to yellow if status is 'pending'
+        return "#6EACDA"; // Set color to yellow if status is 'pending'
       } else if (status === "Assessed") {
-        return "cyan"; // Set color to green if status is 'enrolled'
+        return "#FFAD60"; // Set color to green if status is 'enrolled'
+      } else if(status === "Pending") {
+        return "#FFB200"; // Default color
       } else {
-        return "red"; // Default color
+        return "grey"
       }
     },
   },

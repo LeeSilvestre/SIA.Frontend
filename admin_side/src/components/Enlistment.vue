@@ -247,16 +247,13 @@
     <template v-slot:item="{ item }">
       <tr>
         <td>{{ item.student_id }}</td>
-        <td>{{ item.student_lrn }}</td>
         <td>
           {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
           {{ item.extension }}
         </td>
-        <td>{{ item.sex_at_birth }}</td>
         <td>{{ item.grade_level }}</td>
         <td>{{ item.student_type}}</td>
-        <!-- <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td> -->
-        <td>Pending</td>
+        <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
 
         <td>
           <div class="button-container">
@@ -272,20 +269,20 @@
             <v-btn
               class="no-gap-button"
               size="small"
-              color="success"
-              @click="verify"
-            >
-              <v-icon icon="mdi-check" start></v-icon>
-              Verify
-            </v-btn>
-            <v-btn
-              class="no-gap-button"
-              size="small"
               color="#D6E200"
               @click="openEditDialog"
             >
               <v-icon icon="mdi-pencil" start></v-icon>
               Edit
+            </v-btn>
+            <v-btn
+              class="no-gap-button"
+              size="small"
+              color="success"
+              @click="verify"
+            >
+              <v-icon icon="mdi-check" start></v-icon>
+              Verify
             </v-btn>
           </div>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
@@ -693,6 +690,7 @@
 <script>
 import Swal from "sweetalert2";
 import axios from "axios";
+import Enrolled from "./Enrolled.vue";
 export default {
   data: () => ({
     search: "",
@@ -703,10 +701,8 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: "Student No.", align: "start", key: "student_id" },
-      { title: "Student Lrn", align: "start", key: "student_lrn" },
+      { title: "Student ID.", align: "start", key: "student_id" },
       { title: "Full Name", align: "center", key: "full_name" },
-      { title: "Gender", align: "start", key: "sex_at_birth" },
       { title: "Grade Level", align: "start", key: "grade_level" },
       { title: "Student Status", align: "start", key: "enrollment_status" },
       { title: "Status", align: "start", key: "status" },
@@ -767,10 +763,7 @@ export default {
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) =>
-        Object.values(student).some(
-          (value) => value == "returning"
-        )
+      return this.students.filter((student) => student.enrollment_status != "Enrolled" && student.student_type == "returning" 
       );
     },
   },
@@ -805,10 +798,50 @@ export default {
             full_name:
               `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
           }));
+          console.log(this.students)
         })
         .catch((error) => {
           console.error("Error fetching students:", error);
         });
+    },
+    assessItem(item, action) {
+      this.editedIndex = this.students.indexOf(item);
+      console.log(this.editedIndex);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, " + action + " it!",
+        customClass: {
+          container: "sweet-alert-container",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (action === "Confirm") {
+            axios
+              .put(`student/editstat/${item.student_recno}`, {
+                enrollment_status: "Verified",
+              })
+              .then((res) => {
+                console.log(res.data);
+                Swal.fire({
+                  title: "Approved!",
+                  text: "Your action has been approved.",
+                  icon: "success",
+                });
+                setTimeout(() => {
+                  window.location.reload();
+                }, 3000); //
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        }
+      });
     },
 
     triggerFileInput() {

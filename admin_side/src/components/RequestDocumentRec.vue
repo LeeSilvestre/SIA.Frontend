@@ -103,8 +103,8 @@
         </v-container>
         <hr />
         <div class="button-container">
-          <v-btn class="bg-green large-button">Approve Request</v-btn>
-          <v-btn class="bg-red large-button">Cancel Request</v-btn>
+          <v-btn class="bg-green large-button" @click="assessItem(student.request_id, 'Confirm')">Approve Request</v-btn>
+          <v-btn class="bg-red large-button" @click="assessItem(student.request_id, 'Decline')">Cancel Request</v-btn>
         </div>
       </template>
     </v-stepper>
@@ -112,7 +112,14 @@
 </template>
 
 <script>
+import axios from 'axios';
+import Swal from "sweetalert2";
+
 export default {
+
+  data: () => ({
+
+  }),
   props: {
     student: {
       type: Object,
@@ -124,6 +131,69 @@ export default {
       return `${this.student.houseNumber} ${this.student.street} ${this.student.barangay} ${this.student.city}, ${this.student.province} ${this.student.zip_code}`;
     },
   },
+  mounted(){
+
+  },
+  methods:{
+    assessItem(item, action) {
+      console.log(item);
+      Swal.fire({
+        title: "Are you sure?",
+        text: "",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes "+ action  +" it!",
+        customClass: {
+          container: "sweet-alert-container",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (action === "Confirm") {
+            axios
+              .put(`approve/${item}`, {
+                document_remarks: "For Recieved",
+              })
+              .then((res) => {
+                console.log(res.data);
+                Swal.fire({
+                  title: "Approved!",
+                  text: "Your action has been approved.",
+                  icon: "success",
+                });
+                setTimeout(() => {
+                  window.location.reload();
+                }, 3000); //
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          } else{
+            axios
+              .put(`approve/${item}`, {
+                document_remarks: "Declined",
+              })
+              .then((res) => {
+                console.log(res.data);
+                Swal.fire({
+                  title: "Approved!",
+                  text: "Your action has been approved.",
+                  icon: "success",
+                });
+                setTimeout(() => {
+                  window.location.reload();
+                }, 3000); //
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        }
+      });
+    },
+
+  }
 };
 </script>
 

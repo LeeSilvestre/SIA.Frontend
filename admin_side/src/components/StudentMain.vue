@@ -345,7 +345,7 @@ export default {
         zip_code : this.zipCode,
         religion : this.religion,
         contact_no : this.contactNumber,
-        strand : this.strand,
+        strand : this.strand ? this.strand : 'N/A' ,
         grade_level: this.gradeLevel,
       }
       axios.post('student', data).then(res=>{
@@ -358,7 +358,7 @@ export default {
           window.location.reload();
         }, 3000); //
       }).catch(error =>{
-        console.error(error);
+        console.error(error); 
       })
     }
 

@@ -39,14 +39,13 @@
         </td>
         <td style="text-align: center">Incoming</td>
         <td style="text-align: center">{{ item.grade_level }}</td>
-        <td
-          :style="{
-            color: getStatusColor(item.enrollment_status),
-            textAlign: 'center',
-          }"
-        >
-          {{ item.enrollment_status }}
-        </td>
+        <td :style="{ color: getStatusColor(item.enrollment_status) }"><v-chip>
+          {{
+            item.enrollment_status == "Verified" ||item.enrollment_status == "Enrolled"
+              ? item.enrollment_status
+              : "For Enrollment"
+          }}
+        </v-chip></td>
         <td style="text-align: center">
           <v-btn
             color="primary"
@@ -193,46 +192,6 @@
           <v-row>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="editedItem.adviser_id"
-                label="Adviser"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-select
-                v-model="editedItem.section"
-                :items="[
-                  'St. Anne',
-                  'St. Bernadette',
-                  'St. Charles',
-                  'St. Elizabeth',
-                  'St. Faustina',
-                  'St. George',
-                  'St. Pedro Calungsod',
-                  'St. Lorenzo Ruiz',
-                  'St. Gabriel',
-                  'St. Michael',
-                  'St. Raphael',
-                  'St. Patrick',
-                  'St. Scholastica',
-                  'St. Homobonus',
-                  'St. Helena',
-                  'St. Louise',
-                  'St. Stephen',
-                  'St. Vincent',
-                  'St. Catherine',
-                  'St. Albertus',
-                  'St. Benedict',
-                  'St. Maximillian',
-                  'St. Peter',
-                  'St. Thomas',
-                  'St. Isidore',
-                  'St. Joseph',
-                ]"
-                label="Section"
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-text-field
                 v-model="selectedStudent.grade_level"
                 label="Grade level"
                 readonly
@@ -244,12 +203,30 @@
               md="3"
               sm="6"
             >
-              <v-select
-                v-model="editedItem.strand"
-                :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
+            <v-text-field
+                v-model="selectedStudent.strand"
                 label="Strand"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-select
+                v-model="editedItem.section"
+                :items= sectionList
+                label="Section"
               ></v-select>
             </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-select
+              v-model="editedItem.adviser_id"
+              :items="facultyName"
+              item-text="title"
+              item-value="value"
+              label="Aviser"
+              class="mr-2 m-auto"
+            ></v-select>
+            </v-col>
+
             <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="editedItem.password"
@@ -401,47 +378,6 @@
           <v-row>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.adviser_id"
-                label="Adviser"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-select
-                v-model="selectedStudent.section"
-                :items="[
-                  'St. Anne',
-                  'St. Bernadette',
-                  'St. Charles',
-                  'St. Elizabeth',
-                  'St. Faustina',
-                  'St. George',
-                  'St. Pedro Calungsod',
-                  'St. Lorenzo Ruiz',
-                  'St. Gabriel',
-                  'St. Michael',
-                  'St. Raphael',
-                  'St. Patrick',
-                  'St. Scholastica',
-                  'St. Homobonus',
-                  'St. Helena',
-                  'St. Louise',
-                  'St. Stephen',
-                  'St. Vincent',
-                  'St. Catherine',
-                  'St. Albertus',
-                  'St. Benedict',
-                  'St. Maximillian',
-                  'St. Peter',
-                  'St. Thomas',
-                  'St. Isidore',
-                  'St. Joseph',
-                ]"
-                label="Section"
-                readonly
-              ></v-select>
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-text-field
                 v-model="selectedStudent.grade_level"
                 label="Grade level"
                 readonly
@@ -460,13 +396,6 @@
                 readonly
               ></v-select>
             </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-text-field
-                v-model="selectedStudent.password"
-                label="Password"
-                readonly
-              ></v-text-field>
-            </v-col>
           </v-row>
           <hr />
           <label class="fw-regular mb-3 fs-5">Document Information</label>
@@ -474,32 +403,26 @@
             <v-col cols="12" md="12" sm="6">
               <v-row align="center">
                 <v-col>
-                  <v-file-input
+                  <v-text-field
                     v-model="selectedStudent.psa"
-                    label="PSA/Birth Certificate"
-                    counter
-                    multiple
-                    show-size
+                    label="PSA"
                     readonly
-                  ></v-file-input>
+                  ></v-text-field>
                 </v-col>
                 <v-col>
                   <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
-                  <v-icon @click="openViewFile(BGImage)">mdi-eye</v-icon>
+                  <v-icon @click="openViewFile(selectedStudent.image)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-row align="center">
                 <v-col>
-                  <v-file-input
-                    v-model="selectedStudent.goodMoral"
+                  <v-text-field
+                    v-model="selectedStudent.goodmoral"
                     label="Good Moral"
-                    counter
-                    multiple
-                    show-size
                     readonly
-                  ></v-file-input>
+                  ></v-text-field>
                 </v-col>
                 <v-col>
                   <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
@@ -510,14 +433,11 @@
             <v-col cols="12" md="12" sm="6">
               <v-row align="center">
                 <v-col>
-                  <v-file-input
+                  <v-text-field
                     v-model="selectedStudent.tor"
                     label="Form 137/Transcript of Record"
-                    counter
-                    multiple
-                    show-size
                     readonly
-                  ></v-file-input>
+                  ></v-text-field>
                 </v-col>
                 <v-col>
                   <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
@@ -588,16 +508,6 @@ export default {
       { title: "Actions", align: "center", sortable: false },
     ],
     lname: "",
-
-    // displayedStudents: [
-    //     {
-    //       student_id: '1',
-    //       full_name:"Jaja",
-    //       section:'St. Anne',
-    //       date:'',
-    //       stud_status:'',
-    //       date:'enroll_status',
-    //     }
     students: [],
     editedIndex: -1,
     students: [],
@@ -643,6 +553,9 @@ export default {
     },
     itemView: {},
     formTitle: "",
+    allFaculty: [],
+    facultyName: [],
+    sectionList: []
   }),
 
   computed: {
@@ -666,21 +579,26 @@ export default {
     dialogDelete(val) {
       val || this.closeDelete();
     },
-  },
-
-  watch: {
+    
     "selectedStudent.grade_level"(newGrade) {
-      if (["7", "8", "9", "10"].includes(newGrade)) {
-        this.editedItem.strand = "N/A";
-      } else {
-        this.editedItem.strand = "";
-      }
+    console.log("New grade level:", newGrade);
+    const newGradeStr = String(newGrade);
+      this.sectionList = this.allFaculty
+        .filter(val => val.grade_level == newGrade)
+        .map(val => val.section);
+      console.log("Filtered sectionList:", this.sectionList);
+    },
+    'editedItem.section'(section) {
+      // Filter faculty based on the selected subject
+      this.facultyName = this.allFaculty.filter(faculty => faculty.section === section);
     },
   },
 
   mounted() {
     const year = new Date().getFullYear(); // returns the current year
     this.initialize();
+    this.getFaculty();
+    // this.getSection();
     // this.fixedPass = selectedStudent.last_name + 'SNA' + year ;
   },
 
@@ -689,17 +607,33 @@ export default {
       axios
         .get("student")
         .then((res) => {
-          this.lname = res.data.student.last_name;
-          console.log(this.lname);
+          // this.lname = res.data.student.last_name;
+          // console.log(this.lname);
           this.students = res.data.student.map((student) => ({
             ...student,
             full_name:
               `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
+            image:  student.image.map((image)=>({
+              docuType: image.file_type,
+              image:  `http://26.81.173.255:8000/uploads/profile/${image.image}`
+            }))
           }));
+          console.log(this.students)
+          console.log(this.students[0])
         })
         .catch((error) => {
           console.error("Error fetching students:", error);
         });
+    },
+    async getFaculty(){
+      const res = await axios.get('getSec');
+      this.allFaculty  = res.data.data.map((faculty)=>({
+        ...faculty,
+        title: faculty.adviser.full_name,
+        value: faculty.adviser_id,
+        department: faculty.adviser.department
+      }));
+      console.log(this.sectionList);
     },
 
     openViewFile(fileUrl) {
@@ -751,9 +685,7 @@ export default {
           }
         }
       },
-    },
-
-    // triggerFileInput() {
+    },  // triggerFileInput() {
     //   this.$refs.fileInput.click();
     // },
 
@@ -774,6 +706,7 @@ export default {
     },
 
     openViewDialog(item) {
+      console.log(item)
       this.selectedStudent = item;
       this.viewDialog = true;
     },
@@ -790,7 +723,7 @@ export default {
     },
 
     closeViewDialog() {
-      console.log("selectedStudent:", this.selectedStudent);
+      console.log("selectedStudent:", this.selectedStudent.image);
       this.viewDialog = false;
       // Clear the selected student data
     },
@@ -887,12 +820,14 @@ export default {
       this.$router.push("/viewdetails");
     },
     getStatusColor(status) {
-      if (status === "Verifying") {
-        return "yellow"; // Set color to yellow if status is 'pending'
-      } else if (status === "Enrolled") {
-        return "green"; // Set color to green if status is 'enrolled'
+      if (status === "Verified") {
+        return "#6EACDA"; // Set color to yellow if status is 'pending'
+      } else if (status === "Assessed") {
+        return "#FFAD60"; // Set color to green if status is 'enrolled'
+      } else if(status === "Pending") {
+        return "#FFB200"; // Default color
       } else {
-        return "red"; // Default color
+        return "grey"
       }
     },
   },

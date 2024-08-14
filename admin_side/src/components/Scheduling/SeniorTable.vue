@@ -141,38 +141,7 @@ export default {
   data() {
     return {
       search: "",
-      seniorList: [
-        // {
-        //   senior_id: 1,
-        //   section: "St. Michael",
-        //   adviser: "John Doe",
-        //   strand: "STEM",
-        // },
-        // {
-        //   senior_id: 2,
-        //   section: "St. Catherine",
-        //   adviser: "Jane Smith",
-        //   strand: "GAS",
-        // },
-        // {
-        //   senior_id: 3,
-        //   section: "St. Joseph",
-        //   adviser: "Robert Brown",
-        //   strand: "HUMMS",
-        // },
-        // {
-        //   senior_id: 4,
-        //   section: "St. Francis",
-        //   adviser: "Emily Davis",
-        //   strand: "ABM",
-        // },
-        // {
-        //   senior_id: 5,
-        //   section: "St. Michael",
-        //   adviser: "Michael Johnson",
-        //   strand: "TVL",
-        // },
-      ],
+      seniorList: [],
       headers: [
         { title: "Strand", key: "strand" },
         { title: "Section", key: "section" },

@@ -39,114 +39,24 @@
           {{ item.extension }}
         </td>
         <td class="start-text">{{ item.section }}</td>
+        <td class="start-text">{{ item.grade_level }}</td>
+        <td class="centered-text">{{ item.student_type}}</td>
+        <td :style="{ color: getStatusColor(item.enrollment_status) }"><v-chip>
+          {{
+            item.enrollment_status 
+          }}
+        </v-chip></td>
         <td class="centered-text">{{ item.enrollment_date }}</td>
-        <td class="centered-text">Incoming</td>
-        <td
-          :style="{ color: getStatusColor(item.enrollment_status) }"
-          class="centered-text"
-        >
-          {{ item.enrollment_status }}
-        </td>
         <td class="centered-text">
           <v-btn class="bg-blue small-button" @click="openViewDialog(item)"
             >
             <v-icon icon="mdi-eye" start></v-icon>View</v-btn
           >
-          <!-- <v-icon class="me-2" size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
         </td>
       </tr>
     </template>
 
-    <!-- <template v-slot:no-data>
-      <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
-    </template> -->
   </v-data-table>
-
-  <!-- view user status modal pop -->
-  <!-- <v-dialog v-model="viewDialog" max-width="800px">
-    <v-card>
-      <v-card-title class="d-flex justify-space-between align-center">
-        <span class="text-h5 fw-bold m-1" style="color: #2F3F64">
-          STUDENT DETAILS
-        </span>
-        <v-btn icon @click="closeViewDialog" class="close-button">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-card-title>
-      <v-card-text>
-        <v-container>
-          <v-row>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Student ID: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.student_id }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Full Name: </v-list-item-title>
-                  <v-list-item-subtitle>{{ students.full_name }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Contact Number: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.contact_no }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Birthplace: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.birth_place }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Sex: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.sex_at_birth }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1">Religion: </v-list-item-title>
-                  <v-list-item-subtitle>{{ selectedStudent.religion }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-
-            <hr>
-
-            <v-row>
-              <v-col cols="12" sm="4">
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-subtitle-1">Address: </v-list-item-title>
-                    <v-list-item-subtitle>
-                      {{ selectedStudent.street }} {{ selectedStudent.barangay }},
-                      {{ selectedStudent.city }} {{ selectedStudent.province }}
-                      {{ selectedStudent.zip_code }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-col>
-            </v-row>
-
-          </v-row>
-        </v-container>
-      </v-card-text>
-    </v-card>
-  </v-dialog> -->
 
   <v-dialog v-model="viewDialog" max-width="800">
     <v-card>
@@ -250,9 +160,10 @@ export default {
       { title: "Student Number", align: "start", key: "student_id" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Section", align: "center", key: "section" },
-      { title: "Date Enrolled", align: "center", key: "date" },
+      { title: "Grade", align: "center", key: "grade_level" },
       { title: "Student Status", align: "center", key: "status" },
       { title: "Enrollment Status", align: "center", key: "status" },
+      { title: "Date Enrolled", align: "center", key: "date" },
       { title: "Actions", align: "center", sortable: false },
     ],
 
@@ -297,6 +208,7 @@ export default {
       year: "",
       section: "",
     },
+    facultyName : []
   }),
 
   computed: {
@@ -307,8 +219,7 @@ export default {
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) =>
-        Object.values(student).some((value) => value === "Enrolled")
+      return this.students.filter((student) => student.enrollment_status == 'Enrolled'
       );
     },
   },
@@ -334,6 +245,7 @@ export default {
 
   mounted() {
     this.initialize();
+    this.getFaculty();
   },
 
   methods: {
@@ -355,6 +267,15 @@ export default {
           }
         });
       });
+    },
+    async getFaculty(){
+      const res = await axios.get('faculty');
+      this.allFaculty  = res.data.faculty.map((faculty)=>({
+        title: `${faculty.fname} ${faculty.mname} ${faculty.lname} ${faculty.extension}`,
+        value: faculty.id,
+        department: faculty.department
+      }));
+      console.log(this.facultyName);
     },
 
     watch: {
@@ -491,12 +412,14 @@ export default {
     },
 
     getStatusColor(status) {
-      if (status === "Verifying") {
-        return "orange"; // Set color to yellow if status is 'pending'
-      } else if (status === "Enrolled") {
-        return "green"; // Set color to green if status is 'enrolled'
+      if (status === "Verified") {
+        return "#6EACDA"; // Set color to yellow if status is 'pending'
+      } else if (status === "Assessed") {
+        return "#FFAD60"; // Set color to green if status is 'enrolled'
+      } else if(status === "Pending") {
+        return "#FFB200"; // Default color
       } else {
-        return "red"; // Default color
+        return "green"
       }
     },
     getRouterLink(status) {
