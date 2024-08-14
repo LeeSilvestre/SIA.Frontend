@@ -355,16 +355,16 @@
     <template v-slot:item="{ item }">
 
       <tr>
-        <td>{{ item.student_id }}</td>
-        <td>{{ item.student_lrn}}</td>
-        <td> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
-        <td>{{ item.sex_at_birth }}</td>
-        <td>{{ item.grade_level }}</td>
-        <td>{{ item.grade_level }}</td>
-        <td>{{ item.strand}}</td>
-        <td>{{ item.enrollment_date}}</td>
-        <td >Incoming</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
+        <td class="text-center">{{ item.student_id }}</td>
+        <td class="text-center">{{ item.student_lrn}}</td>
+        <td class="text-center"> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
+        <td class="text-center">{{ item.sex_at_birth }}</td>
+        <td class="text-center">{{ item.grade_level }}</td>
+        <td class="text-center">{{ item.grade_level }}</td>
+        <td class="text-center">{{ item.strand}}</td>
+        <td class="text-center">{{ item.enrollment_date}}</td>
+        <td class="text-center">Incoming</td>
+        <td class="text-center" :style="{ color: getStatusColor(item.enrollment_status) }">{{ item.enrollment_status}}</td>
 
         <!-- <td>
           <v-btn color="success" dark v-bind="props" @click="assessItem(item, 'Confirm')"> 
@@ -375,7 +375,7 @@
           <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon>
         </td> -->
         
-        <td>
+        <td class="text-center">
           <v-btn class="ma-2" color="primary" @click="openViewDialog"
           size=small>
             <v-icon icon="mdi-eye" start></v-icon>
@@ -389,7 +389,7 @@
             :disabled="item.enrollment_status === 'Assessed'"
             size="small"
           >
-            <v-icon icon="mdi-check-circle" start></v-icon>
+            <v-icon icon="mdi-check" start></v-icon>
             Assess
           </v-btn>
           <!-- <v-btn>Assessed</v-btn> -->
@@ -514,17 +514,17 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: 'Student No.', align: 'start', key:'student_id'},
-      { title: 'Student Lrn', align: 'start', key: 'lrn' },
-      { title: 'Full Name', align: 'start', key: 'full_name' },
-      { title: 'Gender', align: 'start', key:'sex_at_birth'},
-      { title: 'Grade Level', align: 'start', key:'grade_lvl'},
-      { title: 'Semester', align: 'start', key:'semester_shs'},
-      { title: 'Strand', align: 'start', key:'strand_shs'},
-      { title: 'Date Enrolled', align: 'start', key: 'date' },
-      { title: 'Student Status', align: 'start', key: 'stud_status' },
-      { title: 'Enrollment Status', align: 'start', key: 'enrol_status' },
-      { title: 'Actions', sortable: false },
+      { title: 'Student No.', align: 'center', key:'student_id'},
+      { title: 'Student LRN', align: 'center', key: 'lrn' },
+      { title: 'Full Name', align: 'center', key: 'full_name' },
+      { title: 'Gender', align: 'center', key:'sex_at_birth'},
+      { title: 'Grade Level', align: 'center', key:'grade_lvl'},
+      { title: 'Semester', align: 'center', key:'semester_shs'},
+      { title: 'Strand', align: 'center', key:'strand_shs'},
+      { title: 'Date Enrolled', align: 'center', key: 'date' },
+      { title: 'Student Status', align: 'center', key: 'stud_status' },
+      { title: 'Enrollment Status', align: 'center', key: 'enrol_status' },
+      { title: 'Actions', sortable: false, align: 'center' },
     ],
 
     students: [],
