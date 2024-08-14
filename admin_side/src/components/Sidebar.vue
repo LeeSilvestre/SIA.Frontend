@@ -120,7 +120,7 @@
     </div>
   
     <div class="menu-logout">
-      <div class="button" @click="logout">
+      <div class="button" @click="logout" style="cursor: pointer">
         <span class="material-icons">logout</span>
         <span class="text">Logout</span>
       </div>

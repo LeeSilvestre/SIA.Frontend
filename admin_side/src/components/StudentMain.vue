@@ -2,43 +2,64 @@
   <v-app>
     <v-stepper :items="['GUIDELINES', 'FORM']">
       <template v-slot:item.1>
-        <v-card flat>
-          <v-card-title>PRE-REGISTRATION GUIDELINES</v-card-title>
+        <v-card flat class="stepper-card">
+          <v-card-title>
+            <v-icon class="mr-2">mdi-book-open</v-icon>
+            <span class="card-title fw-bold fs-4">PRE-REGISTRATION GUIDELINES</span>
+          </v-card-title>
+          <v-divider></v-divider>
           <v-card-text>
-            <h1>Here are the guidelines...</h1>
-            <!-- <pdf src="../assets/enrollment.pdf" /> -->
+            <v-list lines="one">
+              <v-list-item v-for="(item, index) in instructions" :key="index">
+                <v-list-item-icon>
+                  <v-icon>{{ item.icon }}</v-icon>
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title class="item-title">{{
+                    item.title
+                  }}</v-list-item-title>
+                  <v-list-item-subtitle>
+                    <ul>
+                      <li v-for="(detail, i) in item.details" :key="i">
+                        {{ detail }}
+                      </li>
+                    </ul>
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-list>
+            <v-alert type="info" class="mt-4">
+              <v-icon left>mdi-calendar-start</v-icon>
+              Classes for the school year 2024-2025 begin on July 29, 2024.
+              Orientation for new students and parents will be held on August
+              1-2, 2024.
+            </v-alert>
           </v-card-text>
         </v-card>
       </template>
 
       <template v-slot:item.2>
         <v-card flat>
-          <v-card-title>PRE-REGISTRATION FORM</v-card-title>
+          <v-card-title>
+            <v-icon class="mr-2">mdi-form-textbox</v-icon>
+            <span class="card-title fw-bold fs-4">PRE-REGISTRATION FORM</span>
+          </v-card-title>
           <v-divider></v-divider>
           <v-card-text>
-            <v-form v-model="valid">
+            <v-form v-model="valid" ref="form">
               <v-container>
                 <div class="academic">
-                  <h1>PERSONAL INFORMATION</h1>
+                  <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-account</v-icon>
+                    Personal Information
+                  </h1>
                 </div>
                 <v-row>
-                  <!-- <v-col cols="12" md="3">
-                    <v-select
-                      v-model="studentType"
-                      :items="['incoming', 'returning']"
-                      label="Student Type"
-                      clearable
-                      outlined
-                    ></v-select>
-                  </v-col> -->
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="student_lrn"
-                      :counter="10"
+                      :rules="studentLrnRules"
                       label="Student LRN"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -46,21 +67,16 @@
                   <v-col cols="12" md="3">
                     <v-text-field
                       v-model="lastname"
-                      :counter="10"
                       :rules="nameRules"
                       label="Last name"
-                      hide-details
                       required
-                      outlined
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="3">
                     <v-text-field
                       v-model="firstname"
-                      :counter="10"
                       :rules="nameRules"
                       label="First name"
-                      hide-details
                       required
                       outlined
                     ></v-text-field>
@@ -68,141 +84,115 @@
                   <v-col cols="12" md="3">
                     <v-text-field
                       v-model="middlename"
-                      :counter="10"
-                      :rules="nameRules"
                       label="Middle name"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="3">
+                    <v-text-field
+                      v-model="extension"
+                      label="Extension"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="4">
                     <v-select
                       v-model="sex"
                       :items="['Male', 'Female']"
                       label="Sex"
                       clearable
+                      required
                       outlined
                     ></v-select>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="birthdate"
                       :rules="birthdateRules"
                       label="Birthdate"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="email"
                       :rules="emailRules"
                       label="E-mail"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="religion"
-                      :rules="emailRules"
                       label="Religion"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="houseNumber"
                       :rules="houseNumberRules"
                       label="House Number"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="street"
                       :rules="streetRules"
                       label="Street"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="barangay"
                       :rules="barangayRules"
                       label="Barangay"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="city"
                       :rules="cityRules"
                       label="City"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="province"
                       :rules="provinceRules"
                       label="Province"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="region"
                       :rules="provinceRules"
                       label="Region"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="zipCode"
                       :rules="zipCodeRules"
                       label="Zip Code"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
                 </v-row>
                 <div class="academic">
-                  <h1>CONTACT INFORMATION</h1>
+                  <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-phone</v-icon>
+                    Contact Information
+                  </h1>
                 </div>
                 <v-row>
-                <v-col cols="12" md="3">
+                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="contactNumber"
                       :rules="contactNumberRules"
                       label="Contact Number"
-                      hide-details
-                      required
-                      outlined
                     ></v-text-field>
                   </v-col>
                 </v-row>
                 <div class="academic">
-                  <h1>ACADEMIC INFORMATION</h1>
+                  <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-school</v-icon>
+                    Academic Information
+                  </h1>
                 </div>
                 <v-row>
                   <v-col cols="12" md="3">
@@ -214,7 +204,7 @@
                       outlined
                     ></v-select>
                   </v-col>
-                  <v-col v-if="showStrand" cols="12" md="3">
+                  <v-col v-if="showStrand" cols="12" md="4">
                     <v-select
                       v-model="strand"
                       :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
@@ -223,10 +213,16 @@
                       outlined
                     ></v-select>
                   </v-col>
-                </v-row>  
+                </v-row>
               </v-container>
             </v-form>
-            <v-btn class="bg-green large-button" @click="enroll">Submit</v-btn>
+            <v-row justify="end">
+              <v-col cols="auto">
+                <v-btn class="bg-green large-button" @click="enroll"
+                  >Submit</v-btn
+                >
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </template>
@@ -245,13 +241,12 @@ export default {
   // },
   data: () => ({
     valid: false,
-    studnet_lrn: "",
+    student_lrn: "",
     studentType: "",
     firstname: "",
     lastname: "",
     middlename: "",
-    age: "",
-    religion: "", 
+    religion: "",
     contactNumber: "",
     sex: "",
     birthdate: "",
@@ -263,20 +258,23 @@ export default {
     province: "",
     zipCode: "",
     region: "",
-    gradeLevel: "", // To store the selected grade level
-    section: "",
+    gradeLevel: "",
     strand: "",
+    student_lrn: "",
     nameRules: [
       (value) => !!value || "Name is required.",
       (value) =>
         (value && value.length <= 10) ||
         "Name must be less than 10 characters.",
     ],
+    studentLrnRules: [
+      (value) => !!value || "Student LRN is required."
+    ],
     contactNumberRules: [
       (value) => !!value || "Contact Number is required.",
       (value) =>
-        (value && value.length <= 10) ||
-        "Contact Number must be less than 10 characters.",
+        (value && value.length <= 11) ||
+        "Contact Number must be less than 12 digit.",
     ],
     birthdateRules: [(value) => !!value || "Birthdate is required."],
     emailRules: [
@@ -289,7 +287,53 @@ export default {
     cityRules: [(value) => !!value || "City is required."],
     provinceRules: [(value) => !!value || "Province is required."],
     zipCodeRules: [(value) => !!value || "Zip Code is required."],
-    gradeLevels: ["7", "8", "9", "10", "11", "12"], // To store available grade levels based on studentType
+    gradeLevels: ["7", "8", "9", "10", "11", "12"],
+    instructions: [
+      {
+        icon: "mdi-account",
+        title: "Step 1: Personal Information",
+        details: [
+          "Enter your 10-digit Learner Reference Number (LRN) provided by your previous school.",
+          "Fill out your last name, first name, and middle name accurately. Ensure each field is less than 10 characters.",
+          "Select your gender from the options available (Male/Female).",
+          "Provide your date of birth in the correct format (MM/DD/YYYY).",
+          "Enter a valid email address where you can be contacted.",
+          "Specify your religion.",
+        ],
+      },
+      {
+        icon: "mdi-home",
+        title: "Step 2: Address Information",
+        details: [
+          "Provide your complete house number and street address.",
+          "Ensure these fields are filled with accurate details about your residence.",
+          "Enter the correct postal code for your area.",
+        ],
+      },
+      {
+        icon: "mdi-phone",
+        title: "Step 3: Contact Information",
+        details: [
+          "Provide a valid contact number where you or your guardian can be reached.",
+        ],
+      },
+      {
+        icon: "mdi-school",
+        title: "Step 4: Academic Information",
+        details: [
+          "Choose whether you are an incoming or returning student.",
+          "Select the grade level you are applying for. If you are entering Grade 11 or 12, select the strand (e.g., HUMSS, STEM) that applies to you.",
+        ],
+      },
+      {
+        icon: "mdi-check-circle",
+        title: "Step 5: Submission",
+        details: [
+          "After filling out all required fields, review your entries to ensure accuracy.",
+          'Click the "Submit" button to complete your pre-registration. Ensure that all the required documents are ready for submission to avoid any delays in processing your enrollment.',
+        ],
+      },
+    ],
   }),
   computed: {
     showStrand() {
@@ -372,9 +416,23 @@ export default {
   font-weight: bold;
 }
 
+.card-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
 .academic h1 {
   margin-top: 2rem;
   font-size: 1.2rem;
-  font-weight: regular;
+  font-weight: 500;
+}
+
+.stepper-card {
+  max-height: fit-content;
+  overflow-y: auto;
+}
+
+.item-title {
+  font-weight: bold;
 }
 </style>

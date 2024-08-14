@@ -49,7 +49,7 @@
           </v-chip>
         </td>
 
-        <td>
+        <td class="text-center">
           <v-btn
             color="success"
             dark
@@ -485,4 +485,13 @@ export default {
 .close-button:hover {
   color: red;
 }
+
+.button-container {
+  // display: flex;
+  gap: 7px;
+  align-items: center
+}
+.button-container .v-btn:nth-child(1) { left: 0; }
+.button-container .v-btn:nth-child(2) { left: calc(100% / 50); }
+.button-container .v-btn:nth-child(3) { left: calc(200% / 50); }
 </style>
