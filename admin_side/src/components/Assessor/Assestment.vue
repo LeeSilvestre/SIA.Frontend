@@ -369,86 +369,211 @@
   </v-data-table>
 
   <!-- view user status modal pop -->
-  <v-dialog v-model="viewDialog" max-width="800">
+  <v-dialog v-model="viewDialog" max-width="1000px">
     <v-card>
       <div style="background-color: var(--dark); color: white">
         <v-card-title class="dialog-title fs-3 font-weight-black">
           STUDENT INFORMATION
         </v-card-title>
       </div>
-
       <v-card-text>
         <v-container>
+          <label class="fw-regular fs-5 mb-5">Personal Information</label>
           <v-row dense>
-            <v-col cols="12" md="4" sm="6">
-              <v-text-field
-                v-model="selectedStudent.student_id"
-                label="Student ID"
-                readonly
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.student_lrn"
-                label="LRN"
+                label="Student LRN"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="4" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.grade_level"
-                label="Grade Level"
+                v-model="selectedStudent.last_name"
+                label="Last Name"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="12" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.full_name"
-                label="Full Name"
+                v-model="selectedStudent.first_name"
+                label="First Name"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.contact_no"
-                label="Contact Number"
+                v-model="selectedStudent.middle_name"
+                label="Middle Name"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.birth_date"
+                label="Birthdate"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.sex_at_birth"
                 label="Sex"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="6" sm="6">
-              <v-text-field
-                v-model="selectedStudent.birth_place"
-                label="Birthplace"
-                readonly
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="6" sm="6">
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.religion"
                 label="Religion"
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="12" sm="6">
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.region"
+                label="Region"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.province"
+                label="Province"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.city"
+                label="City"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.barangay"
+                label="Barangay"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.street"
-                label="Address"
+                label="Street"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.zip_code"
+                label="Zip Code"
                 readonly
               ></v-text-field>
             </v-col>
           </v-row>
+          <hr />
+          <label class="fw-regular mb-3 fs-5">Contact Information</label>
+          <v-row>
+          <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.contact_no"
+                label="Contact no."
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.email"
+                label="Email"
+                readonly
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <hr />
+          <label class="fw-regular mb-3 fs-5">Academic Information</label>
+          <v-row>
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.grade_level"
+                label="Grade level"
+                readonly
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <hr />
+          <label class="fw-regular mb-3 fs-5">Document Information</label>
+          <v-row>
+            <v-col cols="12" md="12" sm="6">
+              <v-row align="center">
+                <v-col>
+                  <v-text-field
+                    v-model="selectedStudent.psa"
+                    label="PSA"
+                    readonly
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile(imgDocs.psa)">mdi-eye</v-icon>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-row align="center">
+                <v-col>
+                  <v-text-field
+                    v-model="selectedStudent.goodmoral"
+                    label="Good Moral"
+                    readonly
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile(imgDocs.goodmoral)">mdi-eye</v-icon>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-row align="center">
+                <v-col>
+                  <v-text-field
+                    v-model="selectedStudent.tor"
+                    label="Form 137/Transcript of Record"
+                    readonly
+                  ></v-text-field>
+                </v-col>
+                <v-col>
+                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile(imgDocs.tor)">mdi-eye</v-icon>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
         </v-container>
       </v-card-text>
+
+      <!-- View File Dialog -->
+      <v-dialog v-model="viewFileDialog" max-width="800px">
+    <v-card>
+      <v-card-title class="d-flex justify-space-between align-center" style="background-color: var(--dark); color: white">
+        <span class="fs-5 font-weight-black">DOCUMENT</span>
+        <v-btn
+          icon
+          @click="closeViewFile"
+          class="red--text"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <v-card-text>
+        <v-img :src="fileUrl" height="600px" contain></v-img>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
+
       <v-card-actions>
         <v-spacer></v-spacer>
-
         <v-btn
           class="bg-red"
           color="white"
