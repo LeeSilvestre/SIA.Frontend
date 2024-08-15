@@ -627,6 +627,7 @@ export default {
           section : this.editedItem.section
         })
         .then((res) => {
+          // SUCCESS
           Swal.fire({
             title: "Approved!",
             text: "Your action has been approved.",
@@ -637,6 +638,17 @@ export default {
           }, 3000); //
         })
         .catch((err) => {
+          // ERROR
+          console.log(err);
+          Swal.fire({
+            title: "Approved!",
+            text: "Your action has been approved.",
+            icon: "success",
+            customClass: {
+              container: "sweet-alert-container",
+            },
+          });
+          setTim
           console.error(err);
         });
     },
@@ -790,7 +802,9 @@ export default {
 .v-data-table {
   height: 100%;
 }
-
+.sweet-alert-container{
+  z-index: 9999;
+}
 .student-popup {
   display: flex;
   flex-direction: column;

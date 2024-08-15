@@ -48,10 +48,10 @@
       </div>
 
       <!-- TREASURER TAB -->
-      <router-link class="button" to="/assestment">
+      <!-- <router-link class="button" to="/assestment">
         <span class="material-icons">assessment</span>
         <span class="text">Assessment</span>
-      </router-link>
+      </router-link> -->
 
       <!-- REGISTRATION -->
       <router-link class="button" to="/enrollment">

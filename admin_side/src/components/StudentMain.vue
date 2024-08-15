@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-stepper :items="['GUIDELINES', 'FORM']">
+    <v-stepper :items="['GUIDELINES', 'FORM', 'UPLOADING']">
       <template v-slot:item.1>
         <v-card flat class="stepper-card">
           <v-card-title>
@@ -179,12 +179,14 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
+
                 <div class="academic">
                   <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
                     <v-icon class="mr-2">mdi-school</v-icon>
                     Academic Information
                   </h1>
                 </div>
+
                 <v-row>
                   <v-col cols="12" md="3">
                     <v-select
@@ -207,6 +209,7 @@
                 </v-row>
               </v-container>
             </v-form>
+            
             <v-row justify="end">
               <v-col cols="auto">
                 <v-btn class="bg-green large-button" @click="enroll"
@@ -216,6 +219,76 @@
             </v-row>
           </v-card-text>
         </v-card>
+      </template>
+      
+      <template v-slot:item.3>
+        <v-card>
+          <v-card-text>
+            <v-row>
+              <v-col>
+                <div class="academic">
+                  <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+                    <v-icon class="mr-2">mdi-school</v-icon>
+                    Initial file Uploading 
+                  </h1>
+                </div>
+
+                <v-row dense>
+                  <!-- PSA UPLOADER -->
+                  <v-col cols="12" md="12" sm="6">
+                    <v-row>
+                      <div style="width: 300px;">
+                        <v-file-input 
+                          v-model="editedItem.psa"
+                          label="PSA/Birth Certificate"
+                          counter
+                          multiple
+                          show-size
+                          @change="handleFileUpload('psa', $event)"
+                        ></v-file-input>
+                      </div>
+                      <v-btn  @click="upload('PSA')">upload</v-btn>
+                    </v-row>
+                  </v-col>
+
+                  <!-- GOOD MORAL UPLOADER -->
+                  <v-col cols="12" md="12" sm="6">
+                    <v-row>
+                      <div style="width: 300px;">
+                      <v-file-input
+                        v-model="editedItem.goodMoral"
+                        label="Good Moral"
+                        counter
+                        multiple
+                        show-size
+                        @change="handleFileUpload('goodmoral', $event)"
+                      ></v-file-input>
+                    </div>
+                      <v-btn  @click="upload('Good Moral')">upload</v-btn>
+                    </v-row>
+                  </v-col>
+                  <!--  TOR UPLOADER -->
+                  <v-col cols="12" md="12" sm="6">
+                    <v-row>
+                      <div style="width: 300px;">
+                        <v-file-input
+                          v-model="editedItem.tor"
+                          label="Form 137/Transcript of Record"
+                          counter
+                          multiple
+                          show-size
+                          @change="handleFileUpload('tor', $event)"
+                        ></v-file-input>
+                      </div>
+                    <v-btn  @click="upload('TOR')">upload</v-btn>
+                    </v-row>
+                </v-col>
+              </v-row>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+
       </template>
     </v-stepper>
   </v-app>
@@ -231,6 +304,11 @@ export default {
   //   pdf,
   // },
   data: () => ({
+    editedItem: {
+      psa:null,
+      goodmoral:null,
+      tor:null
+    },
     valid: false,
     student_lrn: "",
     studentType: "",
@@ -325,43 +403,78 @@ export default {
           ],
         },
       ],
+      psaFile: null,
+      goodMoralFile : null,
+      torFile : null
+
   }),
+  
   computed: {
     showStrand() {
       return this.gradeLevel === "11" || this.gradeLevel === "12";
     },
   },
-  // watch: {
-  //   studentType(newType) {
-  //       this.gradeLevels = [
-  //         "8",
-  //         "9",
-  //         "10",
-  //         "11",
-  //         "12",
-  //       ];
-  //       // Optionally, reset the gradeLevel if it is not in the new set
-  //       if (!this.gradeLevels.includes(this.gradeLevel)) {
-  //         this.gradeLevel = "";
-  //       }
-  //       this.gradeLevels = [
-  //         "7",
-  //         "8",
-  //         "9",
-  //         "10",
-  //         "11",
-  //         "12",
-  //       ];
-  //       // Optionally, reset the gradeLevel if it is not in the new set
-  //       if (!this.gradeLevels.includes(this.gradeLevel)) {
-  //         this.gradeLevel = "";
-  //       }
-  //     }
-  //   },
-  // },
+
+
   mounted(){
   },
+
+
   methods: {
+    handleFileUpload(type, event) {
+      const file = event.target.files[0];
+      if (file) {
+          if (type === 'psa') {
+            this.psaFile = file;
+          } else if (type === 'goodmoral') {
+            this.goodMoralFile = file;
+          } else if (type === 'tor') {
+            this.torFile = file;
+          }
+        }
+    },
+    upload(type){
+      if(this.editedItem.tor || this.editedItem.psa || this.editedItem.tor || this.editedItem.goodmoral){
+
+        const formData = new FormData();
+  
+        formData.append('student_lrn', this.student_lrn)
+        let file = this.editedItem.psa ? this.psaFile: (this.editedItem.tor ?  this.torFile : (this.editedItem.goodmoral ? this.goodMoralFile : this.editedItem.psa));
+        console.log(file);
+        formData.append('image', file);
+        formData.append('file_type', type);
+        
+        axios.post('imageStud', formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+        }) 
+        .then(res=>{
+          this.viewDialog = false;
+          Swal.fire({
+              title: "Upload Success!",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+        })
+        .catch(error=>{
+          console.error (error.response);
+          let err = error.response.data
+          Swal.fire({
+          icon: "error",
+          title: "Bad Request",
+          text: err.message,
+        });
+  
+        })
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "No file is selected",
+          text: "Select file before upload.",
+        });
+      }
+    },
     enroll(){
       const data = {
         student_lrn : this.student_lrn,
@@ -401,7 +514,18 @@ export default {
 };
 </script>
 
+
+
+
+
+
+
+
 <style lang="scss" scoped>
+
+.fileinput{
+  width: 12vh !important;
+}
 .v-card-title {
   display: flex;
   align-items: center; /* Align items vertically */
