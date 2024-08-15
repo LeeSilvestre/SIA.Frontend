@@ -33,8 +33,8 @@
     </template>
     <template v-slot:item="{ item }">
       <tr>
-        <td class="start-text">{{ item.student_id }}</td>
-        <td class="centered-text">
+        <td class="text-center">{{ item.student_id }}</td>
+        <td class="text-center">
           {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
           {{ item.extension }}
         </td>
@@ -58,7 +58,7 @@
 
   </v-data-table>
 
-  <v-dialog v-model="viewDialog" max-width="800">
+  <!-- <v-dialog v-model="viewDialog" max-width="800">
     <v-card>
       <div class="dialog-header">
         <v-card-title class="dialog-title fs-3 font-weight-black">
@@ -139,6 +139,288 @@
         >
       </v-card-actions>
     </v-card>
+  </v-dialog> -->
+
+  <v-dialog v-model="viewDialog" max-width="1000px">
+    <v-card>
+      <div style="background-color: var(--dark); color: white">
+        <v-card-title class="dialog-title fs-3 font-weight-black">
+          STUDENT INFORMATION
+        </v-card-title>
+      </div>
+      <v-card-text>
+        <label class="fw-regular fs-5">Personal Information</label>
+        <v-container>
+          <v-row dense>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.student_lrn"
+                label="LRN"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.last_name"
+                label="Last Name"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.first_name"
+                label="First Name"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.middle_name"
+                label="Middle Name"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.contact_no"
+                label="Contact no."
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.birth_date"
+                label="Date of Birth dd/mm/yy"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.sex_at_birth"
+                label="Sex"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.religion"
+                label="Religion"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.region"
+                label="Region"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.province"
+                label="Province"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.city"
+                label="City"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.barangay"
+                label="Barangay"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.street"
+                label="Street"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.houseNumber"
+                label="House Number"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.zip_code"
+                label="Zip Code"
+                readonly
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <hr />
+          <label class="fw-regular mb-3 fs-5">Academic Information</label>
+          <v-row>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.adviser_id"
+                label="Adviser"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-select
+                v-model="selectedStudent.section"
+                :items="[
+                  'St. Anne',
+                  'St. Bernadette',
+                  'St. Charles',
+                  'St. Elizabeth',
+                  'St. Faustina',
+                  'St. George',
+                  'St. Pedro Calungsod',
+                  'St. Lorenzo Ruiz',
+                  'St. Gabriel',
+                  'St. Michael',
+                  'St. Raphael',
+                  'St. Patrick',
+                  'St. Scholastica',
+                  'St. Homobonus',
+                  'St. Helena',
+                  'St. Louise',
+                  'St. Stephen',
+                  'St. Vincent',
+                  'St. Catherine',
+                  'St. Albertus',
+                  'St. Benedict',
+                  'St. Maximillian',
+                  'St. Peter',
+                  'St. Thomas',
+                  'St. Isidore',
+                  'St. Joseph',
+                ]"
+                label="Section"
+                readonly
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.grade_level"
+                label="Grade level"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col
+              v-if="selectedStudent.grade_level > 10"
+              cols="12"
+              md="3"
+              sm="6"
+            >
+              <v-select
+                v-model="selectedStudent.strand"
+                :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
+                label="Strand"
+                readonly
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.password"
+                label="Password"
+                readonly
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <hr />
+          <label class="fw-regular mb-3 fs-5">Document Information</label>
+          <v-row>
+            <v-col cols="12" md="12" sm="6">
+              <v-row align="center">
+                <v-col>
+                  <v-file-input
+                    v-model="selectedStudent.psa"
+                    label="PSA/Birth Certificate"
+                    counter
+                    multiple
+                    show-size
+                    readonly
+                  ></v-file-input>
+                </v-col>
+                <v-col>
+                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile(BGImage)">mdi-eye</v-icon>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-row align="center">
+                <v-col>
+                  <v-file-input
+                    v-model="selectedStudent.goodMoral"
+                    label="Good Moral"
+                    counter
+                    multiple
+                    show-size
+                    readonly
+                  ></v-file-input>
+                </v-col>
+                <v-col>
+                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile(BGImage)">mdi-eye</v-icon>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col cols="12" md="12" sm="6">
+              <v-row align="center">
+                <v-col>
+                  <v-file-input
+                    v-model="selectedStudent.tor"
+                    label="Form 137/Transcript of Record"
+                    counter
+                    multiple
+                    show-size
+                    readonly
+                  ></v-file-input>
+                </v-col>
+                <v-col>
+                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile(BGImage)">mdi-eye</v-icon>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-card-text>
+
+      <!-- View File Dialog -->
+      <v-dialog v-model="viewFileDialog" max-width="800px">
+    <v-card>
+      <v-card-title class="d-flex justify-space-between align-center" style="background-color: var(--dark); color: white">
+        <span class="fs-5 font-weight-black">DOCUMENT</span>
+        <v-btn
+          icon
+          @click="closeViewFile"
+          class="red--text"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <v-card-text>
+        <v-img :src="fileUrl" height="600px" contain></v-img>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          class="bg-red"
+          color="white"
+          variant="text"
+          @click="closeViewDialog"
+          >Cancel</v-btn
+        >
+      </v-card-actions>
+    </v-card>
   </v-dialog>
 
   <!-- end view user status modal pop -->
@@ -157,7 +439,7 @@ export default {
     selectedFile: null,
     status: "",
     headers: [
-      { title: "Student Number", align: "start", key: "student_id" },
+      { title: "Student Number", align: "center", key: "student_id" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Section", align: "center", key: "section" },
       { title: "Grade", align: "center", key: "grade_level" },

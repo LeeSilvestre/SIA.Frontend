@@ -29,15 +29,15 @@
     </template>
     <template v-slot:item="{ item }">
       <tr>
-        <td>{{ item.student_id }}</td>
-        <td>
+        <td class="text-center">{{ item.student_id }}</td>
+        <td class="text-center">
           {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
           {{ item.extension }}
         </td>
-        <td>{{ item.student_lrn }}</td>
-        <td>{{ item.grade_level }}</td>
-        <td>{{ item.strand }}</td>
-        <td>
+        <td class="text-center">{{ item.student_lrn }}</td>
+        <td class="text-center">{{ item.grade_level }}</td>
+        <td class="text-center">{{ item.strand }}</td>
+        <td class="text-center">
           <v-btn color="primary" size="small" @click="handleViewIconClick(item)"
               >
               <v-icon icon="mdi-eye" start></v-icon>View</v-btn
@@ -62,12 +62,12 @@ export default {
     selectedStudent: null,
     viewDialog: false,
     headers: [
-      { title: "Student ID", align: "start", key: "student_id" },
-      { title: "Name", align: "start", key: "full_name" },
-      { title: "LRN", align: "start", key: "student_lrn" },
-      { title: "Grade Level", align: "start", key: "grade_level" },
-      { title: "Strand", align: "start", key: "strand" },
-      { title: "Actions", align: "start", sortable: false },
+      { title: "Student ID", align: "center", key: "student_id" },
+      { title: "Name", align: "center", key: "full_name" },
+      { title: "LRN", align: "center", key: "student_lrn" },
+      { title: "Grade Level", align: "center", key: "grade_level" },
+      { title: "Strand", align: "center", key: "strand" },
+      { title: "Actions", align: "center", sortable: false },
     ],
     students: [],
     value: [],

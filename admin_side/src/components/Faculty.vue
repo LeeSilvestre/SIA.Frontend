@@ -170,15 +170,15 @@
     </template>
     <template v-slot:item="{ item }">
       <tr>
-        <td>{{ item.faculty_id }}</td>
-        <td>
+        <td class="text-center">{{ item.faculty_id }}</td>
+        <td class="text-center">
           {{ item.fname }} {{ item.mname }} {{ item.lname }}
           {{ item.extension }}
         </td>
-        <td>{{ item.position }}</td>
-        <td>{{ item.department }}</td>
-        <td>{{ item.email }}</td>
-        <td>
+        <td class="text-center">{{ item.position }}</td>
+        <td class="text-center">{{ item.department }}</td>
+        <td class="text-center">{{ item.email }}</td>
+        <td class="text-center">
           <v-btn color="primary" size="small" @click="handleViewIconClick(item)"
               >
               <v-icon icon="mdi-eye" start></v-icon>View</v-btn
@@ -267,12 +267,12 @@ export default {
     selectedFaculty: null,
     viewDialog: false,
     headers: [
-      { title: "Faculty ID", align: "start", key: "faculty_id" },
-      { title: "Name", align: "start", key: "full_name" },
-      { title: "Position", align: "start", key: "position" },
-      { title: "Department", align: "start", key: "department" },
-      { title: "Email", align: "start", key: "email" },
-      { title: "Actions", sortable: false },
+      { title: "Faculty ID", align: "center", key: "faculty_id" },
+      { title: "Name", align: "center", key: "full_name" },
+      { title: "Position", align: "center", key: "position" },
+      { title: "Department", align: "center", key: "department" },
+      { title: "Email", align: "center", key: "email" },
+      { title: "Actions", align: "center",sortable: false },
     ],
     students: [],
     faculty: [],

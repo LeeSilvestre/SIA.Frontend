@@ -37,7 +37,6 @@
           {{ item.extension }} -->
           {{ item.full_name }}
         </td>
-        <td style="text-align: center">Incoming</td>
         <td style="text-align: center">{{ item.grade_level }}</td>
         <td :style="{ color: getStatusColor(item.enrollment_status)}" style="text-align: center"> <v-chip >
           {{
@@ -57,7 +56,7 @@
             View</v-btn
           >
           <v-btn color="success" size="small" @click="openViewDialog(item)">
-            <v-icon icon="mdi-check-circle" start></v-icon>
+            <v-icon icon="mdi-check" start></v-icon>
             Enroll</v-btn
           >
         </td>
@@ -502,7 +501,7 @@ export default {
     fileUrl: BGImage, // Use your local image here
     headers: [
       { title: "Full Name", align: "center", key: "full_name" },
-      { title: "Grade", align: "center", key: "grade_level" },
+      { title: "Grade Level", align: "center", key: "grade_level" },
       { title: "Student Status", align: "center", key: "stud_status" },
       { title: "Enrollment Status", align: "center", key: "enrollment_status" },
       { title: "Actions", align: "center", sortable: false },

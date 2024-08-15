@@ -355,15 +355,15 @@
     <template v-slot:item="{ item, index }">
 
       <tr>
-        <td>{{ index + 1 }}</td>
-        <td>{{ item.student_lrn}}</td>
-        <td> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
-        <td>{{ item.sex_at_birth }}</td>
-        <td>{{ item.grade_level }}</td>
-        <td>{{ item.semester }}</td>
-        <td>{{ item.strand}}</td>
-        <td>{{ item.student_type }}</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }"><v-chip>
+        <td class="text-center">{{ index + 1 }}</td>
+        <td class="text-center">{{ item.student_lrn}}</td>
+        <td class="text-center"> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
+        <td class="text-center">{{ item.sex_at_birth }}</td>
+        <td class="text-center">{{ item.grade_level }}</td>
+        <td class="text-center">{{ item.semester }}</td>
+        <td class="text-center">{{ item.strand}}</td>
+        <td class="text-center">{{ item.student_type }}</td>
+        <td class="text-center" :style="{ color: getStatusColor(item.enrollment_status) }"><v-chip>
           {{
             item.enrollment_status == "Assessed" ||item.enrollment_status == "Enrolled"
               ? item.enrollment_status
@@ -380,7 +380,7 @@
           <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon>
         </td> -->
         
-        <td>
+        <td class="text-center">
           <v-btn class="ma-2" color="primary" @click="openViewDialog"
           size=small>
             <v-icon icon="mdi-eye" start></v-icon>
@@ -394,7 +394,7 @@
             :disabled="item.enrollment_status === 'Assessed'"
             size="small"
           >
-            <v-icon icon="mdi-check-circle" start></v-icon>
+            <v-icon icon="mdi-check" start></v-icon>
             Assess
           </v-btn>
           <!-- <v-btn>Assessed</v-btn> -->
