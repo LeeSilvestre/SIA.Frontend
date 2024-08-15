@@ -9,17 +9,12 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title
-          class="text-h6 font-weight-black"
+          class="text-h6 font-weight-black m-1 mr-3"
           style="color: #2f3f64"
           >STUDENT MASTER LIST
           
-          <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
-            <v-icon left>mdi-download</v-icon>
-            GENERATE REPORT
-          </v-btn></v-toolbar-title
+  </v-toolbar-title
         >
-
-        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
         <v-text-field
           v-model="search"
@@ -32,6 +27,33 @@
           hide-details
           single-line
         ></v-text-field>
+        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
+        
+        <v-select
+          clearable
+          label="Grade Level"
+          :items="gradeLevels"
+          v-model="selectedGrade"
+          variant="solo-filled"
+          class="mr-2 m-auto"
+          @update:modelValue="onGradeLevelChange"
+        ></v-select>
+
+
+        <v-select
+          clearable
+          label="Section"
+          :items="currentSections"
+          v-model="selectedSection"
+          variant="solo-filled"
+          class="mr-2 m-auto"
+        ></v-select>
+
+
+        <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
+            <v-icon left>mdi-download</v-icon>
+            GENERATE REPORT
+          </v-btn>
 
         <!-- create new popup modal -->
       </v-toolbar>
@@ -494,7 +516,18 @@ export default {
       year: "",
       section: "",
     },
-    facultyName : []
+    facultyName : [],
+    selectedGrade: null,
+    gradeLevels: [
+        { value: "7", title: "Grade 7", text: "Grade 7" },
+        { value: "8", title: "Grade 8", text: "Grade 8" },
+        { value: "9", title: "Grade 9" },
+        { value: "10", title: "Grade 10" },
+        { value: "11", title: "Grade 11" },
+        { value: "12", title: "Grade 12" },
+      ],
+    selectedSection: null, 
+    currentSections: []
   }),
 
   computed: {
@@ -504,9 +537,18 @@ export default {
         : "Edit Student Information";
     },
     displayedStudents() {
-      const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) => student.enrollment_status == 'Enrolled'
-      );
+      // const searchTerm = this.search.toLowerCase();
+      var students = this.students.filter((student) => student.enrollment_status == 'Enrolled');
+
+      if(this.selectedGrade) {
+        students = students.filter((student) => student.grade_level == this.selectedGrade);
+      }
+
+      if(this.selectedSection) {
+        students = students.filter((student) => student.section == this.selectedSection);
+      }
+
+      return students
     },
   },
 
@@ -598,6 +640,54 @@ export default {
       this.dialog = false;
       this.selectedFile = null;
     },
+
+    onGradeLevelChange() {
+      this.selectedSection = null
+      switch (this.selectedGrade) {
+        case '7':
+          this.currentSections = [
+            { value: "St. Anne", title: "St. Anne" },
+            { value: "St. Whacky", title: "St. Whacky" }
+          ]
+          break;
+        case '8':
+          this.currentSections = [
+            { value: "St. Maximillian", title: "St. Maximillian" },
+            { value: "St. Denris", title: "St. Denris" }
+          ]
+          break;
+        case '9':
+          this.currentSections = [
+            { value: "St. Pedro Calungsod", title: "St. Pedro Calungsod" },
+            { value: "St. Matthew", title: "St. Matthew" }
+          ]
+          break;
+        case '10':
+          this.currentSections = [
+            { value: "St. Kevin", title: "St. Kevin" },
+            { value: "St. Matthew", title: "St. Matthew" }
+          ]
+          break;
+        case '11':
+          this.currentSections = [
+            { value: "St. Helena", title: "St. Helena" },
+            { value: "St. Joseph", title: "St. Joseph" }
+          ]
+          break;
+        case '12':
+          this.currentSections = [
+            { value: "St. Segrewel", title: "St. Segrewel" },
+            { value: "St. Peter", title: "St. Peter" },
+            { value: "St. Joseph", title: "St. Joseph" }
+          ]
+          break;
+      
+        default:
+          this.currentSections = []
+          break;
+      }
+    },
+
 
     openViewDialog(item) {
       console.log(item);
@@ -829,7 +919,17 @@ export default {
 
     async downloadXLS() {
       try {
-        const data = this.students; // yung data nyo dito nyo lagay
+        var students = this.students.filter((student) => student.enrollment_status == 'Enrolled');
+
+        if(this.selectedGrade) {
+          students = students.filter((student) => student.grade_level == this.selectedGrade);
+        }
+        
+        if(this.selectedSection) {
+          students = students.filter((student) => student.section == this.selectedSection);
+        }
+
+        const data = students; // yung data nyo dito nyo lagay
         const excel = await this.convertExcel(data); // Make sure convertExcel is awaited
 
         if (excel instanceof ExcelJS.Workbook) {
