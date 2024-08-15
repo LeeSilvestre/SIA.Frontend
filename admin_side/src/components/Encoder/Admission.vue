@@ -39,14 +39,14 @@
       <tr>
         <td>{{ index + 1 }}</td>
         <td>{{ item.student_lrn }}</td>
-        <td>
+        <td class="text-center">
           {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
           {{ item.extension }}
         </td>
-        <td>{{ item.sex_at_birth }}</td>
-        <td>{{ item.grade_level }}</td>
-        <td>Incoming</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }">
+        <td class="text-center">{{ item.sex_at_birth }}</td>
+        <td class="text-center">{{ item.grade_level }}</td>
+        <td class="text-center">Incoming</td>
+        <td class="text-center" :style="{ color: getStatusColor(item.enrollment_status) }">
           <v-chip>
           {{
             item.enrollment_status 
@@ -215,13 +215,13 @@ export default {
 
     headers: [
       { title: "#", align: "start", key: "index" },
-      { title: "Student Lrn", align: "start", key: "studnet_lrn" },
-      { title: "Full Name", align: "start", key: "full_name" },
-      { title: "Gender", align: "start", key: "sex_at_birth" },
-      { title: "Grade Level", align: "start", key: "grade_level" },
-      { title: "Student Status", align: "start", key: "student_type" },
-      { title: "Status", align: "start", key: "enrollment_status" },
-      { title: "Actions", sortable: false },
+      { title: "Student Lrn", align: "start", key: "student_lrn" },
+      { title: "Full Name", align: "center", key: "full_name" },
+      { title: "Gender", align: "center", key: "sex_at_birth" },
+      { title: "Grade Level", align: "center", key: "grade_level" },
+      { title: "Student Status", align: "center", key: "student_type" },
+      { title: "Status", align: "center", key: "enrollment_status" },
+      { title: "Actions", align: "center",sortable: false },
     ],
 
     students: [],

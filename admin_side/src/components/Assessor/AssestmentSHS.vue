@@ -361,8 +361,8 @@
     <template v-slot:item="{ item, index }">
 
       <tr>
-        <td class="text-center">{{ index + 1 }}</td>
-        <td class="text-center">{{ item.student_lrn}}</td>
+        <td>{{ index + 1 }}</td>
+        <td>{{ item.student_lrn}}</td>
         <td class="text-center"> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
         <td class="text-center">{{ item.grade_level }}</td>
         <td class="text-center">{{ item.semester }}</td>
@@ -657,13 +657,13 @@ export default {
     headers: [
       { title: "#", key: "index" },
       { title: 'Student Lrn', align: 'start', key: 'lrn' },
-      { title: 'Full Name', align: 'start', key: 'full_name' },
-      { title: 'Grade Level', align: 'start', key:'grade_lvl'},
-      { title: 'Semester', align: 'start', key:'semester'},
-      { title: 'Strand', align: 'start', key:'strand'},
-      { title: 'Student Type', align: 'start', key: 'student_type' },
-      { title: 'Enrollment Status', align: 'start', key: 'enrollment_status' },
-      { title: 'Actions', sortable: false },
+      { title: 'Full Name', align: 'center', key: 'full_name' },
+      { title: 'Grade Level', align: 'center', key:'grade_lvl'},
+      { title: 'Semester', align: 'center', key:'semester'},
+      { title: 'Strand', align: 'center', key:'strand'},
+      { title: 'Student Type', align: 'center', key: 'student_type' },
+      { title: 'Enrollment Status', align: 'center', key: 'enrollment_status' },
+      { title: 'Actions', sortable: false ,align: 'center'},
     ],
 
     students: [],

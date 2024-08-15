@@ -18,7 +18,7 @@
 
         <v-text-field
           v-model="search"
-          class="w-auto mr-1"
+          class="w-auto mr-10"
           density="compact"
           label="Search"
           prepend-inner-icon="mdi-magnify"
@@ -60,22 +60,22 @@
     </template>
     <template v-slot:item="{ item, index }">
       <tr>
-        <td class="text-center">{{ index + 1 }}</td>
-        <td class="text-center">{{ item.student_id }}</td>
+        <td>{{ index + 1 }}</td>
+        <td>{{ item.student_id }}</td>
         <td class="text-center">
           {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
           {{ item.extension }}
         </td>
-        <td class="start-text">{{ item.section }}</td>
-        <td class="start-text">{{ item.grade_level }}</td>
-        <td class="centered-text">{{ item.student_type}}</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }"><v-chip>
+        <td class="text-center">{{ item.section }}</td>
+        <td class="text-center">{{ item.grade_level }}</td>
+        <td class="text-center">{{ item.student_type}}</td>
+        <td class="text-center" :style="{ color: getStatusColor(item.enrollment_status) }"><v-chip>
           {{
             item.enrollment_status 
           }}
         </v-chip></td>
-        <td class="centered-text">{{ item.enrollment_date }}</td>
-        <td class="centered-text">
+        <td class="text-center">{{ item.enrollment_date }}</td>
+        <td class="text-center">
           <v-btn class="bg-blue small-button" @click="openViewDialog(item)"
             >
             <v-icon icon="mdi-eye" start></v-icon>View</v-btn
@@ -463,8 +463,8 @@ export default {
     selectedFile: null,
     status: "",
     headers: [
-      { title: "#", align: "center", key: "index" },
-      { title: "Student ID.", align: "center", key: "student_id" },
+      { title: "#", key: "index" },
+      { title: "Student ID.", key: "student_id" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Section", align: "center", key: "section" },
       { title: "Grade", align: "center", key: "grade_level" },
