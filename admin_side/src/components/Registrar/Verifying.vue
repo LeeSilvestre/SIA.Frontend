@@ -637,7 +637,15 @@ export default {
           }, 3000); //
         })
         .catch((err) => {
+          this.viewDialog = false
           console.error(err);
+          Swal.fire ({
+          title: "Error",
+          text: "Please fill out all fields before enrolling the student.",
+          icon: "error",
+          showConfirmButton: false,
+          Timer: 3000,
+          });
         });
     },
 
