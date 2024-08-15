@@ -37,7 +37,7 @@
 
 <script>
 import JuniorHigh from '../components/JuniorHigh.vue';
-import JuniorHighRecord from '../components/JuniorHighRecord.vue';
+import JuniorHighRecord from '../components/Registrar/JuniorHighRecord.vue';
 
 export default {
   data() {

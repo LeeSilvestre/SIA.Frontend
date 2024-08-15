@@ -36,7 +36,7 @@
   
   <script>
   import Faculty from '../components/Faculty.vue';
-  import FacultyRecord from '../components/FacultyRecord.vue';
+  import FacultyRecord from '../components/Registrar/FacultyRecord.vue';
   
   export default {
     data() {

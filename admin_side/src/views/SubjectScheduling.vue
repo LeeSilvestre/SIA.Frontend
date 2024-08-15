@@ -11,23 +11,23 @@
 
     <div class="bottom-container">
       <div class="jhs-container">
-        <JuniorTable />
+        <ScheduleLeft />
       </div>
 
       <div class="shs-container">
-        <SeniorTable />
+        <ViewScheduleRight />
       </div>
     </div>
   </main>
 </template>
 
 <script>
-import JuniorTable from "../components/Scheduling/JuniorTable.vue";
-import SeniorTable from "../components/Scheduling/SeniorTable.vue";
+import ScheduleLeft from "../components/Scheduling/ScheduleLeft.vue";
+import ViewScheduleRight from "../components/Scheduling/ViewScheduleRight.vue";
 export default {
   components: {
-    SeniorTable,
-    JuniorTable,
+    ScheduleLeft,
+    ViewScheduleRight,
   },
 };
 </script>

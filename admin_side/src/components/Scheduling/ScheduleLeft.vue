@@ -3,18 +3,23 @@
     <v-data-table
       :search="search"
       :headers="headers"
-      :items="filteredJuniorList"
+      :items="combinedList"
       :sort-by="[{ key: 'section', order: 'asc' }]"
+      @click:row="handleRowClick(item)"
+      style="cursor: pointer"
     >
       <!-- toolbar  -->
       <template v-slot:top>
         <v-menu transition="scale-transition">
           <template v-slot:activator="{ props }">
             <v-toolbar flat class="pt-2">
-              <v-toolbar-title class="text-h6 font-weight-black" style="color: #2f3f64">
-                JUNIOR HIGH SCHEDULE
+              <v-toolbar-title
+                class="text-h6 font-weight-black"
+                style="color: #2f3f64"
+              >
+                SCHEDULE
               </v-toolbar-title>
-              
+
               <v-select
                 clearable
                 label="Grade Level"
@@ -24,32 +29,35 @@
                 variant="solo-filled"
                 class="mr-2 m-auto"
               ></v-select>
+
+              <v-select
+                clearable
+                label="Strand"
+                v-bind="props"
+                :items="strandLevels"
+                v-model="selectedStrand"
+                variant="solo-filled"
+                class="mr-2 m-auto"
+                :disabled="isStrandDisabled"
+              ></v-select>
             </v-toolbar>
           </template>
         </v-menu>
       </template>
 
-      <template v-slot:item="{ item }">
-        <tr :key="item.id">
-          <td>{{ item.grade_level }}</td>
-          <td style="padding: 1rem">{{ item.section }}</td>
-          <td>{{ item.adviser.full_name }}</td>
-          <td>
-            <div class="icon">
-              <span @click="openViewDialog(item)" class="view" style="cursor: pointer">
-                <v-icon>mdi-eye</v-icon>View
-              </span>
-              <span @click="openAddDialog(item)" class="add" style="cursor: pointer">
-                <v-icon>mdi-plus-circle</v-icon>Add
-              </span>
-            </div>
-          </td>
+      <template v-slot:item="{ item, props }">
+        <tr @click="handleRowClick(item)" v-bind="props">
+          <td class="text-center">{{ item.grade_level }}</td>
+          <td class="text-center">{{ item.section }}</td>
+          <td class="text-center" style="padding: 1rem">{{ item.strand }}</td>
+          <td class="text-center">{{ item.adviser.full_name }}</td>
         </tr>
       </template>
     </v-data-table>
+    <!-- <ViewScheduleRight v-if="currentItem" :selectedItem="currentItem" /> -->
 
     <!-- View Dialog -->
-    <v-dialog v-model="viewDialog" max-width="1000px">
+    <!-- <v-dialog v-model="viewDialog" max-width="1000px">
       <v-card>
         <v-card-title style="background-color: var(--dark)">
           <span class="fs-5 fw-bold m-2" style="color: white">VIEW SCHEDULE</span>
@@ -63,9 +71,9 @@
           <v-btn text @click="viewDialog = false" class="bg-red" color="white">Close</v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
 
-    <!-- Add Dialog -->
+    <!-- Add Dialog
     <v-dialog v-model="addDialog" max-width="600px">
       <v-card>
         <v-card-title style="background-color: var(--dark)">
@@ -75,7 +83,7 @@
         <v-card-text>
 
           <v-form ref="form">
-            <!-- Grade Level -->
+            Grade Level
              <v-row dense>
               <v-col cols="6">
                 <v-select
@@ -88,7 +96,7 @@
 
               </v-col>
               <v-col cols="6">
-                 <!-- Room -->
+                 Room
             <v-text-field
               v-model="newItem.section"
               label="Section"
@@ -112,7 +120,7 @@
 
               </v-col>
               <v-col cols="6">
-                <!-- Time -->
+                Time
                 <v-select
                   v-model="newItem.time"
                   :items="schedtime"
@@ -123,14 +131,14 @@
               </v-col>
             </v-row>
 
-            <!-- Room -->
-            <!-- <v-text-field
+            Room
+            <v-text-field
               v-model="newItem.room "
               label="Room"
               required
-            ></v-text-field> -->
+            ></v-text-field>
 
-            <!-- Faculty -->
+            Faculty
             <v-select
               v-model="newItem.faculty"
               :items="facultyName"
@@ -147,39 +155,52 @@
           <v-btn text @click="addDialog = false" class="bg-red" color="white">Close</v-btn>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
   </v-container>
 </template>
 
 <script>
-import ViewSchedule from "./ViewSchedule.vue";
+import ViewScheduleRight from "./ViewScheduleRight.vue";
 // import api from "../../services/api";
-import axios from 'axios';
+// import ViewScheduleSHS from "./ViewScheduleSHS.vue";
+import axios from "axios";
 import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.min.css";
+// import "sweetalert2/dist/sweetalert2.min.css";
 
 export default {
   components: {
-    ViewSchedule,
+    ViewScheduleRight,
   },
   data() {
     return {
-      selectedSection : null,
+      selectedSection: null,
       search: "",
       juniorList: [],
+      seniorList: [],
       headers: [
-        { title: "Grade", key: "grade_level" },
-        { title: "Section", key: "section" },
-        { title: "Adviser", key: "adviser_id" },
-        { title: "Schedule", align: "center", sortable: false },
+        { title: "Grade Level", align: "center", key: "grade_level" },
+        { title: "Section", align: "center", key: "section" },
+        { title: "Strand", key: "strand", align: "center" },
+        { title: "Adviser", key: "adviser_id", align: "center" },
       ],
       gradeLevels: [
         { value: "7", title: "Grade 7", text: "Grade 7" },
         { value: "8", title: "Grade 8", text: "Grade 8" },
         { value: "9", title: "Grade 9" },
         { value: "10", title: "Grade 10" },
+        { value: "11", title: "Grade 11" },
+        { value: "12", title: "Grade 12" },
+      ],
+
+      strandLevels: [
+        { value: "GAS", title: "GAS" },
+        { value: "ABM", title: "ABM" },
+        { value: "HE", title: "HE" },
+        { value: "HUMSS", title: "HUMSS" },
+        { value: "STEM", title: "STEM" },
       ],
       selectedGrade: "",
+      selectedStrand: "",
       daysOfWeek: [
         "Monday",
         "Tuesday",
@@ -189,7 +210,7 @@ export default {
         "Saturday",
         "Sunday",
       ],
-      schedtime:[
+      schedtime: [
         "7 AM TO 8 AM",
         "8 AM TO 9 AM",
         "9:30 AM TO 10:30 AM",
@@ -216,11 +237,12 @@ export default {
           value: "PE",
         },
       ],
-      allFaculty : [],
-      facultyName : [],
+      allFaculty: [],
+      facultyName: [],
       viewDialog: false,
       addDialog: false,
-      currentItem: {},
+      currentItem: null,
+      selectedStrand: "",
       newItem: {
         section: "",
         subject: null,
@@ -230,29 +252,73 @@ export default {
         time: "",
         room: "",
         faculty: "",
+        strand: "",
       },
+      // newItem: {
+      //   classCode: "",
+      //   day: "",
+      //   time: "",
+      //   room: "",
+      //   faculty: ""
+      // }
     };
   },
-  watch:{
-    'newItem.subject'(newSubject) {
+  watch: {
+    "newItem.subject"(newSubject) {
       // Filter faculty based on the selected subject
-      this.facultyName = this.allFaculty.filter(faculty => faculty.department === newSubject);
+      this.facultyName = this.allFaculty.filter(
+        (faculty) => faculty.department === newSubject
+      );
     },
   },
 
   computed: {
-    filteredJuniorList() {
-      if (!Array.isArray(this.juniorList)) {
-        console.error("juniorList is not an array");
-        return [];
-      }
-      if (!this.selectedGrade) {
-        return this.juniorList;
-      }
-      return this.juniorList.filter((item) => item.grade_level === this.selectedGrade);
+    // filteredJuniorList() {
+    //   if (!Array.isArray(this.juniorList)) {
+    //     console.error("juniorList is not an array");
+    //     return [];
+    //   }
+    //   if (!this.selectedGrade) {
+    //     return this.juniorList;
+    //   }
+    //   return this.juniorList.filter((item) => item.grade_level === this.selectedGrade);
+    // },
+    // filteredSeniorList() {
+    //   console.log("Selected strand:", this.selectedStrand);
+    //   console.log(
+    //     "Senior List strands:",
+    //     this.seniorList.map((item) => item.strand)
+    //   );
+    //   if (!Array.isArray(this.seniorList)) {
+    //     console.error("SeniorList is not an array");
+    //     return [];
+    //   }
+    //   if (!this.selectedStrand) {
+    //     return this.seniorList;
+    //   }
+    //   return this.seniorList.filter(
+    //     (item) => item.strand === this.selectedStrand
+    //   );
+    // },
+    combinedList() {
+      const filteredJuniorList = !this.selectedGrade
+        ? this.juniorList
+        : this.juniorList.filter(
+            (item) => item.grade_level === this.selectedGrade
+          );
+
+      const filteredSeniorList = !this.selectedStrand
+        ? this.seniorList
+        : this.seniorList.filter((item) => item.strand === this.selectedStrand);
+
+      return [...filteredJuniorList, ...filteredSeniorList];
+    },
+    isStrandDisabled() {
+      return ["7", "8", "9", "10"].includes(this.selectedGrade);
     }
   },
-  mounted(){
+
+  mounted() {
     this.getSched();
     this.getFaculty();
   },
@@ -262,21 +328,24 @@ export default {
   //   },
 
   methods: {
-    async getSched(){
-      try{
-        const res = await axios.get('getSec');
-        const data = res.data.data
-        this.juniorList = data.filter((item) => item.grade_level < 11 && item.grade_level > 6);
-      } catch(error){
+    async getSched() {
+      try {
+        const res = await axios.get("getSec");
+        const data = res.data.data;
+        this.juniorList = data.filter(
+          (item) => item.grade_level < 11 && item.grade_level > 6
+        );
+        this.seniorList = data.filter((item) => item.grade_level >= 11);
+      } catch (error) {
         console.error("Error fetching items:", error);
       }
     },
-    async getFaculty(){
-      const res = await axios.get('faculty');
-      this.allFaculty  = res.data.faculty.map((faculty)=>({
+    async getFaculty() {
+      const res = await axios.get("faculty");
+      this.allFaculty = res.data.faculty.map((faculty) => ({
         title: `${faculty.fname} ${faculty.mname} ${faculty.lname} ${faculty.extension}`,
         value: faculty.id,
-        department: faculty.department
+        department: faculty.department,
       }));
       console.log(this.facultyName);
     },
@@ -289,16 +358,21 @@ export default {
       this.viewDialog = true;
     },
 
+    handleRowClick(item) {
+      this.$router.push({
+        name: "ViewScheduleRight",
+        params: { id: item.grade_level },
+      });
+    },
+
     openAddDialog(item) {
       console.log(item);
-      this.newItem.grade = item.grade_level
-      this.newItem.section = item.section
+      this.newItem.grade = item.grade_level;
+      this.newItem.section = item.section;
 
-      
       this.addDialog = true;
-      
     },
-    
+
     addNewSchedule() {
       console.log(this.newItem.subject);
       if (
@@ -308,16 +382,36 @@ export default {
         this.newItem.room &&
         this.newItem.faculty
       ) {
-      let dt = {
-        grade_level: this.newItem.grade,
-        section: this.newItem.section,
-        adviser_id:this.newItem.faculty,
-        time:  this.newItem.time,
-        day:  "Weekdays"
-      }
-        axios.post('createSched', dt).then(res=>{
-          if(res){
-            console.log(res);
+        let dt = {
+          grade_level: this.newItem.grade,
+          section: this.newItem.section,
+          adviser_id: this.newItem.faculty,
+          time: this.newItem.time,
+          day: "Weekdays",
+        };
+        axios
+          .post("createSched", dt)
+          .then((res) => {
+            if (res) {
+              console.log(res);
+              this.newItem = {
+                subject: null,
+                classCode: "",
+                day: "",
+                time: "",
+                room: "",
+                faculty: "",
+              };
+              Swal.fire({
+                icon: "success",
+                title: "Schedule Added",
+                text: "The new schedule has been added successfully!",
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error.response);
+            let err = error.response.data;
             this.newItem = {
               subject: null,
               classCode: "",
@@ -327,31 +421,12 @@ export default {
               faculty: "",
             };
             Swal.fire({
-              icon: "success",
-              title: "Schedule Added",
-              text: "The new schedule has been added successfully!",
+              icon: "error",
+              title: err.Message,
+              text: `${err.status} ${error.response.statusText}`,
             });
-          }
-
-        }).catch(error =>{
-          console.log(error.response);
-          let err = error.response.data;
-          this.newItem = {
-              subject: null,
-              classCode: "",
-              day: "",
-              time: "",
-              room: "",
-              faculty: "",
-            };
-          Swal.fire({
-            icon: "error",
-            title: err.Message ,
-            text:`${err.status} ${error.response.statusText}`,
           });
-        })
         this.addDialog = false;
-
       } else {
         Swal.fire({
           icon: "error",
@@ -420,7 +495,7 @@ export default {
   }
 }
 
-.v-toolbar {  
+.v-toolbar {
   // background-color: #007bff;
   color: white;
 
@@ -440,7 +515,6 @@ export default {
   .v-btn {
     color: white;
   }
-
 }
 
 .v-dialog {

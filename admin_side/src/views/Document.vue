@@ -39,7 +39,7 @@
 
 <script>
 import RequestDocument from '../components/RequestDocument.vue';
-import RequestDocumentRec from '../components/RequestDocumentRec.vue';
+import RequestDocumentRec from '../components/Registrar/RequestDocumentRec.vue';
 
 export default {
   data() {

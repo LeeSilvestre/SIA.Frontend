@@ -37,7 +37,7 @@
 
 <script>
 import SeniorHigh from '../components/SeniorHigh.vue';
-import SeniorHighRecord from '../components/SeniorHighRecord.vue';
+import SeniorHighRecord from '../components/Registrar/SeniorHighRecord.vue';
 
 export default {
   data() {
