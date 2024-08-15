@@ -319,9 +319,9 @@
         </v-dialog>
       </v-toolbar>
     </template>
-    <template v-slot:item="{ item }">
+    <template v-slot:item="{ item, index}">
       <tr>
-        <td class="text-center">{{ item.student_id }}</td>
+        <td class="text-center">{{ index + 1 }}</td>
         <td class="text-center">{{ item.student_lrn }}</td>
         <td class="text-center">
           {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
@@ -477,12 +477,12 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: "Student ID", align: "center", key: "student_id" },
+      { title: "#", align: "center", key: "index" },
       { title: "Student LRN", align: "center", key: "student_lrn" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Grade Level", align: "center", key: "grade_lvl" },
       { title: "Student Status", align: "center", key: "stud_status" },
-      { title: "Enrollment Status", align: "center", key: "enrol_status" },
+      { title: "Enrollment Status", align: "center", key: "enrollment_status" },
       { title: "Actions", sortable: false, align: "center" },
     ],
 

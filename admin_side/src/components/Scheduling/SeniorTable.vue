@@ -61,71 +61,87 @@
 
   <!-- Add Schedule Dialog -->
   <v-dialog v-model="addDialog" max-width="600px">
-    <v-card>
-      <v-card-title style="background-color: var(--dark)">
-        <span class="fs-5 fw-bold m-2" style="color: white">ADD SCHEDULE</span>
-      </v-card-title>
-      <v-card-text>
-        <v-form ref="form">
-          <!-- Strand -->
-          <v-select
-            v-model="newItem.strand"
-            :items="strandLevels"
-            label="Strand"
-            required
-          ></v-select>
+      <v-card>
+        <v-card-title style="background-color: var(--dark)">
+          <span class="fs-5 fw-bold m-2" style="color: white">ADD SCHEDULE</span>
+        </v-card-title>
+        
+        <v-card-text>
 
-          <!-- Class Code -->
-          <v-text-field
-            v-model="newItem.classCode"
-            label="Class Code"
-            required
-          ></v-text-field>
+          <v-form ref="form">
+            <!-- Grade Level -->
+             <v-row dense>
+              <v-col cols="6">
+                <v-select
+                  v-model="newItem.grade"
+                  :items="gradeLevels"
+                  label="Grade Level"
+                  class="mr-2 m-auto"
+                  readonly
+                ></v-select>
 
-          <v-row dense>
-            <!-- Day -->
-            <v-col cols="6" sm="">
-              <v-select
-                v-model="newItem.day"
-                :items="daysOfWeek"
-                label="Day"
+              </v-col>
+              <v-col cols="6">
+                 <!-- Room -->
+            <v-text-field
+              v-model="newItem.section"
+              label="Section"
+              readonly
+            ></v-text-field>
+
+
+              </v-col>
+             </v-row>
+            <v-row dense>
+              <v-col cols="6">
+                <v-select
+                v-model="newItem.subject"
+                :items="juniorSubjects"
+                item-text="title"
+                item-value="value"
+                label="Subject"
+                class="mr-2 m-auto"
                 required
               ></v-select>
-            </v-col>
 
-            <!-- Time -->
-            <v-col cols="6" sm="6">
-              <v-text-field
-                v-model="newItem.time"
-                label="Time"
-                type="time"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
+              </v-col>
+              <v-col cols="6">
+                <!-- Time -->
+                <v-select
+                  v-model="newItem.time"
+                  :items="schedtime"
+                  label="Time"
+                  class="mr-2 m-auto"
+                  required
+                ></v-select>
+              </v-col>
+            </v-row>
 
-          <!-- Room -->
-          <v-text-field
-            v-model="newItem.room"
-            label="Room"
-            required
-          ></v-text-field>
+            <!-- Room -->
+            <!-- <v-text-field
+              v-model="newItem.room "
+              label="Room"
+              required
+            ></v-text-field> -->
 
-          <!-- Faculty -->
-          <v-text-field
-            v-model="newItem.faculty"
-            label="Faculty"
-            required
-          ></v-text-field>
-        </v-form>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn text @click="addNewSchedule" class="bg-green" color="white">Add</v-btn>
-        <v-spacer></v-spacer>
-        <v-btn text @click="addDialog = false" class="bg-red" color="white">Close</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+            <!-- Faculty -->
+            <v-select
+              v-model="newItem.faculty"
+              :items="facultyName"
+              item-text="title"
+              item-value="value"
+              label="Faculty"
+              class="mr-2 m-auto"
+            ></v-select>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn text @click="addNewSchedule" class="bg-green" color="white">Add</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn text @click="addDialog = false" class="bg-red" color="white">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 </template>
 
 <script>
@@ -182,6 +198,17 @@ export default {
           value: "PE",
         },
       ],
+      facultyName: [],
+      allFaculty: [],
+      schedtime:[
+        "7 AM TO 8 AM",
+        "8 AM TO 9 AM",
+        "9:30 AM TO 10:30 AM",
+        "10:30 AM TO 11:30 AM",
+        "1 PM TO 2 PM",
+        "2 PM TO 3 PM",
+        "3 PM TO 4 PM",
+      ],
       viewDialog: false,
       addDialog: false,
       selectedStrand: "",
@@ -195,8 +222,15 @@ export default {
       }
     };
   },
+  watch:{
+    'newItem.subject'(newSubject) {
+      // Filter faculty based on the selected subject
+      this.facultyName = this.allFaculty.filter(faculty => faculty.department === newSubject);
+    },
+  },
   mounted(){
     this.getSched();
+    this.getFaculty();
   },
 
   computed: {
@@ -235,44 +269,83 @@ export default {
         console.error("Error fetching items:", error);
       }
     },
+    async getFaculty(){
+      const res = await axios.get('faculty');
+      this.allFaculty  = res.data.faculty.map((faculty)=>({
+        title: `${faculty.fname} ${faculty.mname} ${faculty.lname} ${faculty.extension}`,
+        value: faculty.id,
+        department: faculty.department
+      }));
+      console.log(this.facultyName);
+    },
     openViewDialog(item) {
       this.currentItem = item;
       this.viewDialog = true;
     },
 
-    openAddDialog() {
+    openAddDialog(item) {
+      console.log(item);
+      this.newItem.grade = item.grade_level
+      this.newItem.section = item.section
+
+      
       this.addDialog = true;
+      
     },
+    
 
     addNewSchedule() {
-      if (this.newItem.strand && this.newItem.classCode && this.newItem.day && this.newItem.time && this.newItem.room && this.newItem.faculty) {
-        // You would normally send this data to your API to save it
-        // For now, we'll just add it to the seniorList array
+      console.log(this.newItem.subject);
+      if (
+        this.newItem.subject &&
+        this.newItem.grade &&
+        this.newItem.time &&
+        this.newItem.faculty
+      ) {
+      let dt = {
+        grade_level: this.newItem.grade,
+        section: this.newItem.section,
+        adviser_id:this.newItem.faculty,
+        time:  this.newItem.time,
+        day:  "Weekdays"
+      }
+        axios.post('createSched', dt).then(res=>{
+          if(res){
+            console.log(res);
+            this.newItem = {
+              subject: null,
+              classCode: "",
+              day: "",
+              time: "",
+              room: "",
+              faculty: "",
+            };
+            Swal.fire({
+              icon: "success",
+              title: "Schedule Added",
+              text: "The new schedule has been added successfully!",
+            });
+          }
 
-        this.seniorList.push({
-          senior_id: this.seniorList.length + 1,
-          section: this.newItem.section,
-          adviser: this.newItem.faculty,
-          strand: this.newItem.strand,
-        });
-
-        Swal.fire({
-          icon: "success",
-          title: "Schedule Added",
-          text: "The new schedule has been added successfully!",
-        });
-
-        // Reset the newItem object
-        this.newItem = {
-          strand: "",
-          classCode: "",
-          day: "",
-          time: "",
-          room: "",
-          faculty: ""
-        };
-
+        }).catch(error =>{
+          console.log(error.response);
+          let err = error.response.data;
+          this.newItem = {
+              subject: null,
+              classCode: "",
+              day: "",
+              time: "",
+              room: "",
+              faculty: "",
+            };
+          Swal.fire({
+            icon: "error",
+            title: err.Message ,
+            text:`${err.status} ${error.response.statusText}`,
+          });
+        })
         this.addDialog = false;
+
       } else {
         Swal.fire({
           icon: "error",
@@ -280,8 +353,8 @@ export default {
           text: "Please fill out all fields before adding a new schedule.",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

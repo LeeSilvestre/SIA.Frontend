@@ -124,11 +124,11 @@
             </v-row>
 
             <!-- Room -->
-            <v-text-field
+            <!-- <v-text-field
               v-model="newItem.room "
               label="Room"
               required
-            ></v-text-field>
+            ></v-text-field> -->
 
             <!-- Faculty -->
             <v-select

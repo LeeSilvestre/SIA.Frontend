@@ -36,8 +36,9 @@
         <!-- create new popup modal -->
       </v-toolbar>
     </template>
-    <template v-slot:item="{ item }">
+    <template v-slot:item="{ item, index }">
       <tr>
+        <td class="text-center">{{ index + 1 }}</td>
         <td class="text-center">{{ item.student_id }}</td>
         <td class="text-center">
           {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
@@ -336,7 +337,7 @@
             </v-col>
           </v-row>
           <hr />
-          <label class="fw-regular mb-3 fs-5">Document Information</label>
+          <!-- <label class="fw-regular mb-3 fs-5">Document Information</label>
           <v-row>
             <v-col cols="12" md="12" sm="6">
               <v-row align="center">
@@ -350,8 +351,7 @@
                   ></v-file-input>
                 </v-col>
                 <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
-                  <v-icon @click="openViewFile(BGImage)">mdi-eye</v-icon>
+                  <v-icon @click="openViewFile(imgDocs.psa)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
             </v-col>
@@ -367,8 +367,7 @@
                   ></v-file-input>
                 </v-col>
                 <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
-                  <v-icon @click="openViewFile(BGImage)">mdi-eye</v-icon>
+                  <v-icon @click="openViewFile(imgDocs.goodmoral)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
             </v-col>
@@ -384,12 +383,11 @@
                   ></v-file-input>
                 </v-col>
                 <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
-                  <v-icon @click="openViewFile(BGImage)">mdi-eye</v-icon>
+                  <v-icon @click="openViewFile(imgDocs.tor)">mdi-eye</v-icon>
                 </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
+              </v-row> -->
+            <!-- </v-col> -->
+          <!-- </v-row> -->
         </v-container>
       </v-card-text>
 
@@ -443,7 +441,8 @@ export default {
     selectedFile: null,
     status: "",
     headers: [
-      { title: "Student No.", align: "center", key: "student_id" },
+      { title: "#", align: "center", key: "index" },
+      { title: "Student ID.", align: "center", key: "student_id" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Section", align: "center", key: "section" },
       { title: "Grade", align: "center", key: "grade_level" },
@@ -474,6 +473,7 @@ export default {
       sy: "",
       section: "",
     },
+    imgDocs: [],
     defaultItem: {
       student_id: "",
       first_name: "",
@@ -600,8 +600,29 @@ export default {
     },
 
     openViewDialog(item) {
-      this.selectedStudent = item;
-      this.viewDialog = true;
+      console.log(item);
+        this.selectedStudent = item;
+
+        // Initialize imgDocs with null values for each document type
+        this.imgDocs = {
+            tor: null,
+            psa: null,
+            goodmoral: null
+        };
+
+        // Map through item.image to populate imgDocs
+        item.image.forEach(res => {
+            if (res.docuType === "TOR") {
+                this.imgDocs.tor = res.image;
+            } else if (res.docuType === "PSA") {
+                this.imgDocs.psa = res.image;
+            } else if (res.docuType === "Good Moral") {
+                this.imgDocs.goodmoral = res.image;
+            }
+        });
+
+        console.log(this.imgDocs);
+        this.viewDialog = true;
     },
 
     closeViewDialog() {

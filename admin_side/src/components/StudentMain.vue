@@ -98,7 +98,8 @@
                       v-model="birthdate"
                       :rules="birthdateRules"
                       label="Birthdate"
-                    ></v-text-field>
+                      placeholder ="YYYY-MM-DD"
+                    > </v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-text-field

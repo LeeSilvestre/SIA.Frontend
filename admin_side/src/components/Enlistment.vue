@@ -275,7 +275,7 @@
               <v-icon icon="mdi-eye" start></v-icon>
               View
             </v-btn>
-            <v-btn
+            <!-- <v-btn
               class="no-gap-button"
               size="small"
               color="#D6E200"
@@ -283,16 +283,21 @@
             >
               <v-icon icon="mdi-pencil" start></v-icon>
               Edit
-            </v-btn>
+            </v-btn> -->
             <v-btn
-              class="no-gap-button"
-              size="small"
-              color="success"
-              @click="verify"
-            >
-              <v-icon icon="mdi-check" start></v-icon>
-              Verify
-            </v-btn>
+            color="success"
+            dark
+            v-bind="props"
+            @click="assessItem(item, 'Confirm')"
+            :disabled="item.enrollment_status === 'Assessed' || item.enrollment_status === 'Verified'"
+            size="small"
+          >
+          <v-icon icon="mdi-check" start></v-icon>
+          <span v-if="item.enrollment_status == 'Assessed' || item.enrollment_status === 'Verified'">Admitted</span>
+          <span v-else>Admit</span>
+
+          </v-btn
+          >
           </div>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
           <!-- Archive Icon -->
@@ -755,6 +760,7 @@ export default {
       year: "",
       section: "",
     },
+    imgDocs: [],
     rules: {
       required: (value) => !!value || "Field is required", //required fields
     },
@@ -768,7 +774,7 @@ export default {
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) => student.enrollment_status != "Enrolled" && student.student_type == "returning" 
+      return this.students.filter((student) => student.enrollment_status == "Pending" && student.student_type == "returning" 
       );
     },
   },
@@ -944,8 +950,29 @@ export default {
     },
 
     openEditDialog(item) {
-      this.selectedStudent = item;
-      this.editDialog = true;
+      console.log(item);
+        this.selectedStudent = item;
+
+        // Initialize imgDocs with null values for each document type
+        this.imgDocs = {
+            tor: null,
+            psa: null,
+            goodmoral: null
+        };
+
+        // Map through item.image to populate imgDocs
+        item.image.forEach(res => {
+            if (res.docuType === "TOR") {
+                this.imgDocs.tor = res.image;
+            } else if (res.docuType === "PSA") {
+                this.imgDocs.psa = res.image;
+            } else if (res.docuType === "Good Moral") {
+                this.imgDocs.goodmoral = res.image;
+            }
+        });
+
+        console.log(this.imgDocs);
+        this.editDialog = true;
     },
 
     closeViewDialog() {

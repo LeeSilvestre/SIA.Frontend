@@ -855,7 +855,7 @@ export default {
       } catch (error) {
         console.error("Error in convertExcel:", error);
       }
-    }
+    },
     
     async convertExcel(data) {
       const excel = new ExcelJS.Workbook();

@@ -300,7 +300,12 @@ export default {
           }
       }) 
       .then(res=>{
-        console.log(res);
+        this.viewDialog = false;
+        Swal.fire({
+            title: "Upload Success!",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
       })
       .catch(error=>{
         console.error (error.response);

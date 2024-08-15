@@ -20,7 +20,6 @@
 
       <v-row dense>
         <v-col cols="6" sm="">
-          <!-- Day -->
           <v-select
             v-model="newItem.day"
             :items="daysOfWeek"
@@ -28,6 +27,7 @@
             required
           ></v-select>
         </v-col>
+        <!-- Day -->
 
         <v-col cols="6" sm="6">
           <!-- Time -->
@@ -40,19 +40,16 @@
         </v-col>
       </v-row>
 
-      <!-- Section -->
-      <v-text-field
+     ><!-- Section -->
+     <!-- Section -->
+     <v-text-field
         v-model="newItem.section"
         label="Section"
         required
       ></v-text-field>
 
       <!-- Room -->
-      <v-text-field 
-        v-model="newItem.room" 
-        label="Room" 
-        required
-      ></v-text-field>
+      <v-text-field v-model="newItem.room" label="Room" required></v-text-field>
 
       <!-- Faculty -->
       <v-text-field

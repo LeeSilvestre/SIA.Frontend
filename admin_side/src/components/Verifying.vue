@@ -30,9 +30,9 @@
         <!-- create new popup modal -->
       </v-toolbar>
     </template>
-    <template v-slot:item="{ item }">
+    <template v-slot:item="{ item, index}">
       <tr>
-        <td style="text-align: center">{{ item.student_id }}</td>
+        <td style="text-align: center">{{ index + 1 }}</td>
         <td style="text-align: center">
           <!-- {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
           {{ item.extension }} -->
@@ -216,7 +216,7 @@
               :items="facultyName"
               item-text="title"
               item-value="value"
-              label="Aviser"
+              label="Adviser"
               class="mr-2 m-auto"
             ></v-select>
             </v-col>
@@ -488,7 +488,7 @@ export default {
     // fileUrl: '',
     fileUrl: BGImage, // Use your local image here
     headers: [
-      { title: "Student ID", align: "center", key: "student_id" },
+      { title: "#", align: "center", key: "index" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Grade Level", align: "center", key: "grade_level" },
       { title: "Student Status", align: "center", key: "stud_status" },

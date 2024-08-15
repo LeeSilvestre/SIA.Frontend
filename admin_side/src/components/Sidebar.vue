@@ -18,12 +18,12 @@
         <span class="material-icons">dashboard</span>
         <span class="text">Dashboard</span>
       </router-link>
-      <router-link class="button" to="/account">
+      <!-- <router-link class="button" to="/account">
         <span class="material-icons">manage_accounts</span>
         <span class="text">Accounts</span>
       </router-link>
       
-      
+       -->
       <!-- ENCODER TAB -->
       <div class="submenu" @click="toggleSubmenu1">
         <router-link class="button" to="/enlistment">
