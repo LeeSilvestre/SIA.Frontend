@@ -5,9 +5,9 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title class="text-h6 font-weight-black" style="color: #2f3f64">USER ACCOUNTS LIST
-          <v-btn class="ml-5" color="primary" variant="flat" dark @click="downloadXLS()">
+          <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
             <v-icon left>mdi-download</v-icon>
-            DOWNLOAD EXCELL
+            GENERATE REPORT
           </v-btn>
         </v-toolbar-title>
 

@@ -5,7 +5,11 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title class="text-h6 font-weight-black" style="color: #2F3F64">JUNIOR HIGH MASTER
-          LIST</v-toolbar-title>
+          LIST
+          <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
+            <v-icon left>mdi-download</v-icon>
+            GENERATE REPORT
+          </v-btn></v-toolbar-title>
         <v-text-field v-model="search" class="w-20 mr-16 " density="compact" label="Search"
           prepend-inner-icon="mdi-magnify" variant="solo-filled" flat hide-details single-line></v-text-field>
       </v-toolbar>
@@ -34,6 +38,8 @@
 
 <script>
 import axios from 'axios';
+import ExcelJS from "exceljs";
+
 export default {
 
   data: () => ({
@@ -43,8 +49,8 @@ export default {
     viewDialog: false,
     headers: [
       { title: 'Student ID', align: 'center', key: 'student_id' },
-      { title: 'Name', align: 'center', key: 'full_name' },
-      { title: 'LRN', align: 'center', key: 'student_lrn' },
+      { title: 'Full Name', align: 'center', key: 'full_name' },
+      { title: 'Student LRN', align: 'center', key: 'student_lrn' },
       { title: 'Grade Level', align: 'center',key: 'grade_level' },
       { title: 'Actions', sortable: false, align: 'center'},
     ],
@@ -177,6 +183,124 @@ export default {
 
     handleViewIconClick(item) {
       this.$emit('view-student', item);
+    },
+
+    async convertExcel(data) {
+      const excel = new ExcelJS.Workbook();
+      const worksheet = excel.addWorksheet("Account");
+
+      try {
+        const imageResponse = await fetch("/src/assets/schoolLogo.png");
+        const imageBlob = await imageResponse.blob();
+        const imageBase64 = await this.blobToBase64(imageBlob);
+
+        const logo = excel.addImage({
+          base64: imageBase64,
+          extension: "png",
+        });
+
+        worksheet.addImage(logo, {
+          tl: { col: 0, row: 0 },
+          ext: { width: 180, height: 120 },
+          editAs: "absolute",
+        });
+
+        worksheet.addImage(logo, {
+          tl: { col: 7, row: 0 },
+          ext: { width: 180, height: 120 },
+          editAs: "absolute",
+        });
+
+        worksheet.mergeCells("A2:J2");
+        worksheet.getCell("A2").value = "Saint Nicholas Academy";
+        worksheet.getCell("A2").alignment = {
+          vertical: "middle",
+          horizontal: "center",
+        };
+        worksheet.getCell("A2").font = { size: 16, bold: true };
+
+        worksheet.addRow();
+
+        worksheet.mergeCells("A3:J3");
+        worksheet.getCell("A3").value = "Address";
+        worksheet.getCell("A3").alignment = {
+          vertical: "middle",
+          horizontal: "center",
+        };
+        worksheet.getCell("A3").font = { size: 12 };
+
+        worksheet.mergeCells("A4:J4");
+        worksheet.getCell("A4").value = "Contact No";
+        worksheet.getCell("A4").alignment = {
+          vertical: "middle",
+          horizontal: "center",
+        };
+        worksheet.getCell("A4").font = { size: 12 };
+
+        worksheet.addRow(); // Add an empty row for separation
+
+        // Add column headers
+        worksheet.addRow([
+          "Student ID",
+          "Full Name",
+          "Student LRN",
+          "Grade Level",
+        ]);
+
+        // Add data rows
+        data.forEach((item) => {
+          worksheet.addRow([
+            item.student_id,
+            item.full_name,
+            item.student_lrn,
+            item.grade_level,
+
+          ]);
+        });
+
+        return excel; // Return the excel workbook
+      } catch (error) {
+        console.error("Error in convertExcel:", error);
+      }
+    },
+
+    blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result.split(",")[1]); // Split to get base64 part
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    },
+
+    async downloadXLS() {
+      try {
+        const data = this.students; // yung data nyo dito nyo lagay
+        const excel = await this.convertExcel(data); // Make sure convertExcel is awaited
+
+        if (excel instanceof ExcelJS.Workbook) {
+          const buffer = await excel.xlsx.writeBuffer();
+          const blob = new Blob([buffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "Inventory.xlsx";
+          a.click();
+          window.URL.revokeObjectURL(url);
+
+          Swal.fire({
+            title: "Download Success!",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+        } else {
+          console.error("Invalid ExcelJS.Workbook instance");
+        }
+      } catch (error) {
+        console.error("Error downloading XLS:", error);
+      }
     },
     // end ofmodal dialog to view the student record
 

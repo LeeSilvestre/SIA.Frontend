@@ -139,7 +139,7 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: "Student No.", align: "center", key: "student_id" },
+      { title: "Student ID", align: "center", key: "student_id" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Section", align: "center", key: "section" },
       { title: "Date Enrolled", align: "center", key: "date" },

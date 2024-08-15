@@ -10,7 +10,12 @@
         <v-toolbar-title
           class="text-h6 font-weight-black"
           style="color: #2f3f64"
-          >STUDENT ASSESMENT LIST</v-toolbar-title
+          >STUDENT ASSESMENT LIST
+          <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
+            <v-icon left>mdi-download</v-icon>
+            GENERATE REPORT
+          </v-btn>
+          </v-toolbar-title
         >
 
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
@@ -316,7 +321,7 @@
     </template>
     <template v-slot:item="{ item }">
       <tr>
-        <td class="text-center">{{ item.student_recno }}</td>
+        <td class="text-center">{{ item.student_id }}</td>
         <td class="text-center">{{ item.student_lrn }}</td>
         <td class="text-center">
           {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
@@ -456,6 +461,9 @@
 <script>
 import Swal from "sweetalert2";
 import axios from "axios";
+import ExcelJS from "exceljs";
+
+
 export default {
   data: () => ({
     search: "",
@@ -465,12 +473,12 @@ export default {
     selectedStudent: null,
     selectedFile: null,
     headers: [
-      { title: "Student No..", align: "center", key: "student_id" },
+      { title: "Student ID", align: "center", key: "student_id" },
       { title: "Student LRN", align: "center", key: "student_lrn" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Gender", align: "center", key: "sex_at_birth" },
       { title: "Grade Level", align: "center", key: "grade_lvl" },
-      { title: "Date Enrolled", align: "center", key: "grade_lvl" },
+      { title: "Date Enrolled", align: "center", key: "date" },
       { title: "Student Status", align: "center", key: "stud_status" },
       { title: "Enrollment Status", align: "center", key: "enrol_status" },
       { title: "Actions", sortable: false, align: "center" },
@@ -708,6 +716,130 @@ export default {
         return "green"; // Set color to green if status is 'enrolled'
       } else {
         return "red"; // Default color
+      }
+    },
+
+    async convertExcel(data) {
+      const excel = new ExcelJS.Workbook();
+      const worksheet = excel.addWorksheet("Account");
+
+      try {
+        const imageResponse = await fetch("/src/assets/schoolLogo.png");
+        const imageBlob = await imageResponse.blob();
+        const imageBase64 = await this.blobToBase64(imageBlob);
+
+        const logo = excel.addImage({
+          base64: imageBase64,
+          extension: "png",
+        });
+
+        worksheet.addImage(logo, {
+          tl: { col: 0, row: 0 },
+          ext: { width: 180, height: 120 },
+          editAs: "absolute",
+        });
+
+        worksheet.addImage(logo, {
+          tl: { col: 7, row: 0 },
+          ext: { width: 180, height: 120 },
+          editAs: "absolute",
+        });
+
+        worksheet.mergeCells("A2:J2");
+        worksheet.getCell("A2").value = "Saint Nicholas Academy";
+        worksheet.getCell("A2").alignment = {
+          vertical: "middle",
+          horizontal: "center",
+        };
+        worksheet.getCell("A2").font = { size: 16, bold: true };
+
+        worksheet.addRow();
+
+        worksheet.mergeCells("A3:J3");
+        worksheet.getCell("A3").value = "Address";
+        worksheet.getCell("A3").alignment = {
+          vertical: "middle",
+          horizontal: "center",
+        };
+        worksheet.getCell("A3").font = { size: 12 };
+
+        worksheet.mergeCells("A4:J4");
+        worksheet.getCell("A4").value = "Contact No";
+        worksheet.getCell("A4").alignment = {
+          vertical: "middle",
+          horizontal: "center",
+        };
+        worksheet.getCell("A4").font = { size: 12 };
+
+        worksheet.addRow(); // Add an empty row for separation
+
+        // Add column headers
+        worksheet.addRow([
+          "Student ID",
+          "Student LRN",
+          "Full Name",
+          "Gender",
+          "Grade Level",
+          "Date Enrolled",
+          "Student Status",
+        ]);
+
+        // Add data rows
+        data.forEach((item) => {
+          worksheet.addRow([
+            item.student_id,
+            item.student_lrn,
+            item.full_name,
+            item.sex_at_birth,
+            item.grade_level,
+            item.date_enrolled,
+            item.stud_status,
+
+          ]);
+        });
+
+        return excel; // Return the excel workbook
+      } catch (error) {
+        console.error("Error in convertExcel:", error);
+      }
+    },
+
+    blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result.split(",")[1]); // Split to get base64 part
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    },
+
+    async downloadXLS() {
+      try {
+        const data = this.students; // yung data nyo dito nyo lagay
+        const excel = await this.convertExcel(data); // Make sure convertExcel is awaited
+
+        if (excel instanceof ExcelJS.Workbook) {
+          const buffer = await excel.xlsx.writeBuffer();
+          const blob = new Blob([buffer], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "Inventory.xlsx";
+          a.click();
+          window.URL.revokeObjectURL(url);
+
+          Swal.fire({
+            title: "Download Success!",
+            icon: "success",
+            confirmButtonText: "OK",
+          });
+        } else {
+          console.error("Invalid ExcelJS.Workbook instance");
+        }
+      } catch (error) {
+        console.error("Error downloading XLS:", error);
       }
     },
   },

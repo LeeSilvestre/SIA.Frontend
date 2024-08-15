@@ -104,7 +104,7 @@
         <hr />
         <div class="button-container">
           <v-btn class="bg-green large-button">Approve Request</v-btn>
-          <v-btn class="bg-red large-button">Cancel Request</v-btn>
+          <!-- <v-btn class="bg-red large-button">Cancel Request</v-btn> -->
         </div>
       </template>
     </v-stepper>
