@@ -44,11 +44,20 @@
         </td>
         <td
           :style="{
-            color: getStatusColor(item.enrollment_status),
+            color: getStatusColor(item),
             textAlign: 'center',
           }"
         >
-        <v-chip>{{ item.enrollment_status }}</v-chip>
+        <v-chip>
+          <div v-if="item.psa === 'cleared' && item.goodmoral === 'cleared' && item.tor === 'cleared'">
+            Cleared
+          </div>
+          <div v-else>
+            Pending
+          </div>
+        </v-chip>
+
+
         </td>
         <td style="text-align: center">
           <v-btn color="success" size="small" @click="openViewDialog(item)"
@@ -83,17 +92,21 @@
               counter
               multiple
               show-size
-              @change="handleFileUpload"
+              @change="handleFileUpload('psa', $event)"
             ></v-file-input>
             </v-col>
             <v-col cols="12" md="12" sm="6">
-              <v-file-input
-              v-model="editedItem.goodMoral"
-              label="Good Moral"
-              counter
-              multiple
-              show-size
-            ></v-file-input>
+              <v-row>
+                <v-file-input
+                v-model="editedItem.goodMoral"
+                label="Good Moral"
+                counter
+                multiple
+                show-size
+                @change="handleFileUpload('goodmoral', $event)"
+              ></v-file-input>
+              </v-row>
+            
             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-file-input
@@ -102,6 +115,7 @@
               counter
               multiple
               show-size
+              @change="handleFileUpload('tor', $event)"
             ></v-file-input>
             </v-col>
           </v-row>
@@ -174,6 +188,10 @@ export default {
     },
     viewItem: {},
     formTitle: "",
+    psaFile : null,
+    goodMoralFile : null,
+    torFile : null,
+    
   }),
 
   computed: {
@@ -243,28 +261,39 @@ export default {
       },
     },
 
-    handleFileUpload(event) {
-      this.editedItem.psa = event.target.files[0];
+    handleFileUpload(type, event) {
+      const file = event.target.files[0];
+      if (file) {
+          if (type === 'psa') {
+            this.psaFile = file;
+          } else if (type === 'goodmoral') {
+            this.goodMoralFile = file;
+          } else if (type === 'tor') {
+            this.torFile = file;
+          }
+        }
     },
 
-    // triggerFileInput() {
-    //   this.$refs.fileInput.click();
-    // },
-
-    // handleFileUpload(event) {
-    //   const file = event.target.files[0];
-    //   if (file) {
-    //     this.selectedFile = file;
-    //   }
-    // },
-
     upload(){ 
-      console.log(this.editedItem.psa); 
-      let formData = new FormData();
-
+      const formData = new FormData();
       formData.append('student_lrn', this.selectedStudent);
-      formData.append('image', this.editedItem.psa);
-      console.log(formData[0]);
+
+      if (this.psaFile) {
+        console.log(this.psaFile);
+        formData.append('image', this.psaFile);
+        formData.append('file_type', 'PSA');
+      }else if (this.goodMoralFile) {
+        console.log(this.goodMoralFile);
+        formData.append('image', this.goodMoralFile);
+        formData.append('file_type', 'Good Moral');
+      } else if (this.torFile) {
+        console.log(this.torFile);
+        formData.append('image', this.torFile);
+        formData.append('file_type', 'TOR');
+      }
+
+
+      
       axios.post('imageStud', formData, {
         headers: {
             'Content-Type': 'multipart/form-data'
@@ -389,16 +418,8 @@ export default {
     goView() {
       this.$router.push("/viewdetails");
     },
-    getStatusColor(status) {
-      if (status === "Verified") {
-        return "#6EACDA"; // Set color to yellow if status is 'pending'
-      } else if (status === "Assessed") {
-        return "#FFAD60"; // Set color to green if status is 'enrolled'
-      } else if(status === "Pending") {
-        return "#FFB200"; // Default color
-      } else {
-        return "grey"
-      }
+    getStatusColor(item) {
+      return item.psa === 'cleared' && item.goodmoral === 'cleared' && item.tor === 'cleared'? "#FFAD60" : "#6EACDA";
     },
   },
 };

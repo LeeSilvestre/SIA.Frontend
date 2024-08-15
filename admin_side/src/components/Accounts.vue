@@ -797,7 +797,7 @@ export default {
         data.forEach((item) => {
           worksheet.addRow([
             item.employee_id,
-            item.full_name,
+            item.name,
             item.email,
             item.account_dpt,
           ]);

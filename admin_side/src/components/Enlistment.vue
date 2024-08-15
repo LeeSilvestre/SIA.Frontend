@@ -265,7 +265,7 @@
               class="no-gap-button"
               size="small"
               color="primary"
-              @click="openViewDialog"
+              @click="openViewDialog(item)"
             >
               <v-icon icon="mdi-eye" start></v-icon>
               View

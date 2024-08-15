@@ -358,7 +358,6 @@
         <td class="text-center">{{ index + 1 }}</td>
         <td class="text-center">{{ item.student_lrn}}</td>
         <td class="text-center"> {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }} {{ item.extension }}</td>
-        <td class="text-center">{{ item.sex_at_birth }}</td>
         <td class="text-center">{{ item.grade_level }}</td>
         <td class="text-center">{{ item.semester }}</td>
         <td class="text-center">{{ item.strand}}</td>
@@ -522,12 +521,11 @@ export default {
       { title: "#", key: "index" },
       { title: 'Student Lrn', align: 'start', key: 'lrn' },
       { title: 'Full Name', align: 'start', key: 'full_name' },
-      { title: 'Gender', align: 'start', key:'sex_at_birth'},
       { title: 'Grade Level', align: 'start', key:'grade_lvl'},
       { title: 'Semester', align: 'start', key:'semester'},
       { title: 'Strand', align: 'start', key:'strand'},
       { title: 'Student Type', align: 'start', key: 'student_type' },
-      { title: 'Enrollment Status', align: 'start', key: 'enrol_status' },
+      { title: 'Enrollment Status', align: 'start', key: 'enrollment_status' },
       { title: 'Actions', sortable: false },
     ],
 

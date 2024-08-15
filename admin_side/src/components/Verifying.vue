@@ -38,6 +38,7 @@
           {{ item.full_name }}
         </td>
         <td style="text-align: center">{{ item.grade_level }}</td>
+        <td style="text-align: center">{{ item.student_type }}</td>
         <td :style="{ color: getStatusColor(item.enrollment_status)}" style="text-align: center"> <v-chip >
           {{
             item.enrollment_status == "Verified" ||item.enrollment_status == "Enrolled"
@@ -168,13 +169,6 @@
               <v-text-field
                 v-model="selectedStudent.street"
                 label="Street"
-                readonly
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-text-field
-                v-model="selectedStudent.houseNumber"
-                label="House Number"
                 readonly
               ></v-text-field>
             </v-col>
@@ -359,13 +353,6 @@
             </v-col>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.houseNumber"
-                label="House Number"
-                readonly
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="3" sm="6">
-              <v-text-field
                 v-model="selectedStudent.zip_code"
                 label="Zip Code"
                 readonly
@@ -410,7 +397,7 @@
                 </v-col>
                 <v-col>
                   <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
-                  <v-icon @click="openViewFile(selectedStudent.image)">mdi-eye</v-icon>
+                  <v-icon @click="openViewFile(imgDocs.psa)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
             </v-col>
@@ -425,7 +412,7 @@
                 </v-col>
                 <v-col>
                   <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
-                  <v-icon @click="openViewFile(BGImage)">mdi-eye</v-icon>
+                  <v-icon @click="openViewFile(imgDocs.goodmoral)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
             </v-col>
@@ -440,7 +427,7 @@
                 </v-col>
                 <v-col>
                   <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
-                  <v-icon @click="openViewFile(BGImage)">mdi-eye</v-icon>
+                  <v-icon @click="openViewFile(imgDocs.tor)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
             </v-col>
@@ -551,18 +538,13 @@ export default {
       section: "",
     },
     itemView: {},
-    formTitle: "",
     allFaculty: [],
     facultyName: [],
-    sectionList: []
+    sectionList: [],
+    imgDocs:[]
   }),
 
   computed: {
-    formTitle() {
-      return this.editedIndex === -1
-        ? "ENROLL NEW STUDENT"
-        : "Edit Student Information";
-    },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
       return this.students.filter((student) =>
@@ -572,20 +554,22 @@ export default {
   },
 
   watch: {
-    dialog(val) {
-      val || this.close();
+    "editedItem.year"(newYear) {
+      const pattern = /^\d{4}-\d{4}$/;
+      if (pattern.test(newYear)) {
+        const years = newYear.split("-");
+        const startYear = parseInt(years[0]);
+        const endYear = parseInt(years[1]);
+
+        if (endYear - startYear === 1) {
+          this.editedItem.year = `${startYear + 1}-${endYear + 1}`;
+        }
+      }
     },
-    dialogDelete(val) {
-      val || this.closeDelete();
-    },
-    
     "selectedStudent.grade_level"(newGrade) {
-    console.log("New grade level:", newGrade);
-    const newGradeStr = String(newGrade);
       this.sectionList = this.allFaculty
         .filter(val => val.grade_level == newGrade)
         .map(val => val.section);
-      console.log("Filtered sectionList:", this.sectionList);
     },
     'editedItem.section'(section) {
       // Filter faculty based on the selected subject
@@ -602,12 +586,12 @@ export default {
   },
 
   methods: {
+    //####################FETCH FUNCTIONS#####################
     initialize() {
       axios
         .get("student")
         .then((res) => {
           // this.lname = res.data.student.last_name;
-          // console.log(this.lname);
           this.students = res.data.student.map((student) => ({
             ...student,
             full_name:
@@ -617,8 +601,6 @@ export default {
               image:  `http://26.81.173.255:8000/uploads/profile/${image.image}`
             }))
           }));
-          console.log(this.students)
-          console.log(this.students[0])
         })
         .catch((error) => {
           console.error("Error fetching students:", error);
@@ -632,22 +614,9 @@ export default {
         value: faculty.adviser_id,
         department: faculty.adviser.department
       }));
-      console.log(this.sectionList);
     },
-
-    openViewFile(fileUrl) {
-      // this.fileUrl = fileUrl;
-      this.viewFileDialog = true;
-      this.fileUrl = fileUrl || BGImage;
-    },
-    closeViewFile() {
-      this.viewFileDialog = false;
-      this.fileUrl = "";
-    },
-    // Other methods...
 
     markEnrolled(item) {
-      console.log(item);
       axios
         .put(`create/${item}`, {
           enrollment_status: "Enrolled",
@@ -656,7 +625,6 @@ export default {
           section : this.editedItem.section
         })
         .then((res) => {
-          console.log(res.data);
           Swal.fire({
             title: "Approved!",
             text: "Your action has been approved.",
@@ -671,58 +639,69 @@ export default {
         });
     },
 
-    watch: {
-      "editedItem.year"(newYear) {
-        const pattern = /^\d{4}-\d{4}$/;
-        if (pattern.test(newYear)) {
-          const years = newYear.split("-");
-          const startYear = parseInt(years[0]);
-          const endYear = parseInt(years[1]);
 
-          if (endYear - startYear === 1) {
-            this.editedItem.year = `${startYear + 1}-${endYear + 1}`;
-          }
-        }
-      },
-    },  // triggerFileInput() {
-    //   this.$refs.fileInput.click();
-    // },
+    // ############ DIALOG FUNCTIONS #################
 
-    // handleFileUpload(event) {
-    //   const file = event.target.files[0];
-    //   if (file) {
-    //     this.selectedFile = file;
-    //   }
-    // },
+
+
+
+
+    openViewFile(fileUrl) {
+      // this.fileUrl = fileUrl;
+      this.viewFileDialog = true;
+      this.fileUrl = fileUrl || BGImage;
+    },
+    closeViewFile() {
+      this.viewFileDialog = false;
+      this.fileUrl = "";
+    },
     close() {
       this.dialog = false;
       this.selectedFile = null;
     },
     save() {
-      console.log(this.selectedFile);
       this.dialog = false;
       this.selectedFile = null;
     },
 
     openViewDialog(item) {
-      console.log(item)
       this.selectedStudent = item;
       this.viewDialog = true;
     },
 
     openEditDialog(item) {
-      this.selectedStudent = item;
-      this.editDialog = true;
+        console.log(item);
+        this.selectedStudent = item;
+
+        // Initialize imgDocs with null values for each document type
+        this.imgDocs = {
+            tor: null,
+            psa: null,
+            goodmoral: null
+        };
+
+        // Map through item.image to populate imgDocs
+        item.image.forEach(res => {
+            if (res.docuType === "TOR") {
+                this.imgDocs.tor = res.image;
+            } else if (res.docuType === "PSA") {
+                this.imgDocs.psa = res.image;
+            } else if (res.docuType === "Good Moral") {
+                this.imgDocs.goodmoral = res.image;
+            }
+        });
+
+        console.log(this.imgDocs);
+        this.editDialog = true;
     },
 
+
     closeEditDialog() {
-      console.log("selectedStudent:", this.selectedStudent);
       this.editDialog = false;
       // Clear the selected student data
     },
 
     closeViewDialog() {
-      console.log("selectedStudent:", this.selectedStudent.image);
       this.viewDialog = false;
       // Clear the selected student data
     },
@@ -733,21 +712,6 @@ export default {
       this.dialog = true;
     },
 
-    archiveItem(item) {
-      this.editedIndex = this.students.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialogDelete = true;
-    },
-
-    deleteItemConfirm() {
-      this.students.splice(this.editedIndex, 1);
-      this.closeDelete();
-    },
-
-    viewItem(item) {
-      this.itemView = item;
-      this.viewDialog = true;
-    },
 
     close() {
       this.dialog = false;
@@ -783,30 +747,16 @@ export default {
     },
 
     save() {
-      // if (!this.validateForm()) {
-      //   Swal.fire({
-      //     icon: 'error',
-      //     title: 'Oops...',
-      //     text: 'Please fill in all required fields!',
-      //     customClass: {
-      //       container: 'sweet-alert-container',
-      //     }
-      //   });
-      //   return;
-      // }
 
-      console.log(this.editedItem);
       if (this.editedIndex > -1) {
         Object.assign(this.students[this.editedIndex], this.editedItem);
       } else {
         let tmp = this.editedItem;
         this.students.push(this.editedItem);
         tmp.image = this.selectedFile;
-        // console.log(this.tmp);
         axios
           .post("student", tmp)
           .then((res) => {
-            console.log(res);
           })
           .catch((error) => {
             console.error(error);
@@ -818,6 +768,7 @@ export default {
     goView() {
       this.$router.push("/viewdetails");
     },
+
     getStatusColor(status) {
       if (status === "Verified") {
         return "#6EACDA"; // Set color to yellow if status is 'pending'

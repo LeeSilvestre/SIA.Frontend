@@ -322,7 +322,6 @@
           {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
           {{ item.extension }}
         </td>
-        <td class="text-center">{{ item.sex_at_birth }}</td>
         <td class="text-center">{{ item.grade_level }}</td>
         <td class="text-center">Incoming</td>
         <td :style="{ color: getStatusColor(item.enrollment_status) }">
@@ -473,9 +472,7 @@ export default {
       { title: "Student No..", align: "center", key: "student_id" },
       { title: "Student LRN", align: "center", key: "student_lrn" },
       { title: "Full Name", align: "center", key: "full_name" },
-      { title: "Gender", align: "center", key: "sex_at_birth" },
       { title: "Grade Level", align: "center", key: "grade_lvl" },
-      { title: "Date Enrolled", align: "center", key: "grade_lvl" },
       { title: "Student Status", align: "center", key: "stud_status" },
       { title: "Enrollment Status", align: "center", key: "enrol_status" },
       { title: "Actions", sortable: false, align: "center" },

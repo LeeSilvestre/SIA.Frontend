@@ -170,7 +170,7 @@
     </template>
     <template v-slot:item="{ item }">
       <tr>
-        <td class="text-center">{{ item.faculty_id }}</td>
+        <td class="text-center">{{ item.id }}</td>
         <td class="text-center">
           {{ item.fname }} {{ item.mname }} {{ item.lname }}
           {{ item.extension }}
