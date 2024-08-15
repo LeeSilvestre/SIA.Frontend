@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   data() {
     return {
@@ -57,31 +58,31 @@ export default {
       dialog: false,
       junior: [
         { title: 'GRADE LEVEL', text: 'Grade Level', value: 'grade_level' },
-        { title: 'TOTAL STUDENTS', text: 'Total', value: 'total' }
+        { title: 'TOTAL STUDENTS', text: 'Total', value: 'total_count' }
       ],
       juniorHigh: [
-        { grade_level: 'Grade 7', total: '0000' },
-        { grade_level: 'Grade 8', total: '0000' },
-        { grade_level: 'Grade 9', total: '0000' },
-        { grade_level: 'Grade 10', total: '0000' },
-        { grade_level: 'Grade 11', total: '0000' },
-        { grade_level: 'Grade 12', total: '0000' }
+        // { grade_level: 'Grade 7', total: '0000' },
+        // { grade_level: 'Grade 8', total: '0000' },
+        // { grade_level: 'Grade 9', total: '0000' },
+        // { grade_level: 'Grade 10', total: '0000' },
       ],
 
       seniorStrand: [
         { title: 'STRAND', text: 'Strand', value: 'strand' },
-        { title: 'TOTAL STUDENTS', text: 'Total', value: 'total' }
+        { title: 'TOTAL STUDENTS', text: 'Total', value: 'total_count' }
       ],
       strand: [
-        { strand: 'HUMSS', total: '0000' },
-        { strand: 'STEM', total: '0000' },
-        { strand: 'GAS', total: '0000' },
-        { strand: 'HE', total: '0000' },
+        // { strand: 'HUMSS', total: '0000' },
+        // { strand: 'STEM', total: '0000' },
+        // { strand: 'GAS', total: '0000' },
+        // { strand: 'HE', total: '0000' },
       ],
     };
   },
 
   mounted() {
+    this.getCount();
+    this.getStrandCount();
     this.renderChart();
     this.renderStrandChart();
   },
@@ -105,14 +106,45 @@ export default {
     }
   },
   methods: {
-    renderChart() {
+
+    async getCount(){
+      let res = await axios.get('countGrade');
+      let data = res.data.student;
+      this.juniorHigh = data
+      .filter(count => count.grade_level !== "Grade 11" && count.grade_level !== "Grade 12")
+      .map(count => ({
+        grade_level: count.grade_level,
+        total_count: count.total_count.toString().padStart(4, '0')
+      }));
+
+      console.log(res);
+      console.log(this.juniorHigh);
+      console.log(data);
+    },
+    async getStrandCount(){
+      let res = await axios.get('countstrand');
+      let data = res.data.student;
+      console.log(data);
+      this.strand = data
+      .map(count => ({
+        strand: count.strand,
+        total_count: count.total_count.toString().padStart(4, '0')
+      }));
+      console.log(this.strand);
+    },
+
+    async renderChart() {
+      let res = await axios.get('count');
+      let data = res.data.student;
+      console.log(data);
+      
       this.chart = new Chart(this.$refs.chartCanvas.getContext('2d'), {
         type: 'pie',
         data: {
           labels: ['Junior High School', 'Senior High School'],
           datasets: [{
             label: 'Student Enrolled',
-            data: [100, 500], // Junior and Senior High total enrollees
+            data: [data.jhs_count, data.shs_count], // Junior and Senior High total enrollees
           }]
         },
         options: {
@@ -126,7 +158,11 @@ export default {
         }
       });
     },
-    renderStrandChart() {
+    async renderStrandChart() {
+      let res = await axios.get('countstrand');
+      let data = res.data.student;
+      let sem = data.map(count => ({strand: count.strand,total_count: count.total_count}));
+      console.log(sem[0].total_count);
       this.strandChart = new Chart(this.$refs.strandChartCanvas.getContext('2d'), {
         type: 'bar',
         data: {
@@ -134,7 +170,7 @@ export default {
           datasets: [
             {
               label: '1st Semester',
-              data: [100, 200, 150, 50], // Example data
+              data: [sem[1].total_count,sem[0].total_count, sem[3].total_count, sem[2].total_count], // Example data
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
               borderColor: 'rgba(75, 192, 192, 1)',
               borderWidth: 1,
@@ -142,7 +178,7 @@ export default {
             },
             {
               label: '2nd Semester',
-              data: [80, 180, 120, 40], // Example data
+              data: [0, 0, 0, 0], // Example data
               backgroundColor: 'rgba(153, 102, 255, 0.2)',
               borderColor: 'rgba(153, 102, 255, 1)',
               borderWidth: 1,

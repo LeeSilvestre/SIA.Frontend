@@ -264,8 +264,8 @@ export default {
     nameRules: [
       (value) => !!value || "Name is required.",
       (value) =>
-        (value && value.length <= 10) ||
-        "Name must be less than 10 characters.",
+        (value && value.length <= 30) ||
+        "Name must be less than 30 characters.",
     ],
     studentLrnRules: [
       (value) => !!value || "Student LRN is required."

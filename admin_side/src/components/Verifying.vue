@@ -39,7 +39,7 @@
         </td>
         <td style="text-align: center">Incoming</td>
         <td style="text-align: center">{{ item.grade_level }}</td>
-        <td :style="{ color: getStatusColor(item.enrollment_status) }"><v-chip>
+        <td :style="{ color: getStatusColor(item.enrollment_status)}" style="text-align: center"> <v-chip >
           {{
             item.enrollment_status == "Verified" ||item.enrollment_status == "Enrolled"
               ? item.enrollment_status
@@ -78,8 +78,8 @@
         </v-card-title>
       </div>
       <v-card-text>
-        <label class="fw-regular fs-5">Personal Information</label>
         <v-container>
+          <label class="fw-bold fs-5 mb-3">Personal Information</label>
           <v-row dense>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
