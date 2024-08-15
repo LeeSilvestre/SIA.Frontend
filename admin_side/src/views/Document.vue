@@ -38,8 +38,8 @@
 </template>
 
 <script>
-import RequestDocument from '../components/RequestDocument.vue';
-import RequestDocumentRec from '../components/RequestDocumentRec.vue';
+import RequestDocument from '../components/Registrar/RequestDocument.vue';
+import RequestDocumentRec from '../components/Registrar/RequestDocumentRec.vue';
 
 export default {
   data() {

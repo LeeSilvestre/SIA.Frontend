@@ -473,7 +473,7 @@
 <script>
 import Swal from "sweetalert2";
 import axios from "axios";
-import BGImage from "../assets/BG.png";
+import BGImage from "../../assets/BG.png";
 
 export default {
   data: () => ({

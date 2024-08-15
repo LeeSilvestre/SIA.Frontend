@@ -33,8 +33,8 @@
 
 <script>
 // import AddStudent from '../components/AddStudent.vue';
-import JHSassessmentTable from '../components/Assestment.vue';
-import SHSassessmentTable from '../components/AssestmentSHS.vue';
+import JHSassessmentTable from '../components/Assessor/Assestment.vue';
+import SHSassessmentTable from '../components/Assessor/AssestmentSHS.vue';
 
 export default {
     data() {

@@ -698,7 +698,7 @@
 <script>
 import Swal from "sweetalert2";
 import axios from "axios";
-import Enrolled from "./Enrolled.vue";
+import Enrolled from "././Enrolled.vue";
 import ExcelJS from "exceljs";
 
 export default {

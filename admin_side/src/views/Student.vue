@@ -16,7 +16,7 @@
    
   <script>
   import Header from '../components/StudentHeader.vue';
-  import StudentMain from '../components/StudentMain.vue'
+  import StudentMain from '../components/Encoder/StudentMain.vue'
   export default {
     components: {
       Header,

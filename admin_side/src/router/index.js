@@ -1,4 +1,5 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
+import ViewScheduleRight from '../components/Scheduling/ViewScheduleRight.vue';
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -68,26 +69,34 @@ const router = createRouter({
       component: () => import('../views/Student.vue'),
     },
     { path: '/junior-high-record/:id', 
-      component: () => import('../components/JuniorHighRecord.vue'), 
+      component: () => import('../components/Registrar/JuniorHighRecord.vue'), 
       props: true 
     },
     { path: '/senior-high-record/:id', 
-      component: () => import('../components/SeniorHighRecord.vue'), 
+      component: () => import('../components/Registrar/SeniorHighRecord.vue'), 
       props: true 
     },
 
     { path: '/faculty-record/:id', 
-      component: () => import('../components/FacultyRecord.vue'), 
+      component: () => import('../components/Registrar/FacultyRecord.vue'), 
       props: true 
     },
     { path: '/request-document:id', 
-      component: () => import('../components/RequestDocumentRec.vue'), 
+      component: () => import('../components/Registrar/RequestDocumentRec.vue'), 
       props: true 
     },
     {
       path: '/scheduling',
       component: () => import('../views/SubjectScheduling.vue'),
+    },
+    
+    {
+      path: '/schedule/:id', // Adjust the path to your needs
+      name: ViewScheduleRight,
+      component: () => import('../components/Scheduling/ViewScheduleRight.vue'),
+      props: true
     }
+    
 
   
 
