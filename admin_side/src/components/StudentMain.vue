@@ -223,7 +223,7 @@
       
       <template v-slot:item.3>
         <v-card>
-          
+
           <v-card-text>
             <v-row>
               <v-col>
@@ -435,46 +435,6 @@ export default {
         }
     },
     upload(type){
-      if(this.editedItem.tor || this.editedItem.psa || this.editedItem.tor || this.editedItem.goodmoral){
-
-        const formData = new FormData();
-  
-        formData.append('student_lrn', this.student_lrn)
-        let file = this.editedItem.psa ? this.psaFile: (this.editedItem.tor ?  this.torFile : (this.editedItem.goodmoral ? this.goodMoralFile : this.editedItem.psa));
-        console.log(file);
-        formData.append('image', file);
-        formData.append('file_type', type);
-        
-        axios.post('imageStud', formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-        }) 
-        .then(res=>{
-          this.viewDialog = false;
-          Swal.fire({
-              title: "Upload Success!",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-        })
-        .catch(error=>{
-          console.error (error.response);
-          let err = error.response.data
-          Swal.fire({
-          icon: "error",
-          title: "Bad Request",
-          text: err.message,
-        });
-  
-        })
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "No file is selected",
-          text: "Select file before upload.",
-        });
-      }
     },
     enroll(){
       const data = {
@@ -503,13 +463,11 @@ export default {
           text: "Your action has been approved.",
           icon: "success",
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000); //
       }).catch(error =>{
         console.error(error); 
       })
     }
+    
 
   }
 };

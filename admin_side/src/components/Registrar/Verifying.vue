@@ -491,7 +491,7 @@ export default {
       { title: "#", align: "center", key: "index" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Grade Level", align: "center", key: "grade_level" },
-      { title: "Student Status", align: "center", key: "stud_status" },
+      { title: "Student Status", align: "center", key: "student_type" },
       { title: "Enrollment Status", align: "center", key: "enrollment_status" },
       { title: "Actions", align: "center", sortable: false },
     ],
@@ -549,8 +549,7 @@ export default {
   computed: {
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) =>
-        Object.values(student).some((value) => value === "Assessed")
+      return this.students.filter((student) => student.enrollment_status == 'Assessed'
       );
     },
   },
@@ -626,7 +625,7 @@ export default {
           password : this.editedItem.password,
           section : this.editedItem.section
         })
-        .then((res) => {
+        .then((res) => { 
           // SUCCESS
           Swal.fire({
             title: "Approved!",
@@ -638,18 +637,15 @@ export default {
           }, 3000); //
         })
         .catch((err) => {
-          // ERROR
-          console.log(err);
-          Swal.fire({
-            title: "Approved!",
-            text: "Your action has been approved.",
-            icon: "success",
-            customClass: {
-              container: "sweet-alert-container",
-            },
-          });
-          setTim
+          this.viewDialog = false
           console.error(err);
+          Swal.fire ({
+          title: "Error",
+          text: "Please fill out all fields before enrolling the student.",
+          icon: "error",
+          showConfirmButton: false,
+          Timer: 3000,
+          });
         });
     },
 

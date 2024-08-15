@@ -475,40 +475,56 @@ export default {
         });
       }
     },
-    enroll(){
-      const data = {
-        student_lrn : this.student_lrn,
-        first_name : this.firstname,
-        middle_name : this.middlename,
-        last_name : this.lastname,
-        extension : this.extension,
-        sex_at_birth : this.sex,
-        birth_date : this.birthdate,
-        email :this.email,
-        region : this.region,
-        province : this.province,
-        city : this.city,
-        barangay : this.barangay,
-        street : this.street,
-        zip_code : this.zipCode,
-        religion : this.religion,
-        contact_no : this.contactNumber,
-        strand : this.strand ? this.strand : 'N/A' ,
-        grade_level: this.gradeLevel,
-      }
-      axios.post('student', data).then(res=>{
-        Swal.fire({
-          title: "Approved!",
-          text: "Your action has been approved.",
-          icon: "success",
+    async enroll(){
+      const result = await Swal.fire({
+          title: "Are you sure?",
+          text: "Please review your information before submitting the form to ensure all fields are correctly filled out.",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, save changes!",
+          customClass: {
+            container: "sweet-alert-container",
+          },
         });
-        setTimeout(() => {
-          window.location.reload();
-        }, 3000); //
-      }).catch(error =>{
-        console.error(error); 
-      })
-    }
+
+        if (result.isConfirmed) {
+          const data = {
+            student_lrn : this.student_lrn,
+            first_name : this.firstname,
+            middle_name : this.middlename,
+            last_name : this.lastname,
+            extension : this.extension,
+            sex_at_birth : this.sex,
+            birth_date : this.birthdate,
+            email :this.email,
+            region : this.region,
+            province : this.province,
+            city : this.city,
+            barangay : this.barangay,
+            street : this.street,
+            zip_code : this.zipCode,
+            religion : this.religion,
+            contact_no : this.contactNumber,
+            strand : this.strand ? this.strand : 'N/A' ,
+            grade_level: this.gradeLevel,
+          }
+          axios.post('student', data).then(res=>{
+            Swal.fire({
+              title: "Approved!",
+              text: "Your action has been approved.",
+              icon: "success",
+            });
+          }).catch(error =>{
+            console.error(error); 
+          })
+        }
+
+          
+          // Save changes logic here
+          this.editDialog = false;
+        }
 
   }
 };
