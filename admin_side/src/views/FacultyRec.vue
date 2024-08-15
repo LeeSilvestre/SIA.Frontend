@@ -35,7 +35,7 @@
   </template>
   
   <script>
-  import Faculty from '../components/Faculty.vue';
+  import Faculty from '../components/Registrar/Faculty.vue';
   import FacultyRecord from '../components/Registrar/FacultyRecord.vue';
   
   export default {

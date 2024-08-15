@@ -24,7 +24,7 @@
 
 <script>
 // import AddStudent from '../components/AddStudent.vue';
-import StudentTable from '../components/Enlistment.vue';
+import StudentTable from '../components/Encoder/Enlistment.vue';
 
 export default {
   components: {

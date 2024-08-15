@@ -33,8 +33,8 @@
 
 <script>
 // import AddStudent from '../components/AddStudent.vue';
-import Verifying from '../components/Verifying.vue';
-import Enrolled from '../components/Enrolled.vue';
+import Verifying from '../components/Registrar/Verifying.vue';
+import Enrolled from '../components/Encoder/Enrolled.vue';
 
 export default {
     data() {
