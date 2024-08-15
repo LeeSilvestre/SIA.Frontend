@@ -9,26 +9,12 @@
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title
-          class="text-h6 font-weight-black"
+          class="text-h6 font-weight-black m-1 mr-3"
           style="color: #2f3f64"
           >STUDENT MASTER LIST
           
-          <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
-            <v-icon left>mdi-download</v-icon>
-            GENERATE REPORT
-          </v-btn></v-toolbar-title
+  </v-toolbar-title
         >
-
-        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
-
-        <v-select
-          clearable
-          label="Grade Level"
-          :items="gradeLevels"
-          v-model="selectedGrade"
-          variant="solo-filled"
-          class="mr-2 m-auto"
-        ></v-select>
 
         <v-text-field
           v-model="search"
@@ -41,6 +27,33 @@
           hide-details
           single-line
         ></v-text-field>
+        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
+        
+        <v-select
+          clearable
+          label="Grade Level"
+          :items="gradeLevels"
+          v-model="selectedGrade"
+          variant="solo-filled"
+          class="mr-2 m-auto"
+        ></v-select>
+
+
+        
+        <v-select
+          clearable
+          label="Grade Level"
+          :items="gradeLevels"
+          v-model="selectedGrade"
+          variant="solo-filled"
+          class="mr-2 m-auto"
+        ></v-select>
+
+
+        <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
+            <v-icon left>mdi-download</v-icon>
+            GENERATE REPORT
+          </v-btn>
 
         <!-- create new popup modal -->
       </v-toolbar>
