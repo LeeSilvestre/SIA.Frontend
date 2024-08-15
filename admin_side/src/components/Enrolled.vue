@@ -36,15 +36,15 @@
           v-model="selectedGrade"
           variant="solo-filled"
           class="mr-2 m-auto"
+          @update:modelValue="onGradeLevelChange"
         ></v-select>
 
 
-        
         <v-select
           clearable
-          label="Grade Level"
-          :items="gradeLevels"
-          v-model="selectedGrade"
+          label="Section"
+          :items="currentSections"
+          v-model="selectedSection"
           variant="solo-filled"
           class="mr-2 m-auto"
         ></v-select>
@@ -526,6 +526,8 @@ export default {
         { value: "11", title: "Grade 11" },
         { value: "12", title: "Grade 12" },
       ],
+    selectedSection: null, 
+    currentSections: []
   }),
 
   computed: {
@@ -540,6 +542,10 @@ export default {
 
       if(this.selectedGrade) {
         students = students.filter((student) => student.grade_level == this.selectedGrade);
+      }
+
+      if(this.selectedSection) {
+        students = students.filter((student) => student.section == this.selectedSection);
       }
 
       return students
@@ -634,6 +640,54 @@ export default {
       this.dialog = false;
       this.selectedFile = null;
     },
+
+    onGradeLevelChange() {
+      this.selectedSection = null
+      switch (this.selectedGrade) {
+        case '7':
+          this.currentSections = [
+            { value: "St. Anne", title: "St. Anne" },
+            { value: "St. Whacky", title: "St. Whacky" }
+          ]
+          break;
+        case '8':
+          this.currentSections = [
+            { value: "St. Maximillian", title: "St. Maximillian" },
+            { value: "St. Denris", title: "St. Denris" }
+          ]
+          break;
+        case '9':
+          this.currentSections = [
+            { value: "St. Pedro Calungsod", title: "St. Pedro Calungsod" },
+            { value: "St. Matthew", title: "St. Matthew" }
+          ]
+          break;
+        case '10':
+          this.currentSections = [
+            { value: "St. Kevin", title: "St. Kevin" },
+            { value: "St. Matthew", title: "St. Matthew" }
+          ]
+          break;
+        case '11':
+          this.currentSections = [
+            { value: "St. Helena", title: "St. Helena" },
+            { value: "St. Joseph", title: "St. Joseph" }
+          ]
+          break;
+        case '12':
+          this.currentSections = [
+            { value: "St. Segrewel", title: "St. Segrewel" },
+            { value: "St. Peter", title: "St. Peter" },
+            { value: "St. Joseph", title: "St. Joseph" }
+          ]
+          break;
+      
+        default:
+          this.currentSections = []
+          break;
+      }
+    },
+
 
     openViewDialog(item) {
       console.log(item);
@@ -869,6 +923,10 @@ export default {
 
         if(this.selectedGrade) {
           students = students.filter((student) => student.grade_level == this.selectedGrade);
+        }
+        
+        if(this.selectedSection) {
+          students = students.filter((student) => student.section == this.selectedSection);
         }
 
         const data = students; // yung data nyo dito nyo lagay
