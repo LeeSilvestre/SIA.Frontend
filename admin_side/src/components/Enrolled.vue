@@ -21,6 +21,15 @@
 
         <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
 
+        <v-select
+          clearable
+          label="Grade Level"
+          :items="gradeLevels"
+          v-model="selectedGrade"
+          variant="solo-filled"
+          class="mr-2 m-auto"
+        ></v-select>
+
         <v-text-field
           v-model="search"
           class="w-auto mr-1"
@@ -494,7 +503,16 @@ export default {
       year: "",
       section: "",
     },
-    facultyName : []
+    facultyName : [],
+    selectedGrade: null,
+    gradeLevels: [
+        { value: "7", title: "Grade 7", text: "Grade 7" },
+        { value: "8", title: "Grade 8", text: "Grade 8" },
+        { value: "9", title: "Grade 9" },
+        { value: "10", title: "Grade 10" },
+        { value: "11", title: "Grade 11" },
+        { value: "12", title: "Grade 12" },
+      ],
   }),
 
   computed: {
@@ -504,9 +522,14 @@ export default {
         : "Edit Student Information";
     },
     displayedStudents() {
-      const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) => student.enrollment_status == 'Enrolled'
-      );
+      // const searchTerm = this.search.toLowerCase();
+      var students = this.students.filter((student) => student.enrollment_status == 'Enrolled');
+
+      if(this.selectedGrade) {
+        students = students.filter((student) => student.grade_level == this.selectedGrade);
+      }
+
+      return students
     },
   },
 
@@ -829,7 +852,13 @@ export default {
 
     async downloadXLS() {
       try {
-        const data = this.students; // yung data nyo dito nyo lagay
+        var students = this.students.filter((student) => student.enrollment_status == 'Enrolled');
+
+        if(this.selectedGrade) {
+          students = students.filter((student) => student.grade_level == this.selectedGrade);
+        }
+
+        const data = students; // yung data nyo dito nyo lagay
         const excel = await this.convertExcel(data); // Make sure convertExcel is awaited
 
         if (excel instanceof ExcelJS.Workbook) {
