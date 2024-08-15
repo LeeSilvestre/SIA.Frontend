@@ -32,7 +32,7 @@
     </template>
     <template v-slot:item="{ item, index}">
       <tr>
-        <td style="text-align: center">{{ index + 1 }}</td>
+        <td>{{ index + 1 }}</td>
         <td style="text-align: center">
           <!-- {{ item.first_name }} {{ item.middle_name }} {{ item.last_name }}
           {{ item.extension }} -->
@@ -488,7 +488,7 @@ export default {
     // fileUrl: '',
     fileUrl: BGImage, // Use your local image here
     headers: [
-      { title: "#", align: "center", key: "index" },
+      { title: "#", key: "index" },
       { title: "Full Name", align: "center", key: "full_name" },
       { title: "Grade Level", align: "center", key: "grade_level" },
       { title: "Student Status", align: "center", key: "stud_status" },
