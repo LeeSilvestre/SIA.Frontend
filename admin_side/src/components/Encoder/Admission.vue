@@ -39,7 +39,7 @@
       </template>
       <template v-slot:item="{ item, index}">
         <tr :class="{ 'selected-row': selectedRows.includes(item.student_lrn) }"
-        @click="toggleSelection(item.student_lrn, item)" >
+        @click="toggleSelection(item.student_lrn, item)" style="cursor: pointer;">
           <!-- <td>{{ index + 1 }}</td> -->
           <td>{{ item.student_lrn }}</td>
           <td class="text-center">
@@ -85,124 +85,120 @@
     </v-data-table>
 
     <div class="studentInfo">
-      <v-card>
-        <v-row>
-          <v-col>
-            <h1 class="fw-bold fs-5">
-              <v-icon class="mr-2">mdi-account</v-icon>
-              Personal Information
-            </h1>
-
-            <v-text-field
-              v-model="selectedStudent.full_name"
-              label="Student Name"
-              readonly
-            ></v-text-field>
-
-
-            <v-row>
-              <v-col>
-                <v-text-field
+    <v-card class="pa-4">
+      <v-row>
+        <v-col cols="12">
+          <!-- Personal Information Section -->
+          <v-divider class="my-4"></v-divider>
+          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
+            <v-icon class="mr-2">mdi-account</v-icon>
+            Personal Information
+          </h1>
+          <v-text-field
+            v-model="selectedStudent.full_name"
+            label="Student Name"
+            readonly
+          ></v-text-field>
+          <v-row>
+            <v-col cols="6">
+              <v-text-field
                 v-model="selectedStudent.sex_at_birth"
                 label="Gender"
                 readonly
-                ></v-text-field>
-              </v-col>
-              <v-col>
-                <v-text-field
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
                 v-model="selectedStudent.birth_date"
                 label="Birthdate"
                 readonly
-                >
-              </v-text-field>
+              ></v-text-field>
             </v-col>
           </v-row>
-
           <v-text-field
             v-model="selectedStudent.address"
             label="Address"
             readonly
           ></v-text-field>
 
-
-          <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+          <!-- Contact Information Section -->
+          <v-divider class="my-4"></v-divider>
+          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
             <v-icon class="mr-2">mdi-phone</v-icon>
             Contact Information
           </h1>
-
-
           <v-row>
-            <v-col>
+            <v-col cols="6">
               <v-text-field
-              v-model="selectedStudent.address"
+                v-model="selectedStudent.contact_no"
                 label="Contact No."
                 readonly
               ></v-text-field>
             </v-col>
-            <v-col>
+            <v-col cols="6">
               <v-text-field
-              v-model="selectedStudent.address"
-                label="Address"
+                v-model="selectedStudent.email"
+                label="Email"
                 readonly
               ></v-text-field>
             </v-col>
           </v-row>
-          
 
-
-          <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
+          <!-- Academic Information Section -->
+          <v-divider class="my-4"></v-divider>
+          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
             <v-icon class="mr-2">mdi-school</v-icon>
             Academic Information
           </h1>
           <v-row>
-            <v-col>
+            <v-col cols="6">
               <v-text-field
-              v-model="selectedStudent.grade_level"
+                v-model="selectedStudent.grade_level"
                 label="Grade"
                 readonly
               ></v-text-field>
             </v-col>
-
-            <v-col v-if="selectedStudent.grade_level > 10">
+            <v-col cols="6" v-if="selectedStudent.grade_level > 10">
               <v-text-field
-              v-model="selectedStudent.strand"
+                v-model="selectedStudent.strand"
                 label="Strand"
                 readonly
               ></v-text-field>
             </v-col>
           </v-row>
-            
-          </v-col>
-          <v-col>
-            <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
-            <v-icon class="mr-2">mdi-phone</v-icon>
-            Document list
-          </h1>
-          <table>
-            <thead>
-              <tbody>
-                <tr>
-                  
-                  <td><strong>Good Moral / PSA</strong></td>
-                  <td>{{ selectedStudent.psa }}</td>
-                </tr>
-                <tr>
-                  <td><strong>Form 137</strong></td>
-                  <td>{{ selectedStudent.tor }}</td>
-                </tr>
-                <tr>
-                  <td><strong>Good Moral</strong></td>
-                  <td>{{ selectedStudent.goodmoral }}</td>
-                </tr>
-              </tbody>
-            </thead>
-          </table>
-            
 
-          </v-col>
-        </v-row>
-      </v-card>
-    </div>
+          <!-- Document List Section -->
+          <v-divider class="my-4"></v-divider>
+          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
+            <v-icon class="mr-2">mdi-file-document</v-icon>
+            Document List
+          </h1>
+          <v-table>
+            <thead>
+              <tr>
+                <th class="text-left">Document</th>
+                <th class="text-left">Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Good Moral / PSA</td>
+                <td>{{ selectedStudent.psa }}</td>
+              </tr>
+              <tr>
+                <td>Form 137</td>
+                <td>{{ selectedStudent.tor }}</td>
+              </tr>
+              <tr>
+                <td>Good Moral</td>
+                <td>{{ selectedStudent.goodmoral }}</td>
+              </tr>
+            </tbody>
+          </v-table>
+        </v-col>
+      </v-row>
+    </v-card>
+  </div>
   </v-container>
 
 
@@ -211,7 +207,7 @@
   
 
   <!-- view user status modal pop -->
-  <v-dialog v-model="viewDialog" max-width="800px">
+  <!-- <v-dialog v-model="viewDialog" max-width="800px">
     <v-card>
       <v-card-title class="d-flex justify-space-between align-center">
         <span class="text-h5 fw-bold m-1" style="color: #2f3f64">
@@ -320,7 +316,7 @@
         </v-container>
       </v-card-text>
     </v-card>
-  </v-dialog>
+  </v-dialog> -->
   <!-- end view user status modal pop -->
 </template>
 
@@ -911,5 +907,38 @@ export default {
       font-size: 12px !important;
     }
   }
+}
+
+.studentInfo {
+  padding: 16px;
+}
+
+.v-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.v-divider {
+  border-color: #e0e0e0;
+}
+
+.v-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.v-table th, .v-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.v-table th {
+  background-color: #f1f1f1;
+  text-align: left;
+}
+
+.v-table td {
+  background-color: #ffffff;
 }
 </style>
