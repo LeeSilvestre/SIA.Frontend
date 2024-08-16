@@ -1,7 +1,7 @@
 <template>
   <aside :class="`${is_expanded && 'is_expanded'}`">
     <img class="sna-logo" src="/src/assets/SNA Logo with BG.png" alt="">
-    <h2 class="sp-text fs-3">Saint Nicholas Academy</h2>
+    <h5 class="sp-text fs-3">Registrar Panel</h5>
     <br>
     <hr>
     <div class="menu-toggle-wrap">
@@ -214,7 +214,6 @@ aside {
     position: relative;
     top: 0;
     transition: 0.2s ease-out;
-    margin: 5px;
 
     .menu-toggle {
       transition: 0.2s ease-out;

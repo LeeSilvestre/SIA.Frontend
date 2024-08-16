@@ -8,12 +8,13 @@
         </div>
             
         </div>  
-        <hr>
+        <hr style="margin: 0;">
 
         <div class="main-content">
 
             <div class="student-table">
                 <StudentTable/>
+                
             </div>
         </div>
 
@@ -36,8 +37,8 @@ export default {
 
 <style lang="scss" scoped>
 .top-container{
+    // padding : 10px !important;
     display: flex;
-    margin: 0.5rem;
     .studentProfile{
         flex: 1;
         
@@ -48,7 +49,7 @@ export default {
         .text{
             position: relative;
             color: var(--dark);
-            font-size: 2rem;
+            font-size: 1rem;
             font-weight: 900;
             bottom: 0.5rem;
         }
@@ -59,12 +60,11 @@ export default {
 .main-content {
     display: flex;
     flex-direction: column;
-
+    padding-top: 15px;
     .student-table{
         border-radius: 10px;
         background-color: #f0f0f0;
         padding: 0.5rem;
-        height: 100vh;
     }
 }
 
@@ -73,12 +73,11 @@ export default {
     position: absolute;
     opacity: 4%;
     margin-top: -40px;
-    font-size: 100px;
+    font-size: 75px;
     font-family: Impact, fantasy;
 }
 .top-container{
     display: flex;
-    margin: 0.5rem;
     .inventory{
         flex: 1;
         
