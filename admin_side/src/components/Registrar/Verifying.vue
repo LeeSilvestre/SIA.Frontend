@@ -223,8 +223,9 @@
 
             <v-col cols="12" md="6" sm="6">
               <v-text-field
-                v-model="editedItem.password"
+                v-model="selectedStudent.password"
                 label="Password"
+                readonly
               ></v-text-field>
             </v-col>
           </v-row>
@@ -236,7 +237,7 @@
           class="bg-green"
           color="white"
           variant="text"
-          @click="markEnrolled(selectedStudent.student_recno)"
+          @click="markEnrolled(selectedStudent.student_recno, selectedStudent.password)"
           >Mark as Enrolled</v-btn
         >
         <v-btn
@@ -386,7 +387,38 @@
           </v-row>
           <hr />
           <label class="fw-regular mb-3 fs-5">Document Information</label>
-          <v-row>
+          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
+            <v-icon class="mr-2">mdi-file-document</v-icon>
+            Document List
+          </h1>
+          <v-table>
+            <thead>
+              <tr>
+                <th class="text-left">Document</th>
+                <th class="text-left">Remark</th>
+                <th class="text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Good Moral / PSA</td>
+                <td>{{ selectedStudent.psa }}</td>
+                <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td>
+              </tr>
+              <tr>
+                <td>Form 137</td>
+                <td>{{ selectedStudent.tor }}</td>
+                <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td>
+              </tr>
+              <tr>
+                <td>Good Moral</td>
+                <td>{{ selectedStudent.goodmoral }}</td>
+                <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td>
+              </tr>
+            </tbody>
+          </v-table>
+
+          <!-- <v-row>
             <v-col cols="12" md="12" sm="6">
               <v-row align="center">
                 <v-col>
@@ -397,7 +429,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile">mdi-eye</v-icon>
                   <v-icon @click="openViewFile(imgDocs.psa)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
@@ -412,7 +444,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile">mdi-eye</v-icon>
                   <v-icon @click="openViewFile(imgDocs.goodmoral)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
@@ -427,12 +459,12 @@
                   ></v-text-field>
                 </v-col>
                 <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile">mdi-eye</v-icon>
                   <v-icon @click="openViewFile(imgDocs.tor)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
             </v-col>
-          </v-row>
+          </v-row> -->
         </v-container>
       </v-card-text>
 
@@ -589,6 +621,7 @@ export default {
   methods: {
     //####################FETCH FUNCTIONS#####################
     initialize() {
+      const year = new Date().getFullYear(); 
       axios
         .get("student")
         .then((res) => {
@@ -599,9 +632,11 @@ export default {
               `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
             image:  student.image.map((image)=>({
               docuType: image.file_type,
-              image:  `http://26.81.173.255:8000/uploads/profile/${image.image}`
-            }))
+              image:  `http://26.81.173.255:8000/uploads/profile/${image.image}`,
+            })),
+            password: `${student.last_name}SNA${year}`
           }));
+          console.log(this.students);
         })
         .catch((error) => {
           console.error("Error fetching students:", error);
@@ -617,24 +652,28 @@ export default {
       }));
     },
 
-    markEnrolled(item) {
+    markEnrolled(item, item2) {
       axios
         .put(`create/${item}`, {
           enrollment_status: "Enrolled",
           adviser_id : this.editedItem.adviser_id,
-          password : this.editedItem.password,
+          password :item2,
           section : this.editedItem.section
         })
         .then((res) => { 
-          // SUCCESS
+          let mess = res.data.message;
           Swal.fire({
             title: "Approved!",
-            text: "Your action has been approved.",
+            text: mess,
             icon: "success",
+            customClass: {
+              container: "sweet-alert-container",
+            },
           });
           setTimeout(() => {
             window.location.reload();
           }, 3000); //
+          this.viewDialog = false
         })
         .catch((err) => {
           this.viewDialog = false
@@ -675,6 +714,7 @@ export default {
     },
 
     openViewDialog(item) {
+      
       this.selectedStudent = item;
       this.viewDialog = true;
     },

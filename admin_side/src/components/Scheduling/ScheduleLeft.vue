@@ -301,17 +301,24 @@ export default {
     //   );
     // },
     combinedList() {
-      const filteredJuniorList = !this.selectedGrade
-        ? this.juniorList
-        : this.juniorList.filter(
-            (item) => item.grade_level === this.selectedGrade
-          );
+      const filteredJuniorList = this.juniorList.filter((item) => {
+        return (
+          (!this.selectedGrade || item.grade_level === this.selectedGrade) &&
+          (!this.selectedStrand || item.strand === this.selectedStrand)
+        );
+      });
 
-      const filteredSeniorList = !this.selectedStrand
-        ? this.seniorList
-        : this.seniorList.filter((item) => item.strand === this.selectedStrand);
+      const filteredSeniorList = this.seniorList.filter((item) => {
+        return (
+          (!this.selectedGrade || item.grade_level === this.selectedGrade) &&
+          (!this.selectedStrand || item.strand === this.selectedStrand)
+        );
+      });
 
       return [...filteredJuniorList, ...filteredSeniorList];
+    },
+    isStrandDisabled() {
+      return ["7", "8", "9", "10"].includes(this.selectedGrade);
     },
     isStrandDisabled() {
       return ["7", "8", "9", "10"].includes(this.selectedGrade);

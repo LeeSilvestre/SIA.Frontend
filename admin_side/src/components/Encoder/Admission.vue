@@ -1,88 +1,217 @@
 <template>
-  <v-data-table
-    :search="search"
-    :headers="headers"
-    :items="displayedStudents"
-    :sort-by="[{ key: 'studentId', order: 'asc' }]"
-  >
-    <template v-slot:top>
-      <v-toolbar flat>
-        <v-toolbar-title
-          class="text-h6 font-weight-black"
-          style="color: #2f3f64"
-          >STUDENT ADMISSION LIST
-          <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
-            <v-icon left>mdi-download</v-icon>
-            GENERATE REPORT
-          </v-btn>
-          </v-toolbar-title
-        >
-
-        <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
-
-        <v-text-field
-          v-model="search"
-          class="w-auto mr-1"
-          density="compact"
-          label="Search"
-          prepend-inner-icon="mdi-magnify"
-          variant="solo-filled"
-          flat
-          hide-details
-          single-line
-        ></v-text-field>
-
-        <!-- create new popup modal -->
-      </v-toolbar>
-    </template>
-    <template v-slot:item="{ item, index}">
-      <tr>
-        <td>{{ index + 1 }}</td>
-        <td>{{ item.student_lrn }}</td>
-        <td class="text-center">
-          {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
-          {{ item.extension }}
-        </td>
-        <td class="text-center">{{ item.sex_at_birth }}</td>
-        <td class="text-center">{{ item.grade_level }}</td>
-        <td class="text-center">Incoming</td>
-        <td class="text-center" :style="{ color: getStatusColor(item.enrollment_status) }">
-          <v-chip>
-          {{
-            item.enrollment_status 
-          }}
-          </v-chip>
-        </td>
-
-        <td class="text-center">
-          <v-btn
-            color="success"
-            dark
-            v-bind="props"
-            @click="assessItem(item, 'Confirm')"
-            :disabled="item.enrollment_status === 'Assessed' || item.enrollment_status === 'Verified'"
-            size="small"
-          >
-          <v-icon icon="mdi-check" start></v-icon>
-          <span v-if="item.enrollment_status == 'Assessed' || item.enrollment_status === 'Verified'">Admitted</span>
-          <span v-else>Admit</span>
-
-          </v-btn
-          >
+  <v-container class="studentInfCon">    
+    <v-data-table class="studentTable"
+      :search="search"
+      :headers="headers"
+      :items="displayedStudents"
+      :sort-by="[{ key: 'studentId', order: 'asc' }]"
+    >
+      <template v-slot:top>
+        <v-toolbar flat>
+          <v-toolbar-title
+            class="font-weight-black"
+            style="color: #2f3f64"
+            >
+            <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
+              <v-icon left>mdi-download</v-icon>
+              GENERATE REPORT
+            </v-btn>
+            </v-toolbar-title>
+            <div style="width: 25vw;">
+            <v-text-field
+              v-model="search"
+              class="search mr-1"
+              density="compact"
+              label="Search"
+              prepend-inner-icon="mdi-magnify"
+              variant="solo-filled"
+              flat
+              hide-details
+              single-line
+            ></v-text-field>
+            
+          </div>
+  
+          <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
+  
+          <!-- create new popup modal -->
+        </v-toolbar>
+      </template>
+      <template v-slot:item="{ item, index}">
+        <tr :class="{ 'selected-row': selectedRows.includes(item.student_lrn) }"
+        @click="toggleSelection(item.student_lrn, item)" style="cursor: pointer;">
+          <!-- <td>{{ index + 1 }}</td> -->
+          <td>{{ item.student_lrn }}</td>
+          <td class="text-center">
+            {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
+            {{ item.extension }}
+          </td>
+          <!-- <td class="text-center">{{ item.sex_at_birth }}</td> -->
+          <td class="text-center">{{ item.grade_level }}</td>
+          <td class="text-center">Incoming</td>
+          <td class="text-center" :style="{ color: getStatusColor(item.enrollment_status) }">
+            <v-chip>
+            {{
+              item.enrollment_status 
+            }}
+            </v-chip>
+          </td>
+  
+          <td class="text-center">
+            <v-btn
+              color="success"
+              dark
+              v-bind="props"
+              @click="assessItem(item, 'Confirm')"
+              :disabled="item.enrollment_status === 'Assessed' || item.enrollment_status === 'Verified'"
+              size="small"
+            >
+            <v-icon icon="mdi-check" start></v-icon>
+            <span v-if="item.enrollment_status == 'Assessed' || item.enrollment_status === 'Verified'">Admitted</span>
+            <span v-else>Admit</span>
+            </v-btn
+            >
+  
+          </td>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
           <!-- Archive Icon -->
           <!-- <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
-        </td>
-      </tr>
-    </template>
+        </tr>
+      </template>
+  
+      <!-- <template v-slot:no-data>
+        <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
+      </template> -->
+    </v-data-table>
 
-    <!-- <template v-slot:no-data>
-      <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
-    </template> -->
-  </v-data-table>
+    <div class="studentInfo">
+    <v-card class="pa-4">
+      <v-row>
+        <v-col cols="12">
+          <!-- Personal Information Section -->
+          <v-divider class="my-4"></v-divider>
+          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
+            <v-icon class="mr-2">mdi-account</v-icon>
+            Personal Information
+          </h1>
+          <v-text-field
+            v-model="selectedStudent.full_name"
+            label="Student Name"
+            readonly
+          ></v-text-field>
+          <v-row>
+            <v-col cols="6">
+              <v-text-field
+                v-model="selectedStudent.sex_at_birth"
+                label="Gender"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="selectedStudent.birth_date"
+                label="Birthdate"
+                readonly
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          <v-text-field
+            v-model="selectedStudent.address"
+            label="Address"
+            readonly
+          ></v-text-field>
+
+          <!-- Contact Information Section -->
+          <v-divider class="my-4"></v-divider>
+          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
+            <v-icon class="mr-2">mdi-phone</v-icon>
+            Contact Information
+          </h1>
+          <v-row>
+            <v-col cols="6">
+              <v-text-field
+                v-model="selectedStudent.contact_no"
+                label="Contact No."
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6">
+              <v-text-field
+                v-model="selectedStudent.email"
+                label="Email"
+                readonly
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <!-- Academic Information Section -->
+          <v-divider class="my-4"></v-divider>
+          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
+            <v-icon class="mr-2">mdi-school</v-icon>
+            Academic Information
+          </h1>
+          <v-row>
+            <v-col cols="6">
+              <v-text-field
+                v-model="selectedStudent.grade_level"
+                label="Grade"
+                readonly
+              ></v-text-field>
+            </v-col>
+            <v-col cols="6" v-if="selectedStudent.grade_level > 10">
+              <v-text-field
+                v-model="selectedStudent.strand"
+                label="Strand"
+                readonly
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <!-- Document List Section -->
+          <v-divider class="my-4"></v-divider>
+          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
+            <v-icon class="mr-2">mdi-file-document</v-icon>
+            Document List
+          </h1>
+          <v-table>
+            <thead>
+              <tr>
+                <th class="text-left">Document</th>
+                <th class="text-left">Remark</th>
+                <!-- <th class="text-left">Actions</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Good Moral / PSA</td>
+                <td>{{ selectedStudent.psa }}</td>
+                <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+              </tr>
+              <tr>
+                <td>Form 137</td>
+                <td>{{ selectedStudent.tor }}</td>
+                <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+              </tr>
+              <tr>
+                <td>Good Moral</td>
+                <td>{{ selectedStudent.goodmoral }}</td>
+                <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+              </tr>
+            </tbody>
+          </v-table>
+        </v-col>
+      </v-row>
+    </v-card>
+  </div>
+  </v-container>
+
+
+  
+
+  
 
   <!-- view user status modal pop -->
-  <v-dialog v-model="viewDialog" max-width="800px">
+  <!-- <v-dialog v-model="viewDialog" max-width="800px">
     <v-card>
       <v-card-title class="d-flex justify-space-between align-center">
         <span class="text-h5 fw-bold m-1" style="color: #2f3f64">
@@ -191,7 +320,7 @@
         </v-container>
       </v-card-text>
     </v-card>
-  </v-dialog>
+  </v-dialog> -->
   <!-- end view user status modal pop -->
 </template>
 
@@ -206,22 +335,23 @@ export default {
     dialog: false,
     dialogDelete: false,
     viewDialog: false,
-    selectedStudent: null,
+    selectedStudent: {},
     selectedFile: null,
+    props: [],
     editedItem: {
       grade_level: "",
       strand: "",
     },
 
     headers: [
-      { title: "#", align: "start", key: "index" },
+      // { title: "#", align: "start", key: "index" },
       { title: "Student Lrn", align: "start", key: "student_lrn" },
       { title: "Full Name", align: "center", key: "full_name" },
-      { title: "Gender", align: "center", key: "sex_at_birth" },
+      // { title: "Gender", align: "center", key: "sex_at_birth" },
       { title: "Grade Level", align: "center", key: "grade_level" },
       { title: "Student Status", align: "center", key: "student_type" },
       { title: "Status", align: "center", key: "enrollment_status" },
-      { title: "Actions", align: "center",sortable: false },
+      // { title: "Actions", align: "center",sortable: false },
     ],
 
     students: [],
@@ -265,6 +395,7 @@ export default {
       year: "",
       section: "",
     },
+    selectedRows: [] 
   }),
 
   computed: {
@@ -300,6 +431,16 @@ export default {
   },
 
   methods: {
+    toggleSelection(studentLrn, item) {
+      console.log(item);
+      this.selectedStudent = item;
+      const index = this.selectedRows.indexOf(studentLrn);
+      if (index > -1) {
+        this.selectedRows.splice(index, 1); // Deselect if already selected
+      } else {
+        this.selectedRows.push(studentLrn); // Select if not selected
+      }
+    },
     initialize() {
       axios
         .get("student")
@@ -308,6 +449,8 @@ export default {
             ...student,
             full_name:
               `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
+            address:
+              `${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code}` .trim(),
           }));
         })
         .catch((error) => {
@@ -448,6 +591,10 @@ export default {
 
     goView() {
       this.$router.push("/viewdetails");
+    },
+    
+    handleViewIconClick(item) {
+      this.$emit('view-student', item);
     },
     getStatusColor(status) {
       if (status === "Verified") {
@@ -706,7 +853,18 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped >
+.studentInfCon{
+  display: flex;
+  gap: 2rem;
+  .studentTable{
+    flex: 0.5;
+  }
+  .studentInfo{
+    flex: 0.5;
+  }
+  
+}
 .v-data-table {
   height: 100%;
 }
@@ -743,4 +901,48 @@ export default {
 .button-container .v-btn:nth-child(1) { left: 0; }
 .button-container .v-btn:nth-child(2) { left: calc(100% / 50); }
 .button-container .v-btn:nth-child(3) { left: calc(200% / 50); }
+// .search{
+//   width: 12vh;
+// }
+.v-table__wrapper{
+  font-size: 0.6rem;
+  .v-data-table-header__content{
+    span{
+      font-size: 12px !important;
+    }
+  }
+}
+
+.studentInfo {
+  padding: 16px;
+}
+
+.v-card {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.v-divider {
+  border-color: #e0e0e0;
+}
+
+.v-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.v-table th, .v-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.v-table th {
+  background-color: #f1f1f1;
+  text-align: left;
+}
+
+.v-table td {
+  background-color: #ffffff;
+}
 </style>
