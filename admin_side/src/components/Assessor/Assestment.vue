@@ -340,7 +340,7 @@
         </td>
 
         <td class="text-center">
-          <v-btn class="ma-2" color="primary" @click="openViewDialog" size="small">
+          <v-btn class="ma-2" color="primary" @click="openViewDialog(item)" size="small">
             <v-icon icon="mdi-eye" start></v-icon>
             View
           </v-btn>
@@ -662,12 +662,9 @@ export default {
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) =>
-        Object.values(student).some(
-          (value) => value === "Verified" || value === "Assessed"
+      return this.students.filter((student) => student.enrollment_status == "Verified" 
         )
-      );
-    },
+    },  
   },
 
   watch: {

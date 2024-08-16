@@ -361,7 +361,7 @@ export default {
     handleRowClick(item) {
       this.$router.push({
         name: "ViewScheduleRight",
-        params: { id: item.grade_level },
+        params:  item.grade_level ,
       });
     },
 

@@ -601,7 +601,7 @@ export default {
               `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
             image:  student.image.map((image)=>({
               docuType: image.file_type,
-              image:  `http://26.81.173.255:8000/uploads/profile/${image.image}`,
+              image:  `http://192.168.16.165:8000/uploads/profile/${image.image}`,
             })),
             password: `${student.last_name}SNA${year}`
           }));
