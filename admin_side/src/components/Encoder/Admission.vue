@@ -177,21 +177,25 @@
             <thead>
               <tr>
                 <th class="text-left">Document</th>
-                <th class="text-left">Details</th>
+                <th class="text-left">Remark</th>
+                <!-- <th class="text-left">Actions</th> -->
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Good Moral / PSA</td>
                 <td>{{ selectedStudent.psa }}</td>
+                <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
               </tr>
               <tr>
                 <td>Form 137</td>
                 <td>{{ selectedStudent.tor }}</td>
+                <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
               </tr>
               <tr>
                 <td>Good Moral</td>
                 <td>{{ selectedStudent.goodmoral }}</td>
+                <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
               </tr>
             </tbody>
           </v-table>

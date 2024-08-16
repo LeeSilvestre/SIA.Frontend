@@ -387,7 +387,38 @@
           </v-row>
           <hr />
           <label class="fw-regular mb-3 fs-5">Document Information</label>
-          <v-row>
+          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
+            <v-icon class="mr-2">mdi-file-document</v-icon>
+            Document List
+          </h1>
+          <v-table>
+            <thead>
+              <tr>
+                <th class="text-left">Document</th>
+                <th class="text-left">Remark</th>
+                <th class="text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Good Moral / PSA</td>
+                <td>{{ selectedStudent.psa }}</td>
+                <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td>
+              </tr>
+              <tr>
+                <td>Form 137</td>
+                <td>{{ selectedStudent.tor }}</td>
+                <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td>
+              </tr>
+              <tr>
+                <td>Good Moral</td>
+                <td>{{ selectedStudent.goodmoral }}</td>
+                <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td>
+              </tr>
+            </tbody>
+          </v-table>
+
+          <!-- <v-row>
             <v-col cols="12" md="12" sm="6">
               <v-row align="center">
                 <v-col>
@@ -398,7 +429,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile">mdi-eye</v-icon>
                   <v-icon @click="openViewFile(imgDocs.psa)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
@@ -413,7 +444,7 @@
                   ></v-text-field>
                 </v-col>
                 <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile">mdi-eye</v-icon>
                   <v-icon @click="openViewFile(imgDocs.goodmoral)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
@@ -428,12 +459,12 @@
                   ></v-text-field>
                 </v-col>
                 <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
+                  <v-icon @click="openViewFile">mdi-eye</v-icon>
                   <v-icon @click="openViewFile(imgDocs.tor)">mdi-eye</v-icon>
                 </v-col>
               </v-row>
             </v-col>
-          </v-row>
+          </v-row> -->
         </v-container>
       </v-card-text>
 
