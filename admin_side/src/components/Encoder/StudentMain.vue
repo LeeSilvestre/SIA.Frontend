@@ -77,17 +77,29 @@
                       label="Middle name"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="3">
+                  <!-- <v-col cols="12" md="3">
                     <v-text-field
                       v-model="extension"
                       label="Extension"
                     ></v-text-field>
-                  </v-col>
+                  </v-col> -->
+                  <v-select
+                      v-model="extension"
+                      :items="['Jr', 'Sr', 'II', 'III'
+
+
+                        
+                      ]"
+                      label="Extension"
+                      clearable
+                      required
+                      outlined
+                    ></v-select>
                   <v-col cols="12" md="4">
                     <v-select
                       v-model="sex"
                       :items="['Male', 'Female']"
-                      label="Sex"
+                      label="Sex at Birth"
                       clearable
                       required
                       outlined
@@ -102,10 +114,14 @@
                     > </v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
-                    <v-text-field
+                    <v-select
                       v-model="religion"
+                       :items="['Catholic', 'Islam', 'Iglesia ni Cristo', 'Born Again', 'Christianity', 'Buddhism', 'Others']"
                       label="Religion"
-                    ></v-text-field>
+                      clearable
+                      required
+                      outlined
+                    ></v-select>
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-text-field
@@ -142,13 +158,23 @@
                       label="Province"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="4">
+                  <!-- <v-col cols="12" md="4">
                     <v-text-field
                       v-model="region"
                       :rules="provinceRules"
                       label="Region"
                     ></v-text-field>
-                  </v-col>
+                  </v-col> -->
+                  <v-select
+                      v-model="region"
+                       :items="['REGION I (ILOCOS REGION) ', 'REGION II (CAGAYAN VALLEY) ', 'REGION III (CENTRAL LUZON) ', 'REGION IV-A(CALABARZON)', 'REGION V(BICOL REGION) ', 'REGION VI(WESTERN VISAYAS) ', 'REGION VII(CENTRAL VISAYAS) ', 'REGION VIII (EASTERN VISAYAS)', 'REGION IX (ZAMBOANGA PENINSULA)', 'REGION X (NORTHERN MINDANAO)',
+'REGION XI (DAVAO REGION)', 'REGION XII (SOCCSKSARGEN)', 'NATIONAL CAPITAL REGION (NCR)', 'CORDILLERA ADMINISTRATIVE REGION', 'AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)', 'REGION XIII (Caraga)']"
+                      label="Region"
+                       :rules="provinceRules"
+                      clearable
+                      required
+                      outlined
+                    ></v-select>
                   <v-col cols="12" md="4">
                     <v-text-field
                       v-model="zipCode"
