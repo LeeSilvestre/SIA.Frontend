@@ -25,7 +25,7 @@
       
        -->
       <!-- ENCODER TAB -->
-      <div class="submenu" @click="toggleSubmenu1">
+      <!-- <div class="submenu" @click="toggleSubmenu1">
         <router-link class="button" to="/enlistment">
           <span class="material-icons">keyboard</span>
           <span class="text">Encoding</span> 
@@ -45,7 +45,7 @@
             <router-link class="button" to="/upload"><span class="text">Document Uploading</span></router-link>
           </li>
         </ul> 
-      </div>
+      </div> -->
 
       <!-- TREASURER TAB -->
       <!-- <router-link class="button" to="/assestment">

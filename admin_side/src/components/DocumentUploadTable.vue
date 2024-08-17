@@ -94,7 +94,7 @@
               show-size
               @change="handleFileUpload('psa', $event)"
             ></v-file-input>
-            </v-col>
+             </v-col>
             <v-col cols="12" md="12" sm="6">
               <v-row>
                 <v-file-input
@@ -116,7 +116,7 @@
               multiple
               show-size
               @change="handleFileUpload('tor', $event)"
-            ></v-file-input>
+            ></v-file-input>x
             </v-col>
           </v-row>
         </v-container>
