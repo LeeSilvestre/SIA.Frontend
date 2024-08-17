@@ -403,7 +403,7 @@
               <tr>
                 <td>Good Moral / PSA</td>
                 <td>{{ selectedStudent.psa }}</td>
-                <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td>
+                <td @click="openViewFile(imgDocs.psa)" style="cursor: pointer; color: blue;">View</td>
               </tr>
               <tr>
                 <td>Form 137</td>
@@ -413,7 +413,7 @@
               <tr>
                 <td>Good Moral</td>
                 <td>{{ selectedStudent.goodmoral }}</td>
-                <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td>
+                <td @click="openViewFile(imgDocs.goodmoral)" style="cursor: pointer; color: blue;">View</td>
               </tr>
             </tbody>
           </v-table>

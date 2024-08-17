@@ -1,59 +1,62 @@
 <template>
-  <v-container>
-    <v-data-table
-      :search="search"
-      :headers="headers"
-      :items="combinedList"
-      :sort-by="[{ key: 'section', order: 'asc' }]"
-      @click:row="handleRowClick(item)"
-      style="cursor: pointer"
-    >
-      <!-- toolbar  -->
-      <template v-slot:top>
-        <v-menu transition="scale-transition">
-          <template v-slot:activator="{ props }">
-            <v-toolbar flat class="pt-2">
-              <v-toolbar-title
-                class="text-h6 font-weight-black"
-                style="color: #2f3f64"
-              >
-                SCHEDULE
-              </v-toolbar-title>
+  <v-container class="studInfo">
+    <div class="left">
 
-              <v-select
-                clearable
-                label="Grade Level"
-                v-bind="props"
-                :items="gradeLevels"
-                v-model="selectedGrade"
-                variant="solo-filled"
-                class="mr-2 m-auto"
-              ></v-select>
-
-              <v-select
-                clearable
-                label="Strand"
-                v-bind="props"
-                :items="strandLevels"
-                v-model="selectedStrand"
-                variant="solo-filled"
-                class="mr-2 m-auto"
-                :disabled="isStrandDisabled"
-              ></v-select>
-            </v-toolbar>
-          </template>
-        </v-menu>
-      </template>
-
-      <template v-slot:item="{ item, props }">
-        <tr @click="handleRowClick(item)" v-bind="props">
-          <td class="text-center">{{ item.grade_level }}</td>
-          <td class="text-center">{{ item.section }}</td>
-          <td class="text-center" style="padding: 1rem">{{ item.strand }}</td>
-          <td class="text-center">{{ item.adviser.full_name }}</td>
-        </tr>
-      </template>
-    </v-data-table>
+      <v-data-table
+        :search="search"
+        :headers="headers"
+        :items="combinedList"
+        :sort-by="[{ key: 'section', order: 'asc' }]"
+        style="cursor: pointer"
+      >
+        <!-- toolbar  -->
+        <template v-slot:top>
+          <v-menu transition="scale-transition">
+            <template v-slot:activator="{ props }">
+              <v-toolbar flat class="pt-2">
+                <v-toolbar-title
+                  class="text-h6 font-weight-black"
+                  style="color: #2f3f64"
+                >
+                  SCHEDULE
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-select
+                  clearable
+                  label="Grade Level"
+                  v-bind="props"
+                  :items="gradeLevels"
+                  v-model="selectedGrade"
+                  variant="solo-filled"
+                  class="mr-2 m-auto"
+                ></v-select>
+  
+                <v-select
+                  clearable
+                  label="Strand"
+                  v-bind="props"
+                  :items="strandLevels"
+                  v-model="selectedStrand"
+                  variant="solo-filled"
+                  class="mr-2 m-auto"
+                  :disabled="isStrandDisabled"
+                ></v-select>
+              </v-toolbar>
+            </template>
+          </v-menu>
+        </template>
+  
+        <template v-slot:item="{ item, props }">
+          <tr @click="handleRowClick(item)" v-bind="props">
+            <td class="text-center">{{ item.grade_level }}</td>
+            <td class="text-center">{{ item.section }}</td>
+            <td class="text-center" style="padding: 1rem">{{ item.strand }}</td>
+            <td class="text-center">{{ item.adviser.full_name }}</td>
+            <td class="text-center"><v-btn text @click="openAddDialog(item)" class="bg-green" color="white">ADD</v-btn></td>
+          </tr>
+        </template>
+      </v-data-table>
+    </div>
     <!-- <ViewScheduleRight v-if="currentItem" :selectedItem="currentItem" /> -->
 
     <!-- View Dialog -->
@@ -156,7 +159,124 @@
         </v-card-actions>
       </v-card>
     </v-dialog> -->
-  </v-container>
+  <div class="right">
+      <v-toolbar flat>
+        <v-toolbar-title class="text-h6 font-weight-black" style="color: #2f3f64">
+          SCHEDULE DETAILS
+        </v-toolbar-title>
+        <v-text-field v-model="search" class="w-auto mr-1" density="compact" label="Search"
+            prepend-inner-icon="mdi-magnify" variant="solo-filled" flat hide-details single-line>
+          </v-text-field>
+        <!-- <v-btn @click="refreshData" class="bg-blue" color="white">Refresh</v-btn> -->
+        <!-- Add more buttons or controls as needed -->
+      </v-toolbar>
+  
+      <!-- Data Table -->
+      <v-data-table
+        :headers="headers2"
+        :items="documentlist  "
+        :search="search"
+        :sort-by="[{ key: 'section', order: 'asc' }]"
+  
+      >
+        <!-- Table Data -->
+         
+        <template v-slot:item="{ item }">
+          <tr>
+            <td style="padding: 1rem">{{ item.classcode }}</td>
+            <td>{{ item.class_desc }}</td>
+            <td>{{ item.day }}</td>
+            <td>{{ item.time }}</td>
+            <td>{{ item.section }}</td>
+            <td>{{ item.adviser }}</td>
+          </tr>
+        </template>
+      </v-data-table>
+  </div>
+</v-container>
+
+<v-dialog v-model="addDialog" max-width="600px">
+      <v-card>
+        <v-card-title style="background-color: var(--dark)">
+          <span class="fs-5 fw-bold m-2" style="color: white">ADD SCHEDULE</span>
+        </v-card-title>
+        
+        <v-card-text>
+
+          <v-form ref="form">
+            <!-- Grade Level -->
+             <v-row dense>
+              <v-col cols="6">
+                <v-select
+                  v-model="newItem.grade"
+                  :items="gradeLevels"
+                  label="Grade Level"
+                  class="mr-2 m-auto"
+                  readonly
+                ></v-select>
+
+              </v-col>
+              <v-col cols="6">
+                 <!-- Room -->
+            <v-text-field
+              v-model="newItem.section"
+              label="Section"
+              readonly
+            ></v-text-field>
+
+
+              </v-col>
+             </v-row>
+            <v-row dense>
+              <v-col cols="6">
+                <v-select
+                v-model="newItem.subject"
+                :items="juniorSubjects"
+                item-text="title"
+                item-value="value"
+                label="Subject"
+                class="mr-2 m-auto"
+                required
+              ></v-select>
+
+              </v-col>
+              <v-col cols="6">
+                <!-- Time -->
+                <v-select
+                  v-model="newItem.time"
+                  :items="schedtime"
+                  label="Time"
+                  class="mr-2 m-auto"
+                  required
+                ></v-select>
+              </v-col>
+            </v-row>
+
+            <!-- Room -->
+            <!-- <v-text-field
+              v-model="newItem.room "
+              label="Room"
+              required
+            ></v-text-field> -->
+
+            <!-- Faculty -->
+            <v-select
+              v-model="newItem.faculty"
+              :items="facultyName"
+              item-text="title"
+              item-value="value"
+              label="Faculty"
+              class="mr-2 m-auto"
+            ></v-select>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn text @click="addNewSchedule" class="bg-green" color="white">Add</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn text @click="addDialog = false" class="bg-red" color="white">Close</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 </template>
 
 <script>
@@ -175,12 +295,21 @@ export default {
     return {
       selectedSection: null,
       search: "",
+      selectedItem:[],
       juniorList: [],
       seniorList: [],
       headers: [
         { title: "Grade Level", align: "center", key: "grade_level" },
         { title: "Section", align: "center", key: "section" },
         { title: "Strand", key: "strand", align: "center" },
+        { title: "Adviser", key: "adviser_id", align: "center" },
+      ],
+      headers2: [
+        { title: "Grade Level", align: "center", key: "grade_level" },
+        { title: "Subject", align: "center", key: "class_desc" },
+        { title: "Day", align: "center", key: "day" },
+        { title: "Time", key: "time", align: "center" },
+        { title: "Section", key: "section", align: "center" },
         { title: "Adviser", key: "adviser_id", align: "center" },
       ],
       gradeLevels: [
@@ -237,8 +366,10 @@ export default {
           value: "PE",
         },
       ],
+      documentlist: [],
       allFaculty: [],
       facultyName: [],
+      selectedSTud: [],
       viewDialog: false,
       addDialog: false,
       currentItem: null,
@@ -328,6 +459,7 @@ export default {
   mounted() {
     this.getSched();
     this.getFaculty();
+    this.getDocx();
   },
   // Disable to test the static data
   //   mounted(){
@@ -356,6 +488,8 @@ export default {
       }));
       console.log(this.facultyName);
     },
+    getDocx() {
+    },
     resetGrade() {
       this.selectedGrade = ""; // Reset selectedGrade to clear the v-select
     },
@@ -366,10 +500,18 @@ export default {
     },
 
     handleRowClick(item) {
-      this.$router.push({
-        name: "ViewScheduleRight",
-        params:  item.grade_level ,
+      console.log(item.section);
+      this.selectedSTud = item.section;
+      axios.get(`getSched/${this.selectedSTud}`).then(res => {
+        this.documentlist = res.data.sched.map((sched)=>({
+          ...sched,
+          adviser: `${sched.faculty.fname} ${sched.faculty.lname}`
+        }));
+        console.log(this.documentlist);
+      }).catch(error => {
+        console.error("Error fetching data:", error);
       });
+
     },
 
     openAddDialog(item) {
@@ -386,7 +528,6 @@ export default {
         this.newItem.subject &&
         this.newItem.grade &&
         this.newItem.time &&
-        this.newItem.room &&
         this.newItem.faculty
       ) {
         let dt = {
@@ -447,6 +588,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.studInfo{
+  display: flex;
+  gap: 2rem;
+  .left{
+    flex: 0.5;
+  }
+  .right {
+    flex: 0.5;
+  }
+}
+
 .v-data-table {
   height: 100%;
   .v-table__wrapper {
@@ -468,6 +621,7 @@ export default {
       padding: 1rem;
     }
   }
+  
 
   .icon {
     text-align: center;

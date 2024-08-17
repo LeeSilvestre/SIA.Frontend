@@ -14,9 +14,9 @@
         <ScheduleLeft />
       </div>
 
-      <div class="shs-container">
+      <!-- <div class="shs-container">
         <ViewScheduleRight />
-      </div>
+      </div> -->
     </div>
   </main>
 </template>
@@ -70,7 +70,7 @@ main {
 
 .bottom-container {
   display: flex;
-  justify-content: center;
+  // justify-content: center;
   flex-direction: row;
 
   gap: 2rem;
@@ -90,7 +90,8 @@ main {
   }
 
   .jhs-container {
-    flex: 0.5;
+    flex: 1;
+    width: 50%;
     padding: 0.5rem;
     border-radius: 10px;
     border-left: 4px solid var(--dark-alt);
