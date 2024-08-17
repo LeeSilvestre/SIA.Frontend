@@ -12,8 +12,8 @@
             class="font-weight-black"
             style="color: #2f3f64"
             >
-            <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
-              <v-icon left>mdi-download</v-icon>
+            <v-btn color="#28a745" variant="flat" dark @click="downloadXLS()">
+              <v-icon left class="mr-1">mdi-download</v-icon>
               GENERATE REPORT
             </v-btn>
             </v-toolbar-title>
@@ -41,7 +41,7 @@
         <tr :class="{ 'selected-row': selectedRows.includes(item.student_lrn) }"
         @click="toggleSelection(item.student_lrn, item)" style="cursor: pointer;">
           <!-- <td>{{ index + 1 }}</td> -->
-          <td>{{ item.student_lrn }}</td>
+          <td class="text-center">{{ item.student_lrn }}</td>
           <td class="text-center">
             {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
             {{ item.extension }}
@@ -90,14 +90,15 @@
         <v-col cols="12">
           <!-- Personal Information Section -->
           <v-divider class="my-4"></v-divider>
-          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
-            <v-icon class="mr-2">mdi-account</v-icon>
+          <h1 class="fw-bold fs-4 d-flex align-items-center mb-5" style="color: var(--dark);">
+            <v-icon class="mr-2" style="color: var(--dark);">mdi-account</v-icon>
             Personal Information
           </h1>
           <v-text-field
             v-model="selectedStudent.full_name"
             label="Student Name"
             readonly
+            variant="outlined"
           ></v-text-field>
           <v-row>
             <v-col cols="6">
@@ -105,6 +106,7 @@
                 v-model="selectedStudent.sex_at_birth"
                 label="Gender"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
@@ -112,6 +114,7 @@
                 v-model="selectedStudent.birth_date"
                 label="Birthdate"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
           </v-row>
@@ -119,12 +122,13 @@
             v-model="selectedStudent.address"
             label="Address"
             readonly
+            variant="outlined"
           ></v-text-field>
 
           <!-- Contact Information Section -->
           <v-divider class="my-4"></v-divider>
-          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
-            <v-icon class="mr-2">mdi-phone</v-icon>
+          <h1 class="fw-bold fs-4 d-flex align-items-center mb-5" style="color: var(--dark);">
+            <v-icon class="mr-2" style="color: var(--dark);">mdi-phone</v-icon>
             Contact Information
           </h1>
           <v-row>
@@ -133,6 +137,7 @@
                 v-model="selectedStudent.contact_no"
                 label="Contact No."
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
             <v-col cols="6">
@@ -140,15 +145,16 @@
                 v-model="selectedStudent.email"
                 label="Email"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
           </v-row>
 
           <!-- Academic Information Section -->
           <v-divider class="my-4"></v-divider>
-          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
-            <v-icon class="mr-2">mdi-school</v-icon>
-            Academic Information
+          <h1 class="fw-bold fs-4 d-flex align-items-center mb-5" style="color: var(--dark);">
+            <v-icon class="mr-2" style="color: var(--dark);">mdi-school</v-icon>
+            Academic Infomation
           </h1>
           <v-row>
             <v-col cols="6">
@@ -156,6 +162,7 @@
                 v-model="selectedStudent.grade_level"
                 label="Grade"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
             <v-col cols="6" v-if="selectedStudent.grade_level > 10">
@@ -163,21 +170,22 @@
                 v-model="selectedStudent.strand"
                 label="Strand"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
           </v-row>
 
           <!-- Document List Section -->
           <v-divider class="my-4"></v-divider>
-          <h1 class="fw-bold fs-5 d-flex align-items-center mb-3">
-            <v-icon class="mr-2">mdi-file-document</v-icon>
+          <h1 class="fw-bold fs-4 d-flex align-items-center mb-5" style="color: var(--dark);">
+            <v-icon class="mr-2" style="color: var(--dark);">mdi-file-document</v-icon>
             Document List
           </h1>
           <v-table>
             <thead>
               <tr>
-                <th class="text-left">Document</th>
-                <th class="text-left">Remark</th>
+                <th class="text-left" style="background-color: var(--dark); color: white;">Document</th>
+                <th class="text-left" style="background-color: var(--dark); color: white;">Remark</th>
                 <!-- <th class="text-left">Actions</th> -->
               </tr>
             </thead>
@@ -204,12 +212,6 @@
     </v-card>
   </div>
   </v-container>
-
-
-  
-
-  
-
   <!-- view user status modal pop -->
   <!-- <v-dialog v-model="viewDialog" max-width="800px">
     <v-card>

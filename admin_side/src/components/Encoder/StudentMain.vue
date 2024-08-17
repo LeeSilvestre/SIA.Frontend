@@ -7,7 +7,6 @@
             <v-icon class="mr-2">mdi-book-open</v-icon>
             <span class="card-title fw-bold fs-4">PRE-REGISTRATION INSTRUCTIONS</span>
           </v-card-title>
-          <v-divider></v-divider>
           <div class="pa-1">
             <v-card-text class="instructions" style="max-width:1000px">
               <!-- New Instructions Content -->
@@ -45,21 +44,15 @@
                   </h1>
                 </div>
                 <v-row>
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="student_lrn"
-                      :rules="studentLrnRules"
-                      label="Student LRN"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row>
                   <v-col cols="12" md="3">
                     <v-text-field
                       v-model="lastname"
                       :rules="nameRules"
                       label="Last name"
                       required
+                      variant="outlined"
+                      dense
+                      outlined
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="3">
@@ -68,13 +61,14 @@
                       :rules="nameRules"
                       label="First name"
                       required
-                      outlined
+                      variant="outlined"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="3">
                     <v-text-field
                       v-model="middlename"
                       label="Middle name"
+                      variant="outlined"
                     ></v-text-field>
                   </v-col>
                   <!-- <v-col cols="12" md="3">
@@ -83,26 +77,25 @@
                       label="Extension"
                     ></v-text-field>
                   </v-col> -->
+                  <v-col cols="12" md="3">
                   <v-select
                       v-model="extension"
                       :items="['Jr', 'Sr', 'II', 'III'
-
-
-                        
                       ]"
                       label="Extension"
                       clearable
                       required
-                      outlined
+                      variant="outlined"
                     ></v-select>
+                    </v-col>
                   <v-col cols="12" md="4">
                     <v-select
                       v-model="sex"
                       :items="['Male', 'Female']"
-                      label="Sex at Birth"
+                      label="Sex"
                       clearable
                       required
-                      outlined
+                      variant="outlined"
                     ></v-select>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -111,6 +104,7 @@
                       :rules="birthdateRules"
                       label="Birthdate"
                       placeholder ="YYYY-MM-DD"
+                      variant="outlined"
                     > </v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -120,7 +114,7 @@
                       label="Religion"
                       clearable
                       required
-                      outlined
+                      variant="outlined"
                     ></v-select>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -128,6 +122,7 @@
                       v-model="houseNumber"
                       :rules="houseNumberRules"
                       label="House Number"
+                      variant="outlined"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -135,6 +130,7 @@
                       v-model="street"
                       :rules="streetRules"
                       label="Street"
+                      variant="outlined"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -142,6 +138,7 @@
                       v-model="barangay"
                       :rules="barangayRules"
                       label="Barangay"
+                      variant="outlined"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -149,6 +146,7 @@
                       v-model="city"
                       :rules="cityRules"
                       label="City"
+                      variant="outlined"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -156,6 +154,7 @@
                       v-model="province"
                       :rules="provinceRules"
                       label="Province"
+                      variant="outlined"
                     ></v-text-field>
                   </v-col>
                   <!-- <v-col cols="12" md="4">
@@ -165,6 +164,7 @@
                       label="Region"
                     ></v-text-field>
                   </v-col> -->
+                  <v-col cols="12" md="4">
                   <v-select
                       v-model="region"
                        :items="['REGION I (ILOCOS REGION) ', 'REGION II (CAGAYAN VALLEY) ', 'REGION III (CENTRAL LUZON) ', 'REGION IV-A(CALABARZON)', 'REGION V(BICOL REGION) ', 'REGION VI(WESTERN VISAYAS) ', 'REGION VII(CENTRAL VISAYAS) ', 'REGION VIII (EASTERN VISAYAS)', 'REGION IX (ZAMBOANGA PENINSULA)', 'REGION X (NORTHERN MINDANAO)',
@@ -173,13 +173,15 @@
                        :rules="provinceRules"
                       clearable
                       required
-                      outlined
+                      variant="outlined"
                     ></v-select>
+                    </v-col>
                   <v-col cols="12" md="4">
                     <v-text-field
                       v-model="zipCode"
                       :rules="zipCodeRules"
                       label="Zip Code"
+                      variant="outlined"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -195,6 +197,7 @@
                       v-model="contactNumber"
                       :rules="contactNumberRules"
                       label="Contact Number"
+                      variant="outlined"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -202,6 +205,7 @@
                       v-model="email"
                       :rules="emailRules"
                       label="E-mail"
+                      variant="outlined"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -212,15 +216,22 @@
                     Academic Information
                   </h1>
                 </div>
-
                 <v-row>
+                  <v-col cols="12" md="3">
+                    <v-text-field
+                      v-model="student_lrn"
+                      :rules="studentLrnRules"
+                      label="Student LRN"
+                      variant="outlined"
+                    ></v-text-field>
+                  </v-col>
                   <v-col cols="12" md="3">
                     <v-select
                       v-model="gradeLevel"
                       :items="gradeLevels"
                       label="Grade Level"
                       clearable
-                      outlined
+                      variant="outlined"
                     ></v-select>
                   </v-col>
                   <v-col v-if="showStrand" cols="12" md="4">
@@ -229,7 +240,7 @@
                       :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
                       label="Strand"
                       clearable
-                      outlined
+                      variant="outlined"
                     ></v-select>
                   </v-col>
                 </v-row>
@@ -614,4 +625,5 @@ ul {
 li {
   margin-bottom: 0.75rem;
 }
+
 </style>

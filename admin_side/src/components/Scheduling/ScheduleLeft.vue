@@ -1,13 +1,11 @@
 <template>
   <v-container class="studInfo">
-    <div class="left">
-
-      <v-data-table
+      <v-data-table class="left"
         :search="search"
         :headers="headers"
         :items="combinedList"
         :sort-by="[{ key: 'section', order: 'asc' }]"
-        style="cursor: pointer"
+        style="cursor: pointer; border:3px solid var(--dark);border-radius: 3px;"
       >
         <!-- toolbar  -->
         <template v-slot:top>
@@ -56,7 +54,63 @@
           </tr>
         </template>
       </v-data-table>
-    </div>
+      
+      <div class="right">
+        <!-- toolbar  -->
+        <v-data-table
+        :headers="headers2"
+        :items="documentlist  "
+        :search="search"
+        :sort-by="[{ key: 'section', order: 'asc' }]"
+        style=" border:3px solid var(--dark);border-radius: 3px;"
+  
+      >
+        <template v-slot:top>
+          <v-menu transition="scale-transition">
+            <template v-slot:activator="{ props }">
+              <v-toolbar flat class="pt-2">
+                <v-toolbar-title
+                  class="text-h6 font-weight-black"
+                  style="color: #2f3f64"
+                >
+                  SCHEDULE DETAILS
+                </v-toolbar-title>
+                <v-spacer></v-spacer>
+                <div style="width: 19vw;">
+            <v-text-field
+              v-model="search"
+              class="search mr-3"
+              density="compact"
+              label="Search"
+              prepend-inner-icon="mdi-magnify"
+              variant="solo-filled"
+              flat
+              hide-details
+              single-line
+            ></v-text-field>
+            
+          </div>
+              </v-toolbar>
+            </template>
+          </v-menu>
+        </template>
+  
+      <!-- Data Table -->
+
+        <!-- Table Data -->
+         
+        <template v-slot:item="{ item }">
+          <tr>
+            <td style="padding: 1rem">{{ item.classcode }}</td>
+            <td>{{ item.class_desc }}</td>
+            <td>{{ item.day }}</td>
+            <td>{{ item.time }}</td>
+            <td>{{ item.section }}</td>
+            <td>{{ item.adviser }}</td>
+          </tr>
+        </template>
+      </v-data-table>
+  </div>
     <!-- <ViewScheduleRight v-if="currentItem" :selectedItem="currentItem" /> -->
 
     <!-- View Dialog -->
@@ -159,40 +213,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog> -->
-  <div class="right">
-      <v-toolbar flat>
-        <v-toolbar-title class="text-h6 font-weight-black" style="color: #2f3f64">
-          SCHEDULE DETAILS
-        </v-toolbar-title>
-        <v-text-field v-model="search" class="w-auto mr-1" density="compact" label="Search"
-            prepend-inner-icon="mdi-magnify" variant="solo-filled" flat hide-details single-line>
-          </v-text-field>
-        <!-- <v-btn @click="refreshData" class="bg-blue" color="white">Refresh</v-btn> -->
-        <!-- Add more buttons or controls as needed -->
-      </v-toolbar>
-  
-      <!-- Data Table -->
-      <v-data-table
-        :headers="headers2"
-        :items="documentlist  "
-        :search="search"
-        :sort-by="[{ key: 'section', order: 'asc' }]"
-  
-      >
-        <!-- Table Data -->
-         
-        <template v-slot:item="{ item }">
-          <tr>
-            <td style="padding: 1rem">{{ item.classcode }}</td>
-            <td>{{ item.class_desc }}</td>
-            <td>{{ item.day }}</td>
-            <td>{{ item.time }}</td>
-            <td>{{ item.section }}</td>
-            <td>{{ item.adviser }}</td>
-          </tr>
-        </template>
-      </v-data-table>
-  </div>
 </v-container>
 
 <v-dialog v-model="addDialog" max-width="600px">
@@ -604,7 +624,6 @@ export default {
   height: 100%;
   .v-table__wrapper {
     padding: 1.5rem;
-    background-color: #f5f5f5;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
@@ -659,6 +678,7 @@ export default {
 .v-toolbar {
   // background-color: #007bff;
   color: white;
+  
 
   .v-select {
     color: white;
@@ -697,4 +717,5 @@ export default {
     color: #007bff;
   }
 }
+
 </style>

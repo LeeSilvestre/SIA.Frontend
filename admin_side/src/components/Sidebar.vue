@@ -1,7 +1,7 @@
 <template>
   <aside :class="`${is_expanded && 'is_expanded'}`">
     <img class="sna-logo" src="/src/assets/SNA Logo with BG.png" alt="">
-    <h5 class="sp-text fs-3">Registrar Panel</h5>
+    <h5 class="sp-text fs-3">St. Nicholas Academy</h5>
     <br>
     <hr>
     <div class="menu-toggle-wrap">
