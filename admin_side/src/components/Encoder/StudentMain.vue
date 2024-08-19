@@ -90,7 +90,7 @@
                     <v-select
                       v-model="extension"
                       :items="['Jr', 'Sr', 'II', 'III']"
-                      label="Extension"
+                      label="Extension Name"
                       clearable
                       required
                       variant="outlined"
@@ -134,62 +134,8 @@
                       variant="outlined"
                     ></v-select>
                   </v-col>
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="houseNumber"
-                      :rules="houseNumberRules"
-                      label="House Number"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="street"
-                      :rules="streetRules"
-                      label="Street"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="barangay"
-                      :rules="barangayRules"
-                      label="Barangay"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="city"
-                      :rules="cityRules"
-                      label="City"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="province"
-                      :rules="provinceRules"
-                      label="Province"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <!-- <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="region"
-                      :rules="provinceRules"
-                      label="Region"
-                    ></v-text-field>
-                  </v-col> -->
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="zipCode"
-                      :rules="zipCodeRules"
-                      label="Zip Code"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4">
+                  <!-- ADDRESS -->
+                  <v-col cols="12" md="2">
                     <v-select
                       v-model="region"
                       :items="[
@@ -216,6 +162,61 @@
                       required
                       variant="outlined"
                     ></v-select>
+                  </v-col>
+                  <v-col cols="12" md="2">
+                    <v-text-field
+                      v-model="province"
+                      :rules="provinceRules"
+                      label="Province"
+                      variant="outlined"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="2">
+                    <v-text-field
+                      v-model="city"
+                      :rules="cityRules"
+                      label="City"
+                      variant="outlined"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="2">
+                    <v-text-field
+                      v-model="barangay"
+                      :rules="barangayRules"
+                      label="Barangay"
+                      variant="outlined"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="1">
+                    <v-text-field
+                      v-model="houseNumber"
+                      :rules="houseNumberRules"
+                      label="House #"
+                      variant="outlined"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="2">
+                    <v-text-field
+                      v-model="street"
+                      :rules="streetRules"
+                      label="Street"
+                      variant="outlined"
+                    ></v-text-field>
+                  </v-col>
+                  <!-- <v-col cols="12" md="4">
+                    <v-text-field
+                      v-model="region"
+                      :rules="provinceRules"
+                      label="Region"
+                    ></v-text-field>
+                  </v-col> -->
+                  <v-col cols="12" md="">
+                    <v-text-field
+                      v-model="zipCode"
+                      :rules="zipCodeRules"
+                      label="Zip Code"
+                      variant="outlined"
+                    ></v-text-field>
                   </v-col>
                 </v-row>
                 <div class="academic">
@@ -589,7 +590,7 @@ export default {
           city: this.city,
           barangay: this.barangay,
           street: this.street,
-          houseNumber: this.houseNumber,
+          // houseNumber: this.houseNumber,
           zip_code: this.zipCode,
           religion: this.religion,
           contact_no: this.contactNumber,
