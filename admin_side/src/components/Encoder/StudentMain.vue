@@ -5,18 +5,27 @@
         <v-card flat class="stepper-card">
           <v-card-title>
             <v-icon class="mr-2">mdi-book-open</v-icon>
-            <span class="card-title fw-bold fs-4">PRE-REGISTRATION INSTRUCTIONS</span>
+            <span class="card-title fw-bold fs-4"
+              >PRE-REGISTRATION INSTRUCTIONS</span
+            >
           </v-card-title>
           <div class="pa-1">
-            <v-card-text class="instructions" style="max-width:1000px">
+            <v-card-text class="instructions" style="max-width: 1000px">
               <!-- New Instructions Content -->
-              <div v-for="(instruction, index) in instructions" :key="index" class="mb-5">
+              <div
+                v-for="(instruction, index) in instructions"
+                :key="index"
+                class="mb-5"
+              >
                 <div class="d-flex align-items-center mb-2">
                   <v-icon class="mr-2">{{ instruction.icon }}</v-icon>
                   <h4 class="fw-bold">{{ instruction.title }}</h4>
                 </div>
                 <ul>
-                  <li v-for="(detail, detailIndex) in instruction.details" :key="detailIndex">
+                  <li
+                    v-for="(detail, detailIndex) in instruction.details"
+                    :key="detailIndex"
+                  >
                     {{ detail }}
                   </li>
                 </ul>
@@ -78,16 +87,15 @@
                     ></v-text-field>
                   </v-col> -->
                   <v-col cols="12" md="3">
-                  <v-select
+                    <v-select
                       v-model="extension"
-                      :items="['Jr', 'Sr', 'II', 'III'
-                      ]"
+                      :items="['Jr', 'Sr', 'II', 'III']"
                       label="Extension"
                       clearable
                       required
                       variant="outlined"
                     ></v-select>
-                    </v-col>
+                  </v-col>
                   <v-col cols="12" md="4">
                     <v-select
                       v-model="sex"
@@ -103,14 +111,23 @@
                       v-model="birthdate"
                       :rules="birthdateRules"
                       label="Birthdate"
-                      placeholder ="YYYY-MM-DD"
+                      placeholder="YYYY-MM-DD"
                       variant="outlined"
-                    > </v-text-field>
+                    >
+                    </v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-select
                       v-model="religion"
-                       :items="['Catholic', 'Islam', 'Iglesia ni Cristo', 'Born Again', 'Christianity', 'Buddhism', 'Others']"
+                      :items="[
+                        'Catholic',
+                        'Islam',
+                        'Iglesia ni Cristo',
+                        'Born Again',
+                        'Christianity',
+                        'Buddhism',
+                        'Others',
+                      ]"
                       label="Religion"
                       clearable
                       required
@@ -165,24 +182,40 @@
                     ></v-text-field>
                   </v-col> -->
                   <v-col cols="12" md="4">
-                  <v-select
-                      v-model="region"
-                       :items="['REGION I (ILOCOS REGION) ', 'REGION II (CAGAYAN VALLEY) ', 'REGION III (CENTRAL LUZON) ', 'REGION IV-A(CALABARZON)', 'REGION V(BICOL REGION) ', 'REGION VI(WESTERN VISAYAS) ', 'REGION VII(CENTRAL VISAYAS) ', 'REGION VIII (EASTERN VISAYAS)', 'REGION IX (ZAMBOANGA PENINSULA)', 'REGION X (NORTHERN MINDANAO)',
-'REGION XI (DAVAO REGION)', 'REGION XII (SOCCSKSARGEN)', 'NATIONAL CAPITAL REGION (NCR)', 'CORDILLERA ADMINISTRATIVE REGION', 'AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)', 'REGION XIII (Caraga)']"
-                      label="Region"
-                       :rules="provinceRules"
-                      clearable
-                      required
-                      variant="outlined"
-                    ></v-select>
-                    </v-col>
-                  <v-col cols="12" md="4">
                     <v-text-field
                       v-model="zipCode"
                       :rules="zipCodeRules"
                       label="Zip Code"
                       variant="outlined"
                     ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <v-select
+                      v-model="region"
+                      :items="[
+                        'REGION I (ILOCOS REGION) ',
+                        'REGION II (CAGAYAN VALLEY) ',
+                        'REGION III (CENTRAL LUZON) ',
+                        'REGION IV-A(CALABARZON)',
+                        'REGION V(BICOL REGION) ',
+                        'REGION VI(WESTERN VISAYAS) ',
+                        'REGION VII(CENTRAL VISAYAS) ',
+                        'REGION VIII (EASTERN VISAYAS)',
+                        'REGION IX (ZAMBOANGA PENINSULA)',
+                        'REGION X (NORTHERN MINDANAO)',
+                        'REGION XI (DAVAO REGION)',
+                        'REGION XII (SOCCSKSARGEN)',
+                        'NATIONAL CAPITAL REGION (NCR)',
+                        'CORDILLERA ADMINISTRATIVE REGION',
+                        'AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)',
+                        'REGION XIII (Caraga)',
+                      ]"
+                      label="Region"
+                      :rules="provinceRules"
+                      clearable
+                      required
+                      variant="outlined"
+                    ></v-select>
                   </v-col>
                 </v-row>
                 <div class="academic">
@@ -192,7 +225,7 @@
                   </h1>
                 </div>
                 <v-row>
-                  <v-col cols="12" md="4">
+                  <v-col cols="12" md="3">
                     <v-text-field
                       v-model="contactNumber"
                       :rules="contactNumberRules"
@@ -200,7 +233,7 @@
                       variant="outlined"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="4">
+                  <v-col cols="12" md="3">
                     <v-text-field
                       v-model="email"
                       :rules="emailRules"
@@ -234,7 +267,7 @@
                       variant="outlined"
                     ></v-select>
                   </v-col>
-                  <v-col v-if="showStrand" cols="12" md="4">
+                  <v-col v-if="showStrand" cols="12" md="3">
                     <v-select
                       v-model="strand"
                       :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
@@ -246,18 +279,10 @@
                 </v-row>
               </v-container>
             </v-form>
-            
-            <v-row justify="end">
-              <v-col cols="auto">
-                <v-btn class="bg-green large-button" @click="enroll"
-                  >Submit</v-btn
-                >
-              </v-col>
-            </v-row>
           </v-card-text>
         </v-card>
       </template>
-      
+
       <template v-slot:item.3>
         <v-card>
           <v-card-text>
@@ -266,7 +291,7 @@
                 <div class="academic">
                   <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
                     <v-icon class="mr-2">mdi-school</v-icon>
-                    Initial file Uploading 
+                    Initial file Uploading
                   </h1>
                 </div>
 
@@ -274,8 +299,8 @@
                   <!-- PSA UPLOADER -->
                   <v-col cols="12" md="12" sm="6">
                     <v-row>
-                      <div style="width: 300px;">
-                        <v-file-input 
+                      <div style="width: 300px">
+                        <v-file-input
                           v-model="editedItem.psa"
                           label="PSA/Birth Certificate"
                           counter
@@ -284,30 +309,30 @@
                           @change="handleFileUpload('psa', $event)"
                         ></v-file-input>
                       </div>
-                      <v-btn  @click="upload('PSA')">upload</v-btn>
+                      <v-btn @click="upload('PSA')">upload</v-btn>
                     </v-row>
                   </v-col>
 
                   <!-- GOOD MORAL UPLOADER -->
                   <v-col cols="12" md="12" sm="6">
                     <v-row>
-                      <div style="width: 300px;">
-                      <v-file-input
-                        v-model="editedItem.goodMoral"
-                        label="Good Moral"
-                        counter
-                        multiple
-                        show-size
-                        @change="handleFileUpload('goodmoral', $event)"
-                      ></v-file-input>
-                    </div>
-                      <v-btn  @click="upload('Good Moral')">upload</v-btn>
+                      <div style="width: 300px">
+                        <v-file-input
+                          v-model="editedItem.goodMoral"
+                          label="Good Moral"
+                          counter
+                          multiple
+                          show-size
+                          @change="handleFileUpload('goodmoral', $event)"
+                        ></v-file-input>
+                      </div>
+                      <v-btn @click="upload('Good Moral')">upload</v-btn>
                     </v-row>
                   </v-col>
                   <!--  TOR UPLOADER -->
                   <v-col cols="12" md="12" sm="6">
                     <v-row>
-                      <div style="width: 300px;">
+                      <div style="width: 300px">
                         <v-file-input
                           v-model="editedItem.tor"
                           label="Form 137/Transcript of Record"
@@ -317,22 +342,28 @@
                           @change="handleFileUpload('tor', $event)"
                         ></v-file-input>
                       </div>
-                    <v-btn  @click="upload('TOR')">upload</v-btn>
+                      <v-btn @click="upload('TOR')">upload</v-btn>
                     </v-row>
-                </v-col>
-              </v-row>
+                  </v-col>
+                  <v-row justify="end">
+                    <v-col cols="auto">
+                      <v-btn class="bg-green large-button" @click="enroll"
+                        >Submit</v-btn
+                      >
+                    </v-col>
+                  </v-row>
+                </v-row>
               </v-col>
             </v-row>
           </v-card-text>
         </v-card>
-
       </template>
     </v-stepper>
   </v-app>
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 // import pdf from "vue-pdf";
 import Swal from "sweetalert2";
 
@@ -342,9 +373,9 @@ export default {
   // },
   data: () => ({
     editedItem: {
-      psa:null,
-      goodmoral:null,
-      tor:null
+      psa: null,
+      goodmoral: null,
+      tor: null,
     },
     valid: false,
     student_lrn: "",
@@ -373,9 +404,7 @@ export default {
         (value && value.length <= 30) ||
         "Name must be less than 30 characters.",
     ],
-    studentLrnRules: [
-      (value) => !!value || "Student LRN is required."
-    ],
+    studentLrnRules: [(value) => !!value || "Student LRN is required."],
     contactNumberRules: [
       (value) => !!value || "Contact Number is required.",
       (value) =>
@@ -395,115 +424,124 @@ export default {
     zipCodeRules: [(value) => !!value || "Zip Code is required."],
     gradeLevels: ["7", "8", "9", "10", "11", "12"],
     instructions: [
-        {
-          icon: "mdi-account",
-          title: "Step 1: Personal Information",
-          details: [
-            "Enter your Learner Reference Number (LRN).",
-            "Fill out your last name, first name, and middle name accurately.",
-            "Select your gender from the options available (Male/Female).",
-            "Provide your date of birth in the correct format (MM/DD/YYYY).",
-            "Enter a valid email address where you can be contacted.",
-            "Specify your religion.",
-          ],
-        },
-        {
-          icon: "mdi-home",
-          title: "Step 2: Address Information",
-          details: [
-            "Provide your complete house number and street address.",
-            "Ensure these fields are filled with accurate details about your residence.",
-            "Enter the correct postal code for your area.",
-          ],
-        },
-        {
-          icon: "mdi-phone",
-          title: "Step 3: Contact Information",
-          details: [
-            "Provide a valid contact number where you or your guardian can be reached.",
-          ],
-        },
-        {
-          icon: "mdi-school",
-          title: "Step 4: Academic Information",
-          details: [
-            "Choose whether you are an incoming or returning student.",
-            "Select the grade level you are applying for. If you are entering Grade 11 or 12, select the strand (e.g., HUMSS, STEM) that applies to you.",
-          ],
-        },
-        {
-          icon: "mdi-check-circle",
-          title: "Step 5: Submission",
-          details: [
-            "After filling out all required fields, review your entries to ensure accuracy.",
-            'Click the "Submit" button to complete your pre-registration. Ensure that all the required documents are ready for submission to avoid any delays in processing your enrollment.',
-          ],
-        },
-      ],
-      psaFile: null,
-      goodMoralFile : null,
-      torFile : null
-
+      {
+        icon: "mdi-account",
+        title: "Step 1: Personal Information",
+        details: [
+          "Enter your Learner Reference Number (LRN).",
+          "Fill out your last name, first name, and middle name accurately.",
+          "Select your gender from the options available (Male/Female).",
+          "Provide your date of birth in the correct format (MM/DD/YYYY).",
+          "Enter a valid email address where you can be contacted.",
+          "Specify your religion.",
+        ],
+      },
+      {
+        icon: "mdi-home",
+        title: "Step 2: Address Information",
+        details: [
+          "Provide your complete house number and street address.",
+          "Ensure these fields are filled with accurate details about your residence.",
+          "Enter the correct postal code for your area.",
+        ],
+      },
+      {
+        icon: "mdi-phone",
+        title: "Step 3: Contact Information",
+        details: [
+          "Provide a valid contact number where you or your guardian can be reached.",
+        ],
+      },
+      {
+        icon: "mdi-school",
+        title: "Step 4: Academic Information",
+        details: [
+          "Choose whether you are an incoming or returning student.",
+          "Select the grade level you are applying for. If you are entering Grade 11 or 12, select the strand (e.g., HUMSS, STEM) that applies to you.",
+        ],
+      },
+      {
+        icon: "mdi-check-circle",
+        title: "Step 5: Submission",
+        details: [
+          "After filling out all required fields, review your entries to ensure accuracy.",
+          'Click the "Submit" button to complete your pre-registration. Ensure that all the required documents are ready for submission to avoid any delays in processing your enrollment.',
+        ],
+      },
+    ],
+    psaFile: null,
+    goodMoralFile: null,
+    torFile: null,
   }),
-  
+
   computed: {
     showStrand() {
       return this.gradeLevel === "11" || this.gradeLevel === "12";
     },
   },
 
-
-  mounted(){
-  },
-
+  mounted() {},
 
   methods: {
+  // type of data
     handleFileUpload(type, event) {
       const file = event.target.files[0];
       if (file) {
-          if (type === 'psa') {
-            this.psaFile = file;
-          } else if (type === 'goodmoral') {
-            this.goodMoralFile = file;
-          } else if (type === 'tor') {
-            this.torFile = file;
-          }
+        if (type === "psa") {
+          this.psaFile = file;
+        } else if (type === "goodmoral") {
+          this.goodMoralFile = file;
+        } else if (type === "tor") {
+          this.torFile = file;
         }
+      }
     },
-    upload(type){
-      if(this.editedItem.tor || this.editedItem.psa || this.editedItem.tor || this.editedItem.goodmoral){
 
+    upload(type) {
+      if (
+        this.editedItem.tor ||
+        this.editedItem.psa ||
+        this.editedItem.tor ||
+        this.editedItem.goodmoral
+      ) {
         const formData = new FormData();
-  
-        formData.append('student_lrn', this.student_lrn)
-        let file = this.editedItem.psa ? this.psaFile: (this.editedItem.tor ?  this.torFile : (this.editedItem.goodmoral ? this.goodMoralFile : this.editedItem.psa));
+
+        formData.append("student_lrn", this.student_lrn);
+        let file = this.editedItem.psa
+          ? this.psaFile
+          : this.editedItem.tor
+          ? this.torFile
+          : this.editedItem.goodmoral
+          ? this.goodMoralFile
+          : this.editedItem.psa;
         console.log(file);
-        formData.append('image', file);
-        formData.append('file_type', type);
-        
-        axios.post('imageStud', formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-        }) 
-        .then(res=>{
-          this.viewDialog = false;
-          Swal.fire({
+        formData.append("image", file);
+        formData.append("file_type", type);
+
+
+        axios
+          .post("imageStud", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          })
+          .then((res) => {
+            this.viewDialog = false;
+            Swal.fire({
               title: "Upload Success!",
               icon: "success",
               confirmButtonText: "OK",
             });
-        })
-        .catch(error=>{
-          console.error (error.response);
-          let err = error.response.data
-          Swal.fire({
-          icon: "error",
-          title: "Bad Request",
-          text: err.message,
-        });
-  
-        })
+          })
+          .catch((error) => {
+            console.error(error.response);
+            let err = error.response.data;
+            Swal.fire({
+              icon: "error",
+              title: "Bad Request",
+              text: err.message,
+            });
+          });
       } else {
         Swal.fire({
           icon: "error",
@@ -512,71 +550,75 @@ export default {
         });
       }
     },
-    async enroll(){
-      const result = await Swal.fire({
-          title: "Are you sure?",
-          text: "Please review your information before submitting the form to ensure all fields are correctly filled out.",
-          icon: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#3085d6",
-          cancelButtonColor: "#d33",
-          confirmButtonText: "Yes, save changes!",
-          customClass: {
-            container: "sweet-alert-container",
-          },
-        });
 
-        if (result.isConfirmed) {
-          const data = {
-            student_lrn : this.student_lrn,
-            first_name : this.firstname,
-            middle_name : this.middlename,
-            last_name : this.lastname,
-            extension : this.extension,
-            sex_at_birth : this.sex,
-            birth_date : this.birthdate,
-            email :this.email,
-            region : this.region,
-            province : this.province,
-            city : this.city,
-            barangay : this.barangay,
-            street : this.street,
-            zip_code : this.zipCode,
-            religion : this.religion,
-            contact_no : this.contactNumber,
-            strand : this.strand ? this.strand : 'N/A' ,
-            grade_level: this.gradeLevel,
-          }
-          axios.post('student', data).then(res=>{
+    async enroll() {
+  //     if (!this.psaFile || !this.torFile) {
+  //   Swal.fire({
+  //     icon: "error",
+  //     title: "Missing Files",
+  //     text: "Please upload both the TOR and PSA files before submitting the form.",
+  //   });
+  //   return; // Prevent submission if files are missing
+  // }
+
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "Please review your information before submitting the form to ensure all fields are correctly filled out.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, save changes!",
+        customClass: {
+          container: "sweet-alert-container",
+        },
+      });
+
+      if (result.isConfirmed) {
+        const data = {
+          student_lrn: this.student_lrn,
+          first_name: this.firstname,
+          middle_name: this.middlename,
+          last_name: this.lastname,
+          extension: this.extension,
+          sex_at_birth: this.sex,
+          birth_date: this.birthdate,
+          email: this.email,
+          region: this.region,
+          province: this.province,
+          city: this.city,
+          barangay: this.barangay,
+          street: this.street,
+          houseNumber: this.houseNumber,
+          zip_code: this.zipCode,
+          religion: this.religion,
+          contact_no: this.contactNumber,
+          strand: this.strand ? this.strand : "N/A",
+          grade_level: this.gradeLevel,
+        };
+        axios
+          .post("student", data)
+          .then((res) => {
             Swal.fire({
               title: "Approved!",
               text: "Your action has been approved.",
               icon: "success",
             });
-          }).catch(error =>{
-            console.error(error); 
           })
-        }
+          .catch((error) => {
+            console.error(error);
+          });
+      }
 
-          
-          // Save changes logic here
-          this.editDialog = false;
-        }
-
-  }
+      // Save changes logic here
+      this.editDialog = false;
+    },
+  },
 };
 </script>
 
-
-
-
-
-
-
-
 <style lang="scss" scoped>
-
-.fileinput{
+.fileinput {
   width: 12vh !important;
 }
 .v-card-title {
@@ -625,5 +667,4 @@ ul {
 li {
   margin-bottom: 0.75rem;
 }
-
 </style>

@@ -367,6 +367,7 @@ export default {
       contact_no: "",
       birth_date: "",
       sex_at_birth: "",
+      houseNumber: "",
       religion: "",
       region: "",
       province: "",
@@ -387,6 +388,7 @@ export default {
       birth_date: "",
       birth_place: "",
       sex_at_birth: "",
+      houseNumber: "",
       religion: "",
       region: "",
       province: "",
@@ -452,14 +454,14 @@ export default {
             full_name:
               `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
             address:
-              `${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code}` .trim(),
+              `${student.houseNumber} ${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code} ${student.region}` .trim(),
           }));
         })
         .catch((error) => {
           console.error("Error fetching students:", error);
         });
     },
-
+    
     triggerFileInput() {
       this.$refs.fileInput.click();
     },
