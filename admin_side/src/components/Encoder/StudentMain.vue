@@ -181,7 +181,7 @@
                     <v-text-field
                       v-model="city"
                       :rules="cityRules"
-                      label="City"
+                      label="City/Municipality"
                       variant="outlined"
                     ></v-text-field>
                   </v-col>
@@ -286,7 +286,7 @@
                     ></v-select>
                   </v-col>
                 </v-row>
-                <v-row justify="end">
+                <v-row justify="auto">
                     <v-col cols="auto">
                       <v-btn class="bg-green large-button" @click="enroll"
                         >Submit</v-btn
@@ -314,61 +314,46 @@
 
                 <v-row dense>
                   <!-- PSA UPLOADER -->
-                  <v-col cols="12" md="12" sm="6">
-                    <v-row>
-                      <div style="width: 300px">
-                        <v-file-input
-                          v-model="editedItem.psa"
-                          label="PSA/Birth Certificate"
-                          counter
-                          multiple
-                          show-size
-                          @change="handleFileUpload('psa', $event)"
-                        ></v-file-input>
-                      </div>
-                      <v-btn @click="upload('PSA')">upload</v-btn>
-                    </v-row>
+                  <v-col cols="12" sm="4" class="d-flex align-items-center mb-4">
+                    <v-file-input
+                      v-model="editedItem.psa"
+                      label="PSA/Birth Certificate"
+                      counter
+                      multiple
+                      show-size
+                      @change="handleFileUpload('psa', $event)"
+                      class="flex-grow-1"
+                    ></v-file-input>
+                    <v-btn @click="upload('PSA')" class="ml-4">Upload</v-btn>
                   </v-col>
 
                   <!-- GOOD MORAL UPLOADER -->
-                  <v-col cols="12" md="12" sm="6">
-                    <v-row>
-                      <div style="width: 300px">
-                        <v-file-input
-                          v-model="editedItem.goodMoral"
-                          label="Good Moral"
-                          counter
-                          multiple
-                          show-size
-                          @change="handleFileUpload('goodmoral', $event)"
-                        ></v-file-input>
-                      </div>
-                      <v-btn @click="upload('Good Moral')">upload</v-btn>
-                    </v-row>
+                  <v-col cols="12" sm="4" class="d-flex align-items-center mb-4">
+                    <v-file-input
+                      v-model="editedItem.goodMoral"
+                      label="Good Moral"
+                      counter
+                      multiple
+                      show-size
+                      @change="handleFileUpload('goodmoral', $event)"
+                      class="flex-grow-1"
+                    ></v-file-input>
+                    <v-btn @click="upload('Good Moral')" class="ml-4">Upload</v-btn>
                   </v-col>
-                  <!--  TOR UPLOADER -->
-                  <v-col cols="12" md="12" sm="6">
-                    <v-row>
-                      <div style="width: 300px">
-                        <v-file-input
-                          v-model="editedItem.tor"
-                          label="Form 137/Transcript of Record"
-                          counter
-                          multiple
-                          show-size
-                          @change="handleFileUpload('tor', $event)"
-                        ></v-file-input>
-                      </div>
-                      <v-btn @click="upload('TOR')">upload</v-btn>
-                    </v-row>
+
+                  <!-- TOR UPLOADER -->
+                  <v-col cols="12" sm="4" class="d-flex align-items-center mb-4">
+                    <v-file-input
+                      v-model="editedItem.tor"
+                      label="Form 137/Transcript of Record"
+                      counter
+                      multiple
+                      show-size
+                      @change="handleFileUpload('tor', $event)"
+                      class="flex-grow-1"
+                    ></v-file-input>
+                    <v-btn @click="upload('TOR')" class="ml-4">Upload</v-btn>
                   </v-col>
-                  <v-row justify="end">
-                    <v-col cols="auto">
-                      <v-btn class="bg-green large-button" @click="enroll"
-                        >Submit</v-btn
-                      >
-                    </v-col>
-                  </v-row>
                 </v-row>
               </v-col>
             </v-row>
