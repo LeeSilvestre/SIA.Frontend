@@ -1,41 +1,32 @@
 <template>
   <v-app>
     <v-stepper v-model="step" :items="['GUIDELINES', 'FORM', 'UPLOADING']">
+      <!-- GUIDELINES Step -->
       <template :complete="step > 1" v-slot:item.1>
         <v-card flat class="stepper-card">
           <v-card-title>
             <v-icon class="mr-2">mdi-book-open</v-icon>
-            <span class="card-title fw-bold fs-4"
-              >PRE-REGISTRATION INSTRUCTIONS</span
-            >
+            <span class="card-title fw-bold fs-4">PRE-REGISTRATION INSTRUCTIONS</span>
           </v-card-title>
           <div class="pa-1">
             <v-card-text class="instructions" style="max-width: 1000px">
-              <!-- New Instructions Content -->
-              <div
-                v-for="(instruction, index) in instructions"
-                :key="index"
-                class="mb-5"
-              >
+              <div v-for="(instruction, index) in instructions" :key="index" class="mb-5">
                 <div class="d-flex align-items-center mb-2">
                   <v-icon class="mr-2">{{ instruction.icon }}</v-icon>
                   <h4 class="fw-bold">{{ instruction.title }}</h4>
                 </div>
                 <ul>
-                  <li
-                    v-for="(detail, detailIndex) in instruction.details"
-                    :key="detailIndex"
-                  >
+                  <li v-for="(detail, detailIndex) in instruction.details" :key="detailIndex">
                     {{ detail }}
                   </li>
                 </ul>
               </div>
-              <!-- Policy Section -->
             </v-card-text>
           </div>
         </v-card>
       </template>
 
+      <!-- FORM Step -->
       <template :complete="step > 2" v-slot:item.2>
         <v-card flat>
           <v-card-title>
@@ -80,12 +71,6 @@
                       variant="outlined"
                     ></v-text-field>
                   </v-col>
-                  <!-- <v-col cols="12" md="3">
-                    <v-text-field
-                      v-model="extension"
-                      label="Extension"
-                    ></v-text-field>
-                  </v-col> -->
                   <v-col cols="12" md="3">
                     <v-select
                       v-model="extension"
@@ -113,8 +98,7 @@
                       label="Birthdate"
                       placeholder="YYYY-MM-DD"
                       variant="outlined"
-                    >
-                    </v-text-field>
+                    ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-select
@@ -126,7 +110,7 @@
                         'Born Again',
                         'Christianity',
                         'Buddhism',
-                        'Others',
+                        'Others'
                       ]"
                       label="Religion"
                       clearable
@@ -134,18 +118,19 @@
                       variant="outlined"
                     ></v-select>
                   </v-col>
+
                   <!-- ADDRESS -->
                   <v-col cols="12" md="2">
                     <v-select
                       v-model="region"
                       :items="[
-                        'REGION I (ILOCOS REGION) ',
-                        'REGION II (CAGAYAN VALLEY) ',
-                        'REGION III (CENTRAL LUZON) ',
+                        'REGION I (ILOCOS REGION)',
+                        'REGION II (CAGAYAN VALLEY)',
+                        'REGION III (CENTRAL LUZON)',
                         'REGION IV-A(CALABARZON)',
-                        'REGION V(BICOL REGION) ',
-                        'REGION VI(WESTERN VISAYAS) ',
-                        'REGION VII(CENTRAL VISAYAS) ',
+                        'REGION V(BICOL REGION)',
+                        'REGION VI(WESTERN VISAYAS)',
+                        'REGION VII(CENTRAL VISAYAS)',
                         'REGION VIII (EASTERN VISAYAS)',
                         'REGION IX (ZAMBOANGA PENINSULA)',
                         'REGION X (NORTHERN MINDANAO)',
@@ -154,7 +139,7 @@
                         'NATIONAL CAPITAL REGION (NCR)',
                         'CORDILLERA ADMINISTRATIVE REGION',
                         'AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)',
-                        'REGION XIII (Caraga)',
+                        'REGION XIII (Caraga)'
                       ]"
                       label="Region"
                       :rules="provinceRules"
@@ -164,12 +149,13 @@
                     ></v-select>
                   </v-col>
                   <v-col cols="12" md="2">
-                    <v-text-field
+                    <v-select
                       v-model="province"
+                      :items="filteredProvinces"
                       :rules="provinceRules"
                       label="Province"
                       variant="outlined"
-                    ></v-text-field>
+                    ></v-select>
                   </v-col>
                   <v-col cols="12" md="2">
                     <v-text-field
@@ -203,13 +189,6 @@
                       variant="outlined"
                     ></v-text-field>
                   </v-col>
-                  <!-- <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="region"
-                      :rules="provinceRules"
-                      label="Region"
-                    ></v-text-field>
-                  </v-col> -->
                   <v-col cols="12" md="">
                     <v-text-field
                       v-model="zipCode"
@@ -219,6 +198,7 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
+
                 <div class="academic">
                   <h1 class="fw-bold fs-5 mb-3 d-flex align-items-center">
                     <v-icon class="mr-2">mdi-phone</v-icon>
@@ -232,7 +212,6 @@
                       :rules="contactNumberRules"
                       label="Contact Number"
                       variant="outlined"
-                      placeholder="09"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="3">
@@ -258,6 +237,7 @@
                       :rules="studentLrnRules"
                       label="Student LRN"
                       variant="outlined"
+                      maxlength="12"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="3">
@@ -279,7 +259,7 @@
                     ></v-select>
                   </v-col>
                 </v-row>
-                                  <v-row justify="end">
+                <v-row justify="end">
                     <v-col cols="auto">
                       <v-btn class="bg-green large-button" @click="enroll"
                         >Submit</v-btn
@@ -292,6 +272,7 @@
         </v-card>
       </template>
 
+      <!-- UPLOADING Step -->
       <template :complete="step > 3" v-slot:item.3>
         <v-card>
           <v-card-text>
@@ -354,6 +335,13 @@
                       <v-btn @click="upload('TOR')">upload</v-btn>
                     </v-row>
                   </v-col>
+                  <v-row justify="end">
+                    <v-col cols="auto">
+                      <v-btn class="bg-green large-button" @click="enroll"
+                        >Submit</v-btn
+                      >
+                    </v-col>
+                  </v-row>
                 </v-row>
               </v-col>
             </v-row>
@@ -406,7 +394,12 @@ export default {
         (value && value.length <= 30) ||
         "Name must be less than 30 characters.",
     ],
-    studentLrnRules: [(value) => !!value || "Student LRN is required."],
+    studentLrnRules: [
+    (value) => !!value || "Student LRN is required.",
+    (value) =>
+      (value && value.length <= 12) ||
+      "Student LRN must be 12 characters or less.",
+  ],
     contactNumberRules: [
       (value) => !!value || "Contact Number is required.",
       (value) =>
@@ -425,6 +418,26 @@ export default {
     provinceRules: [(value) => !!value || "Province is required."],
     zipCodeRules: [(value) => !!value || "Zip Code is required."],
     gradeLevels: ["7", "8", "9", "10", "11", "12"],
+    showStrand: false,
+      provinces: {
+        'REGION I (ILOCOS REGION)': ['Ilocos Norte', 'Ilocos Sur', 'La Union', 'Pangasinan'],
+        'REGION II (CAGAYAN VALLEY)': ['Batanes', 'Cagayan', 'Isabela', 'Nueva Vizcaya', 'Quirino'],
+        'REGION III (CENTRAL LUZON)': ['Aurora', 'Bataan', 'Bulacan', 'Nueva Ecija', 'Pampanga', 'Tarlac', 'Zambales'],
+        'REGION IV-A(CALABARZON)': ['Batangas', 'Cavite', 'Laguna', 'Quezon', 'Rizal'],
+        'REGION V(BICOL REGION)': ['Albay', 'Camarines Norte', 'Camarines Sur', 'Catanduanes', 'Masbate', 'Sorsogon'],
+        'REGION VI(WESTERN VISAYAS)': ['Aklan', 'Antique', 'Capiz', 'Guimaras', 'Iloilo', 'Negros Occidental'],
+        'REGION VII(CENTRAL VISAYAS)': ['Bohol', 'Cebu', 'Negros Oriental', 'Siquijor'],
+        'REGION VIII (EASTERN VISAYAS)': ['Biliran', 'Eastern Samar', 'Leyte', 'Northern Samar', 'Southern Leyte', 'Western Samar'],
+        'REGION IX (ZAMBOANGA PENINSULA)': ['Zamboanga del Norte', 'Zamboanga del Sur', 'Zamboanga Sibugay'],
+        'REGION X (NORTHERN MINDANAO)': ['Bukidnon', 'Camiguin', 'Lanao del Norte', 'Misamis Occidental', 'Misamis Oriental'],
+        'REGION XI (DAVAO REGION)': ['Davao de Oro', 'Davao del Norte', 'Davao del Sur', 'Davao Occidental', 'Davao Oriental'],
+        'REGION XII (SOCCSKSARGEN)': ['Cotabato', 'Sarangani', 'South Cotabato', 'Sultan Kudarat'],
+        'NATIONAL CAPITAL REGION (NCR)': ['City of Manila', 'Caloocan', 'Las Piñas', 'Makati', 'Malabon', 'Mandaluyong', 'Manila', 'Marikina', 'Muntinlupa', 'Navotas', 'Parañaque', 'Pasig', 'Pateros', 'Quezon City', 'San Juan', 'Taguig', 'Valenzuela'],
+        'CORDILLERA ADMINISTRATIVE REGION': ['Abra', 'Apayao', 'Benguet', 'Ifugao', 'Kalinga', 'Mountain Province'],
+        'AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)': ['Basilan', 'Lanao del Sur', 'Maguindanao', 'Sulu', 'Tawi-Tawi'],
+        'REGION XIII (Caraga)': ['Agusan del Norte', 'Agusan del Sur', 'Dinagat Islands', 'Surigao del Norte', 'Surigao del Sur'],
+      },
+      
     instructions: [
       {
         icon: "mdi-account",
@@ -478,12 +491,13 @@ export default {
   }),
 
   computed: {
-    showStrand() {
-      return this.gradeLevel === "11" || this.gradeLevel === "12";
+    filteredProvinces() {
+      return this.provinces[this.region] || [];
     },
+    showStrand() {
+      return this.gradeLevel === '11' || this.gradeLevel === '12';
+    }
   },
-
-  mounted() {},
 
   methods: {
   // type of data
@@ -621,7 +635,9 @@ export default {
     },
   },
 };
+  
 </script>
+
 
 <style lang="scss" scoped>
 .fileinput {
