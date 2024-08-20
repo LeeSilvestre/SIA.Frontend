@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <v-stepper :items="['GUIDELINES', 'FORM', 'UPLOADING']">
-      <template v-slot:item.1>
+    <v-stepper v-model="step" :items="['GUIDELINES', 'FORM', 'UPLOADING']">
+      <template :complete="step > 1" v-slot:item.1>
         <v-card flat class="stepper-card">
           <v-card-title>
             <v-icon class="mr-2">mdi-book-open</v-icon>
@@ -36,7 +36,7 @@
         </v-card>
       </template>
 
-      <template v-slot:item.2>
+      <template :complete="step > 2" v-slot:item.2>
         <v-card flat>
           <v-card-title>
             <v-icon class="mr-2">mdi-form-textbox</v-icon>
@@ -232,6 +232,7 @@
                       :rules="contactNumberRules"
                       label="Contact Number"
                       variant="outlined"
+                      placeholder="09"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="3">
@@ -278,13 +279,20 @@
                     ></v-select>
                   </v-col>
                 </v-row>
+                                  <v-row justify="end">
+                    <v-col cols="auto">
+                      <v-btn class="bg-green large-button" @click="enroll"
+                        >Submit</v-btn
+                      >
+                    </v-col>
+                  </v-row>
               </v-container>
             </v-form>
           </v-card-text>
         </v-card>
       </template>
 
-      <template v-slot:item.3>
+      <template :complete="step > 3" v-slot:item.3>
         <v-card>
           <v-card-text>
             <v-row>
@@ -346,13 +354,6 @@
                       <v-btn @click="upload('TOR')">upload</v-btn>
                     </v-row>
                   </v-col>
-                  <v-row justify="end">
-                    <v-col cols="auto">
-                      <v-btn class="bg-green large-button" @click="enroll"
-                        >Submit</v-btn
-                      >
-                    </v-col>
-                  </v-row>
                 </v-row>
               </v-col>
             </v-row>
@@ -470,6 +471,7 @@ export default {
         ],
       },
     ],
+    step: 1,
     psaFile: null,
     goodMoralFile: null,
     torFile: null,
@@ -559,7 +561,7 @@ export default {
   //     title: "Missing Files",
   //     text: "Please upload both the TOR and PSA files before submitting the form.",
   //   });
-  //   return; // Prevent submission if files are missing
+  //   return; // di muna maipapasa kapag walang TOR at PSA na provided
   // }
 
       const result = await Swal.fire({
@@ -604,6 +606,9 @@ export default {
               title: "Approved!",
               text: "Your action has been approved.",
               icon: "success",
+            }).then(() => {
+              // Navigate to the third step after successful submission
+              this.step = 3;
             });
           })
           .catch((error) => {
