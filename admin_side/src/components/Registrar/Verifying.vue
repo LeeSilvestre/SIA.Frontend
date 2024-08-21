@@ -64,6 +64,7 @@
         </tr>
       </template>
     </v-data-table>
+    
     <div class="studentInfo">
       <v-card class="pa-4">
         <v-row>
@@ -220,6 +221,7 @@
       </v-card>
     </div>
   </v-container>
+
   <v-dialog v-model="viewDialog" max-width="1000px">
     <v-card>
       <div style="background-color: var(--dark); color: white">
@@ -229,20 +231,22 @@
       </div>
       <v-card-text>
         <v-container>
-          <label class="fw-bold fs-5 mb-3">Personal Information</label>
+          <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-account</v-icon
+              >
+              Personal Information
+            </h1>
           <v-row dense>
-            <v-col cols="12" md="3" sm="6">
-              <v-text-field
-                v-model="selectedStudent.student_lrn"
-                label="LRN"
-                readonly
-              ></v-text-field>
-            </v-col>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.last_name"
                 label="Last Name"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="3" sm="6">
@@ -250,6 +254,7 @@
                 v-model="selectedStudent.first_name"
                 label="First Name"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="3" sm="6">
@@ -257,48 +262,205 @@
                 v-model="selectedStudent.middle_name"
                 label="Middle Name"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.contact_no"
-                label="Contact no."
+                v-model="selectedStudent.extension"
+                label="Extension"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="3" sm="6">
+            <v-col cols="12" md="4" sm="6">
               <v-text-field
                 v-model="selectedStudent.birth_date"
                 label="Date of Birth dd/mm/yy"
                 readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4" sm="6">
+              <v-text-field
+                v-model="selectedStudent.sex_at_birth"
+                label="Sex"
+                readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4" sm="6">
+              <v-text-field
+                v-model="selectedStudent.religion"
+                label="Religion"
+                readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+
+            <v-row dense>
+              <v-col cols="12" md="12" sm="6">
+              <h1
+              class="fw-bold fs-6 d-flex align-items-center"
+              style="color: var(--dark)"
+            >
+              Current Address
+            </h1>
+          </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.region"
+                label="Region"
+                readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.province"
+                label="Province"
+                readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.city"
+                label="City"
+                readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.barangay"
+                label="Barangay"
+                readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.street"
+                label="Street"
+                readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.houseNumber"
+                label="House Number"
+                readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-text-field
+                v-model="selectedStudent.zip_code"
+                label="Zip Code"
+                readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+          </v-row>
+          </v-row>
+          <hr />
+          <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-phone</v-icon
+              >
+              Contact Information
+            </h1>
+            <v-row>
+              <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.contact_no"
+                label="Contact no."
+                readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="6" sm="6">
               <v-text-field
                 v-model="selectedStudent.email"
                 label="Email"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="3" sm="6">
+            </v-row>
+            <hr />
+
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-school</v-icon
+              >
+              Academic Information
+            </h1>          <v-row>
+              <v-col cols="12" md="3" sm="6">
               <v-text-field
-                v-model="selectedStudent.address"
-                label="Address"
+                v-model="selectedStudent.student_lrn"
+                label="LRN"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
             <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.grade_level"
-                label="Grade Level"
+                label="Grade level"
                 readonly
+                variant="outlined"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="3" sm="6">
+            <v-col
+              v-if="selectedStudent.grade_level > 10"
+              cols="12"
+              md="3"
+              sm="6"
+            >
               <v-text-field
                 v-model="selectedStudent.strand"
                 label="Strand"
                 readonly
+                variant="outlined"
+              ></v-text-field>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-select
+                v-model="editedItem.section"
+                :items="sectionList"
+                label="Section"
+                variant="outlined"
+              ></v-select>
+            </v-col>
+            <v-col cols="12" md="3" sm="6">
+              <v-select
+                v-model="editedItem.adviser_id"
+                :items="facultyName"
+                item-text="title"
+                item-value="value"
+                label="Adviser"
+                class="mr-2 m-auto"
+                variant="outlined"
+                required
+              ></v-select>
+            </v-col>
+
+            <v-col cols="12" md="6" sm="6">
+              <v-text-field
+                v-model="selectedStudent.password"
+                label="Password"
+                readonly
+                variant="outlined"
+                required
               ></v-text-field>
             </v-col>
           </v-row>
@@ -306,7 +468,25 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="viewDialog = false" color="primary">Close</v-btn>
+        <v-btn
+          class="bg-green"
+          color="white"
+          variant="text"
+          @click="
+            markEnrolled(
+              selectedStudent.student_recno,
+              selectedStudent.password
+            )
+          "
+          >Mark as Enrolled</v-btn
+        >
+        <v-btn
+          class="bg-red"
+          color="white"
+          variant="text"
+          @click="closeViewDialog"
+          >Cancel</v-btn
+        >
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -353,7 +533,6 @@ export default {
     lname: "",
     students: [],
     editedIndex: -1,
-    students: [],
     editedItem: {
       student_id: "",
       first_name: "",
