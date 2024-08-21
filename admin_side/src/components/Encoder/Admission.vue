@@ -1,6 +1,7 @@
 <template>
-  <v-container class="studentInfCon">    
-    <v-data-table class="studentTable"
+  <v-container class="studentInfCon">
+    <v-data-table
+      class="studentTable"
       :search="search"
       :headers="headers"
       :items="displayedStudents"
@@ -8,16 +9,13 @@
     >
       <template v-slot:top>
         <v-toolbar flat>
-          <v-toolbar-title
-            class="font-weight-black"
-            style="color: #2f3f64"
-            >
+          <v-toolbar-title class="font-weight-black" style="color: #2f3f64">
             <v-btn color="#28a745" variant="flat" dark @click="downloadXLS()">
               <v-icon left class="mr-1">mdi-download</v-icon>
               GENERATE REPORT
             </v-btn>
-            </v-toolbar-title>
-            <div style="width: 25vw;">
+          </v-toolbar-title>
+          <div style="width: 25vw">
             <v-text-field
               v-model="search"
               class="search mr-1"
@@ -29,17 +27,19 @@
               hide-details
               single-line
             ></v-text-field>
-            
           </div>
-  
+
           <!-- <v-divider class="mx-2" inset vertical></v-divider> -->
-  
+
           <!-- create new popup modal -->
         </v-toolbar>
       </template>
-      <template v-slot:item="{ item, index}">
-        <tr :class="{ 'selected-row': selectedRows.includes(item.student_lrn) }"
-        @click="toggleSelection(item.student_lrn, item)" style="cursor: pointer;">
+      <template v-slot:item="{ item, index }">
+        <tr
+          :class="{ 'selected-row': selectedRows.includes(item.student_lrn) }"
+          @click="toggleSelection(item.student_lrn, item)"
+          style="cursor: pointer"
+        >
           <!-- <td>{{ index + 1 }}</td> -->
           <td class="text-center">{{ item.student_lrn }}</td>
           <td class="text-center">
@@ -49,168 +49,204 @@
           <!-- <td class="text-center">{{ item.sex_at_birth }}</td> -->
           <td class="text-center">{{ item.grade_level }}</td>
           <td class="text-center">Incoming</td>
-          <td class="text-center" :style="{ color: getStatusColor(item.enrollment_status) }">
+          <td
+            class="text-center"
+            :style="{ color: getStatusColor(item.enrollment_status) }"
+          >
             <v-chip>
-            {{
-              item.enrollment_status 
-            }}
+              {{ item.enrollment_status }}
             </v-chip>
           </td>
-  
+
           <td class="text-center">
             <v-btn
               color="success"
               dark
               v-bind="props"
               @click="assessItem(item, 'Confirm')"
-              :disabled="item.enrollment_status === 'Assessed' || item.enrollment_status === 'Verified'"
+              :disabled="
+                item.enrollment_status === 'Assessed' ||
+                item.enrollment_status === 'Verified'
+              "
               size="small"
             >
-            <v-icon icon="mdi-check" start></v-icon>
-            <span v-if="item.enrollment_status == 'Assessed' || item.enrollment_status === 'Verified'">Admitted</span>
-            <span v-else>Admit</span>
-            </v-btn
-            >
-  
+              <v-icon icon="mdi-check" start></v-icon>
+              <span
+                v-if="
+                  item.enrollment_status == 'Assessed' ||
+                  item.enrollment_status === 'Verified'
+                "
+                >Admitted</span
+              >
+              <span v-else>Admit</span>
+            </v-btn>
           </td>
           <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
           <!-- Archive Icon -->
           <!-- <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
         </tr>
       </template>
-  
+
       <!-- <template v-slot:no-data>
         <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
       </template> -->
     </v-data-table>
 
     <div class="studentInfo">
-    <v-card class="pa-4">
-      <v-row>
-        <v-col cols="12">
-          <!-- Personal Information Section -->
-          <v-divider class="my-4"></v-divider>
-          <h1 class="fw-bold fs-4 d-flex align-items-center mb-5" style="color: var(--dark);">
-            <v-icon class="mr-2" style="color: var(--dark);">mdi-account</v-icon>
-            Personal Information
-          </h1>
-          <v-text-field
-            v-model="selectedStudent.full_name"
-            label="Student Name"
-            readonly
-            variant="outlined"
-          ></v-text-field>
-          <v-row>
-            <v-col cols="6">
-              <v-text-field
-                v-model="selectedStudent.sex_at_birth"
-                label="Gender"
-                readonly
-                variant="outlined"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="6">
-              <v-text-field
-                v-model="selectedStudent.birth_date"
-                label="Birthdate"
-                readonly
-                variant="outlined"
-              ></v-text-field>
-            </v-col>
-          </v-row>
-          <v-text-field
-            v-model="selectedStudent.address"
-            label="Address"
-            readonly
-            variant="outlined"
-          ></v-text-field>
+      <v-card class="pa-4">
+        <v-row>
+          <v-col cols="12">
+            <!-- Personal Information Section -->
+            <v-divider class="my-4"></v-divider>
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-account</v-icon
+              >
+              Personal Information
+            </h1>
+            <v-text-field
+              v-model="selectedStudent.full_name"
+              label="Student Name"
+              readonly
+              variant="outlined"
+            ></v-text-field>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="selectedStudent.sex_at_birth"
+                  label="Gender"
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="selectedStudent.birth_date"
+                  label="Birthdate"
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <v-text-field
+              v-model="selectedStudent.address"
+              label="Address"
+              readonly
+              variant="outlined"
+            ></v-text-field>
 
-          <!-- Contact Information Section -->
-          <v-divider class="my-4"></v-divider>
-          <h1 class="fw-bold fs-4 d-flex align-items-center mb-5" style="color: var(--dark);">
-            <v-icon class="mr-2" style="color: var(--dark);">mdi-phone</v-icon>
-            Contact Information
-          </h1>
-          <v-row>
-            <v-col cols="6">
-              <v-text-field
-                v-model="selectedStudent.contact_no"
-                label="Contact No."
-                readonly
-                variant="outlined"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="6">
-              <v-text-field
-                v-model="selectedStudent.email"
-                label="Email"
-                readonly
-                variant="outlined"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+            <!-- Contact Information Section -->
+            <v-divider class="my-4"></v-divider>
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)">mdi-phone</v-icon>
+              Contact Information
+            </h1>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="selectedStudent.contact_no"
+                  label="Contact No."
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="selectedStudent.email"
+                  label="Email"
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <!-- Academic Information Section -->
-          <v-divider class="my-4"></v-divider>
-          <h1 class="fw-bold fs-4 d-flex align-items-center mb-5" style="color: var(--dark);">
-            <v-icon class="mr-2" style="color: var(--dark);">mdi-school</v-icon>
-            Academic Infomation
-          </h1>
-          <v-row>
-            <v-col cols="6">
-              <v-text-field
-                v-model="selectedStudent.grade_level"
-                label="Grade"
-                readonly
-                variant="outlined"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="6" v-if="selectedStudent.grade_level > 10">
-              <v-text-field
-                v-model="selectedStudent.strand"
-                label="Strand"
-                readonly
-                variant="outlined"
-              ></v-text-field>
-            </v-col>
-          </v-row>
+            <!-- Academic Information Section -->
+            <v-divider class="my-4"></v-divider>
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-school</v-icon
+              >
+              Academic Infomation
+            </h1>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="selectedStudent.grade_level"
+                  label="Grade"
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6" v-if="selectedStudent.grade_level > 10">
+                <v-text-field
+                  v-model="selectedStudent.strand"
+                  label="Strand"
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+            </v-row>
 
-          <!-- Document List Section -->
-          <v-divider class="my-4"></v-divider>
-          <h1 class="fw-bold fs-4 d-flex align-items-center mb-5" style="color: var(--dark);">
-            <v-icon class="mr-2" style="color: var(--dark);">mdi-file-document</v-icon>
-            Document List
-          </h1>
-          <v-table>
-            <thead>
-              <tr>
-                <th class="text-left" style="background-color: var(--dark); color: white;">Document</th>
-                <th class="text-left" style="background-color: var(--dark); color: white;">Remark</th>
-                <!-- <th class="text-left">Actions</th> -->
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Good Moral / PSA</td>
-                <td>{{ selectedStudent.psa }}</td>
-                <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
-              </tr>
-              <tr>
-                <td>Form 137</td>
-                <td>{{ selectedStudent.tor }}</td>
-                <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
-              </tr>
-              <tr>
-                <td>Good Moral</td>
-                <td>{{ selectedStudent.goodmoral }}</td>
-                <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
-              </tr>
-            </tbody>
-          </v-table>
-        </v-col>
-      </v-row>
-    </v-card>
-  </div>
+            <!-- Document List Section -->
+            <v-divider class="my-4"></v-divider>
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-file-document</v-icon
+              >
+              Document List
+            </h1>
+            <v-table>
+              <thead>
+                <tr>
+                  <th
+                    class="text-left"
+                    style="background-color: var(--dark); color: white"
+                  >
+                    Document
+                  </th>
+                  <th
+                    class="text-left"
+                    style="background-color: var(--dark); color: white"
+                  >
+                    Remark
+                  </th>
+                  <!-- <th class="text-left">Actions</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Good Moral / PSA</td>
+                  <td>{{ selectedStudent.psa }}</td>
+                  <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+                </tr>
+                <tr>
+                  <td>Form 137</td>
+                  <td>{{ selectedStudent.tor }}</td>
+                  <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+                </tr>
+                <tr>
+                  <td>Good Moral</td>
+                  <td>{{ selectedStudent.goodmoral }}</td>
+                  <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+                </tr>
+              </tbody>
+            </v-table>
+          </v-col>
+        </v-row>
+      </v-card>
+    </div>
   </v-container>
   <!-- view user status modal pop -->
   <!-- <v-dialog v-model="viewDialog" max-width="800px">
@@ -399,7 +435,8 @@ export default {
       year: "",
       section: "",
     },
-    selectedRows: [] 
+    hoverRow: null,
+    selectedRows: [],
   }),
 
   computed: {
@@ -410,7 +447,8 @@ export default {
     },
     displayedStudents() {
       const searchTerm = this.search.toLowerCase();
-      return this.students.filter((student) => student.enrollment_status == 'Pending'
+      return this.students.filter(
+        (student) => student.enrollment_status == "Pending"
       );
     },
   },
@@ -454,14 +492,14 @@ export default {
             full_name:
               `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
             address:
-              `${student.houseNumber} ${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code} ${student.region}` .trim(),
+              `${student.houseNumber} ${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code} ${student.region}`.trim(),
           }));
         })
         .catch((error) => {
           console.error("Error fetching students:", error);
         });
     },
-    
+
     triggerFileInput() {
       this.$refs.fileInput.click();
     },
@@ -596,19 +634,19 @@ export default {
     goView() {
       this.$router.push("/viewdetails");
     },
-    
+
     handleViewIconClick(item) {
-      this.$emit('view-student', item);
+      this.$emit("view-student", item);
     },
     getStatusColor(status) {
       if (status === "Verified") {
         return "#6EACDA"; // Set color to yellow if status is 'pending'
       } else if (status === "Assessed") {
         return "#FFAD60"; // Set color to green if status is 'enrolled'
-      } else if(status === "Pending") {
+      } else if (status === "Pending") {
         return "#FFB200"; // Default color
       } else {
-        return "grey"
+        return "grey";
       }
     },
 
@@ -857,17 +895,16 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped >
-.studentInfCon{
+<style lang="scss" scoped>
+.studentInfCon {
   display: flex;
   gap: 2rem;
-  .studentTable{
+  .studentTable {
     flex: 0.5;
   }
-  .studentInfo{
+  .studentInfo {
     flex: 0.5;
   }
-  
 }
 .v-data-table {
   height: 100%;
@@ -900,18 +937,24 @@ export default {
 .button-container {
   // display: flex;
   gap: 7px;
-  align-items: center
+  align-items: center;
 }
-.button-container .v-btn:nth-child(1) { left: 0; }
-.button-container .v-btn:nth-child(2) { left: calc(100% / 50); }
-.button-container .v-btn:nth-child(3) { left: calc(200% / 50); }
+.button-container .v-btn:nth-child(1) {
+  left: 0;
+}
+.button-container .v-btn:nth-child(2) {
+  left: calc(100% / 50);
+}
+.button-container .v-btn:nth-child(3) {
+  left: calc(200% / 50);
+}
 // .search{
 //   width: 12vh;
 // }
-.v-table__wrapper{
+.v-table__wrapper {
   font-size: 0.6rem;
-  .v-data-table-header__content{
-    span{
+  .v-data-table-header__content {
+    span {
       font-size: 12px !important;
     }
   }
@@ -936,7 +979,8 @@ export default {
   border-collapse: collapse;
 }
 
-.v-table th, .v-table td {
+.v-table th,
+.v-table td {
   padding: 12px;
   border: 1px solid #ddd;
 }
@@ -948,5 +992,10 @@ export default {
 
 .v-table td {
   background-color: #ffffff;
+}
+
+.v-table tr:hover td {
+  background-color: #f5f5f5;
+  transition: background-color 0.3s ease;
 }
 </style>
