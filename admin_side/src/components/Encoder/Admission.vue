@@ -38,7 +38,7 @@
         </v-toolbar>
       </template>
       <template v-slot:item="{ item, index}">
-        <tr :class="{ 'selected-row': selectedRows.includes(item.student_lrn) }"
+        <tr class="selectRow":class="{ 'selected-row': selectedRows.includes(item.student_lrn) }"
         @click="toggleSelection(item.student_lrn, item)" style="cursor: pointer;">
           <!-- <td>{{ index + 1 }}</td> -->
           <td class="text-center">{{ item.student_lrn }}</td>
@@ -858,6 +858,9 @@ export default {
 </script>
 
 <style lang="scss" scoped >
+.selectRow:hover{
+  background-color: #2f3f64 !important;
+}
 .studentInfCon{
   display: flex;
   gap: 2rem;
