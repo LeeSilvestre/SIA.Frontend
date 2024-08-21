@@ -11,7 +11,7 @@ export default defineConfig({
 		vuetify({ autoImport: true }),
 	],
    server: {
-	host: '192.168.16.165',
+	host: '127.0.0.1',
 	port: 4173
    }
 })
