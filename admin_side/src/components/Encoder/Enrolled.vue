@@ -221,14 +221,14 @@
                 variant="outlined"
               ></v-text-field>
             </v-col>
-            <v-col cols="12">
+            <!-- <v-col cols="12">
               <v-text-field
                 v-model="selectedStudent.password"
                 label="Password"
                 readonly
                 variant="outlined"
               ></v-text-field>
-            </v-col>
+            </v-col> -->
           </v-row>
             <v-row>
             </v-row>

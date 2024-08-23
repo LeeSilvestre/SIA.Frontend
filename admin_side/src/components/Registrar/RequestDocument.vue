@@ -12,7 +12,8 @@
       </v-toolbar>
     </template>
     <template v-slot:item="{ item }">
-      <tr>
+      <tr class="selectRow" @click="handleViewIconClick(item)">
+        <td >{{ item.request_id }}</td>
         <td >{{ item.student_id }}</td>
         <td class="text-center">{{ item.full_name }}</td>
         <td class="text-center">{{ item.document_type }}</td>
@@ -22,12 +23,7 @@
           </v-chip>
         </td>
         <td class="text-center">
-          <div class="button-container"> 
-          <v-btn color="primary" size="small" @click="handleViewIconClick(item)"><v-icon icon="mdi-eye" start></v-icon>View</v-btn>
-        </div>
-          <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
-        <!-- Archive Icon -->
-          <!-- <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
+          {{ formatTimestamp(item.created_at)}}
         </td>
       </tr>
     </template>
@@ -52,11 +48,12 @@ export default {
     selectedStudent: null,
     viewDialog: false,
     headers: [
+      { title: 'Control No.', key: 'request_id' },
       { title: 'Student ID', key: 'student_id' },
       { title: 'Full Nmae', align: 'center', key: 'full_name' },
       { title: 'Type of Document', align: 'center', key: 'document_type' },
       { title: 'Status', align: 'center', key: 'document_remarks' },
-      { title: 'Actions', align: 'start', sortable: false },
+      { title: 'Request Date', align: 'center', key: 'created_at' },
     ],
     students: [],
     editedIndex: -1,
@@ -96,6 +93,9 @@ export default {
         )
       );
     },
+    filterStat(){
+      return
+    }
   },
 
 
@@ -110,12 +110,27 @@ export default {
   },
 
   methods: {
+
+    formatTimestamp(timestamp) {
+      const date = new Date(timestamp);
+      
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      };
+
+      return date.toLocaleString('en-US', options);
+    },
     getStatusColor(status) {
       if (status == 'Received') {
         return 'green';
       } else if (status == 'Pending') {
         return 'orange';
-      } else if (status == 'For Recieved') {
+      } else if (status == 'For Receive') {
         return 'cyan';
       } else if (status == 'Pending') {
         return 'orange';
@@ -125,9 +140,13 @@ export default {
     },
     initialize() {
       axios.get('docreq').then(res=>{
-        this.students = res.data.data;
+        this.students = res.data.data.filter(res=> res.document_remarks != 'Declined');
         console.log(this.students);
       })
+      // res.data.dat.map((res)=>({
+      //   student_name : res.full_name,
+      //   status: res.consultation_record.filter(val=> val.follow_up_time_in  > )
+      // }))
     },
 
     
@@ -395,5 +414,9 @@ export default {
 .button-container {
   display: flex;
   gap: 10px; 
+}
+
+.selectRow:hover{
+  background-color: rgba(26, 21, 21, 0.062);
 }
 </style>

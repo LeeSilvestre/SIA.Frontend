@@ -896,7 +896,7 @@ export default {
           city: this.city,
           barangay: this.barangay,
           street: this.street,
-          // houseNumber: this.houseNumber,
+          houseNumber: this.houseNumber,
           zip_code: this.zipCode,
           religion: this.religion,
           contact_no: this.contactNumber,

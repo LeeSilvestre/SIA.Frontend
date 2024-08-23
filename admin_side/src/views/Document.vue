@@ -9,26 +9,16 @@
         </div>  
         <hr>
 
-        <div class="tab-content">
-      <button @click="handleTabClick('MasterList')" :class="{ active: activeTab === 'MasterList' }">Request List</button>
-      <div v-if="showStudentRecordTab" class="student-record-tab">
-        <div class="tab-wrapper" :class="{ active: activeTab === 'Information' }">
-          <button @click="handleTabClick('Information')" :class="{ active: activeTab === 'Information' }">
-            Request Detail
-            <span class="close-icon material-icons" @click.stop="closeStudentRecordTab">close</span>
-          </button>
-        </div>
-      </div>
-    </div>
     <div class="main-content">
-      <div v-if="activeTab === 'MasterList'">
-        <div class="student-table">
+        <div class="masterlist-table">
           <RequestDocument @view-student="handleViewStudent" />
         </div>
-      </div>
-      <div v-if="activeTab === 'Information'">
-        <div class="student-table">
-          <RequestDocumentRec v-if="selectedStudent" :student="selectedStudent" />
+      <div class="student-table">
+        <RequestDocumentRec v-if="selectedStudent" :student="selectedStudent" />
+        <div v-else class="norecfound">
+          <v-card >
+            <h1>Select Request Document</h1>
+          </v-card>
         </div>
       </div>
     </div>
@@ -96,9 +86,19 @@ export default {
 
 .main-content {
   display: flex;
-  flex-direction: column;
+  gap: 1rem;
 
   .student-table {
+    flex: 0.5;
+    border-radius: 10px;
+    background-color: #f0f0f0;
+    padding: 0.5rem;
+    height: calc(100vh - 10rem); // Adjust height as needed
+    overflow: auto;
+    margin: 0;
+  }
+  .masterlist-table {
+    flex: 0.5;
     border-radius: 10px;
     background-color: #f0f0f0;
     padding: 0.5rem;
@@ -173,6 +173,10 @@ export default {
   background-color: lightgray; // Change this to the desired active background color
 }
 
+
+.norecfound{
+  height: 100%;
+}
 .tab-wrapper {
   display: flex;
   align-items: center;

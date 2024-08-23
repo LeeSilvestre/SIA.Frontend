@@ -501,55 +501,6 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <hr />
-          <label class="fw-regular mb-3 fs-5">Document Information</label>
-          <v-row>
-            <v-col cols="12" md="12" sm="6">
-              <v-row align="center">
-                <v-col>
-                  <v-text-field
-                    v-model="selectedStudent.psa"
-                    label="PSA"
-                    readonly
-                  ></v-text-field>
-                </v-col>
-                <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
-                  <v-icon @click="openViewFile(imgDocs.psa)">mdi-eye</v-icon>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col cols="12" md="12" sm="6">
-              <v-row align="center">
-                <v-col>
-                  <v-text-field
-                    v-model="selectedStudent.goodmoral"
-                    label="Good Moral"
-                    readonly
-                  ></v-text-field>
-                </v-col>
-                <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
-                  <v-icon @click="openViewFile(imgDocs.goodmoral)">mdi-eye</v-icon>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col cols="12" md="12" sm="6">
-              <v-row align="center">
-                <v-col>
-                  <v-text-field
-                    v-model="selectedStudent.tor"
-                    label="Form 137/Transcript of Record"
-                    readonly
-                  ></v-text-field>
-                </v-col>
-                <v-col>
-                  <!-- <v-icon @click="openViewFile">mdi-eye</v-icon> -->
-                  <v-icon @click="openViewFile(imgDocs.tor)">mdi-eye</v-icon>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
         </v-container>
       </v-card-text>
 

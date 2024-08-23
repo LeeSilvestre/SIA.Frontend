@@ -162,7 +162,7 @@
         <td class="text-center">{{ item.email }}</td>
         <td class="text-center">{{ item.department }}</td>
         <td class="text-center">
-          <v-btn class="ma-2" size="small" color="primary" @click="openViewDialog">
+          <v-btn class="ma-2" size="small" color="primary" @click="openViewDialog(item)">
             <v-icon icon="mdi-eye" start></v-icon>
             View
           </v-btn>
