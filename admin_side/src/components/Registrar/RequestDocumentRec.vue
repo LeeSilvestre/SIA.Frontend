@@ -15,7 +15,7 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   label="Student ID"
-                  v-model="student.student_id"
+                  v-model="document.student_id"
                   outlined
                   readonly
                   hide-details
@@ -24,7 +24,7 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   label="Full Name"
-                  v-model="student.full_name"
+                  v-model="document.full_name"
                   outlined
                   readonly
                   hide-details
@@ -33,7 +33,7 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   label="LRN"
-                  v-model="student.student_lrn"
+                  v-model="document.student_lrn"
                   outlined
                   readonly
                   hide-details
@@ -42,7 +42,7 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   label="Grade Level"
-                  v-model="student.grade_level"
+                  v-model="document.grade_level"
                   outlined
                   readonly
                   hide-details
@@ -64,7 +64,7 @@
               <!-- <v-col cols="12" sm="6">
                 <v-text-field
                   label="Full Name"
-                  v-model="student.full_name"
+                  v-model="document.full_name"
                   outlined
                   readonly
                   hide-details
@@ -73,7 +73,7 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   label="Type of Document"
-                  v-model="student.document_type"
+                  v-model="document.document_type"
                   outlined
                   readonly
                   hide-details
@@ -82,7 +82,7 @@
               <v-col cols="12" sm="6">
                 <v-text-field
                   label="Purpose of Request"
-                  v-model="student.purpose"
+                  v-model="document.purpose"
                   outlined
                   readonly
                   hide-details
@@ -94,24 +94,24 @@
           <hr />
           <div class="button-container">
             
-            <v-btn v-if="student.document_remarks == 'Pending'" class="bg-blue large-button" @click="assessItem(student.request_id, 'Confirm')">Approve Request</v-btn>
-            <v-btn v-if="student.document_remarks == 'For Receive'" class="bg-green large-button" @click="assessItem(student.request_id, 'Received')">Mark as Received</v-btn>
-            <div v-if="student.document_remarks != 'Received'">
-              <!-- <v-btn class="bg-red large-button" @click="assessItem(student.request_id, 'Decline')">Cancel Request</v-btn> -->
+            <v-btn v-if="document.document_remarks == 'Pending'" class="bg-blue large-button" @click="assessItem(document.request_id, 'Confirm')">Approve Request</v-btn>
+            <v-btn v-if="document.document_remarks == 'For Receive'" class="bg-green large-button" @click="assessItem(document.request_id, 'Received')">Mark as Received</v-btn>
+            <div v-if="document.document_remarks != 'Received'">
+              <!-- <v-btn class="bg-red large-button" @click="assessItem(document.request_id, 'Decline')">Cancel Request</v-btn> -->
             </div>
           </div>
-          <v-card v-if="student.document_remarks == 'Received'">
+          <v-card v-if="document.document_remarks == 'Received'">
             <v-row>
               <v-col cols="6">
-                <h4><strong>Status:</strong><v-chip :color="getStatusColor(student.document_remarks)">{{student.document_remarks}}</v-chip></h4>
+                <h4><strong>Status:</strong><v-chip :color="getStatusColor(document.document_remarks)">{{document.document_remarks}}</v-chip></h4>
               </v-col>
               <v-col  cols="6">
-                <h4><strong>Control No.:</strong>{{student.request_id}}</h4>
+                <h4><strong>Control No.:</strong>{{document.request_id}}</h4>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
-                <h4><strong>Release Date:</strong>{{student.document_release_date}}</h4>
+                <h4><strong>Release Date:</strong>{{document.document_release_date}}</h4>
               </v-col>
             </v-row>
           </v-card>
@@ -131,14 +131,14 @@ export default {
 
   }),
   props: {
-    student: {
+    document: {
       type: Object,
       required: true,
     },
   },
   computed: {
     formattedAddress() {
-      return `${this.student.houseNumber} ${this.student.street} ${this.student.barangay} ${this.student.city}, ${this.student.province} ${this.student.zip_code}`;
+      return `${this.document.houseNumber} ${this.document.street} ${this.document.barangay} ${this.document.city}, ${this.document.province} ${this.document.zip_code}`;
     },
   },
   mounted(){

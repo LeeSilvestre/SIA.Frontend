@@ -14,7 +14,7 @@
           <RequestDocument @view-student="handleViewStudent" />
         </div>
       <div class="student-table">
-        <RequestDocumentRec v-if="selectedStudent" :student="selectedStudent" />
+        <RequestDocumentRec v-if="selectedStudent" :document="selectedStudent" />
         <div v-else class="norecfound">
           <v-card >
             <h1>Select Request Document</h1>

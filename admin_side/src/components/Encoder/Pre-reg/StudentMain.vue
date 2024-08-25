@@ -181,52 +181,7 @@
       </v-window-item>
 <!-- ########################## THIRD STEP (DOCUMENT UPLOADING)################################## -->
       <v-window-item :value="3">
-        <v-card>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <div class="academic">
-                  <h1 class="fw-bold fs-4 d-flex align-items-center mb-4" style="color: var(--dark)">
-                    <v-icon class="mr-2" style="color: var(--dark)">mdi-school</v-icon>
-                    Initial File Uploading
-                  </h1>
-                </div>
-
-                <v-row dense>
-                  <!-- PSA UPLOADER -->
-                  <v-col cols="12" sm="4" class="d-flex align-items-center mb-4">
-                    <v-file-input v-model="editedItem.psa" label="PSA/Birth Certificate" counter multiple show-size @change="handleFileUpload('psa', $event)" class="flex-grow-1" variant="outlined"></v-file-input>
-                    <v-btn @click="upload('PSA')" class="ml-4 bg-green mb-4">Upload</v-btn>
-                  </v-col>
-
-                  <!-- GOOD MORAL UPLOADER -->
-                  <v-col cols="12" sm="4" class="d-flex align-items-center mb-4">
-                    <v-file-input v-model="editedItem.goodMoral" label="Good Moral" counter multiple show-size @change="handleFileUpload('goodmoral', $event)" class="flex-grow-1" variant="outlined"></v-file-input>
-                    
-                    <v-btn @click="upload('Good Moral')" class="ml-4 bg-green mb-4" >Upload</v-btn>
-                  </v-col>
-
-                  <!-- TOR UPLOADER -->
-                  <v-col cols="12" sm="4" class="d-flex align-items-center mb-4">
-                    <v-file-input
-                      v-model="editedItem.tor"
-                      label="Form 137/Transcript of Record"
-                      counter
-                      multiple
-                      show-size
-                      @change="handleFileUpload('tor', $event)"
-                      class="flex-grow-1"
-                      variant="outlined"
-                    ></v-file-input>
-                    <v-btn @click="upload('TOR')" class="ml-4 bg-green mb-4"
-                      >Upload</v-btn
-                    >
-                  </v-col>
-                </v-row>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
+        <Uploaddocs :studlrn="student_lrn" @upload="handleupload" />
       </v-window-item>
     </v-window>
 
@@ -240,12 +195,13 @@
       <v-btn :disabled="!doAgree" v-if="step == 1" color="primary" variant="flat" @click="step++">Accept & Continue</v-btn>
       <!-- ############################################################################# -->
       <!-- FORM INPUTS -->
+      <!-- <v-btn v-if="step == 2" color="primary" variant="flat" @click="step++">Accept & Continue</v-btn> -->
       <v-btn v-if="step > 1" variant="text" @click="step--"> Back </v-btn>
       <v-spacer></v-spacer>
       <v-btn  v-if="step == 2" class="bg-green large-button"  @click="enroll">Submit</v-btn>
       <!-- ############################################################################# -->
       <!-- DOCUMENT UPLOAD -->
-      <v-btn :disabled="!isfinished" v-if="step == 3" color="primary" variant="flat" @click=""> Finish </v-btn>
+      <v-btn :disabled="!isfinished" v-if="step == 3" color="primary" variant="flat" @click="finish"> Finish </v-btn>
     </v-card-actions>
   </v-card>
 </template>
@@ -255,6 +211,7 @@
   import axios from "axios";
   import Swal from "sweetalert2";
   import Guidelines from "./Guidelines.vue";
+  import Uploaddocs from "./Uploaddocs.vue";
   import provinces from "../../../providers/provinces.json";
 
   
@@ -288,7 +245,6 @@
       region: "",
       gradeLevel: "",
       strand: "",
-      student_lrn: "",
       nameRules: [
         (value) => !!value || "Name is required.",
         (value) =>
@@ -328,7 +284,8 @@
       torFile: null,
     }),
     components: {
-      Guidelines
+      Guidelines,
+      Uploaddocs
     },
     computed: {
       filteredProvinces() {
@@ -341,57 +298,12 @@
 
     methods: {
       // type of data
-      handleFileUpload(type, event) {
-        const file = event.target.files[0];
-        if (file) {
-          if (type === "psa") {
-            this.psaFile = file;
-          } else if (type === "goodmoral") {
-            this.goodMoralFile = file;
-          } else if (type === "tor") {
-            this.torFile = file;
-          }
-        }
+      handleupload(item){
+        this.isfinished = item ? true : false;
       },
-      upload(type) {
-        if (
-          this.editedItem.tor ||
-          this.editedItem.psa ||
-          this.editedItem.goodmoral
-        ) {
-          const formData = new FormData();
-
-          formData.append("student_lrn", this.student_lrn);
-          let file = this.editedItem.psa ? this.psaFile  : this.editedItem.tor  ? this.torFile  : this.editedItem.goodmoral  ? this.goodMoralFile  : this.editedItem.psa;
-          formData.append("image", file);
-          formData.append("file_type", type);
-
-          axios
-            .post("imageStud", formData, { headers: { "Content-Type": "multipart/form-data",}})
-            .then((res) => {
-              Swal.fire({
-                title: "Upload Success!",
-                icon: "success",
-                confirmButtonText: "OK",
-              }).then(() => {this.viewDialog = false});
-            }) .catch((error) => {
-              console.error(error.response);
-              let err = error.response.data;
-              Swal.fire({
-                icon: "error",
-                title: "Bad Request",
-                text: err.message,
-              });
-            });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "No file is selected",
-            text: "Select file before upload.",
-          });
-        }
+      finish(){
+        this.$router.push("/dashboard");
       },
-
       async enroll() {
         const result = await Swal.fire({
           title: "Are you sure?",

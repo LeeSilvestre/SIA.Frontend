@@ -256,7 +256,7 @@
                   <td>{{ selectedStudent.psa }}</td>
                   <td>
                     <v-btn
-                      @click="openDocument"
+                      @click="openViewFile(imgDocs.psa)"
                       size="small"
                       style="background-color: var(--dark); color: white"
                     >
@@ -271,7 +271,7 @@
                   <td>{{ selectedStudent.tor }}</td>
                   <td>
                     <v-btn
-                      @click="openDocument"
+                      @click="openViewFile(imgDocs.tor)"
                       size="small"
                       style="background-color: var(--dark); color: white"
                     >
@@ -286,7 +286,7 @@
                   <td>{{ selectedStudent.goodmoral }}</td>
                   <td>
                     <v-btn
-                      @click="openDocument"
+                      @click="openViewFile(imgDocs.goodmoral)"
                       size="small"
                       style="background-color: var(--dark); color: white"
                     >
@@ -303,6 +303,24 @@
       </v-card>
     </div>
   </v-container>
+
+  <v-dialog v-model="viewFileDialog" max-width="800px">
+    <v-card>
+      <v-card-title class="d-flex justify-space-between align-center" style="background-color: var(--dark); color: white">
+        <span class="fs-5 font-weight-black">DOCUMENT</span>
+        <v-btn
+          icon
+          @click="closeViewFile"
+          class="red--text"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <v-card-text>
+        <v-img :src="fileUrl" height="600px" contain></v-img>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
   <!-- view user status modal pop -->
   <!-- <v-dialog v-model="viewDialog" max-width="800px">
     <v-card>
@@ -454,6 +472,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     viewDialog: false,
+    viewFileDialog: false,
     selectedStudent: {},
     selectedFile: null,
     props: [],
@@ -518,6 +537,8 @@ export default {
     },
     hoverRow: null,
     selectedRows: [],
+    imgDocs: [],
+    fileUrl: null,
   }),
 
   computed: {
@@ -554,8 +575,34 @@ export default {
   },
 
   methods: {
+    openViewFile(fileUrl) {
+      // this.fileUrl = fileUrl;
+      console.log(fileUrl);
+      this.viewFileDialog = true;
+      this.fileUrl = fileUrl || BGImage;
+    }, 
+
     toggleSelection(studentLrn, item) {
       console.log(item);
+
+      this.imgDocs = {
+        tor: null,
+        psa: null,
+        goodmoral: null,
+      };
+
+      // Map through item.image to populate imgDocs
+      item.image.forEach((res) => {
+        if (res.docuType === "TOR") {
+          this.imgDocs.tor = res.image;
+        } else if (res.docuType === "PSA") {
+          this.imgDocs.psa = res.image;
+        } else if (res.docuType === "Good Moral") {
+          this.imgDocs.goodmoral = res.image;
+        }
+      });
+
+
       this.selectedStudent = item;
       const index = this.selectedRows.indexOf(studentLrn);
       if (index > -1) {
@@ -576,8 +623,14 @@ export default {
               `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
             address:
               `${student.houseNumber} ${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code} ${student.region}`.trim(),
+            image: student.image.map((image) => ({
+              docuType: image.file_type,
+              // image: `http://192.168.16.165:8000/uploads/profile/${image.image}`,
+              image: `http://26.81.173.255:8000/uploads/profile/${image.image}`,
+            })),
           }));
         })
+        
         .catch((error) => {
           console.error("Error fetching students:", error);
         });
