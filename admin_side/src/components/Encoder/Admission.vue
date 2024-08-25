@@ -10,10 +10,23 @@
       <template v-slot:top>
         <v-toolbar flat>
           <v-toolbar-title class="font-weight-black" style="color: #2f3f64">
-            <v-btn color="#28a745" variant="flat" dark @click="downloadXLS()">
-              <v-icon left class="mr-1">mdi-download</v-icon>
-              GENERATE REPORT
+            <v-menu offset-y>
+          <template v-slot:activator="{ props }">
+            <v-btn color="primary" style="margin: 10px;" variant="flat" dark v-bind="props">
+              GENERATE REPORT <v-icon right>mdi-download</v-icon>
             </v-btn>
+          </template>
+          <v-list dense>
+            <v-list-item @click="prepareReport('PDF')">
+              <v-icon left>mdi-download</v-icon>
+              PDF
+            </v-list-item>
+            <v-list-item @click="prepareReport('EXCEL')">
+              <v-icon left>mdi-download</v-icon>
+              EXCEL
+            </v-list-item>
+          </v-list>
+        </v-menu>
           </v-toolbar-title>
           <div style="width: 25vw">
             <v-text-field
@@ -131,6 +144,12 @@
                 ></v-text-field>
               </v-col>
             </v-row>
+            <h1
+              class="fw-regular fs-5 d-flex align-items-center mt-4 mb-4"
+              style="color: var(--dark)"
+            >
+              Current Address
+            </h1>
             <v-text-field
               v-model="selectedStudent.address"
               label="Address"
@@ -211,34 +230,70 @@
               <thead>
                 <tr>
                   <th
-                    class="text-left"
+                    class="text-center fs-6 fw-bold"
                     style="background-color: var(--dark); color: white"
                   >
                     Document
                   </th>
                   <th
-                    class="text-left"
+                    class="text-center fs-6 fw-bold"
                     style="background-color: var(--dark); color: white"
                   >
-                    Remark
+                    Status
+                  </th>
+                  <th
+                    class="text-center fs-6 fw-bold"
+                    style="background-color: var(--dark); color: white"
+                  >
+                    Action
                   </th>
                   <!-- <th class="text-left">Actions</th> -->
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr class="text-center">
                   <td>Good Moral / PSA</td>
                   <td>{{ selectedStudent.psa }}</td>
+                  <td>
+                    <v-btn
+                      @click="openDocument"
+                      size="small"
+                      style="background-color: var(--dark); color: white"
+                    >
+                      <v-icon icon="mdi-eye" start></v-icon>
+                      View</v-btn
+                    >
+                  </td>
                   <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
                 </tr>
-                <tr>
+                <tr class="text-center">
                   <td>Form 137</td>
                   <td>{{ selectedStudent.tor }}</td>
+                  <td>
+                    <v-btn
+                      @click="openDocument"
+                      size="small"
+                      style="background-color: var(--dark); color: white"
+                    >
+                      <v-icon icon="mdi-eye" start></v-icon>
+                      View</v-btn
+                    >
+                  </td>
                   <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
                 </tr>
-                <tr>
+                <tr class="text-center">
                   <td>Good Moral</td>
                   <td>{{ selectedStudent.goodmoral }}</td>
+                  <td>
+                    <v-btn
+                      @click="openDocument"
+                      size="small"
+                      style="background-color: var(--dark); color: white"
+                    >
+                      <v-icon icon="mdi-eye" start></v-icon>
+                      View</v-btn
+                    >
+                  </td>
                   <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
                 </tr>
               </tbody>
@@ -360,15 +415,41 @@
     </v-card>
   </v-dialog> -->
   <!-- end view user status modal pop -->
+
+  <v-dialog v-if="download == 'PDF'" v-model="filterDialog" max-width="500">
+      <v-card>
+        <v-card-title>Filter Report by Grade Level</v-card-title>
+        <v-card-text>
+          <v-form ref="filterForm">
+            <v-combobox
+              v-model="filter.selectedGrade"
+              :items="gradeLevels"
+              label="Grade Level"
+            ></v-combobox>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="generateReport">Generate Report</v-btn>
+          <v-btn color="error" @click="filterDialog = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
 </template>
 
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
-import ExcelJS from "exceljs";
+// import ExcelJS from "exceljs";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export default {
   data: () => ({
+    download: "",
+    gradeLevels: ["Grade 1", "Grade 2", "Grade 3", "Grade 4"],
+    filterDialog: false,
     search: "",
     dialog: false,
     dialogDelete: false,
@@ -483,6 +564,8 @@ export default {
         this.selectedRows.push(studentLrn); // Select if not selected
       }
     },
+
+
     initialize() {
       axios
         .get("student")
@@ -513,6 +596,20 @@ export default {
     close() {
       this.dialog = false;
       this.selectedFile = null;
+    },
+
+    prepareReport(item) {
+      this.reportType = item;
+      this.filterDialog = true; // Open the filter dialog
+    },
+    
+    async generateReport() {
+      if (this.reportType === 'PDF') {
+        await this.downloadPDF();
+      } else if (this.reportType === 'EXCEL') {
+        await this.downloadXLS();
+      }
+      this.filterDialog = false;
     },
     save() {
       // Handle the save action, including the selected file if needed
@@ -652,246 +749,221 @@ export default {
 
     async convertExcel(data) {
       const excel = new ExcelJS.Workbook();
-      const worksheet = excel.addWorksheet("Account");
+      const worksheet = excel.addWorksheet("Items");
 
       try {
-        const imageResponse = await fetch("/src/assets/schoolLogo.png");
+        // Fetch image and convert to base64
+        const imageResponse = await fetch('/src/assets/SNA Logo no BG.png');
         const imageBlob = await imageResponse.blob();
         const imageBase64 = await this.blobToBase64(imageBlob);
 
         const logo = excel.addImage({
           base64: imageBase64,
-          extension: "png",
+          extension: 'png'
         });
 
-        worksheet.addImage(logo, {
-          tl: { col: 0, row: 0 },
-          ext: { width: 180, height: 120 },
-          editAs: "absolute",
-        });
-
-        worksheet.addImage(logo, {
-          tl: { col: 7, row: 0 },
-          ext: { width: 180, height: 120 },
-          editAs: "absolute",
-        });
-
-        worksheet.mergeCells("A2:J2");
-        worksheet.getCell("A2").value = "Saint Nicholas Academy";
-        worksheet.getCell("A2").alignment = {
-          vertical: "middle",
-          horizontal: "center",
+        worksheet.getCell('A6').fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: 'FFFFFF' } // White background color
         };
-        worksheet.getCell("A2").font = { size: 16, bold: true };
 
+        for (let col = 1; col <= 9; col++) { // Columns A to I
+          const cell = worksheet.getCell(6, col);
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFFFFF' } // White background color
+          };
+        }
+
+        // Make sure other parts of the code remain unchanged
+        worksheet.addImage(logo, {
+          tl: { col: 1, row: 0 }, // Starting at B1 (col: 1, row: 0)
+          ext: { width: 180, height: 120 },
+          editAs: 'absolute'
+        });
+
+        worksheet.addImage(logo, {
+          tl: { col: 7, row: 0 }, // Starting at H1 (col: 7, row: 0)
+          ext: { width: 180, height: 120 },
+          editAs: 'absolute'
+        });
+
+        worksheet.mergeCells('B1:C4');  // Left logo space
+        worksheet.mergeCells('H1:I4');  // Right logo space
+        worksheet.mergeCells('D1:G2');  // Title space
+        worksheet.mergeCells('D3:G4');  // Subtitle space
+        worksheet.mergeCells('D5:G6');  // Date space
+
+        const titleCell = worksheet.getCell('D1');
+        titleCell.value = "School Name";
+        titleCell.font = { size: 16, bold: true };
+        titleCell.alignment = { horizontal: 'center', vertical: 'middle' };
+
+        const subtitleCell = worksheet.getCell('D3');
+        subtitleCell.value = "Items Report";
+        subtitleCell.font = { size: 12, bold: true };
+        subtitleCell.alignment = { horizontal: 'center', vertical: 'middle' };
+
+        const dateCell = worksheet.getCell('D5');
+        dateCell.value = `As of: ${new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Manila', year: 'numeric', month: 'long', day: 'numeric' })}`;
+        dateCell.font = { size: 12, bold: true };
+        dateCell.alignment = { horizontal: 'center', vertical: 'middle' };
+
+        worksheet.getRow(1).height = 40; // Adjust as needed
+        worksheet.getRow(3).height = 40; // Adjust as needed
+        worksheet.getRow(5).height = 40; // Adjust as needed
         worksheet.addRow();
 
-        worksheet.mergeCells("A3:J3");
-        worksheet.getCell("A3").value = "Address";
-        worksheet.getCell("A3").alignment = {
-          vertical: "middle",
-          horizontal: "center",
-        };
-        worksheet.getCell("A3").font = { size: 12 };
+        // Define starting row for items
+        const startRow = 7;  // You can adjust this as needed
 
-        worksheet.mergeCells("A4:J4");
-        worksheet.getCell("A4").value = "Contact No";
-        worksheet.getCell("A4").alignment = {
-          vertical: "middle",
-          horizontal: "center",
-        };
-        worksheet.getCell("A4").font = { size: 12 };
+        // Add column headers for items
+        const headers = [
+          'Student LRN',
+          'Full Name',
+          'Grade Level',
+          'Student Status',
+        ];
 
-        worksheet.addRow(); // Add an empty row for separation
+        const headerRow = worksheet.addRow(headers);
+        headerRow.eachCell((cell) => {
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: '4167B8' }
+          };
+          cell.font = { color: { argb: 'FFFFFF' }, bold: true };
+          cell.alignment = { horizontal: 'center', vertical: 'middle' };
+        });
 
-        // Add column headers
-        worksheet.addRow([
-          "Student ID",
-          "Student LRN",
-          "Full Name",
-          "Gender",
-          "Grade Level",
-          "Student Status",
-        ]);
-
-        // Add data rows
+        // Add data rows starting from the defined row
         data.forEach((item) => {
-          worksheet.addRow([
-            item.student_id,
-            item.student_lrn,
+          const row = worksheet.addRow([
+            item.studentLrn,
             item.full_name,
-            item.sex_at_birth,
             item.grade_level,
-            item.enrollement_status,
+            item.student_type,
           ]);
+        });
+
+        // Adjust column widths based on the data
+        worksheet.columns.forEach((column) => {
+          const maxLength = column.values.reduce((acc, val) => {
+            const length = val ? val.toString().length : 0;
+            return Math.max(acc, length);
+          }, 5);
+          column.width = Math.min(maxLength + 2, 15); // Reduce padding and set a maximum width
         });
 
         return excel; // Return the excel workbook
       } catch (error) {
-        console.error("Error in convertExcel:", error);
+        console.error('Error in convertExcel:', error);
       }
     },
+
+
+    async downloadXLS() {
+      try {
+        const data = this.applyFilters(this.itemsList);
+        const excel = await this.convertExcel(data); // Make sure convertExcel is awaited
+        if (excel instanceof ExcelJS.Workbook) {
+          const buffer = await excel.xlsx.writeBuffer();
+          const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'Inventory.xlsx';
+          a.click();
+          window.URL.revokeObjectURL(url);
+        } else {
+          console.error('Invalid ExcelJS.Workbook instance');
+        }
+      } catch (error) {
+        console.error('Error downloading XLS:', error);
+      }
+    },
+
+    async convertPDF(data) {
+      const doc = new jsPDF();
+
+      // Fetch image and convert to base64
+      const imageResponse = await fetch('/src/assets/schoolLogo3.png');
+      const imageBlob = await imageResponse.blob();
+      const imageBase64 = await this.blobToBase64(imageBlob);
+
+      // Add the image
+      doc.addImage(imageBase64, 'PNG', 25, 10, 40, 40); 
+
+
+      // Add the school name and other info
+      doc.setFontSize(12);
+      doc.text('Saint Nicholas Academy', 105, 20, null, null, 'center');
+      doc.setFontSize(12);
+      doc.text('Address', 105, 30, null, null, 'center');
+      doc.text('Contact No', 105, 35, null, null, 'center');
+      doc.text(`As of: ${new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Manila', year: 'numeric', month: 'long', day: 'numeric' })}`, 105, 40, null, null, 'center');
+
+
+
+      const headers = [
+        ['Student LRN',
+          'Full Name',
+          'Grade Level',
+          'Student Status',]
+      ];
+
+      const rows = data.map(item => [
+            item.studentLrn,
+            item.full_name,
+            item.grade_level,
+            item.student_type,
+      ]);
+
+      // Add the table to the PDF
+      doc.autoTable({
+        head: headers,
+        body: rows,
+        startY: 90,
+        theme: 'striped',
+
+        startY: 50, 
+      });
+
+      return doc;
+    },
+
+
+
 
     blobToBase64(blob) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result.split(",")[1]); // Split to get base64 part
+        reader.onloadend = () => resolve(reader.result.split(',')[1]); // Split to get base64 part
         reader.onerror = reject;
         reader.readAsDataURL(blob);
       });
     },
 
-    async downloadXLS() {
+    async downloadPDF() {
       try {
-        const data = this.students; // yung data nyo dito nyo lagay
-        const excel = await this.convertExcel(data); // Make sure convertExcel is awaited
+        const data = this.applyFilters(this.itemsList);
+        const pdf = await this.convertPDF(data);
+        pdf.save('ItemsReport.pdf');
 
-        if (excel instanceof ExcelJS.Workbook) {
-          const buffer = await excel.xlsx.writeBuffer();
-          const blob = new Blob([buffer], {
-            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "Inventory.xlsx";
-          a.click();
-          window.URL.revokeObjectURL(url);
+        Swal.fire({
+          title: 'Download Success!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
 
-          Swal.fire({
-            title: "Download Success!",
-            icon: "success",
-            confirmButtonText: "OK",
-          });
-        } else {
-          console.error("Invalid ExcelJS.Workbook instance");
-        }
       } catch (error) {
-        console.error("Error downloading XLS:", error);
+        console.error('Error in downloadPDF:', error);
       }
     },
 
-    async convertExcel(data) {
-      const excel = new ExcelJS.Workbook();
-      const worksheet = excel.addWorksheet("Account");
-
-      try {
-        const imageResponse = await fetch("/src/assets/schoolLogo.png");
-        const imageBlob = await imageResponse.blob();
-        const imageBase64 = await this.blobToBase64(imageBlob);
-
-        const logo = excel.addImage({
-          base64: imageBase64,
-          extension: "png",
-        });
-
-        worksheet.addImage(logo, {
-          tl: { col: 0, row: 0 },
-          ext: { width: 180, height: 120 },
-          editAs: "absolute",
-        });
-
-        worksheet.addImage(logo, {
-          tl: { col: 7, row: 0 },
-          ext: { width: 180, height: 120 },
-          editAs: "absolute",
-        });
-
-        worksheet.mergeCells("A2:J2");
-        worksheet.getCell("A2").value = "Saint Nicholas Academy";
-        worksheet.getCell("A2").alignment = {
-          vertical: "middle",
-          horizontal: "center",
-        };
-        worksheet.getCell("A2").font = { size: 16, bold: true };
-
-        worksheet.addRow();
-
-        worksheet.mergeCells("A3:J3");
-        worksheet.getCell("A3").value = "Address";
-        worksheet.getCell("A3").alignment = {
-          vertical: "middle",
-          horizontal: "center",
-        };
-        worksheet.getCell("A3").font = { size: 12 };
-
-        worksheet.mergeCells("A4:J4");
-        worksheet.getCell("A4").value = "Contact No";
-        worksheet.getCell("A4").alignment = {
-          vertical: "middle",
-          horizontal: "center",
-        };
-        worksheet.getCell("A4").font = { size: 12 };
-
-        worksheet.addRow(); // Add an empty row for separation
-
-        // Add column headers
-        worksheet.addRow([
-          "Student ID",
-          "Student LRN",
-          "Full Name",
-          "Gender",
-          "Grade Level",
-          "Student Status",
-        ]);
-
-        // Add data rows
-        data.forEach((item) => {
-          worksheet.addRow([
-            item.student_id,
-            item.student_lrn,
-            item.full_name,
-            item.sex_at_birth,
-            item.grade_level,
-            item.enrollement_status,
-          ]);
-        });
-
-        return excel; // Return the excel workbook
-      } catch (error) {
-        console.error("Error in convertExcel:", error);
-      }
-    },
-
-    blobToBase64(blob) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result.split(",")[1]); // Split to get base64 part
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-      });
-    },
-
-    async downloadXLS() {
-      try {
-        const data = this.students; // yung data nyo dito nyo lagay
-        const excel = await this.convertExcel(data); // Make sure convertExcel is awaited
-
-        if (excel instanceof ExcelJS.Workbook) {
-          const buffer = await excel.xlsx.writeBuffer();
-          const blob = new Blob([buffer], {
-            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement("a");
-          a.href = url;
-          a.download = "Inventory.xlsx";
-          a.click();
-          window.URL.revokeObjectURL(url);
-
-          Swal.fire({
-            title: "Download Success!",
-            icon: "success",
-            confirmButtonText: "OK",
-          });
-        } else {
-          console.error("Invalid ExcelJS.Workbook instance");
-        }
-      } catch (error) {
-        console.error("Error downloading XLS:", error);
-      }
-    },
-  },
+  }
 };
 </script>
 

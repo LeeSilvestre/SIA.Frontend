@@ -245,7 +245,7 @@ export default {
           user.role == this.panel.toLowerCase() ||
           (user.role == "admin" && this.panel == "Registrar")
         ) {
-          this.showToast('Login Suc cesfully', 'success', 2000)
+          this.showToast('Login Succesfully', 'success', 2000)
           localStorage.setItem("userInfo", JSON.stringify(response.data.user));
           this.$router.push("/dashboard");
         } else {

@@ -2,8 +2,15 @@
   <div> -->
       <template>
         <v-card class="container">
-          <h1 class="section-title">Request Detail</h1>
-          <div class="step-card">
+          <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-account</v-icon
+              >
+              Personal Information
+            </h1>          <div class="step-card">
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
@@ -45,9 +52,16 @@
           </div>
           <hr />
           <v-container>
-            <h3 class="section-title">Request Detail</h3>
-            <v-row>
-              <v-col cols="12" sm="6">
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-clipboard-text</v-icon
+              >
+              Request Detail
+            </h1>            <v-row>
+              <!-- <v-col cols="12" sm="6">
                 <v-text-field
                   label="Full Name"
                   v-model="student.full_name"
@@ -55,7 +69,7 @@
                   readonly
                   hide-details
                 ></v-text-field>
-              </v-col>
+              </v-col> -->
               <v-col cols="12" sm="6">
                 <v-text-field
                   label="Type of Document"
@@ -83,7 +97,7 @@
             <v-btn v-if="student.document_remarks == 'Pending'" class="bg-blue large-button" @click="assessItem(student.request_id, 'Confirm')">Approve Request</v-btn>
             <v-btn v-if="student.document_remarks == 'For Receive'" class="bg-green large-button" @click="assessItem(student.request_id, 'Received')">Mark as Received</v-btn>
             <div v-if="student.document_remarks != 'Received'">
-              <v-btn class="bg-red large-button" @click="assessItem(student.request_id, 'Decline')">Cancel Request</v-btn>
+              <!-- <v-btn class="bg-red large-button" @click="assessItem(student.request_id, 'Decline')">Cancel Request</v-btn> -->
             </div>
           </div>
           <v-card v-if="student.document_remarks == 'Received'">

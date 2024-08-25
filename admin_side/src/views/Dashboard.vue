@@ -5,7 +5,7 @@
         <div class="total-student">
           <h2 class="info-text">
             <span class="material-icons">feed</span>
-            Senior High School
+            SENIOR HIGH SCHOOL
           </h2>
           <v-data-table-virtual :headers="seniorStrand" :items="strand" height="400"
             item-value="name"></v-data-table-virtual>
@@ -16,7 +16,7 @@
         <div class="total-student">
           <h2 class="info-text">
             <span class="material-icons">feed</span>
-            Junior High School
+            JUNIOR HIGH SCHOOL
           </h2>
           <v-data-table-virtual :headers="junior" :items="juniorHigh" height="400"
             item-value="name"></v-data-table-virtual>
@@ -28,7 +28,7 @@
       <div class="total-enrolees">
         <h1 class="info-text">
           <span class="material-icons">group</span>
-          Total Enrollees
+          TOTAL ENROLEES
         </h1>
         <div>
           <canvas ref="chartCanvas"></canvas>
@@ -37,7 +37,7 @@
       <div class="strand-enrolees">
         <h1 class="info-text">
           <span class="material-icons">bar_chart</span>
-          Senior High Strands
+          SENIOR HIGH STRANDS
         </h1>
         <div> 
           <canvas ref="strandChartCanvas"></canvas>
@@ -58,7 +58,7 @@ export default {
       dialog: false,
       junior: [
         { title: 'GRADE LEVEL', text: 'Grade Level', value: 'grade_level' },
-        { title: 'TOTAL STUDENTS', text: 'Total', value: 'total_count' }
+        { title: 'TOTAL STUDENTS', align: 'center', text: 'Total', value: 'total_count' }
       ],
       juniorHigh: [
         // { grade_level: 'Grade 7', total: '0000' },
@@ -69,7 +69,7 @@ export default {
 
       seniorStrand: [
         { title: 'STRAND', text: 'Strand', value: 'strand' },
-        { title: 'TOTAL STUDENTS', text: 'Total', value: 'total_count' }
+        { title: 'TOTAL STUDENTS', align: 'center', text: 'Total', value: 'total_count' }
       ],
       strand: [
         // { strand: 'HUMSS', total: '0000' },
@@ -114,7 +114,7 @@ export default {
       .filter(count => count.grade_level !== "Grade 11" && count.grade_level !== "Grade 12")
       .map(count => ({
         grade_level: count.grade_level,
-        total_count: count.total_count.toString().padStart(4, '0')
+        total_count: count.total_count.toString().padStart(1, '0')
       }));
 
       console.log(res);
@@ -128,7 +128,7 @@ export default {
       this.strand = data
       .map(count => ({
         strand: count.strand,
-        total_count: count.total_count.toString().padStart(4, '0')
+        total_count: count.total_count.toString().padStart(1, '0')
       }));
       console.log(this.strand);
     },
@@ -166,11 +166,11 @@ export default {
       this.strandChart = new Chart(this.$refs.strandChartCanvas.getContext('2d'), {
         type: 'bar',
         data: {
-          labels: ['HUMSS', 'STEM', 'GAS', 'HE'],
+          labels: ['HUMSS', 'STEM', 'GAS', 'HE', 'ABM'],
           datasets: [
             {
               label: '1st Semester',
-              data: [sem[1].total_count,sem[0].total_count, sem[3].total_count, sem[2].total_count], // Example data
+              data: [sem[1].total_count,sem[0].total_count, sem[4].total_count, sem[3].total_count, sem[2].total_count], // Example data
               backgroundColor: 'rgba(75, 192, 192, 0.2)',
               borderColor: 'rgba(75, 192, 192, 1)',
               borderWidth: 1,

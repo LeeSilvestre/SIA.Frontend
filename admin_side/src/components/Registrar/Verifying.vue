@@ -1,5 +1,6 @@
 <template>
   <v-container class="studentInfCon">
+
     <v-data-table
       class="studentTable"
       :search="search"
@@ -64,7 +65,8 @@
         </tr>
       </template>
     </v-data-table>
-    
+
+    <!-- information/the right side table -->
     <div class="studentInfo">
       <v-card class="pa-4">
         <v-row>
@@ -104,6 +106,12 @@
                 ></v-text-field>
               </v-col>
             </v-row>
+            <h1
+              class="fw-regular fs-5 d-flex align-items-center mt-4 mb-4"
+              style="color: var(--dark)"
+            >
+              Current Address
+            </h1>
             <v-text-field
               v-model="selectedStudent.address"
               label="Address"
@@ -176,6 +184,48 @@
               style="color: var(--dark)"
             >
               <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-account-check</v-icon
+              >
+              Clearance
+            </h1>
+            <v-table>
+              <thead>
+                <tr>
+                  <th
+                    class="text-center fs-6 fw-bold"
+                    style="background-color: var(--dark); color: white"
+                  >
+                    Document
+                  </th>
+                  <th
+                    class="text-center fs-6 fw-bold"
+                    style="background-color: var(--dark); color: white"
+                  >
+                    Status
+                  </th>
+                  <!-- <th class="text-left">Actions</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-center">
+                  <td>Encoder Panel</td>
+                  <td>{{ selectedStudent.psa }}</td>
+                  <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+                </tr>
+                <tr class="text-center">
+                  <td>Treasurer Panel</td>
+                  <td>{{ selectedStudent.tor }}</td>
+                  <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+                </tr>
+              </tbody>
+            </v-table>
+
+            <v-divider class="my-4"></v-divider>
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
                 >mdi-file-document</v-icon
               >
               Document List
@@ -184,34 +234,49 @@
               <thead>
                 <tr>
                   <th
-                    class="text-left"
+                    class="text-center fs-6 fw-bold"
                     style="background-color: var(--dark); color: white"
                   >
                     Document
                   </th>
                   <th
-                    class="text-left"
+                    class="text-center fs-6 fw-bold"
                     style="background-color: var(--dark); color: white"
                   >
-                    Remark
+                    Status
+                  </th>
+                  <th
+                    class="text-center fs-6 fw-bold"
+                    style="background-color: var(--dark); color: white"
+                  >
+                    Action
                   </th>
                   <!-- <th class="text-left">Actions</th> -->
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>Good Moral / PSA</td>
+                <tr class="text-center">
+                  <td>Birth Certificate / PSA</td>
                   <td>{{ selectedStudent.psa }}</td>
+                  <td @click="openViewFile(imgDocs.psa)" class="fs-6 fw-bolder" style="color: var(--dark);cursor: pointer;">
+                    View
+                  </td>
                   <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
                 </tr>
-                <tr>
+                <tr class="text-center">
                   <td>Form 137</td>
                   <td>{{ selectedStudent.tor }}</td>
+                  <td @click="openViewFile(imgDocs.tor)" class="fs-6 fw-bolder" style="color: var(--dark);cursor: pointer;">
+                    View
+                  </td>
                   <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
                 </tr>
-                <tr>
+                <tr class="text-center">
                   <td>Good Moral</td>
                   <td>{{ selectedStudent.goodmoral }}</td>
+                  <td @click="openViewFile(imgDocs.goodmoral)" class="fs-6 fw-bolder" style="color: var(--dark);cursor: pointer;">
+                    View
+                  </td>
                   <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
                 </tr>
               </tbody>
@@ -222,6 +287,7 @@
     </div>
   </v-container>
 
+  <!-- enroll dialog -->
   <v-dialog v-model="viewDialog" max-width="1000px">
     <v-card>
       <div style="background-color: var(--dark); color: white">
@@ -403,7 +469,9 @@
                 >mdi-school</v-icon
               >
               Academic Information
-            </h1>          <v-row>
+            </h1>         
+            <p>Instruction: Please asign a section and adviser.</p> 
+            <v-row>
               <v-col cols="12" md="3" sm="6">
               <v-text-field
                 v-model="selectedStudent.student_lrn"
@@ -438,6 +506,7 @@
                 v-model="editedItem.section"
                 :items="sectionList"
                 label="Section"
+                required
                 variant="outlined"
               ></v-select>
             </v-col>
@@ -491,17 +560,18 @@
     </v-card>
   </v-dialog>
 
-  <!-- <v-dialog v-model="viewFileDialog" max-width="600px">
+  <!-- viewing of files -->
+  <v-dialog v-model="viewFileDialog" max-width="1000px">
     <v-card>
-      <v-card-title>View Document</v-card-title>
+      <v-card-title style="background-color: var(--dark);color: white;">DOCUMENT</v-card-title>
       <v-card-text>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="viewFileDialog = false" color="primary">Close</v-btn>
+        <v-btn @click="viewFileDialog = false" class="bg-red">Close</v-btn>
       </v-card-actions>
     </v-card>
-  </v-dialog> -->
+  </v-dialog>
 </template>
 
 <script>
