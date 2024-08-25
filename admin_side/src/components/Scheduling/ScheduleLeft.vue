@@ -506,7 +506,7 @@ export default {
         value: faculty.id,
         department: faculty.department,
       }));
-      console.log(this.facultyName);
+      console.log(this.allFaculty);
     },
     getDocx() {
     },

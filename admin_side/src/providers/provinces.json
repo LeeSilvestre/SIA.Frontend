@@ -1,0 +1,127 @@
+{
+    "REGION I (ILOCOS REGION)": [
+      "Ilocos Norte",
+      "Ilocos Sur",
+      "La Union",
+      "Pangasinan"
+    ],
+    "REGION II (CAGAYAN VALLEY)": [
+      "Batanes",
+      "Cagayan",
+      "Isabela",
+      "Nueva Vizcaya",
+      "Quirino"
+    ],
+    "REGION III (CENTRAL LUZON)": [
+      "Aurora",
+      "Bataan",
+      "Bulacan",
+      "Nueva Ecija",
+      "Pampanga",
+      "Tarlac",
+      "Zambales"
+    ],
+    "REGION IV-A(CALABARZON)": [
+      "Batangas",
+      "Cavite",
+      "Laguna",
+      "Quezon",
+      "Rizal"
+    ],
+    "REGION V(BICOL REGION)": [
+      "Albay",
+      "Camarines Norte",
+      "Camarines Sur",
+      "Catanduanes",
+      "Masbate",
+      "Sorsogon"
+    ],
+    "REGION VI(WESTERN VISAYAS)": [
+      "Aklan",
+      "Antique",
+      "Capiz",
+      "Guimaras",
+      "Iloilo",
+      "Negros Occidental"
+    ],
+    "REGION VII(CENTRAL VISAYAS)": [
+      "Bohol",
+      "Cebu",
+      "Negros Oriental",
+      "Siquijor"
+    ],
+    "REGION VIII (EASTERN VISAYAS)": [
+      "Biliran",
+      "Eastern Samar",
+      "Leyte",
+      "Northern Samar",
+      "Southern Leyte",
+      "Western Samar"
+    ],
+    "REGION IX (ZAMBOANGA PENINSULA)": [
+      "Zamboanga del Norte",
+      "Zamboanga del Sur",
+      "Zamboanga Sibugay"
+    ],
+    "REGION X (NORTHERN MINDANAO)": [
+      "Bukidnon",
+      "Camiguin",
+      "Lanao del Norte",
+      "Misamis Occidental",
+      "Misamis Oriental"
+    ],
+    "REGION XI (DAVAO REGION)": [
+      "Davao de Oro",
+      "Davao del Norte",
+      "Davao del Sur",
+      "Davao Occidental",
+      "Davao Oriental"
+    ],
+    "REGION XII (SOCCSKSARGEN)": [
+      "Cotabato",
+      "Sarangani",
+      "South Cotabato",
+      "Sultan Kudarat"
+    ],
+    "NATIONAL CAPITAL REGION (NCR)": [
+      "City of Manila",
+      "Caloocan",
+      "Las Piñas",
+      "Makati",
+      "Malabon",
+      "Mandaluyong",
+      "Manila",
+      "Marikina",
+      "Muntinlupa",
+      "Navotas",
+      "Parañaque",
+      "Pasig",
+      "Pateros",
+      "Quezon City",
+      "San Juan",
+      "Taguig",
+      "Valenzuela"
+    ],
+    "CORDILLERA ADMINISTRATIVE REGION": [
+      "Abra",
+      "Apayao",
+      "Benguet",
+      "Ifugao",
+      "Kalinga",
+      "Mountain Province"
+    ],
+    "AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)": [
+      "Basilan",
+      "Lanao del Sur",
+      "Maguindanao",
+      "Sulu",
+      "Tawi-Tawi"
+    ],
+    "REGION XIII (Caraga)": [
+      "Agusan del Norte",
+      "Agusan del Sur",
+      "Dinagat Islands",
+      "Surigao del Norte",
+      "Surigao del Sur"
+    ]
+  }
