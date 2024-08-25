@@ -12,13 +12,13 @@
       </v-toolbar>
     </template>
     <template v-slot:item="{ item }">
-      <tr class="selectRow" @click="handleViewIconClick(item)">
-        <td >{{ item.request_id }}</td>
-        <td >{{ item.student_id }}</td>
+      <tr class="selectRow text-center" @click="handleViewIconClick(item)" style="cursor: pointer">
+        <td class="text-center">{{ item.request_id }}</td>
+        <td class="text-center">{{ item.student_id }}</td>
         <td class="text-center">{{ item.full_name }}</td>
         <td class="text-center">{{ item.document_type }}</td>
         <td class="text-center" >
-          <v-chip :color="getStatusColor(item.document_remarks)">
+          <v-chip class="text-center" :color="getStatusColor(item.document_remarks)">
             {{ item.document_remarks }}
           </v-chip>
         </td>
@@ -48,9 +48,9 @@ export default {
     selectedStudent: null,
     viewDialog: false,
     headers: [
-      { title: 'Control No.', key: 'request_id' },
-      { title: 'Student ID', key: 'student_id' },
-      { title: 'Full Nmae', align: 'center', key: 'full_name' },
+      { title: 'Control No.',align: 'center', key: 'request_id' },
+      { title: 'Student ID', align: 'center', key: 'student_id' },
+      { title: 'Full Name', align: 'center', key: 'full_name' },
       { title: 'Type of Document', align: 'center', key: 'document_type' },
       { title: 'Status', align: 'center', key: 'document_remarks' },
       { title: 'Request Date', align: 'center', key: 'created_at' },

@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <v-stepper editable v-model="step" :items="['GUIDELINES', 'FORM', 'UPLOADING']">
-      <template :complete="step > 1" v-slot:item.1 >
+      <template :complete="step > 1" v-slot:item.1>
         <v-card flat class="stepper-card">
           <v-card-title>
             <v-icon class="mr-2">mdi-book-open</v-icon>
@@ -9,7 +9,7 @@
               >PRE-REGISTRATION INSTRUCTIONS</span
             >
           </v-card-title>
-          <hr>
+          <hr />
           <div class="pa-1">
             <v-card-text class="instructions" style="max-width: 1000px">
               <!-- New Instructions Content -->
@@ -61,17 +61,6 @@
                 <v-row>
                   <v-col cols="12" md="3">
                     <v-text-field
-                      v-model="lastname"
-                      :rules="nameRules"
-                      label="Last name"
-                      required
-                      variant="outlined"
-                      dense
-                      outlined
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3">
-                    <v-text-field
                       v-model="firstname"
                       :rules="nameRules"
                       label="First name"
@@ -84,6 +73,17 @@
                       v-model="middlename"
                       label="Middle name"
                       variant="outlined"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="3">
+                    <v-text-field
+                      v-model="lastname"
+                      :rules="nameRules"
+                      label="Last name"
+                      required
+                      variant="outlined"
+                      dense
+                      outlined
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="3">
@@ -102,7 +102,7 @@
                       :items="['Male', 'Female']"
                       label="Sex"
                       clearable
-                      required
+                      :rules="genderRules"
                       variant="outlined"
                     ></v-select>
                   </v-col>
@@ -297,8 +297,9 @@
                 </v-row>
                 <v-row justify="end">
                   <v-col cols="auto">
-                    <v-btn class="bg-green large-button" @click="enroll"
-                      >Submit</v-btn
+                    <v-btn class="bg-green large-button" @click="enroll" size="large">
+                      <v-icon icon="mdi-skip-next-circle" start></v-icon>
+                      Submit Form</v-btn
                     >
                   </v-col>
                 </v-row>
@@ -343,7 +344,7 @@
                       class="flex-grow-1"
                       variant="outlined"
                     ></v-file-input>
-                    <v-btn @click="upload('PSA')" class="ml-4 bg-green mb-4"
+                    <v-btn @click="upload('PSA')" class="ml-4 bg-primary mb-4"
                       >Upload</v-btn
                     >
                   </v-col>
@@ -366,7 +367,7 @@
                     ></v-file-input>
                     <v-btn
                       @click="upload('Good Moral')"
-                      class="ml-4 bg-green mb-4"
+                      class="ml-4 bg-primary mb-4"
                       >Upload</v-btn
                     >
                   </v-col>
@@ -387,8 +388,15 @@
                       class="flex-grow-1"
                       variant="outlined"
                     ></v-file-input>
-                    <v-btn @click="upload('TOR')" class="ml-4 bg-green mb-4"
+                    <v-btn @click="upload('TOR')" class="ml-4 bg-primary mb-4"
                       >Upload</v-btn
+                    >
+                  </v-col>
+                </v-row>
+                <v-row justify="end">
+                  <v-col cols="auto">
+                    <v-btn class="bg-green large-button" @click="finish" size="large"
+                      ><v-icon icon="mdi-check-circle" start></v-icon>Finish</v-btn
                     >
                   </v-col>
                 </v-row>
@@ -466,6 +474,7 @@ export default {
     cityRules: [(value) => !!value || "City is required."],
     provinceRules: [(value) => !!value || "Province is required."],
     zipCodeRules: [(value) => !!value || "Zip Code is required."],
+    genderRules: [(value) => !!value || "Gender is required."],
     gradeLevels: ["7", "8", "9", "10", "11", "12"],
     showStrand: false,
     provinces: {
