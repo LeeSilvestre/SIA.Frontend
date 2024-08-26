@@ -100,21 +100,35 @@
               <!-- <v-btn class="bg-red large-button" @click="assessItem(document.request_id, 'Decline')">Cancel Request</v-btn> -->
             </div>
           </div>
-          <v-card v-if="document.document_remarks == 'Received'">
-            <v-row>
-              <v-col cols="6">
-                <h4><strong>Status:</strong><v-chip :color="getStatusColor(document.document_remarks)">{{document.document_remarks}}</v-chip></h4>
-              </v-col>
-              <v-col  cols="6">
-                <h4><strong>Control No.:</strong>{{document.request_id}}</h4>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <h4><strong>Release Date:</strong>{{document.document_release_date}}</h4>
-              </v-col>
-            </v-row>
-          </v-card>
+          <v-card v-if="document.document_remarks == 'Received'" class="p-3 mb-3 shadow-sm bg-light rounded">
+  <div class="row">
+    <div class="col-md-6">
+      <h4 class="mb-2">
+        <strong>Status:</strong>
+        <v-chip :color="getStatusColor(document.document_remarks)">
+          {{document.document_remarks}}
+        </v-chip>
+      </h4>
+    </div>
+    <div class="row">
+    <div class="col-md-6">
+      <h4 class="mb-2">
+        <strong>Control No.:</strong>
+        {{document.request_id}}
+      </h4>
+    </div>
+  </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <h4 class="mb-0">
+        <strong>Release Date:</strong>
+        {{document.document_release_date}}
+      </h4>
+    </div>
+  </div>
+</v-card>
+
           
         </v-card>
       </template>
