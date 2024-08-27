@@ -195,7 +195,7 @@
       <v-btn :disabled="!doAgree" v-if="step == 1" color="primary" variant="flat" @click="step++">Accept & Continue</v-btn>
       <!-- ############################################################################# -->
       <!-- FORM INPUTS -->
-      <!-- <v-btn v-if="step == 2" color="primary" variant="flat" @click="step++">Accept & Continue</v-btn> -->
+      <v-btn v-if="step == 2" color="primary" variant="flat" @click="step++">Accept & Continue</v-btn>
       <v-btn v-if="step > 1" variant="text" @click="step--"> Back </v-btn>
       <v-spacer></v-spacer>
       <v-btn  v-if="step == 2" class="bg-green large-button"  @click="enroll">Submit</v-btn>

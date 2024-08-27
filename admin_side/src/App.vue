@@ -1,22 +1,50 @@
 <template>
     <v-app>
-      <div class="app">
         <template v-if="!isLoginPage"> <!-- Only render sidebar and header if not on login page -->
-          <Sidebar />
-          <div class="headerAndContent">
-            <Header />
-            <router-view v-slot="{ Component }">
-              <transition name="fade" mode="out-in">
-                <Component :is="Component" />
-              </transition>
-            </router-view>
+          <div class="cont">
+            <div class="sidecont">
+              <Sidebar />
+            </div>
+            <div class="maincont">
+              <div class="header">
+                <Header />
+              </div>
+              <router-view v-slot="{ Component }"style="padding: 20px;">
+                <transition name="fade" mode="out-in">
+                  <Component :is="Component" />
+                </transition>
+              </router-view>
+            </div>
+
           </div>
-        </template>
+
+
+        </template> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         <template v-else>
           <!-- Render only the login page content -->
           <router-view />
         </template>
-      </div>
     </v-app>
   </template>
   
@@ -55,8 +83,12 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter';
+    
 }
 
+::-webkit-scrollbar{
+        display: none;
+}
 body {
     background: #e2e2e2;
 }
@@ -71,26 +103,21 @@ button {
 
 .app {
     display:flex;
-    main {
-        flex: 1 1 0;
-        padding: 2rem;
-        will-change: transform, opacity;
+    flex-direction: column;
+    // main {
+    //     padding: 2rem;
+    //     will-change: transform, opacity;
 
-        @media (max-width: 768px){
+    //     @media (max-width: 768px){
            
-            padding-left: 2rem;
-        }
+    //         padding-left: 2rem;
+    //     }
         
-        @media (max-width:1047px ){
-          flex-direction: column ;
-        }
+    //     @media (max-width:1047px ){
+    //       flex-direction: column ;
+    //     }
         
-    }
-    .headerAndContent {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
+    // }
 
     .fade-enter-from,
     .fade-leave-to {
@@ -103,6 +130,29 @@ button {
     }    
 
 }
+
+.header{
+  position: fixed;
+  z-index: 999;
+}
+.cont{
+    position:fixed;
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    .sidecont{
+      position: sticky !important;
+
+    }
+    .maincont{
+      overflow: auto;
+      margin-top: 10vh;
+      width: 100%;
+      ::-webkit-scrollbar{
+        display: none;
+      }
+    }
+  }
 
 
 .v-table__wrapper {

@@ -89,3 +89,65 @@ export default{
 }
 
 </script>
+
+
+
+<style lang="scss" scoped>
+.pa-1{
+  overflow:auto;
+}
+
+.sweet-alert-container{
+  z-index: 999;
+}
+.fileinput {
+  width: 12vh !important;
+}
+.v-card-title {
+  display: flex;
+  align-items: center; /* Align items vertically */
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.title-icon {
+  font-size: 4rem; /* Adjust icon size if needed */
+  color: var(--dark); /* Color for the icon */
+}
+
+.title-text {
+  font-size: 1.8rem; /* Increase the title size */
+  font-weight: bold;
+  color: var(--dark); /* Title color */
+}
+
+.instructions {
+  overflow-y: auto;
+  font-size: 1.2rem; /* Increase the instruction text size */
+  line-height: 1.6;
+}
+
+.mb-5 {
+  margin-bottom: 3rem !important;
+}
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--dark); /* Title color */
+}
+
+.stepper-card {
+  background-color: #f7f7f7;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+ul {
+  padding-left: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.75rem;
+}
+</style>

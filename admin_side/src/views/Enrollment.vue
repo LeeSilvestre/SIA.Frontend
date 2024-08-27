@@ -1,10 +1,12 @@
 <template>
     <main>
-        <div class="top-container">
-            <h1 class="bg-title">ENROLLMENT</h1>
-        <div class="inventory">
-            <span class="material-icons">feed</span>
-            <span class="text">ENROLLMENT</span>
+        <div class="headcont">
+          <div class="top-container">
+              <h1 class="bg-title">ENROLLMENT</h1>
+          <div class="inventory">
+              <span class="material-icons">feed</span>
+              <span class="text">ENROLLMENT</span>
+          </div>
         </div>
             
         </div>  
@@ -57,6 +59,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+main{
+  max-height: 100%;
+  overflow-y:auto;
+}
 .top-container{
     display: flex;
     margin: 0.5rem;
