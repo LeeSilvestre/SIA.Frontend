@@ -9,11 +9,9 @@
   >
     <template v-slot:top>
       <v-toolbar flat>
-        <v-toolbar-title
-          class="text-h6 font-weight-black"
-          style="color: #2f3f64"
-          >STUDENT ASSESMENT LIST
-          <v-btn class="ml-5" color="#28a745" variant="flat" dark @click="downloadXLS()">
+        <v-toolbar-title style="color: #2f3f64"
+          >
+          <v-btn  color="#28a745" variant="flat" dark @click="downloadXLS()">
             <v-icon left>mdi-download</v-icon>
             GENERATE REPORT
           </v-btn>
@@ -506,59 +504,23 @@
                   >
                     Status
                   </th>
-                  <th
-                    class="text-center fs-6 fw-bold"
-                    style="background-color: var(--dark); color: white"
-                  >
-                    Action
-                  </th>
                   <!-- <th class="text-left">Actions</th> -->
                 </tr>
               </thead>
               <tbody>
                 <tr class="text-center">
-                  <td>Good Moral / PSA</td>
+                  <td>Birth Certificate / PSA</td>
                   <td>{{ selectedStudent.psa }}</td>
-                  <td>
-                    <v-btn
-                      @click="openDocument"
-                      size="small"
-                      style="background-color: var(--dark); color: white"
-                    >
-                      <v-icon icon="mdi-eye" start></v-icon>
-                      View</v-btn
-                    >
-                  </td>
                   <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
                 </tr>
                 <tr class="text-center">
                   <td>Form 137</td>
                   <td>{{ selectedStudent.tor }}</td>
-                  <td>
-                    <v-btn
-                      @click="openDocument"
-                      size="small"
-                      style="background-color: var(--dark); color: white"
-                    >
-                      <v-icon icon="mdi-eye" start></v-icon>
-                      View</v-btn
-                    >
-                  </td>
                   <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
                 </tr>
                 <tr class="text-center">
                   <td>Good Moral</td>
                   <td>{{ selectedStudent.goodmoral }}</td>
-                  <td>
-                    <v-btn
-                      @click="openDocument"
-                      size="small"
-                      style="background-color: var(--dark); color: white"
-                    >
-                      <v-icon icon="mdi-eye" start></v-icon>
-                      View</v-btn
-                    >
-                  </td>
                   <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
                 </tr>
               </tbody>
