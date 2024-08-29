@@ -252,7 +252,7 @@
               </thead>
               <tbody>
                 <tr class="text-center">
-                  <td>Good Moral / PSA</td>
+                  <td>Birth Certificate / PSA</td>
                   <td>{{ selectedStudent.psa }}</td>
                   <td>
                     <v-btn
@@ -321,118 +321,6 @@
       </v-card-text>
     </v-card>
   </v-dialog>
-  <!-- view user status modal pop -->
-  <!-- <v-dialog v-model="viewDialog" max-width="800px">
-    <v-card>
-      <v-card-title class="d-flex justify-space-between align-center">
-        <span class="text-h5 fw-bold m-1" style="color: #2f3f64">
-          STUDENT DETAILS
-        </span>
-        <v-btn icon @click="closeViewDialog" class="close-button">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-card-title>
-      <v-card-text>
-        <v-container>
-          <v-row>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1"
-                    >Student ID:</v-list-item-title
-                  >
-                  <v-list-item-subtitle>{{
-                    selectedStudent.student_id
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1"
-                    >Full Name:</v-list-item-title
-                  >
-                  <v-list-item-subtitle>{{
-                    students.full_name
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1"
-                    >Contact Number:</v-list-item-title
-                  >
-                  <v-list-item-subtitle>{{
-                    selectedStudent.contact_no
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1"
-                    >Birthplace:
-                  </v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    selectedStudent.birth_place
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1"
-                    >Sex:
-                  </v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    selectedStudent.sex_at_birth
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title class="text-subtitle-1"
-                    >Religion:
-                  </v-list-item-title>
-                  <v-list-item-subtitle>{{
-                    selectedStudent.religion
-                  }}</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-col>
-
-            <hr />
-
-            <v-row>
-              <v-col cols="12" sm="4">
-                <v-list-item>
-                  <v-list-item-content>
-                    <v-list-item-title class="text-subtitle-1"
-                      >Address:
-                    </v-list-item-title>
-                    <v-list-item-subtitle>
-                      {{ selectedStudent.street }}
-                      {{ selectedStudent.barangay }},
-                      {{ selectedStudent.city }} {{ selectedStudent.province }}
-                      {{ selectedStudent.zip_code }}
-                    </v-list-item-subtitle>
-                  </v-list-item-content>
-                </v-list-item>
-              </v-col>
-            </v-row>
-          </v-row>
-        </v-container>
-      </v-card-text>
-    </v-card>
-  </v-dialog> -->
-  <!-- end view user status modal pop -->
 
   <v-dialog v-if="download == 'PDF'" v-model="filterDialog" max-width="500">
       <v-card>
@@ -619,14 +507,15 @@ export default {
         .then((res) => {
           this.students = res.data.student.map((student) => ({
             ...student,
-            full_name:
-              `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
+            full_name: `${student.first_name} ${(student.middle_name ?? ' ')} ${student.last_name} ${(student.extension ?? ' ')}`,
             address:
               `${student.houseNumber} ${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code} ${student.region}`.trim(),
             image: student.image.map((image) => ({
               docuType: image.file_type,
+              image: `http://localhost:8000/uploads/profile/${image.image}`,
               // image: `http://192.168.16.165:8000/uploads/profile/${image.image}`,
-              image: `http://26.81.173.255:8000/uploads/profile/${image.image}`,
+              // image: `http://localhost:8000/uploads/profile/${image.image}`,
+              // image: `http://26.81.173.255:8000/uploads/profile/${image.image}`,
             })),
           }));
         })

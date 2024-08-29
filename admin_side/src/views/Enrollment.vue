@@ -1,6 +1,6 @@
 <template>
     <main>
-        <div class="headcont">
+        <div class="headcont" style="border-bottom: 2px solid grey;">
           <div class="top-container">
               <h1 class="bg-title">ENROLLMENT</h1>
           <div class="inventory">
@@ -10,7 +10,6 @@
         </div>
             
         </div>  
-        <hr>
         <div class="tab-content">
       <button @click="handleTabClick('Verifying')" :class="{ active: activeTab === 'Verifying' }">Verifying</button>
       <button @click="handleTabClick('Enrolled')" :class="{ active: activeTab === 'Enrolled' }">Officially Enrolled</button>
@@ -61,7 +60,7 @@ export default {
 <style lang="scss" scoped>
 main{
   max-height: 100%;
-  overflow-y:auto;
+  padding: 0;
 }
 .top-container{
     display: flex;
@@ -92,7 +91,7 @@ main{
         border-radius: 10px;
         background-color: #f0f0f0;
         padding: 0.5rem;
-        // height: 100vh;
+          height: 75vh;
     }
 }
 
@@ -101,7 +100,7 @@ main{
     position: absolute;
     opacity: 4%;
     margin-top: -40px;
-    font-size: 100px;
+    font-size: 80px;
     font-family: Impact, fantasy;
 }
 .top-container{
@@ -112,15 +111,13 @@ main{
         
         .material-icons{
             color: var(--dark);
-            font-size: 2.5rem;
+            font-size: 1.8rem;
         }
         .text{
             position: relative;
             color: var(--dark);
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             font-weight: 900;
-            bottom: 0.6rem;
-            left: 0.5rem;
         }
     }
 

@@ -22,16 +22,17 @@
         :value="3"
       ></v-stepper-item>
     </v-stepper-header>
+    <v-divider></v-divider>
   </v-stepper>
-  <br>
-  <v-card>
+  <v-card class="pre-regcont">
     <v-window v-model="step">
       <v-window-item :value="1">
           <Guidelines/>
+          <!-- <v-divider></v-divider> -->
       </v-window-item>
 
       <v-window-item :value="2">
-        <v-card flat>
+        <v-card style="height: 60vh; "  >
 
           <v-card-title>
             <v-icon class="mr-2">mdi-form-textbox</v-icon>
@@ -41,7 +42,7 @@
           <v-divider></v-divider>
 
           <v-card-text>
-            <v-form v-model="valid" ref="form">
+            <v-form v-model="valid" ref="form" style="overflow-y: auto; height: 50vh;"> 
               <v-container>
                 <div class="academic">
                   <h1 class="fw-bold fs-4 d-flex align-items-center mb-3" style="color: var(--dark)" >
@@ -185,23 +186,25 @@
       </v-window-item>
     </v-window>
 
-    <v-divider></v-divider>
-
     <v-card-actions>
-      <!-- ############################################################################# -->
-      <!-- GUIDELINES -->
-      <v-checkbox v-model="doAgree" v-if="step == 1" label="I understand the Guidelines above" value="True"
-      ></v-checkbox>
-      <v-btn :disabled="!doAgree" v-if="step == 1" color="primary" variant="flat" @click="step++">Accept & Continue</v-btn>
-      <!-- ############################################################################# -->
-      <!-- FORM INPUTS -->
-      <v-btn v-if="step == 2" color="primary" variant="flat" @click="step++">Accept & Continue</v-btn>
-      <v-btn v-if="step > 1" variant="text" @click="step--"> Back </v-btn>
-      <v-spacer></v-spacer>
-      <v-btn  v-if="step == 2" class="bg-green large-button"  @click="enroll">Submit</v-btn>
-      <!-- ############################################################################# -->
-      <!-- DOCUMENT UPLOAD -->
-      <v-btn :disabled="!isfinished" v-if="step == 3" color="primary" variant="flat" @click="finish"> Finish </v-btn>
+        <!-- ############################################################################# -->
+        <!-- GUIDELINES -->
+        <div class="guidelines">
+          <div class="checkbox">
+            <v-checkbox v-model="doAgree" v-if="step == 1" label="I understand the Guidelines above" value="True"></v-checkbox>
+            <v-btn v-if="step > 1" variant="flat" @click="step--"> Back </v-btn>
+          </div>
+          <div class="acceptbtn">
+            <v-btn :disabled="!doAgree" v-if="step == 1" color="primary" variant="flat" @click="step++" >Accept & Continue</v-btn>
+            <v-btn :disabled="!isfinished" v-if="step == 3" color="primary" variant="flat" @click="finish"> Finish </v-btn>
+            <v-btn  v-if="step == 2" class="bg-green large-button"  @click="enroll">Submit</v-btn>
+          </div>
+        <!-- ############################################################################# -->
+        <!-- FORM INPUTS -->
+          <v-btn v-if="step == 2" color="primary" variant="flat" @click="step++">Accept & Continue</v-btn>
+        </div>
+        <!-- ############################################################################# -->
+        <!-- DOCUMENT UPLOAD -->
     </v-card-actions>
   </v-card>
 </template>
@@ -388,7 +391,10 @@
   font-weight: bold;
   color: var(--dark); /* Title color */
 }
-
+.stepAction{
+  display: flex;
+  height: 5vh;
+}
 .instructions {
   font-size: 1.2rem; /* Increase the instruction text size */
   line-height: 1.6;
@@ -404,11 +410,30 @@ h4 {
   color: var(--dark); /* Title color */
 }
 
+.guidelines{
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  .checkbox{
+    flex: 1;
+  }
+  .acceptbtn{
+    display: flex;
+    justify-content:end;
+    flex: 0.5;
+  }
+}
 .stepper-card {
   background-color: #f7f7f7;
   padding: 2rem;
   border-radius: 8px;
 }
+
+.pre-regcont{
+  overflow-y: auto;
+  height: 70vh;
+}
+
 
 ul {
   padding-left: 1.5rem;

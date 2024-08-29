@@ -1,1007 +1,1084 @@
 <template>
-  <v-app>
-    <v-stepper linear  :items="['GUIDELINES', 'FORM', 'UPLOADING']">
-      <template :complete="step > 1" v-slot:item.1 >
-        <v-card flat class="stepper-card">
-          <v-card-title>
-            <v-icon class="mr-2">mdi-book-open</v-icon>
-            <span class="card-title fw-bold fs-3"
-              >PRE-REGISTRATION INSTRUCTIONS</span
-            >
-          </v-card-title>
-          <hr>
-          <div class="pa-1">
-            <v-card-text class="instructions" style="max-width: 1000px">
-              <!-- New Instructions Content -->
-              <div
-                v-for="(instruction, index) in instructions"
-                :key="index"
-                class="mb-5"
-              >
-                <div class="d-flex align-items-center mb-2">
-                  <v-icon class="mr-2">{{ instruction.icon }}</v-icon>
-                  <h4 class="fw-bold">{{ instruction.title }}</h4>
-                </div>
-                <ul>
-                  <li
-                    v-for="(detail, detailIndex) in instruction.details"
-                    :key="detailIndex"
-                  >
-                    {{ detail }}
-                  </li>
-                </ul>
-              </div>
-            </v-card-text>
+  <v-container class="studentInfCon">
+    <v-data-table
+      class="studentTable"
+      :search="search"
+      :headers="headers"
+      :items="displayedStudents"
+      :sort-by="[{ key: 'studentId', order: 'asc' }]"
+    >
+    <template v-slot:top>
+      <v-toolbar flat>
+          <v-toolbar-title class="font-weight-black" style="color: #2f3f64">
+            <v-menu offset-y>
+              <template v-slot:activator="{ props }">
+                <v-btn color="primary" style="margin: 10px;" variant="flat" dark v-bind="props">
+                  GENERATE REPORT <v-icon right>mdi-download</v-icon>
+                </v-btn>
+              </template>
+              <v-list dense>
+                <v-list-item @click="prepareReport('PDF')">
+                  <v-icon left>mdi-download</v-icon>
+                  PDF
+                </v-list-item>
+                <v-list-item @click="prepareReport('EXCEL')">
+                  <v-icon left>mdi-download</v-icon>
+                  EXCEL
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </v-toolbar-title>
+          <div style="width: 25vw">
+            <v-text-field
+              v-model="search"
+              class="search mr-1"
+              density="compact"
+              label="Search"
+              prepend-inner-icon="mdi-magnify"
+              variant="solo-filled"
+              flat
+              hide-details
+              single-line
+            ></v-text-field>
           </div>
-        </v-card>
+        </v-toolbar>
       </template>
 
-      <!-- FORM Step -->
-      <template :complete="step > 2" v-slot:item.2>
-        <v-card flat>
-          <v-card-title>
-            <v-icon class="mr-2">mdi-form-textbox</v-icon>
-            <span class="card-title fw-bold fs-3">PRE-REGISTRATION FORM</span>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-text>
-            <v-form v-model="valid" ref="form">
-              <v-container>
-                <div class="academic">
-                  <h1
-                    class="fw-bold fs-4 d-flex align-items-center mb-3"
-                    style="color: var(--dark)"
-                  >
-                    <v-icon class="mr-2" style="color: var(--dark)"
-                      >mdi-account</v-icon
-                    >
-                    Personal Information
-                  </h1>
-                </div>
-                <v-row>
-                  <v-col cols="12" md="3">
-                    <v-text-field
-                      v-model="lastname"
-                      :rules="nameRules"
-                      label="Last name"
-                      required
-                      variant="outlined"
-                      dense
-                      outlined
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3">
-                    <v-text-field
-                      v-model="firstname"
-                      :rules="nameRules"
-                      label="First name"
-                      required
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3">
-                    <v-text-field
-                      v-model="middlename"
-                      label="Middle name"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3">
-                    <v-select
-                      v-model="extension"
-                      :items="['Jr', 'Sr', 'II', 'III']"
-                      label="Extension Name"
-                      clearable
-                      required
-                      variant="outlined"
-                    ></v-select>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <v-select
-                      v-model="sex"
-                      :items="['Male', 'Female']"
-                      label="Sex"
-                      clearable
-                      required
-                      variant="outlined"
-                    ></v-select>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <v-text-field
-                      v-model="birthdate"
-                      :rules="birthdateRules"
-                      label="Birthdate"
-                      placeholder="YYYY-MM-DD"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <v-select
-                      v-model="religion"
-                      :items="[
-                        'Catholic',
-                        'Islam',
-                        'Iglesia ni Cristo',
-                        'Born Again',
-                        'Christianity',
-                        'Buddhism',
-                        'Others',
-                      ]"
-                      label="Religion"
-                      clearable
-                      required
-                      variant="outlined"
-                    ></v-select>
-                  </v-col>
-                </v-row>
-                <v-row>
-                  <v-col cols="12">
-                    <h1
-                      class="fw-bold fs-6 d-flex align-items-center"
-                      style="color: var(--dark)"
-                    >
-                      Current Address
-                    </h1>
-                  </v-col>
+      <template v-slot:item="{ item, index }">
+        <tr
+          :class="{ 'selected-row': selectedRows.includes(item.student_lrn) }"
+          @click="toggleSelection(item.student_lrn, item)"
+          style="cursor: pointer"
+        >
+          <!-- <td>{{ index + 1 }}</td> -->
+          <td class="text-center">{{ item.student_lrn }}</td>
+          <td class="text-center">
+            {{ item.last_name }} , {{ item.first_name }} {{ item.middle_name }}
+            {{ item.extension }}
+          </td>
+          <!-- <td class="text-center">{{ item.sex_at_birth }}</td> -->
+          <td class="text-center">{{ item.grade_level }}</td>
+          <td class="text-center">Incoming</td>
+          <td
+            class="text-center"
+            :style="{ color: getStatusColor(item.enrollment_status) }"
+          >
+            <v-chip>
+              {{ item.enrollment_status }}
+            </v-chip>
+          </td>
 
-                  <!-- ADDRESS -->
-                  <v-col cols="12" md="2">
-                    <v-select
-                      v-model="region"
-                      :items="[
-                        'REGION I (ILOCOS REGION)',
-                        'REGION II (CAGAYAN VALLEY)',
-                        'REGION III (CENTRAL LUZON)',
-                        'REGION IV-A(CALABARZON)',
-                        'REGION V(BICOL REGION)',
-                        'REGION VI(WESTERN VISAYAS)',
-                        'REGION VII(CENTRAL VISAYAS)',
-                        'REGION VIII (EASTERN VISAYAS)',
-                        'REGION IX (ZAMBOANGA PENINSULA)',
-                        'REGION X (NORTHERN MINDANAO)',
-                        'REGION XI (DAVAO REGION)',
-                        'REGION XII (SOCCSKSARGEN)',
-                        'NATIONAL CAPITAL REGION (NCR)',
-                        'CORDILLERA ADMINISTRATIVE REGION',
-                        'AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)',
-                        'REGION XIII (Caraga)',
-                      ]"
-                      label="Region"
-                      :rules="provinceRules"
-                      clearable
-                      required
-                      variant="outlined"
-                    ></v-select>
-                  </v-col>
-                  <v-col cols="12" md="2">
-                    <v-select
-                      v-model="province"
-                      :items="filteredProvinces"
-                      :rules="provinceRules"
-                      label="Province"
-                      variant="outlined"
-                    ></v-select>
-                    ]
-                  </v-col>
-                  <v-col cols="12" md="2">
-                    <v-text-field
-                      v-model="city"
-                      :rules="cityRules"
-                      label="City/Municipality"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="2">
-                    <v-text-field
-                      v-model="barangay"
-                      :rules="barangayRules"
-                      label="Barangay"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="1">
-                    <v-text-field
-                      v-model="houseNumber"
-                      :rules="houseNumberRules"
-                      label="House #"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="2">
-                    <v-text-field
-                      v-model="street"
-                      :rules="streetRules"
-                      label="Street"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="1">
-                    <v-text-field
-                      v-model="zipCode"
-                      :rules="zipCodeRules"
-                      label="Zip Code"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-
-                <div class="academic">
-                  <h1
-                    class="fw-bold fs-4 d-flex align-items-center mb-3"
-                    style="color: var(--dark)"
-                  >
-                    <v-icon class="mr-2" style="color: var(--dark)"
-                      >mdi-phone</v-icon
-                    >
-                    Contact Information
-                  </h1>
-                </div>
-                <v-row>
-                  <v-col cols="12" md="3">
-                    <v-text-field
-                      v-model="contactNumber"
-                      :rules="contactNumberRules"
-                      label="Contact Number"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3">
-                    <v-text-field
-                      v-model="email"
-                      :rules="emailRules"
-                      label="E-mail"
-                      variant="outlined"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-
-                <div class="academic">
-                  <h1
-                    class="fw-bold fs-4 d-flex align-items-center mb-3"
-                    style="color: var(--dark)"
-                  >
-                    <v-icon class="mr-2" style="color: var(--dark)"
-                      >mdi-school</v-icon
-                    >
-                    Academic Information
-                  </h1>
-                </div>
-                <v-row>
-                  <v-col cols="12" md="3">
-                    <v-text-field
-                      v-model="student_lrn"
-                      :rules="studentLrnRules"
-                      label="Student LRN"
-                      variant="outlined"
-                      maxlength="12"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3">
-                    <v-select
-                      v-model="gradeLevel"
-                      :items="gradeLevels"
-                      label="Grade Level"
-                      clearable
-                      variant="outlined"
-                    ></v-select>
-                  </v-col>
-                  <v-col v-if="showStrand" cols="12" md="3">
-                    <v-select
-                      v-model="strand"
-                      :items="['HUMSS', 'STEM', 'HE', 'ABM', 'GAS']"
-                      label="Strand"
-                      clearable
-                      variant="outlined"
-                    ></v-select>
-                  </v-col>
-                </v-row>
-                <v-row justify="end">
-                  <v-col cols="auto">
-                    <v-btn class="bg-green large-button" @click="enroll"
-                      >Submit</v-btn
-                    >
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-form>
-          </v-card-text>
-        </v-card>
+          <td class="text-center">
+            <v-btn
+              color="success"
+              dark
+              v-bind="props"
+              @click="assessItem(item, 'Confirm')"
+              :disabled="
+                item.enrollment_status === 'Assessed' ||
+                item.enrollment_status === 'Verified'
+              "
+              size="small"
+            >
+              <v-icon icon="mdi-check" start></v-icon>
+              <span
+                v-if="
+                  item.enrollment_status == 'Assessed' ||
+                  item.enrollment_status === 'Verified'
+                "
+                >Admitted</span
+              >
+              <span v-else>Admit</span>
+            </v-btn>
+          </td>
+          <!-- <v-icon class="me-2" size="small" style="color: #2F3F64" @click="openViewDialog(item)">mdi-eye</v-icon> -->
+          <!-- Archive Icon -->
+          <!-- <v-icon class="me-2 " size="small" color="warning" @click="archiveItem(item)">mdi-archive</v-icon> -->
+        </tr>
       </template>
 
-      <!-- UPLOADING Step -->
-      <template :complete="step > 3" v-slot:item.3>
-        <v-card>
-          <v-card-text>
+      <!-- <template v-slot:no-data>
+        <v-btn class="text-h2" color="primary" @click="initialize">Reset</v-btn>
+      </template> -->
+    </v-data-table>
+
+    
+    <v-dialog v-model="filterDialog" max-width="500px">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Filter Report</span>
+        </v-card-title>
+        <v-card-text>
+          <v-select
+            v-model="filter.selectedGrade"
+            :items="gradeLevels"
+            label="Filter by Grade"
+          ></v-select>
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="primary" @click="generateReport">Generate Report</v-btn>
+          <v-btn text @click="filterDialog = false">Cancel</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+
+    <div class="studentInfo">
+      <v-card class="pa-4">
+        <v-row>
+          <v-col cols="12">
+            <!-- Personal Information Section -->
+            <v-divider class="my-4"></v-divider>
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-account</v-icon
+              >
+              Personal Information
+            </h1>
+            <v-text-field
+              v-model="selectedStudent.full_name"
+              label="Student Name"
+              readonly
+              variant="outlined"
+            ></v-text-field>
             <v-row>
-              <v-col>
-                <div class="academic">
-                  <h1
-                    class="fw-bold fs-4 d-flex align-items-center mb-4"
-                    style="color: var(--dark)"
-                  >
-                    <v-icon class="mr-2" style="color: var(--dark)"
-                      >mdi-school</v-icon
-                    >
-                    Initial File Uploading
-                  </h1>
-                </div>
-
-                <v-row dense>
-                  <!-- PSA UPLOADER -->
-                  <v-col
-                    cols="12"
-                    sm="4"
-                    class="d-flex align-items-center mb-4"
-                  >
-                    <v-file-input
-                      v-model="editedItem.psa"
-                      label="PSA/Birth Certificate"
-                      counter
-                      multiple
-                      show-size
-                      @change="handleFileUpload('psa', $event)"
-                      class="flex-grow-1"
-                      variant="outlined"
-                    ></v-file-input>
-                    <v-btn @click="upload('PSA')" class="ml-4 bg-green mb-4"
-                      >Upload</v-btn
-                    >
-                  </v-col>
-
-                  <!-- GOOD MORAL UPLOADER -->
-                  <v-col
-                    cols="12"
-                    sm="4"
-                    class="d-flex align-items-center mb-4"
-                  >
-                    <v-file-input
-                      v-model="editedItem.goodMoral"
-                      label="Good Moral"
-                      counter
-                      multiple
-                      show-size
-                      @change="handleFileUpload('goodmoral', $event)"
-                      class="flex-grow-1"
-                      variant="outlined"
-                    ></v-file-input>
-                    <v-btn
-                      @click="upload('Good Moral')"
-                      class="ml-4 bg-green mb-4"
-                      >Upload</v-btn
-                    >
-                  </v-col>
-
-                  <!-- TOR UPLOADER -->
-                  <v-col
-                    cols="12"
-                    sm="4"
-                    class="d-flex align-items-center mb-4"
-                  >
-                    <v-file-input
-                      v-model="editedItem.tor"
-                      label="Form 137/Transcript of Record"
-                      counter
-                      multiple
-                      show-size
-                      @change="handleFileUpload('tor', $event)"
-                      class="flex-grow-1"
-                      variant="outlined"
-                    ></v-file-input>
-                    <v-btn @click="upload('TOR')" class="ml-4 bg-green mb-4"
-                      >Upload</v-btn
-                    >
-                  </v-col>
-                </v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="selectedStudent.sex_at_birth"
+                  label="Gender"
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="selectedStudent.birth_date"
+                  label="Birthdate"
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
               </v-col>
             </v-row>
-          </v-card-text>
-        </v-card>
-      </template>
-    </v-stepper>
-  </v-app>
+            <h1
+              class="fw-regular fs-5 d-flex align-items-center mt-4 mb-4"
+              style="color: var(--dark)"
+            >
+              Current Address
+            </h1>
+            <v-text-field
+              v-model="selectedStudent.address"
+              label="Address"
+              readonly
+              variant="outlined"
+            ></v-text-field>
+
+            <!-- Contact Information Section -->
+            <v-divider class="my-4"></v-divider>
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)">mdi-phone</v-icon>
+              Contact Information
+            </h1>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="selectedStudent.contact_no"
+                  label="Contact No."
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="selectedStudent.email"
+                  label="Email"
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <!-- Academic Information Section -->
+            <v-divider class="my-4"></v-divider>
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-school</v-icon
+              >
+              Academic Infomation
+            </h1>
+            <v-row>
+              <v-col cols="6">
+                <v-text-field
+                  v-model="selectedStudent.grade_level"
+                  label="Grade"
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="6" v-if="selectedStudent.grade_level > 10">
+                <v-text-field
+                  v-model="selectedStudent.strand"
+                  label="Strand"
+                  readonly
+                  variant="outlined"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+
+            <!-- Document List Section -->
+            <v-divider class="my-4"></v-divider>
+            <h1
+              class="fw-bold fs-4 d-flex align-items-center mb-5"
+              style="color: var(--dark)"
+            >
+              <v-icon class="mr-2" style="color: var(--dark)"
+                >mdi-file-document</v-icon
+              >
+              Document List
+            </h1>
+            <v-table>
+              <thead>
+                <tr>
+                  <th
+                    class="text-center fs-6 fw-bold"
+                    style="background-color: var(--dark); color: white"
+                  >
+                    Document
+                  </th>
+                  <th
+                    class="text-center fs-6 fw-bold"
+                    style="background-color: var(--dark); color: white"
+                  >
+                    Status
+                  </th>
+                  <th
+                    class="text-center fs-6 fw-bold"
+                    style="background-color: var(--dark); color: white"
+                  >
+                    Action
+                  </th>
+                  <!-- <th class="text-left">Actions</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="text-center">
+                  <td>Good Moral / PSA</td>
+                  <td>{{ selectedStudent.psa }}</td>
+                  <td>
+                    <v-btn
+                      @click="openDocument"
+                      size="small"
+                      style="background-color: var(--dark); color: white"
+                    >
+                      <v-icon icon="mdi-eye" start></v-icon>
+                      View</v-btn
+                    >
+                  </td>
+                  <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+                </tr>
+                <tr class="text-center">
+                  <td>Form 137</td>
+                  <td>{{ selectedStudent.tor }}</td>
+                  <td>
+                    <v-btn
+                      @click="openDocument"
+                      size="small"
+                      style="background-color: var(--dark); color: white"
+                    >
+                      <v-icon icon="mdi-eye" start></v-icon>
+                      View</v-btn
+                    >
+                  </td>
+                  <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+                </tr>
+                <tr class="text-center">
+                  <td>Good Moral</td>
+                  <td>{{ selectedStudent.goodmoral }}</td>
+                  <td>
+                    <v-btn
+                      @click="openDocument"
+                      size="small"
+                      style="background-color: var(--dark); color: white"
+                    >
+                      <v-icon icon="mdi-eye" start></v-icon>
+                      View</v-btn
+                    >
+                  </td>
+                  <!-- <td @click="openViewFile(imgDocs.tor)" style="cursor: pointer; color: blue;">View</td> -->
+                </tr>
+              </tbody>
+            </v-table>
+          </v-col>
+        </v-row>
+      </v-card>
+    </div>
+  </v-container>
+  <!-- view user status modal pop -->
+  <!-- <v-dialog v-model="viewDialog" max-width="800px">
+    <v-card>
+      <v-card-title class="d-flex justify-space-between align-center">
+        <span class="text-h5 fw-bold m-1" style="color: #2f3f64">
+          STUDENT DETAILS
+        </span>
+        <v-btn icon @click="closeViewDialog" class="close-button">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
+      <v-card-text>
+        <v-container>
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1"
+                    >Student ID:</v-list-item-title
+                  >
+                  <v-list-item-subtitle>{{
+                    selectedStudent.student_id
+                  }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1"
+                    >Full Name:</v-list-item-title
+                  >
+                  <v-list-item-subtitle>{{
+                    students.full_name
+                  }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1"
+                    >Contact Number:</v-list-item-title
+                  >
+                  <v-list-item-subtitle>{{
+                    selectedStudent.contact_no
+                  }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1"
+                    >Birthplace:
+                  </v-list-item-title>
+                  <v-list-item-subtitle>{{
+                    selectedStudent.birth_place
+                  }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1"
+                    >Sex:
+                  </v-list-item-title>
+                  <v-list-item-subtitle>{{
+                    selectedStudent.sex_at_birth
+                  }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title class="text-subtitle-1"
+                    >Religion:
+                  </v-list-item-title>
+                  <v-list-item-subtitle>{{
+                    selectedStudent.religion
+                  }}</v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-col>
+
+            <hr />
+
+            <v-row>
+              <v-col cols="12" sm="4">
+                <v-list-item>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-subtitle-1"
+                      >Address:
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                      {{ selectedStudent.street }}
+                      {{ selectedStudent.barangay }},
+                      {{ selectedStudent.city }} {{ selectedStudent.province }}
+                      {{ selectedStudent.zip_code }}
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-col>
+            </v-row>
+          </v-row>
+        </v-container>
+      </v-card-text>
+    </v-card>
+  </v-dialog> -->
+  <!-- end view user status modal pop -->
+
 </template>
 
 <script>
 import axios from "axios";
-// import pdf from "vue-pdf";
 import Swal from "sweetalert2";
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
+import * as ExcelJS from 'exceljs';
 
 export default {
-  // components: {
-  //   pdf,
-  // },
   data: () => ({
+    download: null,
+    gradeLevels: [
+        'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6',
+        'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12',
+      ],
+    filterDialog: false,
+    search: "",
+    dialog: false,
+    dialogDelete: false,
+    viewDialog: false,
+    selectedStudent: {},
+    selectedFile: null,
+    props: [],
     editedItem: {
-      psa: null,
-      goodmoral: null,
-      tor: null,
-    },
-    valid: false,
-    student_lrn: "",
-    studentType: "",
-    firstname: "",
-    lastname: "",
-    middlename: "",
-    religion: "",
-    contactNumber: "",
-    sex: "",
-    birthdate: "",
-    email: "",
-    houseNumber: "",
-    street: "",
-    barangay: "",
-    city: "",
-    province: "",
-    zipCode: "",
-    region: "",
-    gradeLevel: "",
-    strand: "",
-    student_lrn: "",
-    nameRules: [
-      (value) => !!value || "Name is required.",
-      (value) =>
-        (value && value.length <= 30) ||
-        "Name must be less than 30 characters.",
-    ],
-    studentLrnRules: [
-      (value) => !!value || "Student LRN is required.",
-      (value) =>
-        (value && value.length <= 12) ||
-        "Student LRN must be 12 characters or less.",
-    ],
-    contactNumberRules: [
-      (value) => !!value || "Contact Number is required.",
-      (value) =>
-        (value && value.length <= 11) ||
-        "Contact Number must be less than 12 digit.",
-    ],
-    birthdateRules: [(value) => !!value || "Birthdate is required."],
-    emailRules: [
-      (value) => !!value || "E-mail is required.",
-      (value) => /.+@.+\..+/.test(value) || "E-mail must be valid.",
-    ],
-    houseNumberRules: [(value) => !!value || "House Number is required."],
-    streetRules: [(value) => !!value || "Street is required."],
-    barangayRules: [(value) => !!value || "Barangay is required."],
-    cityRules: [(value) => !!value || "City is required."],
-    provinceRules: [(value) => !!value || "Province is required."],
-    zipCodeRules: [(value) => !!value || "Zip Code is required."],
-    gradeLevels: ["7", "8", "9", "10", "11", "12"],
-    showStrand: false,
-    provinces: {
-      "REGION I (ILOCOS REGION)": [
-        "Ilocos Norte",
-        "Ilocos Sur",
-        "La Union",
-        "Pangasinan",
-      ],
-      "REGION II (CAGAYAN VALLEY)": [
-        "Batanes",
-        "Cagayan",
-        "Isabela",
-        "Nueva Vizcaya",
-        "Quirino",
-      ],
-      "REGION III (CENTRAL LUZON)": [
-        "Aurora",
-        "Bataan",
-        "Bulacan",
-        "Nueva Ecija",
-        "Pampanga",
-        "Tarlac",
-        "Zambales",
-      ],
-      "REGION IV-A(CALABARZON)": [
-        "Batangas",
-        "Cavite",
-        "Laguna",
-        "Quezon",
-        "Rizal",
-      ],
-      "REGION V(BICOL REGION)": [
-        "Albay",
-        "Camarines Norte",
-        "Camarines Sur",
-        "Catanduanes",
-        "Masbate",
-        "Sorsogon",
-      ],
-      "REGION VI(WESTERN VISAYAS)": [
-        "Aklan",
-        "Antique",
-        "Capiz",
-        "Guimaras",
-        "Iloilo",
-        "Negros Occidental",
-      ],
-      "REGION VII(CENTRAL VISAYAS)": [
-        "Bohol",
-        "Cebu",
-        "Negros Oriental",
-        "Siquijor",
-      ],
-      "REGION VIII (EASTERN VISAYAS)": [
-        "Biliran",
-        "Eastern Samar",
-        "Leyte",
-        "Northern Samar",
-        "Southern Leyte",
-        "Western Samar",
-      ],
-      "REGION IX (ZAMBOANGA PENINSULA)": [
-        "Zamboanga del Norte",
-        "Zamboanga del Sur",
-        "Zamboanga Sibugay",
-      ],
-      "REGION X (NORTHERN MINDANAO)": [
-        "Bukidnon",
-        "Camiguin",
-        "Lanao del Norte",
-        "Misamis Occidental",
-        "Misamis Oriental",
-      ],
-      "REGION XI (DAVAO REGION)": [
-        "Davao de Oro",
-        "Davao del Norte",
-        "Davao del Sur",
-        "Davao Occidental",
-        "Davao Oriental",
-      ],
-      "REGION XII (SOCCSKSARGEN)": [
-        "Cotabato",
-        "Sarangani",
-        "South Cotabato",
-        "Sultan Kudarat",
-      ],
-      "NATIONAL CAPITAL REGION (NCR)": [
-        "City of Manila",
-        "Caloocan",
-        "Las Piñas",
-        "Makati",
-        "Malabon",
-        "Mandaluyong",
-        "Manila",
-        "Marikina",
-        "Muntinlupa",
-        "Navotas",
-        "Parañaque",
-        "Pasig",
-        "Pateros",
-        "Quezon City",
-        "San Juan",
-        "Taguig",
-        "Valenzuela",
-      ],
-      "CORDILLERA ADMINISTRATIVE REGION": [
-        "Abra",
-        "Apayao",
-        "Benguet",
-        "Ifugao",
-        "Kalinga",
-        "Mountain Province",
-      ],
-      "AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)": [
-        "Basilan",
-        "Lanao del Sur",
-        "Maguindanao",
-        "Sulu",
-        "Tawi-Tawi",
-      ],
-      "REGION XIII (Caraga)": [
-        "Agusan del Norte",
-        "Agusan del Sur",
-        "Dinagat Islands",
-        "Surigao del Norte",
-        "Surigao del Sur",
-      ],
-    },
+      grade_level: "",
+      strand: "",
+    filter: {
+      selecedGrad: null
+    }
+  },
 
-    showStrand: false,
-    provinces: {
-      "REGION I (ILOCOS REGION)": [
-        "Ilocos Norte",
-        "Ilocos Sur",
-        "La Union",
-        "Pangasinan",
-      ],
-      "REGION II (CAGAYAN VALLEY)": [
-        "Batanes",
-        "Cagayan",
-        "Isabela",
-        "Nueva Vizcaya",
-        "Quirino",
-      ],
-      "REGION III (CENTRAL LUZON)": [
-        "Aurora",
-        "Bataan",
-        "Bulacan",
-        "Nueva Ecija",
-        "Pampanga",
-        "Tarlac",
-        "Zambales",
-      ],
-      "REGION IV-A(CALABARZON)": [
-        "Batangas",
-        "Cavite",
-        "Laguna",
-        "Quezon",
-        "Rizal",
-      ],
-      "REGION V(BICOL REGION)": [
-        "Albay",
-        "Camarines Norte",
-        "Camarines Sur",
-        "Catanduanes",
-        "Masbate",
-        "Sorsogon",
-      ],
-      "REGION VI(WESTERN VISAYAS)": [
-        "Aklan",
-        "Antique",
-        "Capiz",
-        "Guimaras",
-        "Iloilo",
-        "Negros Occidental",
-      ],
-      "REGION VII(CENTRAL VISAYAS)": [
-        "Bohol",
-        "Cebu",
-        "Negros Oriental",
-        "Siquijor",
-      ],
-      "REGION VIII (EASTERN VISAYAS)": [
-        "Biliran",
-        "Eastern Samar",
-        "Leyte",
-        "Northern Samar",
-        "Southern Leyte",
-        "Western Samar",
-      ],
-      "REGION IX (ZAMBOANGA PENINSULA)": [
-        "Zamboanga del Norte",
-        "Zamboanga del Sur",
-        "Zamboanga Sibugay",
-      ],
-      "REGION X (NORTHERN MINDANAO)": [
-        "Bukidnon",
-        "Camiguin",
-        "Lanao del Norte",
-        "Misamis Occidental",
-        "Misamis Oriental",
-      ],
-      "REGION XI (DAVAO REGION)": [
-        "Davao de Oro",
-        "Davao del Norte",
-        "Davao del Sur",
-        "Davao Occidental",
-        "Davao Oriental",
-      ],
-      "REGION XII (SOCCSKSARGEN)": [
-        "Cotabato",
-        "Sarangani",
-        "South Cotabato",
-        "Sultan Kudarat",
-      ],
-      "NATIONAL CAPITAL REGION (NCR)": [
-        "City of Manila",
-        "Caloocan",
-        "Las Piñas",
-        "Makati",
-        "Malabon",
-        "Mandaluyong",
-        "Manila",
-        "Marikina",
-        "Muntinlupa",
-        "Navotas",
-        "Parañaque",
-        "Pasig",
-        "Pateros",
-        "Quezon City",
-        "San Juan",
-        "Taguig",
-        "Valenzuela",
-      ],
-      "CORDILLERA ADMINISTRATIVE REGION": [
-        "Abra",
-        "Apayao",
-        "Benguet",
-        "Ifugao",
-        "Kalinga",
-        "Mountain Province",
-      ],
-      "AUTONOMOUS REGION IN MUSLIM MINDANAO (ARMM)": [
-        "Basilan",
-        "Lanao del Sur",
-        "Maguindanao",
-        "Sulu",
-        "Tawi-Tawi",
-      ],
-      "REGION XIII (Caraga)": [
-        "Agusan del Norte",
-        "Agusan del Sur",
-        "Dinagat Islands",
-        "Surigao del Norte",
-        "Surigao del Sur",
-      ],
-    },
-
-    instructions: [
-      {
-        icon: "mdi-account",
-        title: "Step 1: Personal Information",
-        details: [
-          "Enter your Learner Reference Number (LRN).",
-          "Fill out your last name, first name, and middle name accurately.",
-          "Select your gender from the options available (Male/Female).",
-          "Provide your date of birth in the correct format (MM/DD/YYYY).",
-          "Enter a valid email address where you can be contacted.",
-          "Specify your religion.",
-        ],
-      },
-      {
-        icon: "mdi-home",
-        title: "Step 2: Address Information",
-        details: [
-          "Provide your complete house number and street address.",
-          "Ensure these fields are filled with accurate details about your residence.",
-          "Enter the correct postal code for your area.",
-        ],
-      },
-      {
-        icon: "mdi-phone",
-        title: "Step 3: Contact Information",
-        details: [
-          "Provide a valid contact number where you or your guardian can be reached.",
-        ],
-      },
-      {
-        icon: "mdi-school",
-        title: "Step 4: Academic Information",
-        details: [
-          "Choose whether you are an incoming or returning student.",
-          "Select the grade level you are applying for. If you are entering Grade 11 or 12, select the strand (e.g., HUMSS, STEM) that applies to you.",
-        ],
-      },
-      {
-        icon: "mdi-check-circle",
-        title: "Step 5: Submission",
-        details: [
-          "After filling out all required fields, review your entries to ensure accuracy.",
-          'Click the "Submit" button to complete your pre-registration. Ensure that all the required documents are ready for submission to avoid any delays in processing your enrollment.',
-        ],
-      },
+    headers: [
+      // { title: "#", align: "start", key: "index" },
+      { title: "Student Lrn", align: "start", key: "student_lrn" },
+      { title: "Full Name", align: "center", key: "full_name" },
+      // { title: "Gender", align: "center", key: "sex_at_birth" },
+      { title: "Grade Level", align: "center", key: "grade_level" },
+      { title: "Student Status", align: "center", key: "student_type" },
+      { title: "Status", align: "center", key: "enrollment_status" },
+      // { title: "Actions", align: "center",sortable: false },
     ],
-    step: 1,
-    psaFile: null,
-    goodMoralFile: null,
-    torFile: null,
+
+    students: [],
+    editedIndex: -1,
+    editedItem: {
+      student_id: "",
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      extension: "",
+      contact_no: "",
+      birth_date: "",
+      sex_at_birth: "",
+      houseNumber: "",
+      religion: "",
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      street: "",
+      zip_code: "",
+      sy: "",
+      section: "",
+    },
+    defaultItem: {
+      student_id: "",
+      first_name: "",
+      last_name: "",
+      middle_name: "",
+      extension: "",
+      contact_no: "",
+      birth_date: "",
+      birth_place: "",
+      sex_at_birth: "",
+      houseNumber: "",
+      religion: "",
+      region: "",
+      province: "",
+      city: "",
+      barangay: "",
+      street: "",
+      zip_code: "",
+      year: "",
+      section: "",
+    },
+    hoverRow: null,
+    selectedRows: [],
+    filter: {
+        selectedGrade: "",
+      },
   }),
 
+  methods: {
+    prepareReport(format) {
+      if (format === 'PDF') {
+        this.generatePDF();
+      } else if (format === 'EXCEL') {
+        this.generateExcel();
+      }
+    }
+  },
+
   computed: {
-    filteredProvinces() {
-      return this.provinces[this.region] || [];
+    formTitle() {
+      return this.editedIndex === -1
+        ? "ADD STUDENT"
+        : "Edit Student Information";
     },
-    filteredProvinces() {
-      return this.provinces[this.region] || [];
-    },
-    showStrand() {
-      return this.gradeLevel === "11" || this.gradeLevel === "12";
+    displayedStudents() {
+      const searchTerm = this.search.toLowerCase();
+      return this.students.filter(
+        (student) => student.enrollment_status == "Pending"
+      );
     },
   },
 
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+
+        "editedItem.grade_level"(newGrade) {
+      if (["7", "8", "9", "10"].includes(newGrade)) {
+      }
+    },
+  },
+  watch: {
+    "editedItem.grade_level"(newGrade) {
+      if (["7", "8", "9", "10"].includes(newGrade)) {
+      }
+    },
+  },
+
+  mounted() {
+    this.initialize();
+  },
+
   methods: {
-    // type of data
-    handleFileUpload(type, event) {
+    toggleSelection(studentLrn, item) {
+      console.log(item);
+      this.selectedStudent = item;
+      const index = this.selectedRows.indexOf(studentLrn);
+      if (index > -1) {
+        this.selectedRows.splice(index, 1); // Deselect if already selected
+      } else {
+        this.selectedRows.push(studentLrn); // Select if not selected
+      }
+    },
+
+
+    initialize() {
+      axios
+        .get("student")
+        .then((res) => {
+          this.students = res.data.student.map((student) => ({
+            ...student,
+            full_name:
+              `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim(),
+            address:
+              `${student.houseNumber} ${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code} ${student.region}`.trim(),
+          }));
+        })
+        .catch((error) => {
+          console.error("Error fetching students:", error);
+        });
+    },
+    
+
+    triggerFileInput() {
+      this.$refs.fileInput.click();
+    },
+
+    handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
-        if (type === "psa") {
-          this.psaFile = file;
-        } else if (type === "goodmoral") {
-          this.goodMoralFile = file;
-        } else if (type === "tor") {
-          this.torFile = file;
-        }
+        this.selectedFile = file;
       }
     },
-
-    upload(type) {
-      if (
-        this.editedItem.tor ||
-        this.editedItem.psa ||
-        this.editedItem.goodmoral
-      ) {
-        const formData = new FormData();
-
-        formData.append("student_lrn", this.student_lrn);
-        let file = this.editedItem.psa ? this.psaFile
-          : this.editedItem.tor
-          ? this.torFile
-          : this.editedItem.goodmoral
-          ? this.goodMoralFile
-          : this.editedItem.psa;
-        console.log(file);
-        formData.append("image", file);
-        formData.append("file_type", type);
-
-        axios
-          .post("imageStud", formData, {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          })
-          .then((res) => {
-            this.viewDialog = false;
-            Swal.fire({
-              title: "Upload Success!",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-          })
-          .catch((error) => {
-            console.error(error.response);
-            let err = error.response.data;
-            Swal.fire({
-              icon: "error",
-              title: "Bad Request",
-              text: err.message,
-            });
-          });
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "No file is selected",
-          text: "Select file before upload.",
-        });
-      }
+    close() {
+      this.dialog = false;
+      this.selectedFile = null;
     },
 
-    async enroll() {
-      //     if (!this.psaFile || !this.torFile) {
-      //   Swal.fire({
-      //     icon: "error",
-      //     title: "Missing Files",
-      //     text: "Please upload both the TOR and PSA files before submitting the form.",
-      //   });
-      //   return; // di muna maipapasa kapag walang TOR at PSA na provided
-      // }
-      if(
-      this.student_lrn &&
-      this.firstname &&
-      this.lastname &&
-      this.sex &&
-      this.birthdate &&
-      this.email &&
-      this.region &&
-      this.province &&
-      this.city &&
-      this.barangay &&
-      this.street &&
-      this.houseNumber &&
-      this.zipCode &&
-      this.religion &&
-      this.contactNumber &&
-      this.strand &&
-      this.gradeLevel){
+    prepareReport(item) {
+      this.reportType = item;
+      this.filterDialog = true; // Open the filter dialog
+    },
+    
+    prepareReport(type) {
+      this.reportType = type;
+      this.filterDialog = true;
+    },
 
+    openViewDialog(item) {
+      this.selectedStudent = item;
+      this.viewDialog = true;
+    },
 
-      const result = await Swal.fire({
+    closeViewDialog() {
+      console.log("selectedStudent:", this.selectedStudent); // Check the value of selectedStudent
+      this.viewDialog = false;
+      // Clear the selected student data
+    },
+
+    editItem(item) {
+      this.editedIndex = this.students.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+
+    archiveItem(item) {
+      this.editedIndex = this.students.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+
+    assessItem(item, action) {
+      this.editedIndex = this.students.indexOf(item);
+      console.log(this.editedIndex);
+      Swal.fire({
         title: "Are you sure?",
-        text: "Please review your information before submitting the form to ensure all fields are correctly filled out.",
+        text: "",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
         cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, save changes!",
+        confirmButtonText: "Yes, " + action + " it!",
         customClass: {
           container: "sweet-alert-container",
         },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (action === "Confirm") {
+            axios
+              .put(`student/editstat/${item.student_recno}`, {
+                enrollment_status: "Verified",
+              })
+              .then((res) => {
+                console.log(res.data);
+                Swal.fire({
+                  title: "Approved!",
+                  text: "Your action has been approved.",
+                  icon: "success",
+                });
+                setTimeout(() => {
+                  window.location.reload();
+                }, 3000); //
+              })
+              .catch((err) => {
+                console.error(err);
+              });
+          }
+        }
       });
+    },
 
-      if (result.isConfirmed) {
-        const data = {
-          student_lrn: this.student_lrn,
-          first_name: this.firstname,
-          middle_name: this.middlename,
-          last_name: this.lastname,
-          extension: this.extension,
-          sex_at_birth: this.sex,
-          birth_date: this.birthdate,
-          email: this.email,
-          region: this.region,
-          province: this.province,
-          city: this.city,
-          barangay: this.barangay,
-          street: this.street,
-          houseNumber: this.houseNumber,
-          zip_code: this.zipCode,
-          religion: this.religion,
-          contact_no: this.contactNumber,
-          strand: this.strand ? this.strand : "N/A",
-          grade_level: this.gradeLevel,
-        };
+    deleteItemConfirm() {
+      this.students.splice(this.editedIndex, 1);
+      this.closeDelete();
+    },
+
+    close() {
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    save() {
+      console.log(this.editedItem);
+      if (this.editedIndex > -1) {
+        Object.assign(this.students[this.editedIndex], this.editedItem);
+      } else {
+        let tmp = this.editedItem;
+        this.students.push(this.editedItem);
+        tmp.image = this.selectedFile;
+        // console.log(this.tmp);
         axios
-          .post("student", data)
+          .post("student", tmp)
           .then((res) => {
+            console.log(res);
             Swal.fire({
               title: "Approved!",
               text: "Your action has been approved.",
               icon: "success",
-            })
-              .then(() => {
-                // Navigate to the third step after successful submission
-                this.step = 3;
-              })
-              .then(() => {
-                // Navigate to the third step after successful submission
-                this.step = 3;
-              });
+            });
           })
           .catch((error) => {
             console.error(error);
           });
       }
-      // Save changes logic here
-      this.editDialog = false;
-      } else{
-        Swal.fire({
-          title: "Missing field inputs!",
-          text: "Please fill out missing fields",
-          icon: "warning",
-        })
+      this.close();
+    },
+
+    goView() {
+      this.$router.push("/viewdetails");
+    },
+
+    handleViewIconClick(item) {
+      this.$emit("view-student", item);
+    },
+    getStatusColor(status) {
+      if (status === "Verified") {
+        return "#6EACDA"; // Set color to yellow if status is 'pending'
+      } else if (status === "Assessed") {
+        return "#FFAD60"; // Set color to green if status is 'enrolled'
+      } else if (status === "Pending") {
+        return "#FFB200"; // Default color
+      } else {
+        return "grey";
       }
     },
+
+    prepareReport(type) {
+          this.reportType = type;
+          this.filterDialog = true; 
+        },
+
+    async generateReport() {
+      if (this.reportType === 'PDF') {
+        await this.downloadPDF();
+      } else if (this.reportType === 'EXCEL') {
+        await this.downloadXLS();
+      }
+      this.filterDialog = false;
+    },
+
+
+    async downloadXLS() {
+    try {
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Student Report');
+
+
+        const imageResponse = await fetch('/src/assets/SNA Logo no BG.png');
+        const imageBlob = await imageResponse.blob();
+        const imageBase64 = await this.blobToBase64(imageBlob);
+
+        const imageId = workbook.addImage({
+            base64: imageBase64,
+            extension: 'png',
+        });
+        worksheet.addImage(imageId, {
+            tl: { col: 0, row: 0 },
+            ext: { width: 150, height: 150 },
+            editAs: "absolute",
+        });
+
+        worksheet.mergeCells('A2:E2');
+        worksheet.getCell('A2').value = 'Saint Nicholas Academy';
+        worksheet.getCell('A2').alignment = { vertical: 'middle', horizontal: 'center' };
+        worksheet.getCell('A2').font = { size: 16, bold: true };
+
+
+        worksheet.mergeCells('A3:E3');
+        worksheet.getCell('A3').value = 'Address';
+        worksheet.getCell('A3').alignment = { vertical: 'middle', horizontal: 'center' };
+        worksheet.getCell('A3').font = { size: 12 };
+
+
+        worksheet.mergeCells('A4:E4');
+        worksheet.getCell('A4').value = 'Contact No';
+        worksheet.getCell('A4').alignment = { vertical: 'middle', horizontal: 'center' };
+        worksheet.getCell('A4').font = { size: 12 };
+
+
+        worksheet.mergeCells('A5:E5');
+        worksheet.getCell('A5').value = `As of: ${new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Manila', year: 'numeric', month: 'long', day: 'numeric' })}`;
+        worksheet.getCell('A5').alignment = { vertical: 'middle', horizontal: 'center' };
+        worksheet.getCell('A5').font = { size: 12 };
+
+        worksheet.addRow([]);
+
+
+        worksheet.getRow(8).values = [
+            'Student LRN',
+            'Full Name',
+            'Grade Level',
+            'Student Status',
+            'Status'
+        ];
+    
+        worksheet.getRow(9).eachCell((cell) => {
+            cell.font = { bold: true, color: { argb: 'FFFFFFFF' } };
+            cell.fill = {
+                type: 'pattern',
+                pattern: 'solid',
+                fgColor: { argb: 'FF4F81BD' }
+            };
+            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+            cell.border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' },
+            };
+        });
+
+        worksheet.columns = [
+            { key: 'student_lrn', width: 20 },
+            { key: 'full_name', width: 30 },
+            { key: 'grade_level', width: 15 },
+            { key: 'student_type', width: 20 },
+            { key: 'enrollment_status', width: 15 },
+        ];
+
+        // Add rows with alternating colors starting from row 14
+        this.displayedStudents.forEach((student, index) => {
+            const row = worksheet.addRow({
+                student_lrn: student.student_lrn,
+                full_name: student.full_name,
+                grade_level: student.grade_level,
+                student_type: student.student_type,
+                enrollment_status: student.enrollment_status,
+            });
+
+            const fillColor = index % 2 === 0 ? 'FFDBE5F1' : 'FFFFFFFF'; // Alternating row color
+            row.eachCell((cell) => {
+                cell.fill = {
+                    type: 'pattern',
+                    pattern: 'solid',
+                    fgColor: { argb: fillColor }
+                };
+                cell.border = {
+                    top: { style: 'thin' },
+                    left: { style: 'thin' },
+                    bottom: { style: 'thin' },
+                    right: { style: 'thin' },
+                };
+                cell.alignment = { vertical: 'middle', horizontal: 'center' };
+            });
+        });
+
+        worksheet.views = [{ state: 'frozen', ySplit: 9 }];
+
+        // Create a buffer and save the Excel file
+        const buffer = await workbook.xlsx.writeBuffer();
+        const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'Student_Report.xlsx';
+        link.click();
+        window.URL.revokeObjectURL(url);
+
+        Swal.fire({
+            title: 'Download Success!',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+    } catch (error) {
+        console.error('Error in downloadXLS:', error);
+    }
+},
+
+
+    async  downloadPDF() {
+      const doc = new jsPDF();
+
+      const imageResponse = await fetch('/src/assets/SNA Logo no BG.png');
+      const imageBlob = await imageResponse.blob();
+      const imageBase64 = await this.blobToBase64(imageBlob);
+
+      // Add the image
+      doc.addImage(imageBase64, 'PNG', 25, 10, 40, 40); 
+
+
+      // Add the school name and other info
+      doc.setFontSize(12);
+      doc.text('Saint Nicholas Academy', 105, 20, null, null, 'center');
+      doc.setFontSize(12);
+      doc.text('Address', 105, 30, null, null, 'center');
+      doc.text('Contact No', 105, 35, null, null, 'center');
+      doc.text(`As of: ${new Date().toLocaleDateString('en-US', { timeZone: 'Asia/Manila', year: 'numeric', month: 'long', day: 'numeric' })}`, 105, 40, null, null, 'center');
+
+
+      // Create table data
+      const tableData = this.displayedStudents.map(student => [
+        student.student_lrn,
+        student.full_name,
+        student.grade_level,
+        student.student_type,
+        student.enrollment_status,
+      ]);
+
+      // Define table columns
+      const tableColumns = [
+        { header: "Student LRN", dataKey: "student_lrn" },
+        { header: "Full Name", dataKey: "full_name" },
+        { header: "Grade Level", dataKey: "grade_level" },
+        { header: "Student Status", dataKey: "student_type" },
+        { header: "Status", dataKey: "enrollment_status" },
+      ];
+
+      // Add a table to the PDF
+      doc.autoTable({
+        head: [tableColumns.map(col => col.header)],
+        body: tableData,
+        startY: 60, // Adjust the Y position to avoid overlap with title
+        styles: {
+          fontSize: 10,
+          cellPadding: 5,
+        },
+        margin: { horizontal: 14 },
+      });
+
+      // Save the PDF
+      doc.save("Student_Report.pdf");
+
+      Swal.fire({
+          title: 'Download Success!',
+          icon: 'success',
+          confirmButtonText: 'OK'
+        });
+    },
+
+    blobToBase64(blob) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(',')[1]); // Split to get base64 part
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  },
+  
+
   },
 };
+
 </script>
 
 <style lang="scss" scoped>
-.fileinput {
-  width: 12vh !important;
-}
-.v-card-title {
+.studentInfCon {
   display: flex;
-  align-items: center; /* Align items vertically */
-  font-size: 1.5rem;
+  gap: 2rem;
+  .studentTable {
+    flex: 0.5;
+  }
+  .studentInfo {
+    flex: 0.5;
+  }
+}
+.v-data-table {
+  height: 100%;
+}
+
+.student-popup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.v-card-title {
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 0.5rem;
+}
+
+.v-list-item-title {
   font-weight: bold;
 }
 
-.title-icon {
-  font-size: 4rem; /* Adjust icon size if needed */
-  color: var(--dark); /* Color for the icon */
+.v-list-item-subtitle {
+  font-size: 1rem;
+  color: #2f3f64;
 }
 
-.title-text {
-  font-size: 1.8rem; /* Increase the title size */
-  font-weight: bold;
-  color: var(--dark); /* Title color */
+.close-button:hover {
+  color: red;
 }
 
-.instructions {
-  font-size: 1.2rem; /* Increase the instruction text size */
-  line-height: 1.6;
+.button-container {
+  // display: flex;
+  gap: 7px;
+  align-items: center;
+}
+.button-container .v-btn:nth-child(1) {
+  left: 0;
+}
+.button-container .v-btn:nth-child(2) {
+  left: calc(100% / 50);
+}
+.button-container .v-btn:nth-child(3) {
+  left: calc(200% / 50);
+}
+// .search{
+//   width: 12vh;
+// }
+.v-table__wrapper {
+  font-size: 0.6rem;
+  .v-data-table-header__content {
+    span {
+      font-size: 12px !important;
+    }
+  }
 }
 
-.mb-5 {
-  margin-bottom: 3rem !important;
+.studentInfo {
+  padding: 16px;
 }
 
-h4 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--dark); /* Title color */
-}
-
-.stepper-card {
-  background-color: #f7f7f7;
-  padding: 2rem;
+.v-card {
+  background-color: #f9f9f9;
   border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-ul {
-  padding-left: 1.5rem;
+.v-divider {
+  border-color: #e0e0e0;
 }
 
-li {
-  margin-bottom: 0.75rem;
+.v-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.v-table th,
+.v-table td {
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.v-table th {
+  background-color: #f1f1f1;
+  text-align: left;
+}
+
+.v-table td {
+  background-color: #ffffff;
+}
+
+.v-table tr:hover td {
+  background-color: #f5f5f5;
+  transition: background-color 0.3s ease;
 }
 </style>

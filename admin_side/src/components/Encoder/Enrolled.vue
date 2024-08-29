@@ -306,17 +306,24 @@
       </v-card>
     </div>
 
-    <v-dialog v-model="viewFileDialog" max-width="1000px">
+    <v-dialog v-model="viewFileDialog" max-width="800px">
     <v-card>
-      <v-card-title style="background-color: var(--dark);color: white;">DOCUMENT</v-card-title>
+      <v-card-title class="d-flex justify-space-between align-center" style="background-color: var(--dark); color: white">
+        <span class="fs-5 font-weight-black">DOCUMENT</span>
+        <v-btn
+          icon
+          @click="closeViewFile"
+          class="red--text"
+        >
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </v-card-title>
       <v-card-text>
+        <v-img :src="fileUrl" height="600px" contain></v-img>
       </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn @click="viewFileDialog = false" class="bg-red">Close</v-btn>
-      </v-card-actions>
     </v-card>
   </v-dialog>
+
   </v-container>
 
 
@@ -456,24 +463,23 @@ export default {
 
   methods: {
     initialize() {
-      axios.get("student").then((res) => {
-        let tmp = res.data;
-        this.students = tmp.student;
-        console.log(this.students);
-
-        // Format full name and adjust strand property
-        this.students.forEach((student) => {
-          // Format full name
-          student.full_name =
-            `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`.trim();
-          student.address =
-          `${student.houseNumber} ${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code} ${student.region}`.trim();
-          // Check grade level and adjust strand property
-          if (student.grade_level <= 10) {
-            delete student.strand;
-          }
-        });
-      });
+      axios
+        .get("student")
+        .then((res) => {
+          this.students = res.data.student.map((student) => ({
+            ...student,
+            full_name: `${student.first_name} ${(student.middle_name ?? ' ')} ${student.last_name} ${(student.extension ?? ' ')}`,
+            address:
+              `${student.houseNumber} ${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code} ${student.region}`.trim(),
+            image: student.image.map((image) => ({
+              docuType: image.file_type,
+              image: `http://localhost:8000/uploads/profile/${image.image}`,
+              // image: `http://192.168.16.165:8000/uploads/profile/${image.image}`,
+              // image: `http://localhost:8000/uploads/profile/${image.image}`,
+              // image: `http://26.81.173.255:8000/uploads/profile/${image.image}`,
+            })),
+          }));
+        })
     },
 
     toggleSelection(studentLrn, item) {
@@ -485,6 +491,28 @@ export default {
       } else {
         this.selectedRows.push(studentLrn); // Select if not selected
       }
+
+      this.selectedStudent = item;
+
+        // Initialize imgDocs with null values for each document type
+        this.imgDocs = {
+            tor: null,
+            psa: null,
+            goodmoral: null
+        };
+
+        // Map through item.image to populate imgDocs
+        item.image.forEach(res => {
+            if (res.docuType === "TOR") {
+                this.imgDocs.tor = res.image;
+            } else if (res.docuType === "PSA") {
+                this.imgDocs.psa = res.image;
+            } else if (res.docuType === "Good Moral") {
+                this.imgDocs.goodmoral = res.image;
+            }
+        });
+
+        console.log(this.imgDocs);
     },
 
     async getFaculty(){
@@ -530,6 +558,7 @@ export default {
       // this.fileUrl = fileUrl;
       this.viewFileDialog = true;
       this.fileUrl = fileUrl || BGImage;
+      
     },
     save() {
       console.log(this.selectedFile);

@@ -1,5 +1,5 @@
 <template>
-    <v-card flat class="stepper-card">
+    <v-card style="height: 60vh;">
         <v-card-title>
             <v-icon class="mr-2">mdi-book-open</v-icon>
             <span class="card-title fw-bold fs-3"
@@ -8,7 +8,7 @@
         </v-card-title>
         <hr>
         <div class="pa-1">
-            <v-card-text class="instructions" style="max-width: 1000px">
+            <v-card-text class="instructions" style="max-width: 1000px; ">
             <!-- New Instructions Content -->
             <div
                 v-for="(instruction, index) in instructions"
@@ -93,9 +93,6 @@ export default{
 
 
 <style lang="scss" scoped>
-.pa-1{
-  overflow:auto;
-}
 
 .sweet-alert-container{
   z-index: 999;
@@ -122,6 +119,7 @@ export default{
 }
 
 .instructions {
+  height: 50vh;
   overflow-y: auto;
   font-size: 1.2rem; /* Increase the instruction text size */
   line-height: 1.6;
@@ -137,11 +135,6 @@ h4 {
   color: var(--dark); /* Title color */
 }
 
-.stepper-card {
-  background-color: #f7f7f7;
-  padding: 2rem;
-  border-radius: 8px;
-}
 
 ul {
   padding-left: 1.5rem;

@@ -16,9 +16,8 @@
                   class="text-h6 font-weight-black"
                   style="color: #2f3f64"
                 >
-                  SCHEDULE
+                  SECTION LIST
                 </v-toolbar-title>
-                <v-spacer></v-spacer>
                 <v-select
                   clearable
                   label="Grade Level"
@@ -45,174 +44,75 @@
         </template>
   
         <template v-slot:item="{ item, props }">
-          <tr @click="handleRowClick(item)" v-bind="props">
+          <tr @click="handleRowClick(item)" v-bind="props" class="selectrow">
             <td class="text-center">{{ item.grade_level }}</td>
             <td class="text-center">{{ item.section }}</td>
             <td class="text-center" style="padding: 1rem">{{ item.strand }}</td>
             <td class="text-center">{{ item.adviser.full_name }}</td>
-            <td class="text-center"><v-btn text @click="openAddDialog(item)" class="bg-green" color="white">ADD</v-btn></td>
           </tr>
         </template>
       </v-data-table>
       
       <div class="right">
-        <!-- toolbar  -->
-        <v-data-table
-        :headers="headers2"
-        :items="documentlist  "
-        :search="search"
-        :sort-by="[{ key: 'section', order: 'asc' }]"
-        style=" border:3px solid var(--dark);border-radius: 3px;"
-  
-      >
-        <template v-slot:top>
-          <v-menu transition="scale-transition">
-            <template v-slot:activator="{ props }">
-              <v-toolbar flat class="pt-2">
-                <v-toolbar-title
-                  class="text-h6 font-weight-black"
-                  style="color: #2f3f64"
-                >
-                  SCHEDULE DETAILS
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-                <div style="width: 19vw;">
-            <v-text-field
-              v-model="search"
-              class="search mr-3"
-              density="compact"
-              label="Search"
-              prepend-inner-icon="mdi-magnify"
-              variant="solo-filled"
-              flat
-              hide-details
-              single-line
-            ></v-text-field>
+            <div  style=" border:3px solid var(--dark);border-radius: 3px;" >
+            <div v-if="secName">
+
+              <!-- <h1>HELLO WORLD</h1> -->
+              <!-- toolbar  -->
+              <v-menu transition="scale-transition">
+                  <template v-slot:activator="{ props }">
+                    <v-toolbar flat class="pt-2">
+                      <v-toolbar-title
+                        class=" font-weight-black"
+                        style="color: #2f3f64;"
+                      >
+                        {{ secName}}
+                        SCHEDULE  DETAILS
+                      </v-toolbar-title>
+                      <div style="width: 12vw;">
+                        <v-text-field
+                          v-model="search"
+                          class="search mr-3"
+                          density="compact"
+                          label="Search"
+                          prepend-inner-icon="mdi-magnify"
+                          variant="solo-filled"
+                          flat
+                          hide-details
+                          single-line
+                        ></v-text-field>
+                        
+                      </div>
+                    </v-toolbar>
+                  </template>
+                </v-menu>
+
+                  <v-data-table 
+                  :headers="headers2"
+                  :items="documentlist  "
+                  :search="search"
+                  :sort-by="[{ key: 'section', order: 'asc' }]"
+                  style="height: 60vh;"
             
-          </div>
-              </v-toolbar>
-            </template>
-          </v-menu>
-        </template>
-  
-      <!-- Data Table -->
-
-        <!-- Table Data -->
-         
-        <template v-slot:item="{ item }">
-          <tr>
-            <td style="padding: 1rem">{{ item.classcode }}</td>
-            <td>{{ item.class_desc }}</td>
-            <td>{{ item.day }}</td>
-            <td>{{ item.time }}</td>
-            <td>{{ item.section }}</td>
-            <td>{{ item.adviser }}</td>
-          </tr>
-        </template>
-      </v-data-table>
-  </div>
-    <!-- <ViewScheduleRight v-if="currentItem" :selectedItem="currentItem" /> -->
-
-    <!-- View Dialog -->
-    <!-- <v-dialog v-model="viewDialog" max-width="1000px">
-      <v-card>
-        <v-card-title style="background-color: var(--dark)">
-          <span class="fs-5 fw-bold m-2" style="color: white">VIEW SCHEDULE</span>
-        </v-card-title>
-
-        <v-container>
-          <ViewSchedule :section-id="currentItem.section" />
-        </v-container>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn text @click="viewDialog = false" class="bg-red" color="white">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
-
-    <!-- Add Dialog
-    <v-dialog v-model="addDialog" max-width="600px">
-      <v-card>
-        <v-card-title style="background-color: var(--dark)">
-          <span class="fs-5 fw-bold m-2" style="color: white">ADD SCHEDULE</span>
-        </v-card-title>
+                >
         
-        <v-card-text>
-
-          <v-form ref="form">
-            Grade Level
-             <v-row dense>
-              <v-col cols="6">
-                <v-select
-                  v-model="newItem.grade"
-                  :items="gradeLevels"
-                  label="Grade Level"
-                  class="mr-2 m-auto"
-                  readonly
-                ></v-select>
-
-              </v-col>
-              <v-col cols="6">
-                 Room
-            <v-text-field
-              v-model="newItem.section"
-              label="Section"
-              readonly
-            ></v-text-field>
-
-
-              </v-col>
-             </v-row>
-            <v-row dense>
-              <v-col cols="6">
-                <v-select
-                v-model="newItem.subject"
-                :items="juniorSubjects"
-                item-text="title"
-                item-value="value"
-                label="Subject"
-                class="mr-2 m-auto"
-                required
-              ></v-select>
-
-              </v-col>
-              <v-col cols="6">
-                Time
-                <v-select
-                  v-model="newItem.time"
-                  :items="schedtime"
-                  label="Time"
-                  class="mr-2 m-auto"
-                  required
-                ></v-select>
-              </v-col>
-            </v-row>
-
-            Room
-            <v-text-field
-              v-model="newItem.room "
-              label="Room"
-              required
-            ></v-text-field>
-
-            Faculty
-            <v-select
-              v-model="newItem.faculty"
-              :items="facultyName"
-              item-text="title"
-              item-value="value"
-              label="Faculty"
-              class="mr-2 m-auto"
-            ></v-select>
-          </v-form>
-        </v-card-text>
-        <v-card-actions>
-          <v-btn text @click="addNewSchedule" class="bg-green" color="white">Add</v-btn>
-          <v-spacer></v-spacer>
-          <v-btn text @click="addDialog = false" class="bg-red" color="white">Close</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog> -->
+                <template v-slot:item="{ item }">
+                  <tr>
+                    <td style="padding: 1rem">{{ item.classcode }}</td>
+                    <td>{{ item.class_desc }}</td>
+                    <td>{{ item.day }}</td>
+                    <td>{{ item.time }}</td>
+                    <td>{{ item.section }}</td>
+                    <td>{{ item.adviser }}</td>
+                  </tr>
+                </template>
+              </v-data-table>
+            </div>
+            <div v-else>
+                <h1>NO SECTION SELECTEDs</h1>
+            </div>
+        </div>
+      </div>
 </v-container>
 
 <v-dialog v-model="addDialog" max-width="600px">
@@ -390,6 +290,7 @@ export default {
       allFaculty: [],
       facultyName: [],
       selectedSTud: [],
+      secName:"",
       viewDialog: false,
       addDialog: false,
       currentItem: null,
@@ -521,6 +422,7 @@ export default {
 
     handleRowClick(item) {
       console.log(item.section);
+      this.secName = item.section.toUpperCase();
       this.selectedSTud = item.section;
       axios.get(`getSched/${this.selectedSTud}`).then(res => {
         this.documentlist = res.data.sched.map((sched)=>({
@@ -590,7 +492,7 @@ export default {
             };
             Swal.fire({
               icon: "error",
-              title: err.Message,
+              title: err.message,
               text: `${err.status} ${error.response.statusText}`,
             });
           });
@@ -640,7 +542,10 @@ export default {
       padding: 1rem;
     }
   }
-  
+  .selectrow:hover{
+    background-color: rgb(241, 241, 241);
+    transition: .1s ease-in;
+  }
 
   .icon {
     text-align: center;

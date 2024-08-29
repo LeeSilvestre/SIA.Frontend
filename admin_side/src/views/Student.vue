@@ -63,6 +63,7 @@
   }
   
   .student-table {
+    height: 82vh;
     border-radius: 10px;
     background-color: #f0f0f0;
     padding: 0.5rem;

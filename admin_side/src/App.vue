@@ -83,6 +83,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Inter';
+    // max-height: 100vh;
     
 }
 
@@ -146,7 +147,7 @@ button {
     }
     .maincont{
       overflow: auto;
-      margin-top: 10vh;
+      margin-top: 8vh;
       width: 100%;
       ::-webkit-scrollbar{
         display: none;
