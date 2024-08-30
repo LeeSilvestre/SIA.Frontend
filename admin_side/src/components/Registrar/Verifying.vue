@@ -557,7 +557,7 @@
   </v-dialog>
 
   <!-- viewing of files -->
-  <v-dialog v-model="viewFileDialog" max-width="800px">
+  <v-dialog v-model="viewFileDialog" max-width="1000px">
     <v-card>
       <v-card-title class="d-flex justify-space-between align-center" style="background-color: var(--dark); color: white">
         <span class="fs-5 font-weight-black">DOCUMENT</span>
@@ -570,7 +570,19 @@
         </v-btn>
       </v-card-title>
       <v-card-text>
-        <v-img :src="fileUrl" height="600px" contain></v-img>
+        <div v-if="fileUrl.psaf && fileUrl.psab" style="display: flex; gap: 1rem;">
+          <div style="flex: 0.5;">
+            <h3>Front</h3>
+            <v-img :src="fileUrl.psaf" height="600px" contain></v-img>
+          </div>
+          <div style="flex: 0.5;">
+            <h3>back</h3>
+            <v-img :src="fileUrl.psab" height="600px" contain></v-img>
+          </div>
+        </div>
+        <div v-else>
+          <v-img :src="fileUrl" height="600px" contain></v-img>
+        </div>
       </v-card-text>
     </v-card>
   </v-dialog>
@@ -740,20 +752,27 @@ export default {
 
       this.imgDocs = {
         tor: null,
-        psa: null,
+        psa:{
+          psaf: null,
+          psab: null,
+        },
         goodmoral: null,
       };
 
+      
       // Map through item.image to populate imgDocs
       item.image.forEach((res) => {
         if (res.docuType === "TOR") {
           this.imgDocs.tor = res.image;
-        } else if (res.docuType === "PSA") {
-          this.imgDocs.psa = res.image;
+        } else if (res.docuType === "PSAF") {
+          this.imgDocs.psa.psaf = res.image;
+        } else if( res.docuType=== "PSAB"){
+          this.imgDocs.psa.psab = res.image;
         } else if (res.docuType === "Good Moral") {
           this.imgDocs.goodmoral = res.image;
         }
       });
+
 
 
       this.selectedStudent = item;
