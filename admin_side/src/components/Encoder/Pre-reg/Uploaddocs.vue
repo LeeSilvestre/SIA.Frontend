@@ -93,36 +93,25 @@
               </v-card>
             </v-window-item>
 
-            <v-window-item :value="3" style="height: 50vh;">
-              <v-card style=" display: flex; align-items: center; justify-content: center;">
-                
+            <v-window-item :value="3">
+              <v-card>
                 <v-card-text>
                   <v-row>
-                    <v-col cols="6" style="display: flex; flex-direction: column; align-items: center;">
-                    <div class="academic" style="border-bottom: 2px solid var(--dark)">
-                      <h1 class="fw-bold fs-4 d-flex align-items-center mb-4" style="color: var(--dark)">
-                        <v-icon class="mr-2" style="color: var(--dark)">mdi-image</v-icon>
-                        Front side
-                      </h1>
-                    </div>
-                    <div style="overflow: auto; height: 100%;">
-                      <Dropzone @file-dropped="handleFileUpload('psa', $event)" />
+                    <v-col cols="12" sm="8">
+                      <Dropzone @file-dropped="handleFileUpload('goodmoral', $event)" />
+                    </v-col>
+                    <v-col cols="12" sm="4" class="d-flex align-items-center mb-4">
+                      <span>Filename: {{ editedItem.goodmoral ? editedItem.goodmoral.name : '' }}</span>
                       <v-file-input
-                        v-model="editedItem.psa"
-                        label="PSA/Birth Certificate"
+                        v-model="editedItem.goodmoral"
+                        label="Good Moral"
                         counter
                         accept=".jpg, .jpeg, .png"
                         show-size
                         class="flex-grow-1"
                         variant="outlined"
-                        :disabled="!psaFile"
-                        ></v-file-input>
-                        
-                        <v-btn :disabled="!psaFile" @click="upload('psa')" class="ml-4 bg-green mb-4">Upload</v-btn>
-                    </div>
-                  </v-col>
-                    <v-col cols="12" sm="8">
-                      
+                        :disabled="!goodMoralFile"
+                      ></v-file-input>
 
                       <v-btn :disabled="!goodMoralFile" @click="upload('goodmoral')" class="ml-4 bg-green mb-4">Upload</v-btn>
                     </v-col>
