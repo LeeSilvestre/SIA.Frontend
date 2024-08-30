@@ -713,8 +713,8 @@ export default {
             image: student.image.map((image) => ({
               docuType: image.file_type,
               // image: `http://192.168.16.165:8000/uploads/profile/${image.image}`,
-              image: `http://localhost:8000/uploads/profile/${image.image}`,
-              // image: `http://localhost:8000/uploads/profile/${image.image}`,
+              image: `http://192.168.181.165:8000/uploads/profile/${image.image}`,
+              // image: `http://192.168.181.165:8000/uploads/profile/${image.image}`,
             })),
             password: `${student.last_name}SNA${year}`,
           }));

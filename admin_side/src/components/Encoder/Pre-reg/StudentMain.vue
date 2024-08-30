@@ -2,25 +2,25 @@
 <template>
   <v-stepper v-model="step">
     <v-stepper-header>
-      <v-stepper-item
-        title="Guidelines"
-        :value="1"
-        complete
-      ></v-stepper-item>
+      <v-stepper-item :value="1">
+        <v-icon class="mr-2 fs-3" style="color: var(--dark)">mdi-book-open</v-icon>
+        <span class="card-title fw-bold fs-5" style="color: var(--dark)">Guidlines</span>
+      </v-stepper-item>
 
       <v-divider></v-divider>
 
-      <v-stepper-item
-        title="Personal Information"
-        :value="2"
-      ></v-stepper-item>
+      <v-stepper-item :value="2">
+      <v-icon class="mr-2 fs-3" style="color: var(--dark)">mdi-form-textbox</v-icon>
+      <span class="card-title fw-bold fs-5" style="color: var(--dark)">Pre-registration Form</span></v-stepper-item>
 
       <v-divider></v-divider>
 
-      <v-stepper-item
-        title="Document Uploading"
-        :value="3"
-      ></v-stepper-item>
+      <v-stepper-item :value="3" >
+        <h1 class="card-title fw-bold fs-5" style="color: var(--dark)">
+          <v-icon class="mr-2" style="color: var(--dark)">mdi-school</v-icon>
+          Initial File Uploading
+        </h1>
+    </v-stepper-item>
     </v-stepper-header>
     <v-divider></v-divider>
   </v-stepper>
@@ -33,16 +33,8 @@
 
       <v-window-item :value="2">
         <v-card style="height: 60vh; "  >
-
-          <v-card-title>
-            <v-icon class="mr-2">mdi-form-textbox</v-icon>
-            <span class="card-title fw-bold fs-3">PRE-REGISTRATION FORM</span>
-          </v-card-title>
-
-          <v-divider></v-divider>
-
           <v-card-text>
-            <v-form v-model="valid" ref="form" style="overflow-y: auto; height: 50vh;"> 
+            <v-form v-model="valid" ref="form" style="overflow-y: auto; height: 60vh;"> 
               <v-container>
                 <div class="academic">
                   <h1 class="fw-bold fs-4 d-flex align-items-center mb-3" style="color: var(--dark)" >

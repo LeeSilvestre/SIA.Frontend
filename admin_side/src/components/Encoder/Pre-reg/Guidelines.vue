@@ -2,9 +2,7 @@
     <v-card style="height: 60vh;">
         <v-card-title>
             <v-icon class="mr-2">mdi-book-open</v-icon>
-            <span class="card-title fw-bold fs-3"
-            >PRE-REGISTRATION INSTRUCTIONS</span
-            >
+            <span class="card-title fw-bold fs-3">PRE-REGISTRATION INSTRUCTIONS</span>
         </v-card-title>
         <hr>
         <div class="pa-1">

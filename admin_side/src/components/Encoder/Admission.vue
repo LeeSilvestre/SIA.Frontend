@@ -512,9 +512,9 @@ export default {
               `${student.houseNumber} ${student.street} ${student.barangay} ${student.city} ${student.province} ${student.zip_code} ${student.region}`.trim(),
             image: student.image.map((image) => ({
               docuType: image.file_type,
-              image: `http://localhost:8000/uploads/profile/${image.image}`,
+              image: `http://192.168.181.165:8000/uploads/profile/${image.image}`,
               // image: `http://192.168.16.165:8000/uploads/profile/${image.image}`,
-              // image: `http://localhost:8000/uploads/profile/${image.image}`,
+              // image: `http://192.168.181.165:8000/uploads/profile/${image.image}`,
               // image: `http://26.81.173.255:8000/uploads/profile/${image.image}`,
             })),
           }));
