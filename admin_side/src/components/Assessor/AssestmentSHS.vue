@@ -871,6 +871,7 @@ export default {
         this.students = tmp.student.map(student => ({
           ...student,
         full_name : `${student.first_name} ${student.middle_name} ${student.last_name} ${student.extension}`,
+        address : `${stud.houseNumber} ${stud.street} ${stud.barangay} ${stud.city} ${stud.province} ${stud.zip_code} ${stud.region}`.trim(),
         semester: (month >= 4 && month <= 11) ? '1st Semester' :
                   (month >= 0 && month <= 3) ? '2st Semester' : 
                   'Invalid Month'

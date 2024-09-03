@@ -11,7 +11,7 @@
             
         </div>  
         <div class="tab-content">
-      <button @click="handleTabClick('Verifying')" :class="{ active: activeTab === 'Verifying' }">Verifying</button>
+      <button @click="handleTabClick('Verifying')" :class="{ active: activeTab === 'Verifying' }">For Verification</button>
       <button @click="handleTabClick('Enrolled')" :class="{ active: activeTab === 'Enrolled' }">Officially Enrolled</button>
     </div>
         <div class="main-content">
@@ -91,7 +91,7 @@ main{
         border-radius: 10px;
         background-color: #f0f0f0;
         padding: 0.5rem;
-          height: 75vh;
+          height: 100vh auto;
     }
 }
 

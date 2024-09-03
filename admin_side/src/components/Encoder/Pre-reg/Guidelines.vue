@@ -8,6 +8,7 @@
         <div class="pa-1">
             <v-card-text class="instructions" style="max-width: 1000px; ">
             <!-- New Instructions Content -->
+            <p class="mb-8 fw-light" style="color: blue;">Please make sure you read all of the details listed below. If you believe you have read and understood the guidelines, click the checkbox.</p>
             <div
                 v-for="(instruction, index) in instructions"
                 :key="index"
@@ -76,10 +77,18 @@ export default{
       },
       {
         icon: "mdi-check-circle",
-        title: "Step 5: Submission",
+        title: "Step 5: Submit Form",
         details: [
           "After filling out all required fields, review your entries to ensure accuracy.",
           'Click the "Submit" button to complete your pre-registration. Ensure that all the required documents are ready for submission to avoid any delays in processing your enrollment.',
+        ],
+      },
+      {
+        icon: "mdi mdi-upload",
+        title: "Step 6: Upload Documents",
+        details: [
+          "Upload all required documents (TOR, Good Moral, PSA). It's acceptable to proceed even if you don't currently have your good moral certificate.",
+          'Make sure to upload your documents in jpg or image format.',
         ],
       },
     ],

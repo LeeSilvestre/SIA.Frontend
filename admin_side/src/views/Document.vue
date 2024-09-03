@@ -177,6 +177,14 @@ export default {
 .norecfound{
   height: 100%;
 }
+.norecfound h1 {
+  font-size: 24px;
+  color: var(--dark); 
+  text-align: center;
+  margin: 20px 0; 
+  font-weight: bold; 
+  text-transform: uppercase; 
+}
 .tab-wrapper {
   display: flex;
   align-items: center;
