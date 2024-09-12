@@ -93,19 +93,12 @@ main {
     flex: 1;
     width: 50%;
     padding: 0.5rem;
-    border-radius: 10px;
-    border-left: 4px solid var(--dark-alt);
-    border-top: 4px solid var(--dark-alt);
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px;
+
   }
 
   .shs-container {
     flex: 0.5;
     padding: 0.5rem;
-    border-radius: 10px;
-    border-right: 4px solid var(--dark-alt);
-    border-bottom: 4px solid var(--dark-alt);
-    box-shadow: rgba(0, 0, 0, 0.4) 0px 3px 8px;
   }
 }
 </style>

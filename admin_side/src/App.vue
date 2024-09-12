@@ -20,27 +20,6 @@
 
 
         </template> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         <template v-else>
           <!-- Render only the login page content -->
           <router-view />

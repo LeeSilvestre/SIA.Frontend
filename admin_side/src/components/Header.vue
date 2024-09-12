@@ -101,6 +101,7 @@ methods: {
     }
 
     .current-time {
+        margin-right: 15rem;
         color: #e2e2e2;
     }
 }

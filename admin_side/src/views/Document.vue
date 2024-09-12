@@ -17,7 +17,7 @@
         <RequestDocumentRec v-if="selectedStudent" :document="selectedStudent" />
         <div v-else class="norecfound">
           <v-card >
-            <h1>Select Request Document</h1>
+            <h1>No request selected</h1>
           </v-card>
         </div>
       </div>
@@ -178,12 +178,10 @@ export default {
   height: 100%;
 }
 .norecfound h1 {
-  font-size: 24px;
-  color: var(--dark); 
+  font-size: 30px;
   text-align: center;
   margin: 20px 0; 
-  font-weight: bold; 
-  text-transform: uppercase; 
+  font-weight: 300; 
 }
 .tab-wrapper {
   display: flex;
