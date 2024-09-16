@@ -8,40 +8,46 @@
       <v-row>
         <v-col cols="4">
           <v-card class="child-card" style="border-top: 6px solid green">
-            <h1 class="fs-2 text-center">Grade 7</h1>
-            <h2 class="fs-3 text-center">{{ grade7Count }}</h2>
+            <h1 class="fs-4 fw-regular text-center" style="color: grey;">GRADE 7</h1>
+            <h1 class="fs-6 fw-light text-center" style="color: grey;">TOTAL STUDENTS</h1>
+            <h2 class="fs-2 fw-bold text-center">{{ grade7Count }}</h2>
           </v-card>
         </v-col>
         <v-col cols="4">
           <v-card class="child-card" style="border-top: 6px solid orange">
-            <h1 class="fs-2 text-center">Grade 8</h1>
-            <h2 class="fs-3 text-center">{{ grade8Count }}</h2>
+            <h1 class="fs-4 text-center" style="color: grey;">GRADE 8</h1>
+            <h1 class="fs-6 fw-light text-center" style="color: grey;">TOTAL STUDENTS</h1>
+            <h2 class="fs-2 fw-bold text-center">{{ grade8Count }}</h2>
           </v-card>
         </v-col>
         <v-col cols="4">
           <v-card class="child-card" style="border-top: 6px solid red">
-            <h1 class="fs-2 text-center">Grade 9</h1>
-            <h2 class="fs-3 text-center">{{ grade9Count }}</h2>
+            <h1 class="fs-4 text-center" style="color: grey;">GRADE 9</h1>
+            <h1 class="fs-6 fw-light text-center" style="color: grey;">TOTAL STUDENTS</h1>
+            <h2 class="fs-2 fw-bold text-center">{{ grade9Count }}</h2>
           </v-card>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="4">
           <v-card class="child-card" style="border-bottom: 6px solid green">
-            <h1 class="fs-2 text-center">Grade 10</h1>
-            <h2 class="fs-3 text-center">{{ grade10Count }}</h2>
+            <h1 class="fs-4 text-center" style="color: grey;">GRADE 10</h1>
+            <h1 class="fs-6 fw-light text-center" style="color: grey;">TOTAL STUDENTS</h1>
+            <h2 class="fs-2 fw-bold text-center">{{ grade10Count }}</h2>
           </v-card>
         </v-col>
         <v-col cols="4">
           <v-card class="child-card" style="border-bottom: 6px solid orange">
-            <h1 class="fs-2 text-center">Grade 11</h1>
-            <h2 class="fs-3 text-center">{{ grade11Count }}</h2>
+            <h1 class="fs-4 text-center" style="color: grey;">GRADE 11</h1>
+            <h1 class="fs-6 fw-light text-center" style="color: grey;">TOTAL STUDENTS</h1>
+            <h2 class="fs-2 fw-bold text-center">{{ grade11Count }}</h2>
           </v-card>
         </v-col>
         <v-col cols="4">
           <v-card class="child-card" style="border-bottom: 6px solid red">
-            <h1 class="fs-2 text-center">Grade 12</h1>
-            <h2 class="fs-3 text-center">{{ grade12Count }}</h2>
+            <h1 class="fs-4 text-center" style="color: grey;">GRADE 12</h1>
+            <h1 class="fs-6 fw-light text-center" style="color: grey;">TOTAL STUDENTS</h1>
+            <h2 class="fs-2 fw-bold text-center">{{ grade12Count }}</h2>
           </v-card>
         </v-col>
       </v-row>
@@ -73,7 +79,7 @@
           <div class="info-header">
             <h2 class="info-text mb-5 fs-3">
               <span class="material-icons">pie_chart</span>
-              TOTAL STUDENTS
+              SNACI TOTAL STUDENTS
             </h2>
             <div class="chart-container">
               <canvas ref="chartCanvas"
@@ -85,7 +91,7 @@
         <v-card class="strand-enrolees">
           <h1 class="info-text mb-5 fs-3">
             <span class="material-icons">bar_chart</span>
-            SENIOR HIGH STRANDS
+            SHS TOTAL STUDENTS PER STRAND
           </h1>
           <div>
             <canvas
@@ -293,97 +299,101 @@ export default {
 </script>
 
 <style scoped>
+/* General Layout */
 main {
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
   gap: 2rem;
-  padding: 1rem;
-  box-sizing: border-box;
-}
-
-.child-card {
-  flex: 1; 
-  margin-top: 5px;
-  padding: 1rem; 
-  display: flex;
-  flex-direction: column; 
-  background-color: #f6f4f4;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
 }
 
 .left-container {
-  flex: 2 1 60%;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  height: 100%;
+  flex: 2;
 }
 
+.grade-cards {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.child-card {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  transition: transform 0.3s ease;
+  margin-top: 15px ;
+}
+
+.child-card:hover {
+  transform: translateY(-10px);
+}
+
+/* Right container with two side-by-side cards */
 .right-container {
   display: flex;
-  gap: 16px;
-  flex-direction: row;
-}
-
-.total-enrolees,
-.strand-enrolees {
+  gap: 2rem;
   flex: 1;
-  background-color: #fafafa;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 1rem;
+  margin-top: 15px;
 }
 
-.total-enrolees {
-  width: 50vh !important;
-  border-left: 4px solid var(--dark);
+.total-enrolees, .strand-enrolees {
+  flex: 1;
+  background-color: #ecedf0;
+  border-radius: 12px;
+  padding: 2rem;
+  border-right: 6px solid var(--dark);
+  margin-top: 10px;
 }
 
-.strand-enrolees {
-  width: 50%;
-  border-right: 4px solid var(--dark);
+.total-enrolees canvas, .strand-enrolees canvas {
+  height: 300px;
+  width: 100%;
 }
 
-.total-enrolees canvas,
-.strand-enrolees canvas {
-  width: 100% !important;
-  height: 400px;
-}
-
-.info-header {
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1rem;
+/* Font and Typography */
+.title {
+  font-size: 1.75rem;
+  font-weight: bold;
+  color: #37474f;
 }
 
 .info-text {
-  font-size: 1.5rem;
-  font-weight: 600;
-  margin: 0;
+  font-size: 1.25rem;
   color: var(--dark);
-  text-shadow: 0 0 1px;
+  font-weight: 700;
 }
 
 .material-icons {
   font-size: 2rem;
   vertical-align: middle;
+  color: var(--dark);
 }
 
+/* Responsiveness */
 @media screen and (max-width: 768px) {
-  .total-enrolees canvas,
-  .strand-enrolees canvas {
-    height: 300px;
-  }
-
   main {
     flex-direction: column;
-    gap: 1rem;
   }
 
-  .left-container,
+  .left-container, .right-container {
+    flex: 1;
+  }
+
+  .child-card {
+    padding: 1rem;
+  }
+
+  .chart-container canvas {
+    height: 250px;
+  }
+
   .right-container {
-    flex: 1 1 100%;
+    flex-direction: column;
   }
 }
-
 </style>

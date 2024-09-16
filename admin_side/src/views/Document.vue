@@ -93,7 +93,7 @@ export default {
     border-radius: 10px;
     background-color: #f0f0f0;
     padding: 0.5rem;
-    height: calc(100vh - 10rem); // Adjust height as needed
+    height: calc(100vh - 10rem); 
     overflow: auto;
     margin: 0;
   }
@@ -102,7 +102,7 @@ export default {
     border-radius: 10px;
     background-color: #f0f0f0;
     padding: 0.5rem;
-    height: calc(100vh - 10rem); // Adjust height as needed
+    height: calc(100vh - 10rem); 
     overflow: auto;
     margin: 0;
   }
@@ -147,8 +147,8 @@ export default {
 .tab-content {
   display: flex;
   gap: 0.5rem;
-  padding: 0; // Remove padding
-  margin: 0; // Remove margin
+  padding: 0; 
+  margin: 0;
 }
 
 .tab-content button {
@@ -170,7 +170,7 @@ export default {
 .tab-content button:hover,
 .tab-content button:active,
 .tab-content button.active {
-  background-color: lightgray; // Change this to the desired active background color
+  background-color: lightgray;
 }
 
 

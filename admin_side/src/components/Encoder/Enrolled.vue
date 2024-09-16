@@ -168,7 +168,7 @@
               <v-col cols="6">
                 <v-text-field
                   v-model="selectedStudent.email"
-                  label="Email"
+                  label="Email Address"
                   readonly
                   variant="outlined"
                 ></v-text-field>
